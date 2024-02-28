@@ -15,5 +15,10 @@ namespace Laboratorium.LabBook.Forms
         {
             InitializeComponent();
         }
+
+        private void LabForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

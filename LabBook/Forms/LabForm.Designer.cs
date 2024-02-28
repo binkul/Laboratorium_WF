@@ -38,6 +38,7 @@
             this.Name = "LabForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LabForm";
+            this.Load += new System.EventHandler(this.LabForm_Load);
             this.ResumeLayout(false);
 
         }
