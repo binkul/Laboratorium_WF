@@ -45,25 +45,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ADO\DTO\UserDto.cs" />
+    <Compile Include="ADO\ProgramData.cs" />
+    <Compile Include="Commons\CommonFunction.cs" />
+    <Compile Include="Commons\SerializeClass.cs" />
     <Compile Include="LabBook\Forms\LabForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LabBook\Forms\LabForm.Designer.cs">
       <DependentUpon>LabForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Login\Forms\LoginForms.cs">
+    <Compile Include="Login\Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Login\Forms\LoginForms.Designer.cs">
-      <DependentUpon>LoginForms.cs</DependentUpon>
+    <Compile Include="Login\Forms\LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Login\Repository\LoginRepository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\Encrypt.cs" />
     <EmbeddedResource Include="LabBook\Forms\LabForm.resx">
       <DependentUpon>LabForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Login\Forms\LoginForms.resx">
-      <DependentUpon>LoginForms.cs</DependentUpon>
+    <EmbeddedResource Include="Login\Forms\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -92,5 +98,6 @@
   <ItemGroup>
     <None Include="Resources\padlock.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
