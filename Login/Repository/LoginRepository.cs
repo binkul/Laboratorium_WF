@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Laboratorium.Login.Repository
 {
-    class LoginRepository
+    public class LoginRepository
     {
         private readonly SqlConnection _connection;
         private readonly string PROGRAM_DATA = "Select id, date, column_2, column_3, column_4, column_5 From Konkurencja.dbo.LaboProgramData " +
@@ -25,9 +25,9 @@ namespace Laboratorium.Login.Repository
             _connection = connection;
         }
 
-        public ProgramData GetProgramData(string password)
+        public ProgramDataDto GetProgramData(string password)
         {
-            ProgramData result = null;
+            ProgramDataDto result = null;
 
             try
             {
@@ -40,7 +40,7 @@ namespace Laboratorium.Login.Repository
 
                 if (rdr.HasRows)
                 {
-                    result = new ProgramData();
+                    result = new ProgramDataDto();
                     rdr.Read();
                     result.Id = rdr.GetByte(0);
                     result.Date = rdr.GetDateTime(1);

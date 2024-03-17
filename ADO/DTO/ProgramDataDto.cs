@@ -2,7 +2,7 @@
 
 namespace Laboratorium.ADO
 {
-    public class ProgramData
+    public class ProgramDataDto
     {
         public long Id { get; set; }
 

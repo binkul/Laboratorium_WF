@@ -1,0 +1,18 @@
+﻿using System.Collections.Generic;
+
+namespace Laboratorium.ADO.SqlDataConstant
+{
+    public static class SqlExist
+    {
+        public static readonly Dictionary<SqlIndex, string> ExistById = new Dictionary<SqlIndex, string>
+        {
+            {SqlIndex.LaboIndex, ""},
+        };
+
+        public static readonly Dictionary<SqlIndex, string> ExistByName = new Dictionary<SqlIndex, string>
+        {
+            {SqlIndex.LaboIndex, ""},
+        };
+
+    }
+}

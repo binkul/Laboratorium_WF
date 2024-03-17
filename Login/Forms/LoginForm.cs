@@ -1,6 +1,7 @@
 ﻿using Laboratorium.ADO;
 using Laboratorium.ADO.DTO;
 using Laboratorium.Login.Repository;
+using Laboratorium.Register.Forms;
 using Laboratorium.Security;
 using System;
 using System.Collections.Generic;
@@ -86,7 +87,7 @@ namespace Laboratorium.Login.Forms
         private bool CheckProgram()
         {
             string password = Encrypt.MD5Encrypt("Jacek Binkul"); //3ef179d05525f4d84835b2703639e6af
-            ProgramData programData = _loginRepository.GetProgramData(password);
+            ProgramDataDto programData = _loginRepository.GetProgramData(password);
 
             if (programData == null)
             {
@@ -189,11 +190,11 @@ namespace Laboratorium.Login.Forms
 
         private void BtnRegister_Click(object sender, EventArgs e)
         {
-            //using (RegisterForm register = new RegisterForm(this, _loginRepository))
-            //{
-            //    this.Hide();
-            //    register.ShowDialog();
-            //}
+            using (RegisterForm register = new RegisterForm(this, _loginRepository))
+            {
+                Hide();
+                register.ShowDialog();
+            }
         }
 
     }
