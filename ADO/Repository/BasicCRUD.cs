@@ -10,8 +10,8 @@ namespace Laboratorium.ADO.Repository
     public abstract class BasicCRUD<T> : IBasicCRUD<T>
     {
         protected SqlConnection _connection;
-        protected static string _tableName;
-        protected static SqlIndex _sqlIndex;
+        protected string _tableName;
+        protected SqlIndex _sqlIndex;
 
         public BasicCRUD(SqlConnection connection, SqlIndex sqlIndex, string tableName)
         {

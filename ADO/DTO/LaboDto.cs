@@ -9,14 +9,15 @@ namespace Laboratorium.ADO.DTO
         private DateTime _dateCreated;
         private int _project;
         private string _goal;
-        private float? _density;
+        private double? _density;
         private string _conclusion;
         private string _observation;
+        private bool _isDeleted = false;
         private RowState _rowState = RowState.ADDED;
 
         public LaboDto() { }
 
-        public LaboDto(int id, string title, DateTime dateCreated, int project, string goal, float? density, string conclusion, string observation)
+        public LaboDto(int id, string title, DateTime dateCreated, int project, string goal, double? density, string conclusion, string observation, bool isDeleted)
         {
             _id = id;
             _title = title;
@@ -26,6 +27,7 @@ namespace Laboratorium.ADO.DTO
             _density = density;
             _conclusion = conclusion;
             _observation = observation;
+            _isDeleted = isDeleted;
         }
 
         public LaboDto(int id, string title, DateTime dateCreated, int project)
@@ -46,7 +48,7 @@ namespace Laboratorium.ADO.DTO
             }
         }
 
-        public string Titled
+        public string Title
         {
             get => _title;
             set
@@ -86,7 +88,7 @@ namespace Laboratorium.ADO.DTO
             }
         }
 
-        public float? Density
+        public double? Density
         {
             get => _density;
             set
@@ -112,6 +114,16 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _observation = value;
+                _rowState = RowState.MODIFIED;
+            }
+        }
+
+        public bool IsDeleted
+        {
+            get => _isDeleted;
+            set
+            {
+                _isDeleted = value;
                 _rowState = RowState.MODIFIED;
             }
         }

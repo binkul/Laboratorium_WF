@@ -20,6 +20,7 @@
         public static readonly string LABO_COCLUSION = "UwagiWnioski";
         public static readonly string LABO_DENSITY = "Gestosc";
         public static readonly string LABO_OBSERVATION = "Observation";
+        public static readonly string LABO_IS_DELETED = "IsDeleted";
 
     }
 }

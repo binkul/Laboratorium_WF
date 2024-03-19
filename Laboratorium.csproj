@@ -69,6 +69,8 @@
     <Compile Include="LabBook\Forms\LabForm.Designer.cs">
       <DependentUpon>LabForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="LabBook\Repository\LabBookRepository.cs" />
+    <Compile Include="LabBook\Service\LabBookService.cs" />
     <Compile Include="Login\Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
