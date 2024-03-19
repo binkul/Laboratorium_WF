@@ -6,6 +6,7 @@ using Laboratorium.LabBook.Forms;
 using Laboratorium.LabBook.Repository;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
@@ -27,8 +28,11 @@ namespace Laboratorium.LabBook.Service
 
         private IList<LaboDto> _laboList;
         private BindingSource _laboBinding;
+        private LaboDto _currentLabBook;
+
 
         private IDictionary<string, double> _formData = CommonFunction.LoadWindowsDataAsDictionary(FORM_DATA);
+        private int GetCurrentLabBookId => Convert.ToInt32(_currentLabBook.Id);
 
         public LabBookService(SqlConnection connection, UserDto user, LabForm form)
         {
@@ -82,6 +86,17 @@ namespace Laboratorium.LabBook.Service
             PrepareDgvLabo();
 
             #endregion
+
+            #region Prepare others control
+
+            _form.GetTxtTitle.DataBindings.Clear();
+
+
+            _form.GetTxtTitle.DataBindings.Add("Text", _laboBinding, "Title");
+
+            #endregion
+
+            LaboBinding_PositionChanged(null, null);
         }
 
         private void LoadLaboData()
@@ -92,6 +107,7 @@ namespace Laboratorium.LabBook.Service
                 DataSource = _laboList
             };
             _form.GetNavigatorLabo.BindingSource = _laboBinding;
+            _laboBinding.PositionChanged += LaboBinding_PositionChanged;
         }
 
         private void PrepareDgvLabo()
@@ -117,6 +133,7 @@ namespace Laboratorium.LabBook.Service
             view.Columns.Remove("Conclusion");
             view.Columns.Remove("Observation");
             view.Columns.Remove("DateCreated");
+            view.Columns.Remove("DateUpdated");
             view.Columns["IsDeleted"].Visible = false;
             view.Columns["GetRowState"].Visible = false;
 
@@ -128,7 +145,6 @@ namespace Laboratorium.LabBook.Service
 
             view.Columns["Title"].HeaderText = "Tytuł";
             view.Columns["Title"].DisplayIndex = 1;
-            //view.Columns["Title"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             view.Columns["Title"].SortMode = DataGridViewColumnSortMode.NotSortable;
 
             view.Columns["Density"].HeaderText = "Gęstość";
@@ -149,5 +165,55 @@ namespace Laboratorium.LabBook.Service
 
             view.Columns["Title"].Width = _formData.ContainsKey("Title") ? (int)_formData["Title"] : width - 2;
         }
+
+        #region Current/Binkding/Navigation/DataTable
+
+        private void LaboBinding_PositionChanged(object sender, EventArgs e)
+        {
+            int id = 0;
+
+            #region Get Current
+
+            if (_laboBinding.Count > 0)
+            {
+                _currentLabBook = (LaboDto)_laboBinding.Current;
+                id = GetCurrentLabBookId;
+            }
+            else
+            {
+                _currentLabBook = null;
+            }
+
+            #endregion
+
+            #region Set Current Controls
+
+            if (_currentLabBook != null)
+            {
+                DateTime date = Convert.ToDateTime(_currentLabBook.DateCreated);
+                string show = date.ToString("dd-MM-yyyy");
+                _form.GetLblDateCreated.Text = "Utworzenie: " + show;
+                _form.GetLblDateCreated.Left = _form.ClientSize.Width - _form.GetLblDateCreated.Width - 2;
+                date = Convert.ToDateTime(_currentLabBook.DateUpdated);
+                show = date.ToString("dd-MM-yyyy");
+                _form.GetLblDateModified.Text = "Modyfikacja: " + show;
+                _form.GetLblDateModified.Left = _form.ClientSize.Width - _form.GetLblDateModified.Width - 2;
+
+                string nr = "D-" + GetCurrentLabBookId.ToString();
+                _form.GetLblNrD.Text = nr;
+            }
+            else
+            {
+                _form.GetLblNrD.Text = "D-Brak";
+                _form.GetLblDateCreated.Text = "Utworzenie: Brak";
+                _form.GetLblDateModified.Text = "Modyfikacja: Brak";
+            }
+
+            #endregion
+
+        }
+
+        #endregion
+
     }
 }

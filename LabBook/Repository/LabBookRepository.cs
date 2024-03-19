@@ -34,15 +34,16 @@ namespace Laboratorium.LabBook.Repository
                     {
                         long id = reader.GetInt64(0);
                         string title = CommonFunction.DBNullToStringConv(reader.GetValue(1));
-                        DateTime date = reader.GetDateTime(2);
-                        long project = reader.GetInt64(3);
-                        string target = CommonFunction.DBNullToStringConv(reader.GetValue(4));
-                        string conclusion = CommonFunction.DBNullToStringConv(reader.GetValue(5));
-                        double? density = CommonFunction.DBNullToDoubleConv(reader.GetValue(6));
-                        string observation = CommonFunction.DBNullToStringConv(reader.GetValue(7));
-                        bool deleted = reader.GetBoolean(8);
+                        DateTime dateCreated = reader.GetDateTime(2);
+                        DateTime dateUpdated = reader.GetDateTime(3);
+                        long project = reader.GetInt64(4);
+                        string target = CommonFunction.DBNullToStringConv(reader.GetValue(5));
+                        string conclusion = CommonFunction.DBNullToStringConv(reader.GetValue(6));
+                        double? density = CommonFunction.DBNullToDoubleConv(reader.GetValue(7));
+                        string observation = CommonFunction.DBNullToStringConv(reader.GetValue(8));
+                        bool deleted = reader.GetBoolean(9);
 
-                        LaboDto labo = new LaboDto((int)id, title, date, (int)project, target, density, conclusion, observation, deleted);
+                        LaboDto labo = new LaboDto((int)id, title, dateCreated, dateUpdated, (int)project, target, density, conclusion, observation, deleted);
                         labo.AcceptChanged();
                         list.Add(labo);
                     }

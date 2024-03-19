@@ -11,6 +11,11 @@ namespace Laboratorium.LabBook.Forms
 {
     public partial class LabForm : Form
     {
+        private const int BUTTON_SIZE = 50;
+        private Font FONT_12 = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
+        private Font FONT_14 = new Font("Microsoft Sans Serif", 14, FontStyle.Bold);
+
+
         private readonly string connectionString = ConfigurationManager.ConnectionStrings["connection"].ConnectionString;
         private readonly SqlConnection _connection;
         private readonly LabBookService _service;
@@ -19,6 +24,10 @@ namespace Laboratorium.LabBook.Forms
 
         public DataGridView GetDgvLabo => DgvLabo;
         public BindingNavigator GetNavigatorLabo => BindingNavigatorLabo;
+        public TextBox GetTxtTitle => TxtTitle;
+        public Label GetLblDateCreated => LblDateCreated;
+        public Label GetLblDateModified => LblDateModified;
+        public Label GetLblNrD => LblNrD;
 
         public LabForm()
         {
@@ -50,6 +59,34 @@ namespace Laboratorium.LabBook.Forms
         private void LabForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             _service.FormClose(e);
+        }
+
+        private void LabForm_Resize(object sender, EventArgs e)
+        {           
+            LblTitle.Font = FONT_12;
+            TxtTitle.Font = FONT_12;
+            LblDateCreated.Font = FONT_12;
+            LblDateModified.Font = FONT_12;
+            LblNrD.Font = FONT_14;
+
+            Size size = new Size(BUTTON_SIZE, BUTTON_SIZE);
+            BtnAdd.Size = size;
+            BtnDelete.Size = size;
+            BtnSave.Size = size;
+        }
+
+        private void TxtTitle_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                e.Handled = true;
+                SendKeys.Send("{Tab}");
+            }
+
+            else
+            {
+                base.OnKeyPress(e);
+            }
         }
     }
 }
