@@ -24,7 +24,11 @@ namespace Laboratorium.LabBook.Forms
 
         public DataGridView GetDgvLabo => DgvLabo;
         public BindingNavigator GetNavigatorLabo => BindingNavigatorLabo;
+        public Button GetBtnFiltercancel => BtnFilterCancel;
         public TextBox GetTxtTitle => TxtTitle;
+        public TextBox GetTxtFilerNumD => TxtFilterNumD;
+        public TextBox GetTxtFilerTitle => TxtFilterTitle;
+        public TextBox GetTxtFilerUser => TxtFilterUser;
         public Label GetLblDateCreated => LblDateCreated;
         public Label GetLblDateModified => LblDateModified;
         public Label GetLblNrD => LblNrD;
@@ -46,7 +50,10 @@ namespace Laboratorium.LabBook.Forms
             }
 
             if (!_loginOk)
-                Close();
+            {
+                Application.Exit();
+                return;
+            }
 
             Rectangle tmp = Screen.FromControl(this).Bounds;
             Width = tmp.Width - 100;
@@ -58,7 +65,8 @@ namespace Laboratorium.LabBook.Forms
 
         private void LabForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _service.FormClose(e);
+            if (_loginOk)
+                _service.FormClose(e);
         }
 
         private void LabForm_Resize(object sender, EventArgs e)
@@ -72,7 +80,9 @@ namespace Laboratorium.LabBook.Forms
             Size size = new Size(BUTTON_SIZE, BUTTON_SIZE);
             BtnAdd.Size = size;
             BtnDelete.Size = size;
+            BtnDelete.Left = BtnAdd.Left + BUTTON_SIZE + 5;
             BtnSave.Size = size;
+            BtnSave.Left = BtnDelete.Left + BUTTON_SIZE + 5;
         }
 
         private void TxtTitle_KeyPress(object sender, KeyPressEventArgs e)
@@ -87,6 +97,24 @@ namespace Laboratorium.LabBook.Forms
             {
                 base.OnKeyPress(e);
             }
+        }
+
+        private void DgvLabo_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            _service.ResizeLaboColumn(e);
+        }
+
+        private void TxtFilterNumD_TextChanged(object sender, EventArgs e)
+        {
+            _service.SetFilter();
+        }
+
+        private void BtnFilterCancel_Click(object sender, EventArgs e)
+        {
+            TxtFilterNumD.Text = string.Empty;
+            TxtFilterTitle.Text = string.Empty;
+            TxtFilterUser.Text = string.Empty;
+            _service.SetFilter();
         }
     }
 }

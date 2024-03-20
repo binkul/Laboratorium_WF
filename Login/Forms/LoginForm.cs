@@ -3,6 +3,7 @@ using Laboratorium.ADO.DTO;
 using Laboratorium.Login.Repository;
 using Laboratorium.Register.Forms;
 using Laboratorium.Security;
+using Laboratorium.User.Repository;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -15,10 +16,10 @@ namespace Laboratorium.Login.Forms
 {
     public partial class LoginForm : Form
     {
-        //private readonly string connectionString = ConfigurationManager.ConnectionStrings["connection"].ConnectionString;
         private readonly string _loginPath = @"\Data\login.txt";
         private List<string> _logins;
         private readonly SqlConnection _connection;
+        private readonly UserRepository _userRepository;
         private readonly LoginRepository _loginRepository;
         public UserDto User { get; private set; }
         public bool LoginOk { get; private set; } = false;
@@ -27,7 +28,7 @@ namespace Laboratorium.Login.Forms
         {
             InitializeComponent();
             _connection = connection;
-            //_connection = new SqlConnection(connectionString);
+            _userRepository = new UserRepository(_connection);
             _loginRepository = new LoginRepository(_connection);
         }
 
@@ -165,7 +166,7 @@ namespace Laboratorium.Login.Forms
 
             string password = Encrypt.MD5Encrypt(TxtPassword.Text);
             string login = CmbLogin.Text;
-            UserDto user = _loginRepository.GetUserByLoginAndPassword(login, password);
+            UserDto user = _userRepository.GetUserByLoginAndPassword(login, password);
 
             if (user == null)
             {
@@ -190,7 +191,7 @@ namespace Laboratorium.Login.Forms
 
         private void BtnRegister_Click(object sender, EventArgs e)
         {
-            using (RegisterForm register = new RegisterForm(this, _loginRepository))
+            using (RegisterForm register = new RegisterForm(this, _userRepository))
             {
                 Hide();
                 register.ShowDialog();

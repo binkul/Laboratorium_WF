@@ -12,7 +12,9 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace Laboratorium.LabBook.Service
 {
@@ -45,6 +47,7 @@ namespace Laboratorium.LabBook.Service
             _repositoryLabo = new LabBookRepository(_connection);
             _repositoryUser = new UserRepository(_connection);
         }
+
 
         #region Open/Close form 
 
@@ -237,5 +240,60 @@ namespace Laboratorium.LabBook.Service
 
         #endregion
 
+        #region DataGridView Enents
+
+        public void ResizeLaboColumn(DataGridViewColumnEventArgs e)
+        {
+            _form.GetBtnFiltercancel.Size = new Size(_form.GetTxtFilerTitle.Height, _form.GetTxtFilerTitle.Height);
+            _form.GetBtnFiltercancel.Left = _form.GetDgvLabo.Left + (HEADER_WIDTH / 2) - (_form.GetBtnFiltercancel.Size.Width / 2);
+
+            _form.GetTxtFilerNumD.Width = _form.GetDgvLabo.Columns["Id"].Width - 1;
+            _form.GetTxtFilerNumD.Left = _form.GetDgvLabo.Left + HEADER_WIDTH;
+
+            _form.GetTxtFilerTitle.Width = _form.GetDgvLabo.Columns["Title"].Width - 2;
+            _form.GetTxtFilerTitle.Left = _form.GetDgvLabo.Left + _form.GetDgvLabo.Columns["Id"].Width + HEADER_WIDTH;
+
+            _form.GetTxtFilerUser.Width = _form.GetDgvLabo.Columns["UserShortcut"].Width;
+            _form.GetTxtFilerUser.Left = _form.GetDgvLabo.Left + _form.GetDgvLabo.Columns["Id"].Width + _form.GetDgvLabo.Columns["Title"].Width
+                + _form.GetDgvLabo.Columns["Density"].Width + HEADER_WIDTH;
+        }
+
+        #endregion
+
+        #region Filtering
+
+        public void SetFilter()
+        {
+            string nr = _form.GetTxtFilerNumD.Text;
+            string title = _form.GetTxtFilerTitle.Text;
+            string user = _form.GetTxtFilerUser.Text;
+
+            if (nr.Length > 0 && !Regex.IsMatch(nr, @"^\d+$"))
+            {
+                MessageBox.Show("Wprowadzona wartośc nie jest liczba całkowitą. Popraw wartość", "Błąd wartości", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(nr) || !string.IsNullOrEmpty(title) || !string.IsNullOrEmpty(user))
+            {
+                int id = nr.Length > 0 ? Convert.ToInt32(nr) : -1;
+
+                List<LaboDto> filter = _laboList
+                    .Where(i => i.Id >= id)
+                    .Where(i => i.Title.ToLower().Contains(title))
+                    .Where(i => i.UserShortcut.ToLower().Contains(user))
+                    .ToList();
+
+                _laboBinding.DataSource = filter;
+                _laboBinding.Position = 0;
+            }
+            else
+            {
+                _laboBinding.DataSource = _laboList;
+                _laboBinding.Position = 0;
+            }
+
+            #endregion
+        }
     }
 }

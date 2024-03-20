@@ -3,6 +3,7 @@ using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.SqlDataConstant;
 using Laboratorium.ADO.Tables;
+using Laboratorium.Commons;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -66,6 +67,53 @@ namespace Laboratorium.User.Repository
             }
 
             return list;
+        }
+
+        public UserDto GetUserByLoginAndPassword(string login, string password)
+        {
+            UserDto user = null;
+
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = _connection;
+                string query = SqlRead.ReadByName[_sqlIndex].Replace("XXXX", login);
+                query = query.Replace("YYYY", password);
+                cmd.CommandText = query;
+                _connection.Open();
+                SqlDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                if (rdr.HasRows)
+                {
+                    user = new UserDto();
+                    rdr.Read();
+                    user.Id = rdr.GetInt16(0);
+                    user.Name = CommonFunction.DBNullToStringConv(rdr.GetValue(1));
+                    user.Surname = CommonFunction.DBNullToStringConv(rdr.GetValue(2));
+                    user.Email = CommonFunction.DBNullToStringConv(rdr.GetValue(3));
+                    user.Login = rdr.GetString(4);
+                    user.Permission = rdr.GetString(5);
+                    user.Identifier = rdr.GetString(6);
+                    user.Active = rdr.GetBoolean(7);
+                    user.DateCreated = rdr.GetDateTime(8);
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu Load User.",
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "' w czasie operacji Load User: '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return user;
+
         }
 
         public override UserDto Save(UserDto data)

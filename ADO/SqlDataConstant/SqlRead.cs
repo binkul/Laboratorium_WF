@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace Laboratorium.ADO.SqlDataConstant
 {
@@ -12,7 +13,7 @@ namespace Laboratorium.ADO.SqlDataConstant
 
         public static readonly Dictionary<SqlIndex, string> ReadByName = new Dictionary<SqlIndex, string>
         {
-            {SqlIndex.UserIndex, ""},
+            {SqlIndex.UserIndex, "Select id, name, surname, e_mail, login, permission, identifier, active, date_created from Konkurencja.dbo.LaboUsers Where login = 'XXXX' and password = 'YYYY'"},
         };
     }
 }

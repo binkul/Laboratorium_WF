@@ -22,7 +22,7 @@ namespace Laboratorium.ADO.Repository
                 SqlCommand command = new SqlCommand();
                 command = new SqlCommand();
                 command.Connection = _connection;
-                command.CommandText = SqlExist.ExistById[_sqlIndex] + id;
+                command.CommandText = SqlExist.ExistById[_sqlIndex] + id.ToString();
                 OpenConnection();
                 int count = Convert.ToInt32(command.ExecuteScalar());
                 if (count > 0) result = true;

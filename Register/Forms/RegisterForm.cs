@@ -2,6 +2,7 @@
 using Laboratorium.Login.Forms;
 using Laboratorium.Login.Repository;
 using Laboratorium.Security;
+using Laboratorium.User.Repository;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -12,12 +13,12 @@ namespace Laboratorium.Register.Forms
     public partial class RegisterForm : Form
     {
         private readonly LoginForm _loginForm;
-        private readonly LoginRepository _loginRepository;
+        private readonly UserRepository _userRepository;
 
-        public RegisterForm(LoginForm loginForm, LoginRepository loginRepository)
+        public RegisterForm(LoginForm loginForm, UserRepository userRepository)
         {
             _loginForm = loginForm;
-            _loginRepository = loginRepository;
+            _userRepository = userRepository;
             InitializeComponent();
         }
 
@@ -77,7 +78,7 @@ namespace Laboratorium.Register.Forms
                 };
 
 
-                _loginRepository.SaveUser(user);
+                _userRepository.Save(user);
                 Close();
             }
         }
@@ -134,7 +135,7 @@ namespace Laboratorium.Register.Forms
         private bool ExistUser()
         {
             string login = TxtLogin.Text;
-            bool log = _loginRepository.UserExist(login);
+            bool log = _userRepository.ExistByName(login);
 
             if (log)
             {
