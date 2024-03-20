@@ -2,20 +2,22 @@
 using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.SqlDataConstant;
+using Laboratorium.ADO.Tables;
 using Laboratorium.Commons;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Laboratorium.LabBook.Repository
 {
     public class LabBookRepository : ExtendedCRUD<LaboDto>
     {
-        public LabBookRepository(SqlConnection connection, SqlIndex sqlIndex, string tableName) : base(connection, sqlIndex, tableName)
+        private static readonly SqlIndex SQL_INDEX = SqlIndex.LaboIndex;
+        private static readonly string TABLE_NAME = Table.LABO_TABLE;
+
+        public LabBookRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
         { }
 
         public override IList<LaboDto> GetAll()
@@ -35,15 +37,16 @@ namespace Laboratorium.LabBook.Repository
                         long id = reader.GetInt64(0);
                         string title = CommonFunction.DBNullToStringConv(reader.GetValue(1));
                         DateTime dateCreated = reader.GetDateTime(2);
-                        DateTime dateUpdated = reader.GetDateTime(3);
+                        DateTime dateUpdated = !reader.GetValue(3).Equals(DBNull.Value) ? reader.GetDateTime(3) : dateCreated;
                         long project = reader.GetInt64(4);
                         string target = CommonFunction.DBNullToStringConv(reader.GetValue(5));
                         string conclusion = CommonFunction.DBNullToStringConv(reader.GetValue(6));
                         double? density = CommonFunction.DBNullToDoubleConv(reader.GetValue(7));
                         string observation = CommonFunction.DBNullToStringConv(reader.GetValue(8));
                         bool deleted = reader.GetBoolean(9);
+                        short userId = reader.GetInt16(10);
 
-                        LaboDto labo = new LaboDto((int)id, title, dateCreated, dateUpdated, (int)project, target, density, conclusion, observation, deleted);
+                        LaboDto labo = new LaboDto((int)id, title, dateCreated, dateUpdated, (int)project, target, density, conclusion, observation, deleted, userId);
                         labo.AcceptChanged();
                         list.Add(labo);
                     }

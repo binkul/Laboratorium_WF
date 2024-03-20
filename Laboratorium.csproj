@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ADO\CrudState.cs" />
     <Compile Include="ADO\DTO\LaboDto.cs" />
     <Compile Include="ADO\DTO\UserDto.cs" />
     <Compile Include="ADO\DTO\ProgramDataDto.cs" />
@@ -87,6 +88,7 @@
       <DependentUpon>RegisterForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Security\Encrypt.cs" />
+    <Compile Include="User\Repository\UserRepository.cs" />
     <EmbeddedResource Include="LabBook\Forms\LabForm.resx">
       <DependentUpon>LabForm.cs</DependentUpon>
     </EmbeddedResource>

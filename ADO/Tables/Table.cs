@@ -22,5 +22,8 @@
         public static readonly string LABO_OBSERVATION = "Observation";
         public static readonly string LABO_IS_DELETED = "IsDeleted";
 
+        // table Users
+        public static readonly string USER_TABLE = "LaboUsers";
+
     }
 }

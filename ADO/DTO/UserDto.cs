@@ -5,63 +5,158 @@ namespace Laboratorium.ADO.DTO
 {
     public class UserDto
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string Email { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
-        public string Permission { get; set; }
-        public string Identifier { get; set; }
-        public bool Active { get; set; }
-        public DateTime Date { get; set; }
-
-        public UserDto(long id, string name, string surname, string email, string login, string password, string permission,
-            string identifier, bool active, DateTime date)
-        {
-            Id = id;
-            Name = name;
-            Surname = surname;
-            Email = email;
-            Login = login;
-            Password = password;
-            Permission = permission;
-            Identifier = identifier;
-            Active = active;
-            Date = date;
-        }
+        private int _id;
+        private string _name;
+        private string _surname;
+        private string _email;
+        private string _login;
+        private string _password;
+        private string _permission;
+        private string _identifier;
+        private bool _active;
+        private DateTime _dateCreated;
+        private RowState _rowState = RowState.ADDED;
+        private CrudState _crudState = CrudState.OK;
 
         public UserDto() { }
 
-        public override bool Equals(object obj)
+        public UserDto(int id, string name, string surname, string email, string login, string password, string permission, 
+            string identifier, bool active, DateTime dateCreated)
         {
-            return obj is UserDto dto &&
-                   Id == dto.Id &&
-                   Name == dto.Name &&
-                   Surname == dto.Surname &&
-                   Email == dto.Email &&
-                   Login == dto.Login &&
-                   Password == dto.Password &&
-                   Permission == dto.Permission &&
-                   Identifier == dto.Identifier &&
-                   Active == dto.Active &&
-                   Date == dto.Date;
+            _id = id;
+            _name = name;
+            _surname = surname;
+            _email = email;
+            _login = login;
+            _password = password;
+            _permission = permission;
+            _identifier = identifier;
+            _active = active;
+            _dateCreated = dateCreated;
         }
 
-        public override int GetHashCode()
+        public UserDto(int id, string name, string login, string identifier, bool active)
         {
-            int hashCode = 1585726845;
-            hashCode = hashCode * -1521134295 + Id.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Surname);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Email);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Login);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Password);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Permission);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Identifier);
-            hashCode = hashCode * -1521134295 + Active.GetHashCode();
-            hashCode = hashCode * -1521134295 + Date.GetHashCode();
-            return hashCode;
+            _id = id;
+            _name = name;
+            _login = login;
+            _identifier = identifier;
+            _active = active;
+            _rowState = RowState.UNCHANGED;
         }
+
+        public int Id
+        {
+            get => _id;
+            set
+            {
+                _id = value;
+                _rowState = RowState.MODIFIED;
+            }
+        }
+
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                _rowState = RowState.MODIFIED;
+            }
+        }
+
+        public string Surname
+        {
+            get => _surname;
+            set
+            {
+                _surname = value;
+                _rowState = RowState.MODIFIED;
+            }
+        }
+
+        public string Email
+        {
+            get => _email;
+            set
+            {
+                _email = value;
+                _rowState = RowState.MODIFIED;
+            }
+        }
+
+        public string Login
+        {
+            get => _login;
+            set
+            {
+                _login = value;
+                _rowState = RowState.MODIFIED;
+            }
+        }
+
+        public string Password
+        {
+            get => _password;
+            set
+            {
+                _password = value;
+                _rowState = RowState.MODIFIED;
+            }
+        }
+
+        public string Permission
+        {
+            get => _permission;
+            set
+            {
+                _permission = value;
+                _rowState = RowState.MODIFIED;
+            }
+        }
+
+        public string Identifier
+        {
+            get => _identifier;
+            set
+            {
+                _identifier = value;
+                _rowState = RowState.MODIFIED;
+            }
+        }
+
+        public bool Active
+        {
+            get => _active;
+            set
+            {
+                _active = value;
+                _rowState = RowState.MODIFIED;
+            }
+        }
+
+        public DateTime DateCreated
+        {
+            get => _dateCreated;
+            set
+            {
+                _dateCreated = value;
+                _rowState = RowState.MODIFIED;
+            }
+        }
+
+        public RowState GetRowState => _rowState;
+
+        public CrudState GetCrudState
+        {
+            get => _crudState;
+            set => _crudState = value;
+        }
+
+        public void AcceptChanged()
+        {
+            _rowState = RowState.UNCHANGED;
+        }
+
     }
 }

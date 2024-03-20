@@ -175,7 +175,7 @@ namespace Laboratorium.Login.Forms
             }
             else if (user.Active)
             {
-                User = new UserDto(user.Id, user.Name, user.Surname, user.Email, user.Login, "", user.Permission, user.Identifier, user.Active, user.Date);
+                User = new UserDto(user.Id, user.Name, user.Surname, user.Email, user.Login, "", user.Permission, user.Identifier, user.Active, user.DateCreated);
                 LoginOk = true;
             }
             else

@@ -2,6 +2,7 @@
 {
     public enum SqlIndex
     {
-        LaboIndex
+        LaboIndex,
+        UserIndex
     }
 }

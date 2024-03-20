@@ -95,7 +95,7 @@ namespace Laboratorium.Login.Repository
                     user.Permission = rdr.GetString(5);
                     user.Identifier = rdr.GetString(6);
                     user.Active = rdr.GetBoolean(7);
-                    user.Date = rdr.GetDateTime(8);
+                    user.DateCreated = rdr.GetDateTime(8);
                 }
             }
             catch (SqlException ex)
@@ -133,7 +133,7 @@ namespace Laboratorium.Login.Repository
                 cmd.Parameters.AddWithValue("@permission", user.Permission);
                 cmd.Parameters.AddWithValue("@identifier", user.Identifier);
                 cmd.Parameters.AddWithValue("@active", user.Active);
-                cmd.Parameters.AddWithValue("@date_created", user.Date);
+                cmd.Parameters.AddWithValue("@date_created", user.DateCreated);
 
                 _connection.Open();
                 cmd.ExecuteNonQuery();

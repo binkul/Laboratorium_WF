@@ -14,11 +14,14 @@ namespace Laboratorium.ADO.DTO
         private string _conclusion;
         private string _observation;
         private bool _isDeleted = false;
+        private short _userId;
+        private UserDto _user;
         private RowState _rowState = RowState.ADDED;
 
         public LaboDto() { }
 
-        public LaboDto(int id, string title, DateTime dateCreated, DateTime dateUpdated, int project, string goal, double? density, string conclusion, string observation, bool isDeleted)
+        public LaboDto(int id, string title, DateTime dateCreated, DateTime dateUpdated, int project, string goal, double? density, 
+            string conclusion, string observation, bool isDeleted, short userId)
         {
             _id = id;
             _title = title;
@@ -30,15 +33,17 @@ namespace Laboratorium.ADO.DTO
             _conclusion = conclusion;
             _observation = observation;
             _isDeleted = isDeleted;
+            _userId = userId;
         }
 
-        public LaboDto(int id, string title, DateTime dateCreated, int project)
+        public LaboDto(int id, string title, DateTime dateCreated, int project, short userId)
         {
             _id = id;
             _title = title;
             _dateCreated = dateCreated;
             _dateUpdated = dateCreated;
             _project = project;
+            _userId = userId;
         }
 
         public int Id
@@ -138,6 +143,24 @@ namespace Laboratorium.ADO.DTO
                 _rowState = RowState.MODIFIED;
             }
         }
+
+        public short UserId
+        {
+            get => _userId;
+            set
+            {
+                _userId = value;
+                _rowState = RowState.MODIFIED;
+            }
+        }
+
+        public UserDto User
+        {
+            get => _user;
+            set => _user = value;
+        }
+
+        public string UserShortcut => _user != null ? _user.Identifier : "ND";
 
         public RowState GetRowState => _rowState;
 

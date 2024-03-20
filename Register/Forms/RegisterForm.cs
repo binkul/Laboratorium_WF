@@ -73,7 +73,7 @@ namespace Laboratorium.Register.Forms
                     Identifier = TxtName.Text.ToUpper().Substring(0, 1) + TxtSurname.Text.ToUpper().Substring(0, 1),
                     Permission = "user",
                     Active = false,
-                    Date = DateTime.Today
+                    DateCreated = DateTime.Today
                 };
 
 

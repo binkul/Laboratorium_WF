@@ -4,6 +4,7 @@ using Laboratorium.ADO.Tables;
 using Laboratorium.Commons;
 using Laboratorium.LabBook.Forms;
 using Laboratorium.LabBook.Repository;
+using Laboratorium.User.Repository;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -21,7 +22,8 @@ namespace Laboratorium.LabBook.Service
         private const string FORM_DATA = "LabBookForm";
 
 
-        private readonly LabBookRepository _repository;
+        private readonly LabBookRepository _repositoryLabo;
+        private readonly UserRepository _repositoryUser;
         private readonly SqlConnection _connection;
         private readonly UserDto _user;
         private readonly LabForm _form;
@@ -29,6 +31,7 @@ namespace Laboratorium.LabBook.Service
         private IList<LaboDto> _laboList;
         private BindingSource _laboBinding;
         private LaboDto _currentLabBook;
+        private IList<UserDto> _userList;
 
 
         private IDictionary<string, double> _formData = CommonFunction.LoadWindowsDataAsDictionary(FORM_DATA);
@@ -39,7 +42,8 @@ namespace Laboratorium.LabBook.Service
             _connection = connection;
             _user = user;
             _form = form;
-            _repository = new LabBookRepository(_connection, SqlIndex.LaboIndex, Table.LABO_TABLE);
+            _repositoryLabo = new LabBookRepository(_connection);
+            _repositoryUser = new UserRepository(_connection);
         }
 
         #region Open/Close form 
@@ -78,6 +82,7 @@ namespace Laboratorium.LabBook.Service
             #region Tables/Views/Bindings
 
             LoadLaboData();
+            LoadUsersData();
 
             #endregion
 
@@ -101,13 +106,25 @@ namespace Laboratorium.LabBook.Service
 
         private void LoadLaboData()
         {
-            _laboList = _repository.GetAll();
+            _laboList = _repositoryLabo.GetAll();
             _laboBinding = new BindingSource
             {
                 DataSource = _laboList
             };
             _form.GetNavigatorLabo.BindingSource = _laboBinding;
             _laboBinding.PositionChanged += LaboBinding_PositionChanged;
+        }
+
+        private void LoadUsersData()
+        {
+            _userList = _repositoryUser.GetAll();
+            foreach (LaboDto labo in _laboList)
+            {
+                short id = labo.UserId;
+                UserDto user = _userList.Where(i => i.Id == id).FirstOrDefault();
+                if (user != null)
+                    labo.User = user;
+            }
         }
 
         private void PrepareDgvLabo()
@@ -134,8 +151,10 @@ namespace Laboratorium.LabBook.Service
             view.Columns.Remove("Observation");
             view.Columns.Remove("DateCreated");
             view.Columns.Remove("DateUpdated");
+            view.Columns.Remove("GetRowState");
+            view.Columns.Remove("User");
             view.Columns["IsDeleted"].Visible = false;
-            view.Columns["GetRowState"].Visible = false;
+            view.Columns["UserId"].Visible = false;
 
             view.Columns["Id"].HeaderText = "Nr D";
             view.Columns["Id"].ReadOnly = true;
@@ -147,20 +166,23 @@ namespace Laboratorium.LabBook.Service
             view.Columns["Title"].DisplayIndex = 1;
             view.Columns["Title"].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            view.Columns["Density"].HeaderText = "Gęstość";
+            view.Columns["Density"].HeaderText = "Ges.";
             view.Columns["Density"].DisplayIndex = 2;
-            view.Columns["Density"].Width = _formData.ContainsKey("Density") ? (int)_formData["Density"] : 100; ;
+            view.Columns["Density"].Width = _formData.ContainsKey("Density") ? (int)_formData["Density"] : 70; ;
             view.Columns["Density"].SortMode = DataGridViewColumnSortMode.NotSortable;
             view.Columns["Density"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            int width;
+            view.Columns["UserShortcut"].HeaderText = "User";
+            view.Columns["UserShortcut"].DisplayIndex = 3;
+            view.Columns["UserShortcut"].ReadOnly = true;
+            view.Columns["UserShortcut"].Width = _formData.ContainsKey("UserShortcut") ? (int)_formData["UserShortcut"] : 50; ;
+            view.Columns["UserShortcut"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["UserShortcut"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            int width = view.Width - HEADER_WIDTH - view.Columns["Id"].Width - view.Columns["Density"].Width - view.Columns["UserShortcut"].Width;
             if (view.ScrollBars == ScrollBars.Vertical || view.ScrollBars == ScrollBars.Both)
             {
-                width = view.Width - HEADER_WIDTH - view.Columns["Id"].Width - view.Columns["Density"].Width - SystemInformation.VerticalScrollBarWidth;
-            }
-            else
-            {
-                width = view.Width - HEADER_WIDTH - view.Columns["Id"].Width - view.Columns["Density"].Width;
+                width -= SystemInformation.VerticalScrollBarWidth;
             }
 
             view.Columns["Title"].Width = _formData.ContainsKey("Title") ? (int)_formData["Title"] : width - 2;
