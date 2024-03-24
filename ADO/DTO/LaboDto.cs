@@ -4,10 +4,10 @@ namespace Laboratorium.ADO.DTO
 {
     public class LaboDto
     {
-        private int _id;
+        public int Id { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime DateUpdated { get; private set; }
         private string _title;
-        private DateTime _dateCreated;
-        private DateTime _dateUpdated;
         private int _project;
         private string _goal;
         private double? _density;
@@ -23,10 +23,10 @@ namespace Laboratorium.ADO.DTO
         public LaboDto(int id, string title, DateTime dateCreated, DateTime dateUpdated, int project, string goal, double? density, 
             string conclusion, string observation, bool isDeleted, short userId)
         {
-            _id = id;
+            Id = id;
+            DateCreated = dateCreated;
             _title = title;
-            _dateCreated = dateCreated;
-            _dateUpdated = dateUpdated;
+            DateUpdated = dateUpdated;
             _project = project;
             _goal = goal;
             _density = density;
@@ -38,22 +38,12 @@ namespace Laboratorium.ADO.DTO
 
         public LaboDto(int id, string title, DateTime dateCreated, int project, short userId)
         {
-            _id = id;
+            Id = id;
+            DateCreated = dateCreated;
             _title = title;
-            _dateCreated = dateCreated;
-            _dateUpdated = dateCreated;
+            DateUpdated = dateCreated;
             _project = project;
             _userId = userId;
-        }
-
-        public int Id
-        {
-            get => _id;
-            set 
-            {
-                _id = value;
-                _rowState = RowState.MODIFIED;
-            }
         }
 
         public string Title
@@ -62,25 +52,8 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _title = value;
-                _rowState = RowState.MODIFIED;
-            }
-        }
-
-        public DateTime DateCreated
-        {
-            get => _dateCreated;
-            set
-            {
-                _dateCreated = value;
-            }
-        }
-
-        public DateTime DateUpdated
-        {
-            get => _dateUpdated;
-            set
-            {
-                _dateUpdated = value;
+                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
+                DateUpdated = DateTime.Today;
             }
         }
 
@@ -90,7 +63,8 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _project = value;
-                _rowState = RowState.MODIFIED;
+                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
+                DateUpdated = DateTime.Today;
             }
         }
 
@@ -100,7 +74,8 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _goal = value;
-                _rowState = RowState.MODIFIED;
+                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
+                DateUpdated = DateTime.Today;
             }
         }
 
@@ -110,7 +85,8 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _density = value;
-                _rowState = RowState.MODIFIED;
+                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
+                DateUpdated = DateTime.Today;
             }
         }
 
@@ -120,7 +96,8 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _conclusion = value;
-                _rowState = RowState.MODIFIED;
+                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
+                DateUpdated = DateTime.Today;
             }
         }
 
@@ -130,7 +107,8 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _observation = value;
-                _rowState = RowState.MODIFIED;
+                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
+                DateUpdated = DateTime.Today;
             }
         }
 
@@ -140,7 +118,8 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _isDeleted = value;
-                _rowState = RowState.MODIFIED;
+                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
+                DateUpdated = DateTime.Today;
             }
         }
 
@@ -150,7 +129,8 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _userId = value;
-                _rowState = RowState.MODIFIED;
+                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
+                DateUpdated = DateTime.Today;
             }
         }
 
