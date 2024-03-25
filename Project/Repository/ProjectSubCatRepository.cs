@@ -3,17 +3,14 @@ using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.SqlDataConstant;
 using Laboratorium.ADO.Tables;
-using Laboratorium.Commons;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Laboratorium.Project.Repository
 {
-    public class ProjectSubCatRepository : BasicCRUD<ProjectSubCatRepository>
+    public class ProjectSubCatRepository : BasicCRUD<ProjectSubCategoryDto>
     {
         private static readonly SqlIndex SQL_INDEX = SqlIndex.ProjectSubCatIndex;
         private static readonly string TABLE_NAME = Table.PROJECT_SUB_TABLE;
@@ -21,7 +18,7 @@ namespace Laboratorium.Project.Repository
         public ProjectSubCatRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
         { }
 
-        public override IList<ProjectSubCatRepository> GetAll()
+        public override IList<ProjectSubCategoryDto> GetAll()
         {
             List<ProjectSubCategoryDto> list = new List<ProjectSubCategoryDto>();
 
@@ -66,12 +63,12 @@ namespace Laboratorium.Project.Repository
             return list;
         }
 
-        public override ProjectSubCatRepository Save(ProjectSubCatRepository data)
+        public override ProjectSubCategoryDto Save(ProjectSubCategoryDto data)
         {
             throw new NotImplementedException();
         }
 
-        public override ProjectSubCatRepository Update(ProjectSubCatRepository data)
+        public override ProjectSubCategoryDto Update(ProjectSubCategoryDto data)
         {
             throw new NotImplementedException();
         }
