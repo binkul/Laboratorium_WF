@@ -3,6 +3,10 @@
     public enum SqlIndex
     {
         LaboIndex,
-        UserIndex
+        UserIndex,
+
+        ProjectIndex,
+        ProjectSubCatIndex,
+        ProjectMemberIndex
     }
 }

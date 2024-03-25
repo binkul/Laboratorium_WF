@@ -25,5 +25,19 @@
         // table Users
         public static readonly string USER_TABLE = "LaboUsers";
 
+        // table project
+        public static readonly string PROJECT_TABLE = "Project";
+        public static readonly string PROJECT_NAME = "name";
+        public static readonly string PROJECT_COMMENTS = "comments";
+        public static readonly string PROJECT_ARCHIVE = "is_archive";
+        public static readonly string PROJECT_LABO = "is_labo";
+        public static readonly string PROJECT_AUCTION = "is_auction";
+        public static readonly string PROJECT_DISC = "local_disc";
+        public static readonly string PROJECT_DATE = "date";
+        public static readonly string PROJECT_USER = "ovner";
+
+        // table projectSubCategory
+        public static readonly string PROJECT_SUB_TABLE = "ProjectSubCategory";
+        public static readonly string PROJECT_ID = "project_id";
     }
 }

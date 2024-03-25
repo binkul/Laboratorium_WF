@@ -47,6 +47,8 @@
   <ItemGroup>
     <Compile Include="ADO\CrudState.cs" />
     <Compile Include="ADO\DTO\LaboDto.cs" />
+    <Compile Include="ADO\DTO\ProjectDto.cs" />
+    <Compile Include="ADO\DTO\ProjectSubCategoryDto.cs" />
     <Compile Include="ADO\DTO\UserDto.cs" />
     <Compile Include="ADO\DTO\ProgramDataDto.cs" />
     <Compile Include="ADO\Repository\BasicCRUD.cs" />
@@ -80,6 +82,8 @@
     </Compile>
     <Compile Include="Login\Repository\LoginRepository.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Project\Repository\ProjectRepository.cs" />
+    <Compile Include="Project\Repository\ProjectSubCatRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Register\Forms\RegisterForm.cs">
       <SubType>Form</SubType>
