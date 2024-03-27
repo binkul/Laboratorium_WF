@@ -38,7 +38,7 @@ namespace Laboratorium.LabBook.Repository
                         string title = CommonFunction.DBNullToStringConv(reader.GetValue(1));
                         DateTime dateCreated = reader.GetDateTime(2);
                         DateTime dateUpdated = !reader.GetValue(3).Equals(DBNull.Value) ? reader.GetDateTime(3) : dateCreated;
-                        long project = reader.GetInt64(4);
+                        long project = reader.GetInt32(4);
                         string target = CommonFunction.DBNullToStringConv(reader.GetValue(5));
                         string conclusion = CommonFunction.DBNullToStringConv(reader.GetValue(6));
                         double? density = CommonFunction.DBNullToDoubleConv(reader.GetValue(7));

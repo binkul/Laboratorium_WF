@@ -1,31 +1,36 @@
-﻿using Laboratorium.ADO;
-using Laboratorium.ADO.DTO;
-using Laboratorium.ADO.Tables;
+﻿using Laboratorium.ADO.DTO;
+using Laboratorium.ADO.Repository;
 using Laboratorium.Commons;
 using Laboratorium.LabBook.Forms;
 using Laboratorium.LabBook.Repository;
+using Laboratorium.Project.Forms;
+using Laboratorium.Project.Repository;
 using Laboratorium.User.Repository;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace Laboratorium.LabBook.Service
 {
     public class LabBookService
     {
         private const int HEADER_WIDTH = 35;
+        private const string FORM_TOP = "Form_Top";
+        private const string FORM_LEFT = "Form_Left";
+        private const string FORM_WIDTH = "Form_Width";
+        private const string FORM_HEIGHT = "Form_Height";
         private const string FORM_DATA = "LabBookForm";
 
 
-        private readonly LabBookRepository _repositoryLabo;
-        private readonly UserRepository _repositoryUser;
+        private readonly IExtendedCRUD<LaboDto> _repositoryLabo;
+        private readonly IExtendedCRUD<UserDto> _repositoryUser;
+        private readonly IBasicCRUD<ProjectDto> _repositoryProject;
         private readonly SqlConnection _connection;
         private readonly UserDto _user;
         private readonly LabForm _form;
@@ -34,10 +39,11 @@ namespace Laboratorium.LabBook.Service
         private BindingSource _laboBinding;
         private LaboDto _currentLabBook;
         private IList<UserDto> _userList;
-
+        private IList<ProjectDto> _projectList;
 
         private IDictionary<string, double> _formData = CommonFunction.LoadWindowsDataAsDictionary(FORM_DATA);
         private int GetCurrentLabBookId => Convert.ToInt32(_currentLabBook.Id);
+
 
         public LabBookService(SqlConnection connection, UserDto user, LabForm form)
         {
@@ -46,6 +52,7 @@ namespace Laboratorium.LabBook.Service
             _form = form;
             _repositoryLabo = new LabBookRepository(_connection);
             _repositoryUser = new UserRepository(_connection);
+            _repositoryProject = new ProjectRepository(_connection);
         }
 
 
@@ -66,6 +73,11 @@ namespace Laboratorium.LabBook.Service
         {
             IDictionary<string, double> list = new Dictionary<string, double>();
 
+            list.Add(FORM_TOP, _form.Left);
+            list.Add(FORM_LEFT, _form.Top);
+            list.Add(FORM_WIDTH, _form.Width);
+            list.Add(FORM_HEIGHT, _form.Height);
+
             foreach (DataGridViewColumn column in _form.GetDgvLabo.Columns)
             {
                 if (column.Visible)
@@ -77,6 +89,14 @@ namespace Laboratorium.LabBook.Service
             CommonFunction.WriteWindowsData(list, FORM_DATA);
         }
 
+        public void LoadFormData()
+        {
+            _form.Top = _formData.ContainsKey(FORM_TOP) ? (int)_formData[FORM_TOP] : _form.Top;
+            _form.Left = _formData.ContainsKey(FORM_LEFT) ? (int)_formData[FORM_LEFT] : _form.Left;
+            _form.Width = _formData.ContainsKey(FORM_WIDTH) ? (int)_formData[FORM_WIDTH] : _form.Width;
+            _form.Height = _formData.ContainsKey(FORM_HEIGHT) ? (int)_formData[FORM_HEIGHT] : _form.Height;
+        }
+
         #endregion
 
 
@@ -85,7 +105,9 @@ namespace Laboratorium.LabBook.Service
             #region Tables/Views/Bindings
 
             LoadLaboData();
-            LoadUsersData();
+            _userList = _repositoryUser.GetAll();
+            _projectList = _repositoryProject.GetAll();
+            FillDependece();
 
             #endregion
 
@@ -107,6 +129,22 @@ namespace Laboratorium.LabBook.Service
             LaboBinding_PositionChanged(null, null);
         }
 
+        private void FillDependece()
+        {
+            foreach (LaboDto labo in _laboList)
+            {
+                short id = labo.UserId;
+                UserDto user = _userList.Where(i => i.Id == id).FirstOrDefault();
+                if (user != null)
+                    labo.User = user;
+
+                int projectId = labo.ProjectId;
+                ProjectDto project = _projectList.Where(i => i.Id == projectId).FirstOrDefault();
+                if (project != null)
+                    labo.Project = project;
+            }
+        }
+
         private void LoadLaboData()
         {
             _laboList = _repositoryLabo.GetAll();
@@ -116,18 +154,6 @@ namespace Laboratorium.LabBook.Service
             };
             _form.GetNavigatorLabo.BindingSource = _laboBinding;
             _laboBinding.PositionChanged += LaboBinding_PositionChanged;
-        }
-
-        private void LoadUsersData()
-        {
-            _userList = _repositoryUser.GetAll();
-            foreach (LaboDto labo in _laboList)
-            {
-                short id = labo.UserId;
-                UserDto user = _userList.Where(i => i.Id == id).FirstOrDefault();
-                if (user != null)
-                    labo.User = user;
-            }
         }
 
         private void PrepareDgvLabo()
@@ -148,7 +174,7 @@ namespace Laboratorium.LabBook.Service
             view.AllowUserToDeleteRows = false;
             view.AutoGenerateColumns = false;
 
-            view.Columns.Remove("Project");
+            view.Columns.Remove("ProjectId");
             view.Columns.Remove("Goal");
             view.Columns.Remove("Conclusion");
             view.Columns.Remove("Observation");
@@ -156,6 +182,7 @@ namespace Laboratorium.LabBook.Service
             view.Columns.Remove("DateUpdated");
             view.Columns.Remove("GetRowState");
             view.Columns.Remove("User");
+            view.Columns.Remove("Project");
             view.Columns["IsDeleted"].Visible = false;
             view.Columns["UserId"].Visible = false;
 
@@ -169,14 +196,21 @@ namespace Laboratorium.LabBook.Service
             view.Columns["Title"].DisplayIndex = 1;
             view.Columns["Title"].SortMode = DataGridViewColumnSortMode.NotSortable;
 
+            view.Columns["ProjectName"].HeaderText = "Projekt";
+            view.Columns["ProjectName"].DisplayIndex = 2;
+            view.Columns["ProjectName"].ReadOnly = true;
+            view.Columns["ProjectName"].Width = _formData.ContainsKey("ProjectName") ? (int)_formData["ProjectName"] : 50; ;
+            view.Columns["ProjectName"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["ProjectName"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            
             view.Columns["Density"].HeaderText = "Ges.";
-            view.Columns["Density"].DisplayIndex = 2;
+            view.Columns["Density"].DisplayIndex = 3;
             view.Columns["Density"].Width = _formData.ContainsKey("Density") ? (int)_formData["Density"] : 70; ;
             view.Columns["Density"].SortMode = DataGridViewColumnSortMode.NotSortable;
             view.Columns["Density"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             view.Columns["UserShortcut"].HeaderText = "User";
-            view.Columns["UserShortcut"].DisplayIndex = 3;
+            view.Columns["UserShortcut"].DisplayIndex = 4;
             view.Columns["UserShortcut"].ReadOnly = true;
             view.Columns["UserShortcut"].Width = _formData.ContainsKey("UserShortcut") ? (int)_formData["UserShortcut"] : 50; ;
             view.Columns["UserShortcut"].SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -191,18 +225,16 @@ namespace Laboratorium.LabBook.Service
             view.Columns["Title"].Width = _formData.ContainsKey("Title") ? (int)_formData["Title"] : width - 2;
         }
 
+
         #region Current/Binkding/Navigation/DataTable
 
         private void LaboBinding_PositionChanged(object sender, EventArgs e)
         {
-            int id = 0;
-
             #region Get Current
 
             if (_laboBinding.Count > 0)
             {
                 _currentLabBook = (LaboDto)_laboBinding.Current;
-                id = GetCurrentLabBookId;
             }
             else
             {
@@ -218,14 +250,19 @@ namespace Laboratorium.LabBook.Service
                 DateTime date = Convert.ToDateTime(_currentLabBook.DateCreated);
                 string show = date.ToString("dd-MM-yyyy");
                 _form.GetLblDateCreated.Text = "Utworzenie: " + show;
-                _form.GetLblDateCreated.Left = _form.ClientSize.Width - _form.GetLblDateCreated.Width - 2;
+                _form.GetLblDateCreated.Left = _form.ClientSize.Width - _form.GetLblDateCreated.Width - 10;
+
                 date = Convert.ToDateTime(_currentLabBook.DateUpdated);
                 show = date.ToString("dd-MM-yyyy");
                 _form.GetLblDateModified.Text = "Modyfikacja: " + show;
-                _form.GetLblDateModified.Left = _form.ClientSize.Width - _form.GetLblDateModified.Width - 2;
+                _form.GetLblDateModified.Left = _form.ClientSize.Width - _form.GetLblDateModified.Width - 10;
 
-                string nr = "D-" + GetCurrentLabBookId.ToString();
+                string nr = "D-" + _currentLabBook.Id.ToString();
                 _form.GetLblNrD.Text = nr;
+
+                string project = "Projekt #" + _currentLabBook.ProjectId + " - '" + _currentLabBook.Project.Title + "'";
+                _form.GetLblProject.Text = project;
+                _form.GetBtnProjectChange.Left = _form.GetLblProject.Left + _form.GetLblProject.Width + 10;
             }
             else
             {
@@ -240,12 +277,13 @@ namespace Laboratorium.LabBook.Service
 
         #endregion
 
-        #region DataGridView Enents
+
+        #region DataGridView Events
 
         public void ResizeLaboColumn(DataGridViewColumnEventArgs e)
         {
-            _form.GetBtnFiltercancel.Size = new Size(_form.GetTxtFilerTitle.Height, _form.GetTxtFilerTitle.Height);
-            _form.GetBtnFiltercancel.Left = _form.GetDgvLabo.Left + (HEADER_WIDTH / 2) - (_form.GetBtnFiltercancel.Size.Width / 2);
+            _form.GetBtnFilterCancel.Size = new Size(_form.GetTxtFilerTitle.Height, _form.GetTxtFilerTitle.Height);
+            _form.GetBtnFilterCancel.Left = _form.GetDgvLabo.Left + (HEADER_WIDTH / 2) - (_form.GetBtnFilterCancel.Size.Width / 2);
 
             _form.GetTxtFilerNumD.Width = _form.GetDgvLabo.Columns["Id"].Width - 1;
             _form.GetTxtFilerNumD.Left = _form.GetDgvLabo.Left + HEADER_WIDTH;
@@ -253,12 +291,37 @@ namespace Laboratorium.LabBook.Service
             _form.GetTxtFilerTitle.Width = _form.GetDgvLabo.Columns["Title"].Width - 2;
             _form.GetTxtFilerTitle.Left = _form.GetDgvLabo.Left + _form.GetDgvLabo.Columns["Id"].Width + HEADER_WIDTH;
 
+            _form.GetBtnFilterProject.Width = _form.GetDgvLabo.Columns["ProjectName"].Width;
+            _form.GetBtnFilterProject.Left = _form.GetDgvLabo.Left + _form.GetDgvLabo.Columns["Id"].Width + _form.GetDgvLabo.Columns["Title"].Width + HEADER_WIDTH;
+
             _form.GetTxtFilerUser.Width = _form.GetDgvLabo.Columns["UserShortcut"].Width;
             _form.GetTxtFilerUser.Left = _form.GetDgvLabo.Left + _form.GetDgvLabo.Columns["Id"].Width + _form.GetDgvLabo.Columns["Title"].Width
-                + _form.GetDgvLabo.Columns["Density"].Width + HEADER_WIDTH;
+                + _form.GetDgvLabo.Columns["ProjectName"].Width + _form.GetDgvLabo.Columns["Density"].Width + HEADER_WIDTH;
         }
 
         #endregion
+
+
+        #region Buttons Events
+
+        public void ChangeProject()
+        {
+            using (FindProjectForm form = new FindProjectForm(_projectList))
+            {
+                form.ShowDialog();
+                if (form.Ok && _currentLabBook != null)
+                {
+                    _currentLabBook.ProjectId = form.Result.Id;
+                    _currentLabBook.Project = form.Result;
+                    _laboBinding.EndEdit();
+                    LaboBinding_PositionChanged(null, null);
+                    _form.GetDgvLabo.InvalidateRow(_form.GetDgvLabo.CurrentRow.Index);
+                }
+            }
+        }
+
+        #endregion
+
 
         #region Filtering
 
@@ -267,6 +330,7 @@ namespace Laboratorium.LabBook.Service
             string nr = _form.GetTxtFilerNumD.Text;
             string title = _form.GetTxtFilerTitle.Text;
             string user = _form.GetTxtFilerUser.Text;
+            string project = _form.GetBtnFilterProject.Text == CommonData.ALL_DATA_PL ? "" : _form.GetBtnFilterProject.Text;
 
             if (nr.Length > 0 && !Regex.IsMatch(nr, @"^\d+$"))
             {
@@ -274,14 +338,15 @@ namespace Laboratorium.LabBook.Service
                 return;
             }
 
-            if (!string.IsNullOrEmpty(nr) || !string.IsNullOrEmpty(title) || !string.IsNullOrEmpty(user))
+            if (!string.IsNullOrEmpty(nr) || !string.IsNullOrEmpty(title) || !string.IsNullOrEmpty(user) || !string.IsNullOrEmpty(project))
             {
                 int id = nr.Length > 0 ? Convert.ToInt32(nr) : -1;
 
                 List<LaboDto> filter = _laboList
                     .Where(i => i.Id >= id)
-                    .Where(i => i.Title.ToLower().Contains(title))
-                    .Where(i => i.UserShortcut.ToLower().Contains(user))
+                    .Where(i => i.Title.ToLower().Contains(title.ToLower()))
+                    .Where(i => i.ProjectName.Contains(project))
+                    .Where(i => i.UserShortcut.ToLower().Contains(user.ToLower()))
                     .ToList();
 
                 _laboBinding.DataSource = filter;
@@ -293,7 +358,22 @@ namespace Laboratorium.LabBook.Service
                 _laboBinding.Position = 0;
             }
 
-            #endregion
+            LaboBinding_PositionChanged(null, null);
         }
+
+        public void FilterByProject()
+        {
+            using (FindProjectForm form = new FindProjectForm(_projectList))
+            {
+                form.ShowDialog();
+                if (form.Ok)
+                {
+                    _form.GetBtnFilterProject.Text = form.Result.Title;
+                    SetFilter();
+                }
+            }
+        }
+
+        #endregion
     }
 }

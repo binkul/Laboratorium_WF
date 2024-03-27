@@ -1,4 +1,5 @@
 ﻿using Laboratorium.ADO.DTO;
+using Laboratorium.Commons;
 using Laboratorium.LabBook.Service;
 using Laboratorium.Login.Forms;
 using System;
@@ -12,6 +13,7 @@ namespace Laboratorium.LabBook.Forms
     public partial class LabForm : Form
     {
         private const int BUTTON_SIZE = 50;
+        private Font FONT_11 = new Font("Microsoft Sans Serif", 11, FontStyle.Bold);
         private Font FONT_12 = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
         private Font FONT_14 = new Font("Microsoft Sans Serif", 14, FontStyle.Bold);
 
@@ -24,7 +26,9 @@ namespace Laboratorium.LabBook.Forms
 
         public DataGridView GetDgvLabo => DgvLabo;
         public BindingNavigator GetNavigatorLabo => BindingNavigatorLabo;
-        public Button GetBtnFiltercancel => BtnFilterCancel;
+        public Button GetBtnFilterCancel => BtnFilterCancel;
+        public Button GetBtnFilterProject => BtnFilterByProject;
+        public Button GetBtnProjectChange => BtnChangeProject;
         public TextBox GetTxtTitle => TxtTitle;
         public TextBox GetTxtFilerNumD => TxtFilterNumD;
         public TextBox GetTxtFilerTitle => TxtFilterTitle;
@@ -32,6 +36,7 @@ namespace Laboratorium.LabBook.Forms
         public Label GetLblDateCreated => LblDateCreated;
         public Label GetLblDateModified => LblDateModified;
         public Label GetLblNrD => LblNrD;
+        public Label GetLblProject => LblProject;
 
         public LabForm()
         {
@@ -55,12 +60,13 @@ namespace Laboratorium.LabBook.Forms
                 return;
             }
 
-            Rectangle tmp = Screen.FromControl(this).Bounds;
-            Width = tmp.Width - 100;
-            Height = tmp.Height - 200;
-            CenterToScreen();
+            //Rectangle tmp = Screen.FromControl(this).Bounds;
+            //Width = tmp.Width - 100;
+            //Height = tmp.Height - 200;
+            //CenterToScreen();
 
             _service.PrepareAllData();
+            _service.LoadFormData();
         }
 
         private void LabForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -73,16 +79,9 @@ namespace Laboratorium.LabBook.Forms
         {           
             LblTitle.Font = FONT_12;
             TxtTitle.Font = FONT_12;
-            LblDateCreated.Font = FONT_12;
-            LblDateModified.Font = FONT_12;
+            LblDateCreated.Font = FONT_11;
+            LblDateModified.Font = FONT_11;
             LblNrD.Font = FONT_14;
-
-            Size size = new Size(BUTTON_SIZE, BUTTON_SIZE);
-            BtnAdd.Size = size;
-            BtnDelete.Size = size;
-            BtnDelete.Left = BtnAdd.Left + BUTTON_SIZE + 5;
-            BtnSave.Size = size;
-            BtnSave.Left = BtnDelete.Left + BUTTON_SIZE + 5;
         }
 
         private void TxtTitle_KeyPress(object sender, KeyPressEventArgs e)
@@ -114,7 +113,18 @@ namespace Laboratorium.LabBook.Forms
             TxtFilterNumD.Text = string.Empty;
             TxtFilterTitle.Text = string.Empty;
             TxtFilterUser.Text = string.Empty;
+            BtnFilterByProject.Text = CommonData.ALL_DATA_PL;
             _service.SetFilter();
+        }
+
+        private void BtnFilterByProject_Click(object sender, EventArgs e)
+        {
+            _service.FilterByProject();
+        }
+
+        private void BtnChangeProject_Click(object sender, EventArgs e)
+        {
+            _service.ChangeProject();
         }
     }
 }

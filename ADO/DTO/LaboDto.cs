@@ -8,7 +8,7 @@ namespace Laboratorium.ADO.DTO
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; private set; }
         private string _title;
-        private int _project;
+        private int _projectId;
         private string _goal;
         private double? _density;
         private string _conclusion;
@@ -16,18 +16,19 @@ namespace Laboratorium.ADO.DTO
         private bool _isDeleted = false;
         private short _userId;
         private UserDto _user;
+        private ProjectDto _project;
         private RowState _rowState = RowState.ADDED;
 
         public LaboDto() { }
 
-        public LaboDto(int id, string title, DateTime dateCreated, DateTime dateUpdated, int project, string goal, double? density, 
+        public LaboDto(int id, string title, DateTime dateCreated, DateTime dateUpdated, int projectId, string goal, double? density, 
             string conclusion, string observation, bool isDeleted, short userId)
         {
             Id = id;
             DateCreated = dateCreated;
             _title = title;
             DateUpdated = dateUpdated;
-            _project = project;
+            _projectId = projectId;
             _goal = goal;
             _density = density;
             _conclusion = conclusion;
@@ -36,13 +37,13 @@ namespace Laboratorium.ADO.DTO
             _userId = userId;
         }
 
-        public LaboDto(int id, string title, DateTime dateCreated, int project, short userId)
+        public LaboDto(int id, string title, DateTime dateCreated, int projectId, short userId)
         {
             Id = id;
             DateCreated = dateCreated;
             _title = title;
             DateUpdated = dateCreated;
-            _project = project;
+            _projectId = projectId;
             _userId = userId;
         }
 
@@ -57,12 +58,12 @@ namespace Laboratorium.ADO.DTO
             }
         }
 
-        public int Project
+        public int ProjectId
         {
-            get => _project;
+            get => _projectId;
             set
             {
-                _project = value;
+                _projectId = value;
                 _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
                 DateUpdated = DateTime.Today;
             }
@@ -141,6 +142,14 @@ namespace Laboratorium.ADO.DTO
         }
 
         public string UserShortcut => _user != null ? _user.Identifier : "ND";
+
+        public ProjectDto Project
+        {
+            get => _project;
+            set => _project = value;
+        }
+
+        public string ProjectName => _project != null ? _project.Title : "-- Brak --";
 
         public RowState GetRowState => _rowState;
 
