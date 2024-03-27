@@ -36,13 +36,18 @@ namespace Laboratorium.LabBook.Service
         private readonly LabForm _form;
 
         private IList<LaboDto> _laboList;
+        private IList<LaboDataBasicDto> _laboBasicList;
         private BindingSource _laboBinding;
-        private LaboDto _currentLabBook;
         private IList<UserDto> _userList;
         private IList<ProjectDto> _projectList;
+        private IList<ContrastClassDto> _contrastClassList;
+        private IList<GlossClassDto> _glossClassList;
+        private IList<ScrubClassDto> _scrubClassList;
+        private IList<VocClassDto> _vocClassList;
 
         private IDictionary<string, double> _formData = CommonFunction.LoadWindowsDataAsDictionary(FORM_DATA);
         private int GetCurrentLabBookId => Convert.ToInt32(_currentLabBook.Id);
+        private LaboDto _currentLabBook => _laboBinding != null && _laboBinding.Count > 0 ? (LaboDto)_laboBinding.Current : null;
 
 
         public LabBookService(SqlConnection connection, UserDto user, LabForm form)
@@ -107,6 +112,19 @@ namespace Laboratorium.LabBook.Service
             LoadLaboData();
             _userList = _repositoryUser.GetAll();
             _projectList = _repositoryProject.GetAll();
+
+            IBasicCRUD<ContrastClassDto> contrast = new ContrastClassRepository(_connection);
+            _contrastClassList = contrast.GetAll();
+
+            IBasicCRUD<GlossClassDto> gloss = new GlossClassRepository(_connection);
+            _glossClassList = gloss.GetAll();
+
+            IBasicCRUD<ScrubClassDto> scrub = new ScrubClassRepository(_connection);
+            _scrubClassList = scrub.GetAll();
+
+            IBasicCRUD<VocClassDto> voc = new VocClassRepository(_connection);
+            _vocClassList = voc.GetAll();
+
             FillDependece();
 
             #endregion
@@ -230,18 +248,6 @@ namespace Laboratorium.LabBook.Service
 
         private void LaboBinding_PositionChanged(object sender, EventArgs e)
         {
-            #region Get Current
-
-            if (_laboBinding.Count > 0)
-            {
-                _currentLabBook = (LaboDto)_laboBinding.Current;
-            }
-            else
-            {
-                _currentLabBook = null;
-            }
-
-            #endregion
 
             #region Set Current Controls
 
@@ -269,6 +275,7 @@ namespace Laboratorium.LabBook.Service
                 _form.GetLblNrD.Text = "D-Brak";
                 _form.GetLblDateCreated.Text = "Utworzenie: Brak";
                 _form.GetLblDateModified.Text = "Modyfikacja: Brak";
+                _form.GetLblProject.Text = "Projekt - Brak";
             }
 
             #endregion

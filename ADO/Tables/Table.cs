@@ -22,6 +22,21 @@
         public static readonly string LABO_OBSERVATION = "Observation";
         public static readonly string LABO_IS_DELETED = "IsDeleted";
 
+        // LabDataBasic table
+        public static readonly string LABO_BASIC_DATA_TABLE = "LaboDataBasic";
+
+        // ContrastClass table
+        public static readonly string CONTRAST_CLASS_TABLE = "CmbClassContrast";
+
+        // GlossClass table
+        public static readonly string GLOSS_CLASS_TABLE = "CmbClassGloss";
+
+        // ScrubClass table
+        public static readonly string SCRUB_CLASS_TABLE = "CmbClassScrub";
+
+        // VocClass table
+        public static readonly string VOC_CLASS_TABLE = "CmbClassVoc";
+
         // table Users
         public static readonly string USER_TABLE = "LaboUsers";
 

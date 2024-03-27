@@ -49,6 +49,7 @@
             this.TxtFilterNumD = new System.Windows.Forms.TextBox();
             this.DgvLabo = new System.Windows.Forms.DataGridView();
             this.TbBasicData = new System.Windows.Forms.TabPage();
+            this.TbConclusion = new System.Windows.Forms.TabPage();
             this.TxtTitle = new System.Windows.Forms.TextBox();
             this.LblTitle = new System.Windows.Forms.Label();
             this.BtnAdd = new System.Windows.Forms.Button();
@@ -61,7 +62,6 @@
             this.LblDateModified = new System.Windows.Forms.Label();
             this.LblNrD = new System.Windows.Forms.Label();
             this.LblProject = new System.Windows.Forms.Label();
-            this.TbConclusion = new System.Windows.Forms.TabPage();
             this.BtnChangeProject = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.BindingNavigatorLabo)).BeginInit();
             this.BindingNavigatorLabo.SuspendLayout();
@@ -88,14 +88,14 @@
             this.bindingNavigatorMoveNextItem,
             this.bindingNavigatorMoveLastItem,
             this.bindingNavigatorSeparator2});
-            this.BindingNavigatorLabo.Location = new System.Drawing.Point(0, 709);
+            this.BindingNavigatorLabo.Location = new System.Drawing.Point(0, 705);
             this.BindingNavigatorLabo.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
             this.BindingNavigatorLabo.MoveLastItem = this.bindingNavigatorMoveLastItem;
             this.BindingNavigatorLabo.MoveNextItem = this.bindingNavigatorMoveNextItem;
             this.BindingNavigatorLabo.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.BindingNavigatorLabo.Name = "BindingNavigatorLabo";
             this.BindingNavigatorLabo.PositionItem = this.bindingNavigatorPositionItem;
-            this.BindingNavigatorLabo.Size = new System.Drawing.Size(1289, 27);
+            this.BindingNavigatorLabo.Size = new System.Drawing.Size(1289, 31);
             this.BindingNavigatorLabo.TabIndex = 1;
             this.BindingNavigatorLabo.Text = "bindingNavigator1";
             // 
@@ -112,7 +112,7 @@
             this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
             this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
             this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(29, 24);
+            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(29, 28);
             this.bindingNavigatorMoveFirstItem.Text = "Przenieś pierwszy";
             // 
             // bindingNavigatorMovePreviousItem
@@ -133,6 +133,7 @@
             // 
             this.bindingNavigatorPositionItem.AccessibleName = "Pozycja";
             this.bindingNavigatorPositionItem.AutoSize = false;
+            this.bindingNavigatorPositionItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
             this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(49, 27);
             this.bindingNavigatorPositionItem.Text = "0";
@@ -175,11 +176,11 @@
             this.TabLabo.Controls.Add(this.TbBasicData);
             this.TabLabo.Controls.Add(this.TbConclusion);
             this.TabLabo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TabLabo.Location = new System.Drawing.Point(0, 174);
+            this.TabLabo.Location = new System.Drawing.Point(0, 182);
             this.TabLabo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TabLabo.Name = "TabLabo";
             this.TabLabo.SelectedIndex = 0;
-            this.TabLabo.Size = new System.Drawing.Size(1289, 530);
+            this.TabLabo.Size = new System.Drawing.Size(1289, 522);
             this.TabLabo.TabIndex = 10;
             // 
             // TbLabBook
@@ -196,7 +197,7 @@
             this.TbLabBook.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TbLabBook.Name = "TbLabBook";
             this.TbLabBook.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.TbLabBook.Size = new System.Drawing.Size(1281, 497);
+            this.TbLabBook.Size = new System.Drawing.Size(1281, 489);
             this.TbLabBook.TabIndex = 0;
             this.TbLabBook.Tag = "1";
             this.TbLabBook.Text = "Strona główna";
@@ -269,7 +270,7 @@
             this.DgvLabo.Name = "DgvLabo";
             this.DgvLabo.RowHeadersWidth = 51;
             this.DgvLabo.RowTemplate.Height = 24;
-            this.DgvLabo.Size = new System.Drawing.Size(1275, 450);
+            this.DgvLabo.Size = new System.Drawing.Size(1275, 442);
             this.DgvLabo.TabIndex = 0;
             this.DgvLabo.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.DgvLabo_ColumnWidthChanged);
             // 
@@ -280,9 +281,18 @@
             this.TbBasicData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TbBasicData.Name = "TbBasicData";
             this.TbBasicData.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.TbBasicData.Size = new System.Drawing.Size(1281, 497);
+            this.TbBasicData.Size = new System.Drawing.Size(1281, 489);
             this.TbBasicData.TabIndex = 1;
             this.TbBasicData.Text = "Dane Podstawowe";
+            // 
+            // TbConclusion
+            // 
+            this.TbConclusion.BackColor = System.Drawing.SystemColors.Control;
+            this.TbConclusion.Location = new System.Drawing.Point(4, 29);
+            this.TbConclusion.Name = "TbConclusion";
+            this.TbConclusion.Size = new System.Drawing.Size(1281, 489);
+            this.TbConclusion.TabIndex = 2;
+            this.TbConclusion.Text = "Uwagi";
             // 
             // TxtTitle
             // 
@@ -327,7 +337,6 @@
             this.EditToolStripMenuItem});
             this.LabMainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.LabMainMenuStrip.Name = "LabMainMenuStrip";
-            this.LabMainMenuStrip.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
             this.LabMainMenuStrip.Size = new System.Drawing.Size(1289, 31);
             this.LabMainMenuStrip.TabIndex = 6;
             this.LabMainMenuStrip.Text = "menuStrip1";
@@ -373,12 +382,12 @@
             this.LblDateCreated.AutoSize = true;
             this.LblDateCreated.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.LblDateCreated.ForeColor = System.Drawing.Color.Blue;
-            this.LblDateCreated.Location = new System.Drawing.Point(1046, 99);
+            this.LblDateCreated.Location = new System.Drawing.Point(1047, 99);
             this.LblDateCreated.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblDateCreated.Name = "LblDateCreated";
-            this.LblDateCreated.Size = new System.Drawing.Size(228, 24);
+            this.LblDateCreated.Size = new System.Drawing.Size(241, 22);
             this.LblDateCreated.TabIndex = 7;
-            this.LblDateCreated.Text = "Utworzenie: 00-00-0000";
+            this.LblDateCreated.Text = "Utworzenie: 00-00-0000   ";
             // 
             // LblDateModified
             // 
@@ -389,9 +398,9 @@
             this.LblDateModified.Location = new System.Drawing.Point(1041, 135);
             this.LblDateModified.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblDateModified.Name = "LblDateModified";
-            this.LblDateModified.Size = new System.Drawing.Size(233, 24);
+            this.LblDateModified.Size = new System.Drawing.Size(247, 22);
             this.LblDateModified.TabIndex = 8;
-            this.LblDateModified.Text = "Modyfikacja: 00-00-0000";
+            this.LblDateModified.Text = "Modyfikacja: 00-00-0000   ";
             // 
             // LblNrD
             // 
@@ -410,29 +419,20 @@
             this.LblProject.AutoSize = true;
             this.LblProject.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.LblProject.ForeColor = System.Drawing.Color.Blue;
-            this.LblProject.Location = new System.Drawing.Point(143, 134);
+            this.LblProject.Location = new System.Drawing.Point(3, 140);
             this.LblProject.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblProject.Name = "LblProject";
             this.LblProject.Size = new System.Drawing.Size(92, 25);
             this.LblProject.TabIndex = 23;
             this.LblProject.Text = "Projekt: ";
             // 
-            // TbConclusion
-            // 
-            this.TbConclusion.BackColor = System.Drawing.SystemColors.Control;
-            this.TbConclusion.Location = new System.Drawing.Point(4, 29);
-            this.TbConclusion.Name = "TbConclusion";
-            this.TbConclusion.Size = new System.Drawing.Size(1281, 497);
-            this.TbConclusion.TabIndex = 2;
-            this.TbConclusion.Text = "Uwagi";
-            // 
             // BtnChangeProject
             // 
-            this.BtnChangeProject.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.BtnChangeProject.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.BtnChangeProject.ForeColor = System.Drawing.Color.Red;
-            this.BtnChangeProject.Location = new System.Drawing.Point(225, 134);
+            this.BtnChangeProject.Location = new System.Drawing.Point(98, 137);
             this.BtnChangeProject.Name = "BtnChangeProject";
-            this.BtnChangeProject.Size = new System.Drawing.Size(105, 25);
+            this.BtnChangeProject.Size = new System.Drawing.Size(105, 28);
             this.BtnChangeProject.TabIndex = 24;
             this.BtnChangeProject.Text = "<- Zmień";
             this.BtnChangeProject.UseVisualStyleBackColor = true;
