@@ -80,6 +80,7 @@
     </Compile>
     <Compile Include="LabBook\Repository\ContrastClassRepository.cs" />
     <Compile Include="LabBook\Repository\GlossClassRepository.cs" />
+    <Compile Include="LabBook\Repository\LabBookBasicDataRepository.cs" />
     <Compile Include="LabBook\Repository\LabBookRepository.cs" />
     <Compile Include="LabBook\Repository\ScrubClassRepository.cs" />
     <Compile Include="LabBook\Repository\VocClassRepository.cs" />

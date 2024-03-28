@@ -27,8 +27,12 @@ namespace Laboratorium.LabBook.Service
         private const string FORM_HEIGHT = "Form_Height";
         private const string FORM_DATA = "LabBookForm";
 
+        private const string ID = "Id";
+        private const string NAME_PL = "NamePl";
 
+        bool _cmbBlock = false;
         private readonly IExtendedCRUD<LaboDto> _repositoryLabo;
+        private readonly IBasicCRUD<LaboDataBasicDto> _repositoryLaboBasic;
         private readonly IExtendedCRUD<UserDto> _repositoryUser;
         private readonly IBasicCRUD<ProjectDto> _repositoryProject;
         private readonly SqlConnection _connection;
@@ -36,8 +40,9 @@ namespace Laboratorium.LabBook.Service
         private readonly LabForm _form;
 
         private IList<LaboDto> _laboList;
-        private IList<LaboDataBasicDto> _laboBasicList;
         private BindingSource _laboBinding;
+        private IList<LaboDataBasicDto> _laboBasicList;
+        private BindingSource _laboBasicBinding;
         private IList<UserDto> _userList;
         private IList<ProjectDto> _projectList;
         private IList<ContrastClassDto> _contrastClassList;
@@ -48,21 +53,20 @@ namespace Laboratorium.LabBook.Service
         private IDictionary<string, double> _formData = CommonFunction.LoadWindowsDataAsDictionary(FORM_DATA);
         private int GetCurrentLabBookId => Convert.ToInt32(_currentLabBook.Id);
         private LaboDto _currentLabBook => _laboBinding != null && _laboBinding.Count > 0 ? (LaboDto)_laboBinding.Current : null;
-
-
+        private LaboDataBasicDto _currentLabBookBasic => _laboBasicBinding != null ? (LaboDataBasicDto)_laboBasicBinding.Current : null;
         public LabBookService(SqlConnection connection, UserDto user, LabForm form)
         {
             _connection = connection;
             _user = user;
             _form = form;
             _repositoryLabo = new LabBookRepository(_connection);
+            _repositoryLaboBasic = new LabBookBasicDataRepository(_connection);
             _repositoryUser = new UserRepository(_connection);
             _repositoryProject = new ProjectRepository(_connection);
         }
 
 
         #region Open/Close form 
-
         public void FormClose(FormClosingEventArgs e)
         {
 
@@ -105,6 +109,8 @@ namespace Laboratorium.LabBook.Service
         #endregion
 
 
+        #region Prepare Data
+
         public void PrepareAllData()
         {
             #region Tables/Views/Bindings
@@ -112,6 +118,9 @@ namespace Laboratorium.LabBook.Service
             LoadLaboData();
             _userList = _repositoryUser.GetAll();
             _projectList = _repositoryProject.GetAll();
+
+            _laboBasicList = _repositoryLaboBasic.GetAll();
+            _laboBasicBinding = new BindingSource();
 
             IBasicCRUD<ContrastClassDto> contrast = new ContrastClassRepository(_connection);
             _contrastClassList = contrast.GetAll();
@@ -135,12 +144,22 @@ namespace Laboratorium.LabBook.Service
 
             #endregion
 
+            #region Prepare ComboBoxes
+
+            PrepareComboBoxes();
+
+            #endregion
+
             #region Prepare others control
 
             _form.GetTxtTitle.DataBindings.Clear();
+            _form.GetTxtScrubBrush.DataBindings.Clear();
+            _form.GetTxtScrubSponge.DataBindings.Clear();
 
 
             _form.GetTxtTitle.DataBindings.Add("Text", _laboBinding, "Title");
+            _form.GetTxtScrubBrush.DataBindings.Add("Text", _laboBasicBinding, "ScrubBrush");
+            _form.GetTxtScrubSponge.DataBindings.Add("Text", _laboBasicBinding, "ScrubSponge");
 
             #endregion
 
@@ -243,11 +262,37 @@ namespace Laboratorium.LabBook.Service
             view.Columns["Title"].Width = _formData.ContainsKey("Title") ? (int)_formData["Title"] : width - 2;
         }
 
+        private void PrepareComboBoxes()
+        {
+            _form.GetCmbGlossClass.DataSource = _glossClassList;
+            _form.GetCmbGlossClass.ValueMember = ID;
+            _form.GetCmbGlossClass.DisplayMember = NAME_PL;
+            _form.GetCmbGlossClass.SelectedIndexChanged += CmbGlossClass_SelectedIndexChanged;
+
+            _form.GetCmbContrastClass.DataSource = _contrastClassList;
+            _form.GetCmbContrastClass.ValueMember = ID;
+            _form.GetCmbContrastClass.DisplayMember = NAME_PL;
+            _form.GetCmbContrastClass.SelectedIndexChanged += CmbContrastClass_SelectedIndexChanged;
+
+            _form.GetCmbScrubClass.DataSource = _scrubClassList;
+            _form.GetCmbScrubClass.ValueMember = ID;
+            _form.GetCmbScrubClass.DisplayMember = NAME_PL;
+            _form.GetCmbScrubClass.SelectedIndexChanged += CmbScrubClass_SelectedIndexChanged;
+
+            _form.GetCmbVocClass.DataSource = _vocClassList;
+            _form.GetCmbVocClass.ValueMember = ID;
+            _form.GetCmbVocClass.DisplayMember = NAME_PL;
+            _form.GetCmbVocClass.SelectedIndexChanged += CmbVocClass_SelectedIndexChanged;
+        }
+
+        #endregion
+
 
         #region Current/Binkding/Navigation/DataTable
 
         private void LaboBinding_PositionChanged(object sender, EventArgs e)
         {
+            _cmbBlock = true;
 
             #region Set Current Controls
 
@@ -280,6 +325,156 @@ namespace Laboratorium.LabBook.Service
 
             #endregion
 
+            #region Create Basic Data if not exist
+
+            _laboBasicBinding.EndEdit();
+            LaboDataBasicDto basicCurrent = _currentLabBook != null ? _laboBasicList.Where(i => i.LaboId == _currentLabBook.Id).FirstOrDefault() : null;
+            if (_currentLabBook != null && basicCurrent != null)
+            {
+                _laboBasicBinding.DataSource = basicCurrent;
+            }
+            else if (_currentLabBook != null && basicCurrent == null)
+            {
+                basicCurrent = new LaboDataBasicDto.Builder()
+                    .LaboId(_currentLabBook.Id)
+                    .GlossClassId(1)
+                    .ContrastClassId(1)
+                    .ScrubClassId(1)
+                    .VocClassId(1)
+                    .Date(DateTime.Today)
+                    .Build();
+                _laboBasicList.Add(basicCurrent);
+            }
+
+            #endregion
+
+            #region Synchronize Combo Gloss Class
+
+            if (basicCurrent != null)
+            {
+                _form.GetCmbGlossClass.SelectedValue = basicCurrent.GlossClassId;
+            }
+            else
+            {
+                _form.GetCmbGlossClass.SelectedIndex = _form.GetCmbGlossClass.Items.Count > 0 ? 0 : -1;
+            }
+
+            #endregion
+
+            #region Synchronize Combo Contrast Class
+
+            if (basicCurrent != null)
+            {
+                _form.GetCmbContrastClass.SelectedValue = basicCurrent.ContrastClassId;
+            }
+            else
+            {
+                _form.GetCmbContrastClass.SelectedIndex = _form.GetCmbContrastClass.Items.Count > 0 ? 0 : -1;
+            }
+
+            #endregion
+
+            #region Synchronize Combo Scrub Class
+
+            if (basicCurrent != null)
+            {
+                _form.GetCmbScrubClass.SelectedValue = basicCurrent.ScrubClassId;
+            }
+            else
+            {
+                _form.GetCmbScrubClass.SelectedIndex = _form.GetCmbScrubClass.Items.Count > 0 ? 0 : -1;
+            }
+
+            #endregion
+
+            #region Synchronize Combo VOC Class
+
+            if (basicCurrent != null)
+            {
+                _form.GetCmbVocClass.SelectedValue = basicCurrent.VocClassId;
+            }
+            else
+            {
+                _form.GetCmbVocClass.SelectedIndex = _form.GetCmbVocClass.Items.Count > 0 ? 0 : -1;
+            }
+
+            #endregion
+
+            _cmbBlock = false;
+        }
+
+        #endregion
+
+
+        #region ComboBox Events
+
+        private void CmbGlossClass_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_cmbBlock)
+                return;
+            
+            if (_currentLabBookBasic != null)
+            {
+                GlossClassDto cmb = (GlossClassDto)_form.GetCmbGlossClass.SelectedItem;
+                byte cmbId = cmb.Id;
+                if (cmb != null && (_currentLabBookBasic.GlossClassId != cmbId))
+                {
+                    _currentLabBookBasic.GlossClassId = cmbId;
+                    _laboBasicBinding.EndEdit();
+                }
+            }
+        }
+
+        private void CmbContrastClass_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_cmbBlock)
+                return;
+
+            if (_currentLabBookBasic != null)
+            {
+                ContrastClassDto cmb = (ContrastClassDto)_form.GetCmbContrastClass.SelectedItem;
+                byte cmbId = cmb.Id;
+                if (cmb != null && (_currentLabBookBasic.ContrastClassId != cmbId))
+                {
+                    _currentLabBookBasic.ContrastClassId = cmbId;
+                    _laboBasicBinding.EndEdit();
+                }
+            }
+        }
+
+        private void CmbScrubClass_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_cmbBlock)
+                return;
+
+            if (_currentLabBookBasic != null)
+            {
+                ScrubClassDto cmb = (ScrubClassDto)_form.GetCmbScrubClass.SelectedItem;
+                byte cmbId = cmb.Id;
+                if (cmb != null && (_currentLabBookBasic.ScrubClassId != cmbId))
+                {
+                    _currentLabBookBasic.ScrubClassId = cmbId;
+                    _laboBasicBinding.EndEdit();
+                }
+            }
+
+        }
+
+        private void CmbVocClass_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_cmbBlock)
+                return;
+
+            if (_currentLabBookBasic != null)
+            {
+                VocClassDto cmb = (VocClassDto)_form.GetCmbVocClass.SelectedItem;
+                byte cmbId = cmb.Id;
+                if (cmb != null && (_currentLabBookBasic.VocClassId != cmbId))
+                {
+                    _currentLabBookBasic.VocClassId = cmbId;
+                    _laboBasicBinding.EndEdit();
+                }
+            }
         }
 
         #endregion

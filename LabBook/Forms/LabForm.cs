@@ -26,6 +26,10 @@ namespace Laboratorium.LabBook.Forms
 
         public DataGridView GetDgvLabo => DgvLabo;
         public BindingNavigator GetNavigatorLabo => BindingNavigatorLabo;
+        public ComboBox GetCmbGlossClass => CmbGlossClass;
+        public ComboBox GetCmbContrastClass => CmbContrastClass;
+        public ComboBox GetCmbScrubClass => CmbScrubClass;
+        public ComboBox GetCmbVocClass => CmbVocClass;
         public Button GetBtnFilterCancel => BtnFilterCancel;
         public Button GetBtnFilterProject => BtnFilterByProject;
         public Button GetBtnProjectChange => BtnChangeProject;
@@ -33,6 +37,8 @@ namespace Laboratorium.LabBook.Forms
         public TextBox GetTxtFilerNumD => TxtFilterNumD;
         public TextBox GetTxtFilerTitle => TxtFilterTitle;
         public TextBox GetTxtFilerUser => TxtFilterUser;
+        public TextBox GetTxtScrubBrush => TxtScrubBrush;
+        public TextBox GetTxtScrubSponge => TxtScrubSponge;
         public Label GetLblDateCreated => LblDateCreated;
         public Label GetLblDateModified => LblDateModified;
         public Label GetLblNrD => LblNrD;

@@ -4,25 +4,22 @@ namespace Laboratorium.ADO.DTO
 {
     public class LaboDataBasicDto
     {
+        #region Fields
         public int Id { get; set; }
         public int LaboId { get; set; }
         private double? _gloss20;
         private double? _gloss60;
         private double? _gloss85;
         private byte _glossClassId;
-        public GlossClassDto GlossClass { get; set; }
         private string _glossComment;
         private string _scrubBrush;
         private string _scrubSponge;
         private byte _scrubClassId;
-        public ScrubClassDto ScrubClass { get; set; }
         private string _scrubComment;
         private byte _contrastClassId;
-        public ContrastClassDto ContrastClass { get; set; }
         private string _contrastComment;
         private string _voc;
         private byte _vocClassId;
-        public VocClassDto VocClass { get; set; }
         private string _yield;
         private string _adhesion;
         private string _flow;
@@ -35,47 +32,36 @@ namespace Laboratorium.ADO.DTO
         public DateTime DateUpdated { get; private set; }
         private RowState _rowState = RowState.ADDED;
 
-        public LaboDataBasicDto(int id, int laboId, double? gloss20, double? gloss60, double? gloss85, byte glossClass, string glossComment, string scrubBrush, string scrubSponge, 
-            byte scrubClass, string scrubComment, byte contrastClass, string contrastComment, string voc, byte vocClass, string yield, string adhesion, string flow, string spill, 
-            string dryingI, string dryingII, string dryingIII, string dryingIV, string dryingV, DateTime dateUpdated)
-        {
-            Id = id;
-            LaboId = laboId;
-            _gloss20 = gloss20;
-            _gloss60 = gloss60;
-            _gloss85 = gloss85;
-            _glossClassId = glossClass;
-            _glossComment = glossComment;
-            _scrubBrush = scrubBrush;
-            _scrubSponge = scrubSponge;
-            _scrubClassId = scrubClass;
-            _scrubComment = scrubComment;
-            _contrastClassId = contrastClass;
-            _contrastComment = contrastComment;
-            _voc = voc;
-            _vocClassId = vocClass;
-            _yield = yield;
-            _adhesion = adhesion;
-            _flow = flow;
-            _spill = spill;
-            _dryingI = dryingI;
-            _dryingII = dryingII;
-            _dryingIII = dryingIII;
-            _dryingIV = dryingIV;
-            _dryingV = dryingV;
-            DateUpdated = dateUpdated;
-        }
+        #endregion
 
-        public LaboDataBasicDto(int laboId, byte glossClass, byte scrubClass, byte contrastClass, byte vocClass, DateTime dateUpdated)
+        private LaboDataBasicDto(Builder builder)
         {
-            LaboId = laboId;
-            _glossClassId = glossClass;
-            _scrubClassId = scrubClass;
-            _contrastClassId = contrastClass;
-            _vocClassId = vocClass;
-            DateUpdated = dateUpdated;
+            Id = builder._id;
+            LaboId = builder._laboId;
+            _gloss20 = builder._gloss20;
+            _gloss60 = builder._gloss60;
+            _gloss85 = builder._gloss85;
+            _glossClassId = builder._glossClassId;
+            _glossComment = builder._glossComment;
+            _scrubBrush = builder._scrubBrush;
+            _scrubSponge = builder._scrubSponge;
+            _scrubClassId = builder._scrubClassId;
+            _scrubComment = builder._scrubComment;
+            _contrastClassId = builder._contrastClassId;
+            _contrastComment = builder._contrastComment;
+            _voc = builder._voc;
+            _vocClassId = builder._vocClassId;
+            _yield = builder._yield;
+            _adhesion = builder._adhesion;
+            _flow = builder._flow;
+            _spill = builder._spill;
+            _dryingI = builder._dryingI;
+            _dryingII = builder._dryingII;
+            _dryingIII = builder._dryingIII;
+            _dryingIV = builder._dryingIV;
+            _dryingV = builder._dryingV;
+            DateUpdated = builder._dateUpdated;
         }
-
         public double? Gloss20
         {
             get => _gloss20;
@@ -131,7 +117,7 @@ namespace Laboratorium.ADO.DTO
             }
         }
 
-        public string ScrubBrusch
+        public string ScrubBrush
         {
             get => _scrubBrush;
             set
@@ -325,5 +311,170 @@ namespace Laboratorium.ADO.DTO
             _rowState = RowState.UNCHANGED;
         }
 
+        #region Builder Pattern Class
+
+        public sealed class Builder
+        {
+            #region Fields
+            internal int _id;
+            internal int _laboId;
+            internal double? _gloss20;
+            internal double? _gloss60;
+            internal double? _gloss85;
+            internal byte _glossClassId;
+            internal string _glossComment;
+            internal string _scrubBrush;
+            internal string _scrubSponge;
+            internal byte _scrubClassId;
+            internal string _scrubComment;
+            internal byte _contrastClassId;
+            internal string _contrastComment;
+            internal string _voc;
+            internal byte _vocClassId;
+            internal string _yield;
+            internal string _adhesion;
+            internal string _flow;
+            internal string _spill;
+            internal string _dryingI;
+            internal string _dryingII;
+            internal string _dryingIII;
+            internal string _dryingIV;
+            internal string _dryingV;
+            internal DateTime _dateUpdated;
+            #endregion
+
+            public LaboDataBasicDto Build()
+            {
+                return new LaboDataBasicDto(this);
+            }
+            public Builder Id(int id)
+            {
+                _id = id;
+                return this;
+            }
+            public Builder LaboId(int laboId)
+            {
+                _laboId = laboId;
+                return this;
+            }
+            public Builder Gloss20(double? val)
+            {
+                _gloss20 = val;
+                return this;
+            }
+            public Builder Gloss60(double? val)
+            {
+                _gloss60 = val;
+                return this;
+            }
+            public Builder Gloss85(double? val)
+            {
+                _gloss85 = val;
+                return this;
+            }
+            public Builder GlossClassId(byte val)
+            {
+                _glossClassId = val;
+                return this;
+            }
+            public Builder GlossComment(string val)
+            {
+                _glossComment = val;
+                return this;
+            }
+            public Builder ScrubBrush(string val)
+            {
+                _scrubBrush = val;
+                return this;
+            }
+            public Builder ScrubSponge(string val)
+            {
+                _scrubSponge = val;
+                return this;
+            }
+            public Builder ScrubClassId(byte val)
+            {
+                _scrubClassId = val;
+                return this;
+            }
+            public Builder ScrubComment(string val)
+            {
+                _scrubComment = val;
+                return this;
+            }
+            public Builder ContrastClassId(byte val)
+            {
+                _contrastClassId = val;
+                return this;
+            }
+            public Builder ContrastComment(string val)
+            {
+                _contrastComment = val;
+                return this;
+            }
+            public Builder VOC(string val)
+            {
+                _voc = val;
+                return this;
+            }
+            public Builder VocClassId(byte val)
+            {
+                _vocClassId = val;
+                return this;
+            }
+            public Builder Yield(string val)
+            {
+                _yield = val;
+                return this;
+            }
+            public Builder Adhesion(string val)
+            {
+                _adhesion = val;
+                return this;
+            }
+            public Builder Flow(string val)
+            {
+                _flow = val;
+                return this;
+            }
+            public Builder Spill(string val)
+            {
+                _spill = val;
+                return this;
+            }
+            public Builder DryingI(string val)
+            {
+                _dryingI = val;
+                return this;
+            }
+            public Builder DryingII(string val)
+            {
+                _dryingII = val;
+                return this;
+            }
+            public Builder DryingIII(string val)
+            {
+                _dryingIII = val;
+                return this;
+            }
+            public Builder DryingIV(string val)
+            {
+                _dryingIV = val;
+                return this;
+            }
+            public Builder DryingV(string val)
+            {
+                _dryingV = val;
+                return this;
+            }
+            public Builder Date(DateTime val)
+            {
+                _dateUpdated = val;
+                return this;
+            }
+
+        }
+
+        #endregion
     }
 }
