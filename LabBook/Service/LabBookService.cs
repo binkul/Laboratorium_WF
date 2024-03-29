@@ -1,5 +1,7 @@
-﻿using Laboratorium.ADO.DTO;
+﻿using Laboratorium.ADO;
+using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
+using Laboratorium.ADO.Service;
 using Laboratorium.Commons;
 using Laboratorium.LabBook.Forms;
 using Laboratorium.LabBook.Repository;
@@ -18,7 +20,7 @@ using System.Windows.Forms;
 
 namespace Laboratorium.LabBook.Service
 {
-    public class LabBookService
+    public class LabBookService : IService
     {
         private const int HEADER_WIDTH = 35;
         private const string FORM_TOP = "Form_Top";
@@ -59,12 +61,16 @@ namespace Laboratorium.LabBook.Service
             _connection = connection;
             _user = user;
             _form = form;
-            _repositoryLabo = new LabBookRepository(_connection);
-            _repositoryLaboBasic = new LabBookBasicDataRepository(_connection);
+            _repositoryLabo = new LabBookRepository(_connection, this);
+            _repositoryLaboBasic = new LabBookBasicDataRepository(_connection, this);
             _repositoryUser = new UserRepository(_connection);
             _repositoryProject = new ProjectRepository(_connection);
         }
 
+        public void Modify(RowState state)
+        {
+
+        }
 
         #region Open/Close form 
         public void FormClose(FormClosingEventArgs e)
@@ -342,6 +348,7 @@ namespace Laboratorium.LabBook.Service
                     .ScrubClassId(1)
                     .VocClassId(1)
                     .Date(DateTime.Today)
+                    .Service(this)
                     .Build();
                 _laboBasicList.Add(basicCurrent);
             }

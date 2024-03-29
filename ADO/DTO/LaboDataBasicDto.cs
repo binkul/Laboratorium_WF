@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Laboratorium.ADO.Service;
+using System;
 
 namespace Laboratorium.ADO.DTO
 {
     public class LaboDataBasicDto
     {
         #region Fields
+
         public int Id { get; set; }
         public int LaboId { get; set; }
         private double? _gloss20;
@@ -31,6 +33,7 @@ namespace Laboratorium.ADO.DTO
         private string _dryingV;
         public DateTime DateUpdated { get; private set; }
         private RowState _rowState = RowState.ADDED;
+        private readonly IService _service;
 
         #endregion
 
@@ -61,15 +64,24 @@ namespace Laboratorium.ADO.DTO
             _dryingIV = builder._dryingIV;
             _dryingV = builder._dryingV;
             DateUpdated = builder._dateUpdated;
+            _service = builder._service;
         }
+
+        private void ChangeState(RowState state)
+        {
+            _rowState = _rowState == RowState.UNCHANGED ? state : _rowState;
+            DateUpdated = DateTime.Today;
+            if (_service != null)
+                _service.Modify(state);
+        }
+
         public double? Gloss20
         {
             get => _gloss20;
             set
             {
                 _gloss20 = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -79,8 +91,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _gloss60 = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -90,8 +101,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _gloss85 = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -101,8 +111,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _glossClassId = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -112,8 +121,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _glossComment = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -123,8 +131,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _scrubBrush = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -134,8 +141,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _scrubSponge = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -145,8 +151,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _scrubClassId = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -156,8 +161,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _scrubComment = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -167,8 +171,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _contrastClassId = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -178,8 +181,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _contrastComment = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -189,8 +191,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _vocClassId = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -200,8 +201,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _voc = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -211,8 +211,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _yield = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -222,8 +221,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _adhesion = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -233,8 +231,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _flow = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -244,8 +241,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _spill = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -255,8 +251,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _dryingI = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -266,8 +261,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _dryingII = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -277,8 +271,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _dryingIII = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -288,8 +281,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _dryingIV = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -299,8 +291,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _dryingV = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -309,6 +300,8 @@ namespace Laboratorium.ADO.DTO
         public void AcceptChanged()
         {
             _rowState = RowState.UNCHANGED;
+            if (_service != null)
+                _service.Modify(RowState.UNCHANGED);
         }
 
         #region Builder Pattern Class
@@ -341,6 +334,7 @@ namespace Laboratorium.ADO.DTO
             internal string _dryingIV;
             internal string _dryingV;
             internal DateTime _dateUpdated;
+            internal IService _service;
             #endregion
 
             public LaboDataBasicDto Build()
@@ -472,7 +466,11 @@ namespace Laboratorium.ADO.DTO
                 _dateUpdated = val;
                 return this;
             }
-
+            public Builder Service(IService val)
+            {
+                _service = val;
+                return this;
+            }
         }
 
         #endregion

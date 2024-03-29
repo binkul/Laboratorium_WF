@@ -61,6 +61,7 @@
     <Compile Include="ADO\Repository\IBasicCRUD.cs" />
     <Compile Include="ADO\Repository\IExtendedCRUD.cs" />
     <Compile Include="ADO\RowState.cs" />
+    <Compile Include="ADO\Service\IService.cs" />
     <Compile Include="ADO\SqlDataConstant\SqlCount.cs" />
     <Compile Include="ADO\SqlDataConstant\SqlDelete.cs" />
     <Compile Include="ADO\SqlDataConstant\SqlExist.cs" />

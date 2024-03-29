@@ -1,6 +1,7 @@
 ﻿using Laboratorium.ADO;
 using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
+using Laboratorium.ADO.Service;
 using Laboratorium.ADO.SqlDataConstant;
 using Laboratorium.ADO.Tables;
 using Laboratorium.Commons;
@@ -15,9 +16,12 @@ namespace Laboratorium.LabBook.Repository
     {
         private static readonly SqlIndex SQL_INDEX = SqlIndex.LaboBasicIndex;
         private static readonly string TABLE_NAME = Table.LABO_BASIC_DATA_TABLE;
+        private readonly IService _service;
 
-        public LabBookBasicDataRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
-        { }
+        public LabBookBasicDataRepository(SqlConnection connection, IService service) : base(connection, SQL_INDEX, TABLE_NAME)
+        {
+            _service = service;
+        }
 
         public override IList<LaboDataBasicDto> GetAll()
         {
@@ -59,9 +63,6 @@ namespace Laboratorium.LabBook.Repository
                         string dryV = CommonFunction.DBNullToStringConv(reader.GetValue(23));
                         DateTime dateUpdated = !reader.GetValue(3).Equals(DBNull.Value) ? reader.GetDateTime(24) : DateTime.Today;
 
-                        //LaboDataBasicDto labo = new LaboDataBasicDto(id, laboId, gloss20, gloss60, gloss85, glossClass, glossComm, scrubBrush, scrubsponge, scrubClass,
-                        //    scrubComm, contrastClass, contrastComm, voc, vocClass, yield, adhesion, flow, spill, dryI, dryII, dryIII, dryIV, dryV, dateUpdated);
-
                         LaboDataBasicDto labo = new LaboDataBasicDto.Builder()
                             .Id(id)
                             .LaboId(laboId)
@@ -88,6 +89,7 @@ namespace Laboratorium.LabBook.Repository
                             .DryingIV(dryIV)
                             .DryingV(dryV)
                             .Date(dateUpdated)
+                            .Service(_service)
                             .Build();
                                                 
                         labo.AcceptChanged();

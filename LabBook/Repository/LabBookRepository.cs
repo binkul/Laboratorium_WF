@@ -1,6 +1,7 @@
 ﻿using Laboratorium.ADO;
 using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
+using Laboratorium.ADO.Service;
 using Laboratorium.ADO.SqlDataConstant;
 using Laboratorium.ADO.Tables;
 using Laboratorium.Commons;
@@ -16,9 +17,12 @@ namespace Laboratorium.LabBook.Repository
     {
         private static readonly SqlIndex SQL_INDEX = SqlIndex.LaboIndex;
         private static readonly string TABLE_NAME = Table.LABO_TABLE;
+        private readonly IService _service;
 
-        public LabBookRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
-        { }
+        public LabBookRepository(SqlConnection connection, IService service) : base(connection, SQL_INDEX, TABLE_NAME)
+        {
+            _service = service;
+        }
 
         public override IList<LaboDto> GetAll()
         {
@@ -46,7 +50,7 @@ namespace Laboratorium.LabBook.Repository
                         bool deleted = reader.GetBoolean(9);
                         short userId = reader.GetInt16(10);
 
-                        LaboDto labo = new LaboDto((int)id, title, dateCreated, dateUpdated, (int)project, target, density, conclusion, observation, deleted, userId);
+                        LaboDto labo = new LaboDto((int)id, title, dateCreated, dateUpdated, (int)project, target, density, conclusion, observation, deleted, userId, _service);
                         labo.AcceptChanged();
                         list.Add(labo);
                     }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Laboratorium.ADO.Service;
+using System;
+using static System.Windows.Forms.AxHost;
 
 namespace Laboratorium.ADO.DTO
 {
@@ -18,11 +20,12 @@ namespace Laboratorium.ADO.DTO
         private UserDto _user;
         private ProjectDto _project;
         private RowState _rowState = RowState.ADDED;
+        private IService _service;
 
         public LaboDto() { }
 
         public LaboDto(int id, string title, DateTime dateCreated, DateTime dateUpdated, int projectId, string goal, double? density, 
-            string conclusion, string observation, bool isDeleted, short userId)
+            string conclusion, string observation, bool isDeleted, short userId, IService service)
         {
             Id = id;
             DateCreated = dateCreated;
@@ -35,9 +38,10 @@ namespace Laboratorium.ADO.DTO
             _observation = observation;
             _isDeleted = isDeleted;
             _userId = userId;
+            _service = service;
         }
 
-        public LaboDto(int id, string title, DateTime dateCreated, int projectId, short userId)
+        public LaboDto(int id, string title, DateTime dateCreated, int projectId, short userId, IService service)
         {
             Id = id;
             DateCreated = dateCreated;
@@ -45,6 +49,15 @@ namespace Laboratorium.ADO.DTO
             DateUpdated = dateCreated;
             _projectId = projectId;
             _userId = userId;
+            _service = service;
+        }
+
+        private void ChangeState(RowState state)
+        {
+            _rowState = _rowState == RowState.UNCHANGED ? state : _rowState;
+            DateUpdated = DateTime.Today;
+            if (_service != null)
+                _service.Modify(state);
         }
 
         public string Title
@@ -53,8 +66,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _title = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -64,8 +76,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _projectId = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -75,8 +86,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _goal = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -86,8 +96,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _density = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -97,8 +106,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _conclusion = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -108,8 +116,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _observation = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -119,8 +126,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _isDeleted = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -130,8 +136,7 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _userId = value;
-                _rowState = _rowState == RowState.UNCHANGED ? RowState.MODIFIED : _rowState;
-                DateUpdated = DateTime.Today;
+                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -156,6 +161,8 @@ namespace Laboratorium.ADO.DTO
         public void AcceptChanged()
         {
             _rowState = RowState.UNCHANGED;
+            if (_service != null)
+                _service.Modify(RowState.UNCHANGED);
         }
     }
 }
