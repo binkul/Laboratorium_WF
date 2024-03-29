@@ -49,10 +49,7 @@
             this.TxtFilterNumD = new System.Windows.Forms.TextBox();
             this.DgvLabo = new System.Windows.Forms.DataGridView();
             this.TbBasicData = new System.Windows.Forms.TabPage();
-            this.label2 = new System.Windows.Forms.Label();
-            this.TxtScrubSponge = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.TxtScrubBrush = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.LblVocClass = new System.Windows.Forms.Label();
             this.CmbVocClass = new System.Windows.Forms.ComboBox();
@@ -62,6 +59,10 @@
             this.CmbContrastClass = new System.Windows.Forms.ComboBox();
             this.LblGlosClass = new System.Windows.Forms.Label();
             this.CmbGlossClass = new System.Windows.Forms.ComboBox();
+            this.TxtScrubSponge = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.TxtScrubBrush = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.TbConclusion = new System.Windows.Forms.TabPage();
             this.TxtTitle = new System.Windows.Forms.TextBox();
             this.LblTitle = new System.Windows.Forms.Label();
@@ -76,16 +77,17 @@
             this.LblNrD = new System.Windows.Forms.Label();
             this.LblProject = new System.Windows.Forms.Label();
             this.BtnChangeProject = new System.Windows.Forms.Button();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.BindingNavigatorLabo)).BeginInit();
             this.BindingNavigatorLabo.SuspendLayout();
             this.TabLabo.SuspendLayout();
             this.TbLabBook.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvLabo)).BeginInit();
             this.TbBasicData.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.LabMainMenuStrip.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // BindingNavigatorLabo
@@ -303,76 +305,63 @@
             this.TbBasicData.TabIndex = 1;
             this.TbBasicData.Text = "Dane Podstawowe";
             // 
-            // label2
+            // tableLayoutPanel2
             // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label2.Location = new System.Drawing.Point(528, 71);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(103, 20);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Szor gąbka";
-            // 
-            // TxtScrubSponge
-            // 
-            this.TxtScrubSponge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.TxtScrubSponge.Location = new System.Drawing.Point(637, 68);
-            this.TxtScrubSponge.Name = "TxtScrubSponge";
-            this.TxtScrubSponge.Size = new System.Drawing.Size(197, 27);
-            this.TxtScrubSponge.TabIndex = 3;
-            this.TxtScrubSponge.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TxtScrubSponge.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTitle_KeyPress);
-            // 
-            // label1
-            // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label1.Location = new System.Drawing.Point(502, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(129, 20);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Szor szczotka";
-            // 
-            // TxtScrubBrush
-            // 
-            this.TxtScrubBrush.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.TxtScrubBrush.Location = new System.Drawing.Point(637, 15);
-            this.TxtScrubBrush.Name = "TxtScrubBrush";
-            this.TxtScrubBrush.Size = new System.Drawing.Size(197, 27);
-            this.TxtScrubBrush.TabIndex = 1;
-            this.TxtScrubBrush.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TxtScrubBrush.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTitle_KeyPress);
+            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel2.ColumnCount = 10;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 350F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66435F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66435F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66435F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66435F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.6713F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.6713F));
+            this.tableLayoutPanel2.Controls.Add(this.groupBox1, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.label1, 3, 0);
+            this.tableLayoutPanel2.Controls.Add(this.label2, 3, 1);
+            this.tableLayoutPanel2.Controls.Add(this.TxtScrubBrush, 4, 0);
+            this.tableLayoutPanel2.Controls.Add(this.TxtScrubSponge, 4, 1);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(6, 5);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 9;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1272, 318);
+            this.tableLayoutPanel2.TabIndex = 6;
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel2.SetColumnSpan(this.groupBox1, 2);
-            this.groupBox1.Controls.Add(this.LblVocClass);
-            this.groupBox1.Controls.Add(this.CmbVocClass);
-            this.groupBox1.Controls.Add(this.LblScrubClass);
-            this.groupBox1.Controls.Add(this.CmbScrubClass);
-            this.groupBox1.Controls.Add(this.LblContrastClass);
-            this.groupBox1.Controls.Add(this.CmbContrastClass);
-            this.groupBox1.Controls.Add(this.LblGlosClass);
-            this.groupBox1.Controls.Add(this.CmbGlossClass);
+            this.groupBox1.Controls.Add(this.tableLayoutPanel1);
             this.groupBox1.ForeColor = System.Drawing.Color.Blue;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.tableLayoutPanel2.SetRowSpan(this.groupBox1, 5);
-            this.groupBox1.Size = new System.Drawing.Size(400, 259);
+            this.tableLayoutPanel2.SetRowSpan(this.groupBox1, 8);
+            this.groupBox1.Size = new System.Drawing.Size(544, 275);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Klasyfikacja";
             // 
             // LblVocClass
             // 
+            this.LblVocClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.LblVocClass.AutoSize = true;
             this.LblVocClass.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.LblVocClass.Location = new System.Drawing.Point(6, 173);
+            this.LblVocClass.Location = new System.Drawing.Point(87, 194);
             this.LblVocClass.Name = "LblVocClass";
             this.LblVocClass.Size = new System.Drawing.Size(101, 20);
             this.LblVocClass.TabIndex = 103;
@@ -380,19 +369,20 @@
             // 
             // CmbVocClass
             // 
-            this.CmbVocClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.CmbVocClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbVocClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbVocClass.FormattingEnabled = true;
-            this.CmbVocClass.Location = new System.Drawing.Point(182, 190);
+            this.CmbVocClass.Location = new System.Drawing.Point(194, 190);
             this.CmbVocClass.Name = "CmbVocClass";
-            this.CmbVocClass.Size = new System.Drawing.Size(212, 28);
+            this.CmbVocClass.Size = new System.Drawing.Size(311, 28);
             this.CmbVocClass.TabIndex = 3;
             // 
             // LblScrubClass
             // 
+            this.LblScrubClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.LblScrubClass.AutoSize = true;
             this.LblScrubClass.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.LblScrubClass.Location = new System.Drawing.Point(6, 129);
+            this.LblScrubClass.Location = new System.Drawing.Point(31, 135);
             this.LblScrubClass.Name = "LblScrubClass";
             this.LblScrubClass.Size = new System.Drawing.Size(157, 20);
             this.LblScrubClass.TabIndex = 102;
@@ -400,19 +390,20 @@
             // 
             // CmbScrubClass
             // 
-            this.CmbScrubClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.CmbScrubClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbScrubClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbScrubClass.FormattingEnabled = true;
-            this.CmbScrubClass.Location = new System.Drawing.Point(182, 146);
+            this.CmbScrubClass.Location = new System.Drawing.Point(194, 131);
             this.CmbScrubClass.Name = "CmbScrubClass";
-            this.CmbScrubClass.Size = new System.Drawing.Size(188, 28);
+            this.CmbScrubClass.Size = new System.Drawing.Size(185, 28);
             this.CmbScrubClass.TabIndex = 2;
             // 
             // LblContrastClass
             // 
+            this.LblContrastClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.LblContrastClass.AutoSize = true;
             this.LblContrastClass.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.LblContrastClass.Location = new System.Drawing.Point(6, 85);
+            this.LblContrastClass.Location = new System.Drawing.Point(76, 77);
             this.LblContrastClass.Name = "LblContrastClass";
             this.LblContrastClass.Size = new System.Drawing.Size(112, 20);
             this.LblContrastClass.TabIndex = 101;
@@ -420,19 +411,20 @@
             // 
             // CmbContrastClass
             // 
-            this.CmbContrastClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.CmbContrastClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbContrastClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbContrastClass.FormattingEnabled = true;
-            this.CmbContrastClass.Location = new System.Drawing.Point(182, 102);
+            this.CmbContrastClass.Location = new System.Drawing.Point(194, 73);
             this.CmbContrastClass.Name = "CmbContrastClass";
-            this.CmbContrastClass.Size = new System.Drawing.Size(188, 28);
+            this.CmbContrastClass.Size = new System.Drawing.Size(185, 28);
             this.CmbContrastClass.TabIndex = 1;
             // 
             // LblGlosClass
             // 
+            this.LblGlosClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.LblGlosClass.AutoSize = true;
             this.LblGlosClass.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.LblGlosClass.Location = new System.Drawing.Point(6, 41);
+            this.LblGlosClass.Location = new System.Drawing.Point(73, 19);
             this.LblGlosClass.Name = "LblGlosClass";
             this.LblGlosClass.Size = new System.Drawing.Size(115, 20);
             this.LblGlosClass.TabIndex = 100;
@@ -440,13 +432,55 @@
             // 
             // CmbGlossClass
             // 
-            this.CmbGlossClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.CmbGlossClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbGlossClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbGlossClass.FormattingEnabled = true;
-            this.CmbGlossClass.Location = new System.Drawing.Point(182, 58);
+            this.CmbGlossClass.Location = new System.Drawing.Point(194, 15);
             this.CmbGlossClass.Name = "CmbGlossClass";
-            this.CmbGlossClass.Size = new System.Drawing.Size(188, 28);
+            this.CmbGlossClass.Size = new System.Drawing.Size(185, 28);
             this.CmbGlossClass.TabIndex = 0;
+            // 
+            // TxtScrubSponge
+            // 
+            this.TxtScrubSponge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.TxtScrubSponge.Location = new System.Drawing.Point(686, 61);
+            this.TxtScrubSponge.Name = "TxtScrubSponge";
+            this.TxtScrubSponge.Size = new System.Drawing.Size(107, 27);
+            this.TxtScrubSponge.TabIndex = 3;
+            this.TxtScrubSponge.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtScrubSponge.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTitle_KeyPress);
+            // 
+            // label2
+            // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label2.Location = new System.Drawing.Point(577, 65);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(103, 20);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Szor gąbka";
+            // 
+            // TxtScrubBrush
+            // 
+            this.TxtScrubBrush.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.TxtScrubBrush.Location = new System.Drawing.Point(686, 11);
+            this.TxtScrubBrush.Name = "TxtScrubBrush";
+            this.TxtScrubBrush.Size = new System.Drawing.Size(107, 27);
+            this.TxtScrubBrush.TabIndex = 1;
+            this.TxtScrubBrush.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtScrubBrush.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTitle_KeyPress);
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label1.Location = new System.Drawing.Point(596, 5);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(84, 40);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Szor szczotka";
             // 
             // TbConclusion
             // 
@@ -601,36 +635,31 @@
             this.BtnChangeProject.UseVisualStyleBackColor = true;
             this.BtnChangeProject.Click += new System.EventHandler(this.BtnChangeProject_Click);
             // 
-            // tableLayoutPanel2
+            // tableLayoutPanel1
             // 
-            this.tableLayoutPanel2.ColumnCount = 8;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.99333F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.99333F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 2.020009F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.99333F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.99333F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 2.020009F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.99333F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.99333F));
-            this.tableLayoutPanel2.Controls.Add(this.groupBox1, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.TxtScrubSponge, 4, 1);
-            this.tableLayoutPanel2.Controls.Add(this.label2, 3, 1);
-            this.tableLayoutPanel2.Controls.Add(this.TxtScrubBrush, 4, 0);
-            this.tableLayoutPanel2.Controls.Add(this.label1, 3, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(6, 5);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 9;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.93756F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.28467F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1272, 479);
-            this.tableLayoutPanel2.TabIndex = 6;
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 340F));
+            this.tableLayoutPanel1.Controls.Add(this.LblGlosClass, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.CmbVocClass, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.CmbScrubClass, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.LblContrastClass, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.CmbContrastClass, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.LblScrubClass, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.CmbGlossClass, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.LblVocClass, 0, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 20);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(532, 235);
+            this.tableLayoutPanel1.TabIndex = 7;
             // 
             // LabForm
             // 
@@ -666,12 +695,13 @@
             this.TbLabBook.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvLabo)).EndInit();
             this.TbBasicData.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.LabMainMenuStrip.ResumeLayout(false);
-            this.LabMainMenuStrip.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.LabMainMenuStrip.ResumeLayout(false);
+            this.LabMainMenuStrip.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -725,5 +755,6 @@
         private System.Windows.Forms.TextBox TxtScrubSponge;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }
