@@ -161,11 +161,43 @@ namespace Laboratorium.LabBook.Service
             _form.GetTxtTitle.DataBindings.Clear();
             _form.GetTxtScrubBrush.DataBindings.Clear();
             _form.GetTxtScrubSponge.DataBindings.Clear();
+            _form.GetTxtScrubComment.DataBindings.Clear();
+            _form.GetTxtContrastComment.DataBindings.Clear();
+            _form.GetTxtGloss20.DataBindings.Clear();
+            _form.GetTxtGloss60.DataBindings.Clear();
+            _form.GetTxtGloss85.DataBindings.Clear();
+            _form.GetTxtGlossComment.DataBindings.Clear();
+            _form.GetTxtVoc.DataBindings.Clear();
+            _form.GetTxtYield.DataBindings.Clear();
+            _form.GetTxtAdhesion.DataBindings.Clear();
+            _form.GetTxtFlow.DataBindings.Clear();
+            _form.GetTxtSpill.DataBindings.Clear();
+            _form.GetTxtDryI.DataBindings.Clear();
+            _form.GetTxtDryII.DataBindings.Clear();
+            _form.GetTxtDryIII.DataBindings.Clear();
+            _form.GetTxtDryIV.DataBindings.Clear();
+            _form.GetTxtDryV.DataBindings.Clear();
 
 
             _form.GetTxtTitle.DataBindings.Add("Text", _laboBinding, "Title");
             _form.GetTxtScrubBrush.DataBindings.Add("Text", _laboBasicBinding, "ScrubBrush");
             _form.GetTxtScrubSponge.DataBindings.Add("Text", _laboBasicBinding, "ScrubSponge");
+            _form.GetTxtScrubComment.DataBindings.Add("Text", _laboBasicBinding, "ScrubComment");
+            _form.GetTxtContrastComment.DataBindings.Add("Text", _laboBasicBinding, "ContrastComment");
+            _form.GetTxtGloss20.DataBindings.Add("Text", _laboBasicBinding, "Gloss20");
+            _form.GetTxtGloss60.DataBindings.Add("Text", _laboBasicBinding, "Gloss60");
+            _form.GetTxtGloss85.DataBindings.Add("Text", _laboBasicBinding, "Gloss85");
+            _form.GetTxtGlossComment.DataBindings.Add("Text", _laboBasicBinding, "GlossComment");
+            _form.GetTxtVoc.DataBindings.Add("Text", _laboBasicBinding, "VOC");
+            _form.GetTxtYield.DataBindings.Add("Text", _laboBasicBinding, "Yield");
+            _form.GetTxtAdhesion.DataBindings.Add("Text", _laboBasicBinding, "Adhesion");
+            _form.GetTxtFlow.DataBindings.Add("Text", _laboBasicBinding, "Flow");
+            _form.GetTxtSpill.DataBindings.Add("Text", _laboBasicBinding, "Spill");
+            _form.GetTxtDryI.DataBindings.Add("Text", _laboBasicBinding, "DryingI");
+            _form.GetTxtDryII.DataBindings.Add("Text", _laboBasicBinding, "DryingII");
+            _form.GetTxtDryIII.DataBindings.Add("Text", _laboBasicBinding, "DryingIII");
+            _form.GetTxtDryIV.DataBindings.Add("Text", _laboBasicBinding, "DryingIV");
+            _form.GetTxtDryV.DataBindings.Add("Text", _laboBasicBinding, "DryingV");
 
             #endregion
 
