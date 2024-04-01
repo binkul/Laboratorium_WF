@@ -22,8 +22,11 @@
         public static readonly string LABO_OBSERVATION = "Observation";
         public static readonly string LABO_IS_DELETED = "IsDeleted";
 
-        // LabDataBasic table
+        // LaboDataBasic table
         public static readonly string LABO_BASIC_DATA_TABLE = "LaboDataBasic";
+
+        // LaboDataViscosity
+        public static readonly string LABO_VISC_DATA_TABLE = "LaboDataViscosity";
 
         // ContrastClass table
         public static readonly string CONTRAST_CLASS_TABLE = "CmbClassContrast";

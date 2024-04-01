@@ -37,6 +37,7 @@ namespace Laboratorium.LabBook.Service
         private readonly IBasicCRUD<LaboDataBasicDto> _repositoryLaboBasic;
         private readonly IExtendedCRUD<UserDto> _repositoryUser;
         private readonly IBasicCRUD<ProjectDto> _repositoryProject;
+        private readonly IBasicCRUD<LaboDataViscosityDto> _repositoryViscosity;
         private readonly SqlConnection _connection;
         private readonly UserDto _user;
         private readonly LabForm _form;
@@ -63,6 +64,7 @@ namespace Laboratorium.LabBook.Service
             _form = form;
             _repositoryLabo = new LabBookRepository(_connection, this);
             _repositoryLaboBasic = new LabBookBasicDataRepository(_connection, this);
+            _repositoryViscosity = new LabBookViscosityRepository(_connection, this);
             _repositoryUser = new UserRepository(_connection);
             _repositoryProject = new ProjectRepository(_connection);
         }
@@ -159,6 +161,8 @@ namespace Laboratorium.LabBook.Service
             #region Prepare others control
 
             _form.GetTxtTitle.DataBindings.Clear();
+            _form.GetTxtObservation.DataBindings.Clear();
+            _form.GetTxtConclusion.DataBindings.Clear();
             _form.GetTxtScrubBrush.DataBindings.Clear();
             _form.GetTxtScrubSponge.DataBindings.Clear();
             _form.GetTxtScrubComment.DataBindings.Clear();
@@ -169,6 +173,7 @@ namespace Laboratorium.LabBook.Service
             _form.GetTxtGlossComment.DataBindings.Clear();
             _form.GetTxtVoc.DataBindings.Clear();
             _form.GetTxtYield.DataBindings.Clear();
+            _form.GetTxtYieldFormula.DataBindings.Clear();
             _form.GetTxtAdhesion.DataBindings.Clear();
             _form.GetTxtFlow.DataBindings.Clear();
             _form.GetTxtSpill.DataBindings.Clear();
@@ -180,6 +185,8 @@ namespace Laboratorium.LabBook.Service
 
 
             _form.GetTxtTitle.DataBindings.Add("Text", _laboBinding, "Title");
+            _form.GetTxtObservation.DataBindings.Add("Text", _laboBinding, "Observation");
+            _form.GetTxtConclusion.DataBindings.Add("Text", _laboBinding, "Conclusion");
             _form.GetTxtScrubBrush.DataBindings.Add("Text", _laboBasicBinding, "ScrubBrush");
             _form.GetTxtScrubSponge.DataBindings.Add("Text", _laboBasicBinding, "ScrubSponge");
             _form.GetTxtScrubComment.DataBindings.Add("Text", _laboBasicBinding, "ScrubComment");
@@ -190,6 +197,7 @@ namespace Laboratorium.LabBook.Service
             _form.GetTxtGlossComment.DataBindings.Add("Text", _laboBasicBinding, "GlossComment");
             _form.GetTxtVoc.DataBindings.Add("Text", _laboBasicBinding, "VOC");
             _form.GetTxtYield.DataBindings.Add("Text", _laboBasicBinding, "Yield");
+            _form.GetTxtYieldFormula.DataBindings.Add("Text", _laboBasicBinding, "YieldFormula");
             _form.GetTxtAdhesion.DataBindings.Add("Text", _laboBasicBinding, "Adhesion");
             _form.GetTxtFlow.DataBindings.Add("Text", _laboBasicBinding, "Flow");
             _form.GetTxtSpill.DataBindings.Add("Text", _laboBasicBinding, "Spill");
@@ -367,11 +375,7 @@ namespace Laboratorium.LabBook.Service
 
             _laboBasicBinding.EndEdit();
             LaboDataBasicDto basicCurrent = _currentLabBook != null ? _laboBasicList.Where(i => i.LaboId == _currentLabBook.Id).FirstOrDefault() : null;
-            if (_currentLabBook != null && basicCurrent != null)
-            {
-                _laboBasicBinding.DataSource = basicCurrent;
-            }
-            else if (_currentLabBook != null && basicCurrent == null)
+            if (_currentLabBook != null && basicCurrent == null)
             {
                 basicCurrent = new LaboDataBasicDto.Builder()
                     .LaboId(_currentLabBook.Id)
@@ -384,6 +388,8 @@ namespace Laboratorium.LabBook.Service
                     .Build();
                 _laboBasicList.Add(basicCurrent);
             }
+
+            _laboBasicBinding.DataSource = basicCurrent;
 
             #endregion
 
@@ -523,20 +529,20 @@ namespace Laboratorium.LabBook.Service
 
         public void ResizeLaboColumn(DataGridViewColumnEventArgs e)
         {
-            _form.GetBtnFilterCancel.Size = new Size(_form.GetTxtFilerTitle.Height, _form.GetTxtFilerTitle.Height);
+            _form.GetBtnFilterCancel.Size = new Size(_form.GetTxtFilterTitle.Height, _form.GetTxtFilterTitle.Height);
             _form.GetBtnFilterCancel.Left = _form.GetDgvLabo.Left + (HEADER_WIDTH / 2) - (_form.GetBtnFilterCancel.Size.Width / 2);
 
-            _form.GetTxtFilerNumD.Width = _form.GetDgvLabo.Columns["Id"].Width - 1;
-            _form.GetTxtFilerNumD.Left = _form.GetDgvLabo.Left + HEADER_WIDTH;
+            _form.GetTxtFilterNumD.Width = _form.GetDgvLabo.Columns["Id"].Width - 1;
+            _form.GetTxtFilterNumD.Left = _form.GetDgvLabo.Left + HEADER_WIDTH;
 
-            _form.GetTxtFilerTitle.Width = _form.GetDgvLabo.Columns["Title"].Width - 2;
-            _form.GetTxtFilerTitle.Left = _form.GetDgvLabo.Left + _form.GetDgvLabo.Columns["Id"].Width + HEADER_WIDTH;
+            _form.GetTxtFilterTitle.Width = _form.GetDgvLabo.Columns["Title"].Width - 2;
+            _form.GetTxtFilterTitle.Left = _form.GetDgvLabo.Left + _form.GetDgvLabo.Columns["Id"].Width + HEADER_WIDTH;
 
             _form.GetBtnFilterProject.Width = _form.GetDgvLabo.Columns["ProjectName"].Width;
             _form.GetBtnFilterProject.Left = _form.GetDgvLabo.Left + _form.GetDgvLabo.Columns["Id"].Width + _form.GetDgvLabo.Columns["Title"].Width + HEADER_WIDTH;
 
-            _form.GetTxtFilerUser.Width = _form.GetDgvLabo.Columns["UserShortcut"].Width;
-            _form.GetTxtFilerUser.Left = _form.GetDgvLabo.Left + _form.GetDgvLabo.Columns["Id"].Width + _form.GetDgvLabo.Columns["Title"].Width
+            _form.GetTxtFilterUser.Width = _form.GetDgvLabo.Columns["UserShortcut"].Width;
+            _form.GetTxtFilterUser.Left = _form.GetDgvLabo.Left + _form.GetDgvLabo.Columns["Id"].Width + _form.GetDgvLabo.Columns["Title"].Width
                 + _form.GetDgvLabo.Columns["ProjectName"].Width + _form.GetDgvLabo.Columns["Density"].Width + HEADER_WIDTH;
         }
 
@@ -568,9 +574,9 @@ namespace Laboratorium.LabBook.Service
 
         public void SetFilter()
         {
-            string nr = _form.GetTxtFilerNumD.Text;
-            string title = _form.GetTxtFilerTitle.Text;
-            string user = _form.GetTxtFilerUser.Text;
+            string nr = _form.GetTxtFilterNumD.Text;
+            string title = _form.GetTxtFilterTitle.Text;
+            string user = _form.GetTxtFilterUser.Text;
             string project = _form.GetBtnFilterProject.Text == CommonData.ALL_DATA_PL ? "" : _form.GetBtnFilterProject.Text;
 
             if (nr.Length > 0 && !Regex.IsMatch(nr, @"^\d+$"))

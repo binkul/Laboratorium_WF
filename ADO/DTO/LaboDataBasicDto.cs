@@ -23,6 +23,7 @@ namespace Laboratorium.ADO.DTO
         private string _voc;
         private byte _vocClassId;
         private string _yield;
+        private string _yieldFormula;
         private string _adhesion;
         private string _flow;
         private string _spill;
@@ -55,6 +56,7 @@ namespace Laboratorium.ADO.DTO
             _voc = builder._voc;
             _vocClassId = builder._vocClassId;
             _yield = builder._yield;
+            _yieldFormula = builder._yieldFormula;
             _adhesion = builder._adhesion;
             _flow = builder._flow;
             _spill = builder._spill;
@@ -215,6 +217,16 @@ namespace Laboratorium.ADO.DTO
             }
         }
 
+        public string YieldFormula
+        {
+            get => _yieldFormula;
+            set
+            {
+                _yieldFormula = value;
+                ChangeState(RowState.MODIFIED);
+            }
+        }
+
         public string Adhesion
         {
             get => _adhesion;
@@ -325,6 +337,7 @@ namespace Laboratorium.ADO.DTO
             internal string _voc;
             internal byte _vocClassId;
             internal string _yield;
+            internal string _yieldFormula;
             internal string _adhesion;
             internal string _flow;
             internal string _spill;
@@ -419,6 +432,11 @@ namespace Laboratorium.ADO.DTO
             public Builder Yield(string val)
             {
                 _yield = val;
+                return this;
+            }
+            public Builder YieldFormula(string val)
+            {
+                _yieldFormula = val;
                 return this;
             }
             public Builder Adhesion(string val)

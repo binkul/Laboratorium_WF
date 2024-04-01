@@ -53,15 +53,16 @@ namespace Laboratorium.LabBook.Repository
                         string voc = CommonFunction.DBNullToStringConv(reader.GetValue(13));
                         byte vocClass = reader.GetByte(14);
                         string yield = CommonFunction.DBNullToStringConv(reader.GetValue(15));
-                        string adhesion = CommonFunction.DBNullToStringConv(reader.GetValue(16));
-                        string flow = CommonFunction.DBNullToStringConv(reader.GetValue(17));
-                        string spill = CommonFunction.DBNullToStringConv(reader.GetValue(18));
-                        string dryI = CommonFunction.DBNullToStringConv(reader.GetValue(19));
-                        string dryII = CommonFunction.DBNullToStringConv(reader.GetValue(20));
-                        string dryIII = CommonFunction.DBNullToStringConv(reader.GetValue(21));
-                        string dryIV = CommonFunction.DBNullToStringConv(reader.GetValue(22));
-                        string dryV = CommonFunction.DBNullToStringConv(reader.GetValue(23));
-                        DateTime dateUpdated = !reader.GetValue(3).Equals(DBNull.Value) ? reader.GetDateTime(24) : DateTime.Today;
+                        string yieldFormula = CommonFunction.DBNullToStringConv(reader.GetValue(16));
+                        string adhesion = CommonFunction.DBNullToStringConv(reader.GetValue(17));
+                        string flow = CommonFunction.DBNullToStringConv(reader.GetValue(18));
+                        string spill = CommonFunction.DBNullToStringConv(reader.GetValue(19));
+                        string dryI = CommonFunction.DBNullToStringConv(reader.GetValue(20));
+                        string dryII = CommonFunction.DBNullToStringConv(reader.GetValue(21));
+                        string dryIII = CommonFunction.DBNullToStringConv(reader.GetValue(22));
+                        string dryIV = CommonFunction.DBNullToStringConv(reader.GetValue(23));
+                        string dryV = CommonFunction.DBNullToStringConv(reader.GetValue(24));
+                        DateTime dateUpdated = !reader.GetValue(3).Equals(DBNull.Value) ? reader.GetDateTime(25) : DateTime.Today;
 
                         LaboDataBasicDto labo = new LaboDataBasicDto.Builder()
                             .Id(id)
@@ -80,6 +81,7 @@ namespace Laboratorium.LabBook.Repository
                             .VOC(voc)
                             .VocClassId(vocClass)
                             .Yield(yield)
+                            .YieldFormula(yieldFormula)
                             .Adhesion(adhesion)
                             .Flow(flow)
                             .Spill(spill)

@@ -34,9 +34,11 @@ namespace Laboratorium.LabBook.Forms
         public Button GetBtnFilterProject => BtnFilterByProject;
         public Button GetBtnProjectChange => BtnChangeProject;
         public TextBox GetTxtTitle => TxtTitle;
-        public TextBox GetTxtFilerNumD => TxtFilterNumD;
-        public TextBox GetTxtFilerTitle => TxtFilterTitle;
-        public TextBox GetTxtFilerUser => TxtFilterUser;
+        public TextBox GetTxtObservation => TxtObservation;
+        public TextBox GetTxtConclusion => TxtConclusion;
+        public TextBox GetTxtFilterNumD => TxtFilterNumD;
+        public TextBox GetTxtFilterTitle => TxtFilterTitle;
+        public TextBox GetTxtFilterUser => TxtFilterUser;
         public TextBox GetTxtScrubBrush => TxtScrubBrush;
         public TextBox GetTxtScrubSponge => TxtScrubSponge;
         public TextBox GetTxtScrubComment => TxtScrubComment;
@@ -47,6 +49,7 @@ namespace Laboratorium.LabBook.Forms
         public TextBox GetTxtGlossComment => TxtGlossComment;
         public TextBox GetTxtVoc => TxtVoc;
         public TextBox GetTxtYield => TxtYield;
+        public TextBox GetTxtYieldFormula => TxtYieldFormula;
         public TextBox GetTxtAdhesion => TxtAdhesion;
         public TextBox GetTxtFlow => TxtFlow;
         public TextBox GetTxtSpill => TxtSpill;

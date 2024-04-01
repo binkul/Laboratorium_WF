@@ -4,6 +4,7 @@
     {
         LaboIndex,
         LaboBasicIndex,
+        LaboViscosityIndex,
         UserIndex,
         ContrastClassIndex,
         GlossClassIndex,

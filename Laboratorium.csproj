@@ -49,6 +49,7 @@
     <Compile Include="ADO\DTO\ContrastClassDto.cs" />
     <Compile Include="ADO\DTO\GlossClassDto.cs" />
     <Compile Include="ADO\DTO\LaboDataBasicDto.cs" />
+    <Compile Include="ADO\DTO\LaboDataViscosityDto.cs" />
     <Compile Include="ADO\DTO\LaboDto.cs" />
     <Compile Include="ADO\DTO\ProjectDto.cs" />
     <Compile Include="ADO\DTO\ProjectSubCategoryDto.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="LabBook\Repository\GlossClassRepository.cs" />
     <Compile Include="LabBook\Repository\LabBookBasicDataRepository.cs" />
     <Compile Include="LabBook\Repository\LabBookRepository.cs" />
+    <Compile Include="LabBook\Repository\LabBookViscosityRepository.cs" />
     <Compile Include="LabBook\Repository\ScrubClassRepository.cs" />
     <Compile Include="LabBook\Repository\VocClassRepository.cs" />
     <Compile Include="LabBook\Service\LabBookService.cs" />
