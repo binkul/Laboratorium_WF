@@ -25,6 +25,7 @@ namespace Laboratorium.LabBook.Forms
         private bool _loginOk = false;
 
         public DataGridView GetDgvLabo => DgvLabo;
+        public DataGridView GetDgvViscosity => DgvViscosity;
         public BindingNavigator GetNavigatorLabo => BindingNavigatorLabo;
         public ComboBox GetCmbGlossClass => CmbGlossClass;
         public ComboBox GetCmbContrastClass => CmbContrastClass;

@@ -5,6 +5,7 @@
         LaboIndex,
         LaboBasicIndex,
         LaboViscosityIndex,
+        LaboViscosityColIndex,
         UserIndex,
         ContrastClassIndex,
         GlossClassIndex,

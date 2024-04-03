@@ -53,6 +53,11 @@ namespace Laboratorium.ADO.Repository
 
         public abstract IList<T> GetAll();
 
+        public virtual IList<T> GetAllByLaboId(int laboId)
+        {
+            return null;
+        }
+
         public virtual bool DeleteById(long id)
         {
             SqlCommand command = new SqlCommand();
@@ -112,5 +117,6 @@ namespace Laboratorium.ADO.Repository
             if (_connection != null && _connection.State != ConnectionState.Open)
                 _connection.Open();
         }
+
     }
 }

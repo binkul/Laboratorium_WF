@@ -38,6 +38,7 @@ namespace Laboratorium.LabBook.Service
         private readonly IExtendedCRUD<UserDto> _repositoryUser;
         private readonly IBasicCRUD<ProjectDto> _repositoryProject;
         private readonly IBasicCRUD<LaboDataViscosityDto> _repositoryViscosity;
+        private readonly IBasicCRUD<LaboDataViscosityColDto> _repositoryViscosityCol;
         private readonly SqlConnection _connection;
         private readonly UserDto _user;
         private readonly LabForm _form;
@@ -46,6 +47,8 @@ namespace Laboratorium.LabBook.Service
         private BindingSource _laboBinding;
         private IList<LaboDataBasicDto> _laboBasicList;
         private BindingSource _laboBasicBinding;
+        private IList<LaboDataViscosityDto> _laboViscosityList;
+        private BindingSource _laboViscosityBinding;
         private IList<UserDto> _userList;
         private IList<ProjectDto> _projectList;
         private IList<ContrastClassDto> _contrastClassList;
@@ -65,6 +68,7 @@ namespace Laboratorium.LabBook.Service
             _repositoryLabo = new LabBookRepository(_connection, this);
             _repositoryLaboBasic = new LabBookBasicDataRepository(_connection, this);
             _repositoryViscosity = new LabBookViscosityRepository(_connection, this);
+            _repositoryViscosityCol = new LabBookViscosityColRepository(_connection);
             _repositoryUser = new UserRepository(_connection);
             _repositoryProject = new ProjectRepository(_connection);
         }
@@ -121,14 +125,21 @@ namespace Laboratorium.LabBook.Service
 
         public void PrepareAllData()
         {
-            #region Tables/Views/Bindings
+            #region Tables/Views/Bindings for Main Labo
 
             LoadLaboData();
             _userList = _repositoryUser.GetAll();
             _projectList = _repositoryProject.GetAll();
 
+
             _laboBasicList = _repositoryLaboBasic.GetAll();
             _laboBasicBinding = new BindingSource();
+
+
+            _laboViscosityList = _repositoryViscosity.GetAllByLaboId(-1);
+            _laboViscosityBinding = new BindingSource();
+            _laboViscosityBinding.DataSource = _laboViscosityList;
+
 
             IBasicCRUD<ContrastClassDto> contrast = new ContrastClassRepository(_connection);
             _contrastClassList = contrast.GetAll();
@@ -142,6 +153,7 @@ namespace Laboratorium.LabBook.Service
             IBasicCRUD<VocClassDto> voc = new VocClassRepository(_connection);
             _vocClassList = voc.GetAll();
 
+
             FillDependece();
 
             #endregion
@@ -149,6 +161,12 @@ namespace Laboratorium.LabBook.Service
             #region Prepare DgvLabBook
 
             PrepareDgvLabo();
+
+            #endregion
+
+            #region Prepare DgvLabViscosity
+
+            PrepareDgvViscosity();
 
             #endregion
 
@@ -282,20 +300,20 @@ namespace Laboratorium.LabBook.Service
             view.Columns["ProjectName"].HeaderText = "Projekt";
             view.Columns["ProjectName"].DisplayIndex = 2;
             view.Columns["ProjectName"].ReadOnly = true;
-            view.Columns["ProjectName"].Width = _formData.ContainsKey("ProjectName") ? (int)_formData["ProjectName"] : 50; ;
+            view.Columns["ProjectName"].Width = _formData.ContainsKey("ProjectName") ? (int)_formData["ProjectName"] : 50;
             view.Columns["ProjectName"].SortMode = DataGridViewColumnSortMode.NotSortable;
             view.Columns["ProjectName"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             
             view.Columns["Density"].HeaderText = "Ges.";
             view.Columns["Density"].DisplayIndex = 3;
-            view.Columns["Density"].Width = _formData.ContainsKey("Density") ? (int)_formData["Density"] : 70; ;
+            view.Columns["Density"].Width = _formData.ContainsKey("Density") ? (int)_formData["Density"] : 70;
             view.Columns["Density"].SortMode = DataGridViewColumnSortMode.NotSortable;
             view.Columns["Density"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             view.Columns["UserShortcut"].HeaderText = "User";
             view.Columns["UserShortcut"].DisplayIndex = 4;
             view.Columns["UserShortcut"].ReadOnly = true;
-            view.Columns["UserShortcut"].Width = _formData.ContainsKey("UserShortcut") ? (int)_formData["UserShortcut"] : 50; ;
+            view.Columns["UserShortcut"].Width = _formData.ContainsKey("UserShortcut") ? (int)_formData["UserShortcut"] : 50;
             view.Columns["UserShortcut"].SortMode = DataGridViewColumnSortMode.NotSortable;
             view.Columns["UserShortcut"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
@@ -306,6 +324,132 @@ namespace Laboratorium.LabBook.Service
             }
 
             view.Columns["Title"].Width = _formData.ContainsKey("Title") ? (int)_formData["Title"] : width - 2;
+        }
+
+        private void PrepareDgvViscosity()
+        {
+            DataGridView view = _form.GetDgvViscosity;
+            view.DataSource = _laboViscosityBinding;
+            view.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.RowsDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Regular);
+            view.ColumnHeadersDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Bold);
+            view.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            view.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            view.RowHeadersWidth = HEADER_WIDTH;
+            view.DefaultCellStyle.ForeColor = Color.Black;
+            view.MultiSelect = false;
+            view.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            view.ReadOnly = false;
+            view.AllowUserToAddRows = false;
+            view.AllowUserToDeleteRows = false;
+            view.AutoGenerateColumns = false;
+
+            view.Columns["Id"].Visible = false;
+            view.Columns["LaboId"].Visible = false;
+
+            view.Columns["ToCompare"].HeaderText = "X";
+            view.Columns["ToCompare"].DisplayIndex = 0;
+            view.Columns["ToCompare"].Width = 30;
+            view.Columns["ToCompare"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["ToCompare"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            view.Columns["DateCreated"].HeaderText = "Start";
+            view.Columns["DateCreated"].DisplayIndex = 1;
+            view.Columns["DateCreated"].Width = 100;
+            view.Columns["DateCreated"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["DateCreated"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            view.Columns["DateUpdated"].HeaderText = "Koniec";
+            view.Columns["DateUpdated"].DisplayIndex = 2;
+            view.Columns["DateUpdated"].Width = 100;
+            view.Columns["DateUpdated"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["DateUpdated"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            view.Columns["Days"].HeaderText = "Doba";
+            view.Columns["Days"].DisplayIndex = 3;
+            view.Columns["Days"].Width = 70;
+            view.Columns["Days"].ReadOnly = true;
+            view.Columns["Days"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Days"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            view.Columns["Temp"].HeaderText = "Temp";
+            view.Columns["Temp"].DisplayIndex = 4;
+            view.Columns["Temp"].Width = 70;
+            view.Columns["Temp"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Temp"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            view.Columns["Brook1"].HeaderText = "Lep 1";
+            view.Columns["Brook1"].DisplayIndex = 5;
+            view.Columns["Brook1"].Width = 100;
+            view.Columns["Brook1"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Brook1"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            view.Columns["Brook5"].HeaderText = "Lep 5";
+            view.Columns["Brook5"].DisplayIndex = 6;
+            view.Columns["Brook5"].Width = 100;
+            view.Columns["Brook5"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Brook5"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            view.Columns["Brook10"].HeaderText = "Lep 10";
+            view.Columns["Brook10"].DisplayIndex = 7;
+            view.Columns["Brook10"].Width = 100;
+            view.Columns["Brook10"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Brook10"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            view.Columns["Brook20"].HeaderText = "Lep 20";
+            view.Columns["Brook20"].DisplayIndex = 8;
+            view.Columns["Brook20"].Width = 100;
+            view.Columns["Brook20"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Brook20"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            view.Columns["Brook30"].HeaderText = "Lep 30";
+            view.Columns["Brook30"].DisplayIndex = 9;
+            view.Columns["Brook30"].Width = 100;
+            view.Columns["Brook30"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Brook30"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            view.Columns["Brook40"].HeaderText = "Lep 40";
+            view.Columns["Brook40"].DisplayIndex = 10;
+            view.Columns["Brook40"].Width = 100;
+            view.Columns["Brook40"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Brook40"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            view.Columns["Brook50"].HeaderText = "Lep 50";
+            view.Columns["Brook50"].DisplayIndex = 11;
+            view.Columns["Brook50"].Width = 100;
+            view.Columns["Brook50"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Brook50"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            view.Columns["Brook60"].HeaderText = "Lep 60";
+            view.Columns["Brook60"].DisplayIndex = 12;
+            view.Columns["Brook60"].Width = 100;
+            view.Columns["Brook60"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Brook60"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            view.Columns["Brook70"].HeaderText = "Lep 70";
+            view.Columns["Brook70"].DisplayIndex = 13;
+            view.Columns["Brook70"].Width = 100;
+            view.Columns["Brook70"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Brook70"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            view.Columns["Brook80"].HeaderText = "Lep 80";
+            view.Columns["Brook80"].DisplayIndex = 14;
+            view.Columns["Brook80"].Width = 100;
+            view.Columns["Brook80"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Brook80"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            view.Columns["Brook90"].HeaderText = "Lep 90";
+            view.Columns["Brook90"].DisplayIndex = 15;
+            view.Columns["Brook90"].Width = 100;
+            view.Columns["Brook90"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Brook90"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            view.Columns["Brook100"].HeaderText = "Lep 100";
+            view.Columns["Brook100"].DisplayIndex = 16;
+            view.Columns["Brook100"].Width = 100;
+            view.Columns["Brook100"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Brook100"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
         }
 
         private void PrepareComboBoxes()
@@ -442,6 +586,10 @@ namespace Laboratorium.LabBook.Service
             {
                 _form.GetCmbVocClass.SelectedIndex = _form.GetCmbVocClass.Items.Count > 0 ? 0 : -1;
             }
+
+            #endregion
+
+            #region Set Viscosity data and fields
 
             #endregion
 

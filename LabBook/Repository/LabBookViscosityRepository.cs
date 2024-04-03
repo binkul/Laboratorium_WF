@@ -7,12 +7,13 @@ using Laboratorium.ADO.Tables;
 using Laboratorium.Commons;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace Laboratorium.LabBook.Repository
 {
-    public class LabBookViscosityRepository : BasicCRUD<LaboDataViscosityDto>
+    public class LabBookViscosityRepository : ExtendedCRUD<LaboDataViscosityDto>
     {
         private static readonly SqlIndex SQL_INDEX = SqlIndex.LaboViscosityIndex;
         private static readonly string TABLE_NAME = Table.LABO_VISC_DATA_TABLE;
@@ -122,7 +123,7 @@ namespace Laboratorium.LabBook.Repository
             return list;
         }
 
-        public IList<LaboDataViscosityDto> GetAll(int laboId)
+        public override IList<LaboDataViscosityDto> GetAllByLaboId(int laboId)
         {
             List<LaboDataViscosityDto> list = new List<LaboDataViscosityDto>();
 
@@ -229,6 +230,11 @@ namespace Laboratorium.LabBook.Repository
         public override LaboDataViscosityDto Update(LaboDataViscosityDto data)
         {
             throw new System.NotImplementedException();
+        }
+
+        public override void UpdateRow(DataRow row)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -27,6 +27,7 @@
 
         // LaboDataViscosity
         public static readonly string LABO_VISC_DATA_TABLE = "LaboDataViscosity";
+        public static readonly string LABO_VISC_COL_DATA_TABLE = "LaboDataViscosityCol";
 
         // ContrastClass table
         public static readonly string CONTRAST_CLASS_TABLE = "CmbClassContrast";
