@@ -21,21 +21,21 @@ namespace Laboratorium.LabBook.Service
 
     static class LabBookViscosityService
     {
-        public static readonly IDictionary<Profile, IList<string>> Read = new Dictionary<Profile, IList<string>>
+        public static readonly IDictionary<Profile, IList<string>> Profiles = new Dictionary<Profile, IList<string>>
         {
-            { Profile.STD, new List<string>() { "pH", "brook_1", "brook_5", "brook_20" , "brook_disc", "brook_comment" } },
-            { Profile.STD_SOL, new List<string>() { "brook_1", "brook_5", "brook_20" , "brook_disc", "brook_comment" } },
-            { Profile.STD_X, new List<string>() { "pH", "brook_1", "brook_5", "brook_20" , "brook_disc", "brook_comment", "brook_x_vis", "brook_x_rpm", "brook_x_disc" } },
-            { Profile.STD_X_SOL, new List<string>() { "brook_1", "brook_5", "brook_20" , "brook_disc", "brook_comment", "brook_x_vis", "brook_x_rpm", "brook_x_disc" } },
+            { Profile.STD, new List<string>() { "pH", "Brook1", "Brook5", "Brook20", "BrookDisc", "BrookComment" } },
+            { Profile.STD_SOL, new List<string>() { "Brook1", "Brook5", "Brook20", "BrookDisc", "BrookComment" } },
+            { Profile.STD_X, new List<string>() { "pH", "Brook1", "Brook5", "Brook20", "BrookDisc", "BrookComment", "BrookXvisc", "BrookXrpm", "BrookXdisc" } },
+            { Profile.STD_X_SOL, new List<string>() { "Brook1", "Brook5", "Brook20", "BrookDisc", "BrookComment", "BrookXvisc", "BrookXrpm", "BrookXdisc" } },
             { Profile.KREBS, new List<string>() { "pH", "krebs", "krebs_comment" } },
             { Profile.KREBS_SOL, new List<string>() { "krebs", "krebs_comment" } },
-            { Profile.STD_KREBS, new List<string>() { "pH", "brook_1", "brook_5", "brook_20" , "brook_disc", "brook_comment", "krebs", "krebs_comment" } },
-            { Profile.STD_KREBS_SOL, new List<string>() { "brook_1", "brook_5", "brook_20" , "brook_disc", "brook_comment", "krebs", "krebs_comment" } },
-            { Profile.ICI, new List<string>() { "pH", "ici", "ici_disc", "ici_comment" } },
-            { Profile.ICI_SOL, new List<string>() { "ici", "ici_disc", "ici_comment" } },
-            { Profile.STD_ICI, new List<string>() { "pH", "brook_1", "brook_5", "brook_20", "brook_disc", "brook_comment", "ici", "ici_disc", "ici_comment" } },
-            { Profile.STD_ICI_SOL, new List<string>() { "brook_1", "brook_5", "brook_20", "brook_disc", "brook_comment", "ici", "ici_disc", "ici_comment" } },
-            { Profile.PRB, new List<string>() { "pH", "brook_1", "brook_5", "brook_10", "brook_20", "brook_50", "brook_100", "brook_disc", "brook_comment" } }
+            { Profile.STD_KREBS, new List<string>() { "pH", "Brook1", "Brook5", "Brook20", "BrookDisc", "BrookComment", "Krebs", "KrebsComment" } },
+            { Profile.STD_KREBS_SOL, new List<string>() { "Brook1", "Brook5", "Brook20", "BrookDisc", "BrookComment", "Krebs", "KrebsComment" } },
+            { Profile.ICI, new List<string>() { "pH", "ICI", "IciDisc", "IciComment" } },
+            { Profile.ICI_SOL, new List<string>() { "ICI", "IciDisc", "IciComment" } },
+            { Profile.STD_ICI, new List<string>() { "pH", "Brook1", "Brook5", "Brook20", "BrookDisc", "BrookComment", "ICI", "IciDisc", "IciComment" } },
+            { Profile.STD_ICI_SOL, new List<string>() { "Brook1", "Brook5", "Brook20", "BrookDisc", "BrookComment", "ICI", "IciDisc", "IciComment" } },
+            { Profile.PRB, new List<string>() { "pH", "Brook1", "Brook5", "Brook10", "Brook20", "Brook50", "Brook100", "BrookDisc", "BrookComment" } }
         };
     }
 }

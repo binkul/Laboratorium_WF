@@ -20,9 +20,9 @@ namespace Laboratorium.LabBook.Repository
         public LabBookViscosityColRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
         { }
 
-        public LaboDataViscosityColDto GetByLaboId(int laboId)
+        public override IList<LaboDataViscosityColDto> GetAllByLaboId(int laboId)
         {
-            LaboDataViscosityColDto col = null;
+            IList<LaboDataViscosityColDto> list = null;
 
             try
             {
@@ -41,7 +41,9 @@ namespace Laboratorium.LabBook.Repository
 
                         if (!string.IsNullOrEmpty(type) && Enum.TryParse(type, out Profile profile))
                         {
-                            col = new LaboDataViscosityColDto(id, profile, columns);
+                            LaboDataViscosityColDto col = new LaboDataViscosityColDto(id, profile, columns);
+                            list = new List<LaboDataViscosityColDto>();
+                            list.Add(col);
                         }
                     }
                     reader.Close();
@@ -62,7 +64,7 @@ namespace Laboratorium.LabBook.Repository
                 CloseConnection();
             }
 
-            return col;
+            return list;
         }
 
         public override IList<LaboDataViscosityColDto> GetAll()

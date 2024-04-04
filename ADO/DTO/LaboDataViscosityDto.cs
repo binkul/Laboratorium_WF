@@ -34,12 +34,15 @@ namespace Laboratorium.ADO.DTO
         private double? _ici;
         private string _iciDisc;
         private string _iciComment;
-        public DateTime DateCreated { get; private set; }
-        public DateTime DateUpdated { get; private set; }
+        private DateTime _dateCreated = DateTime.Today;
+        private DateTime _dateUpdated = DateTime.Today;
         private RowState _rowState = RowState.ADDED;
         private readonly IService _service;
 
         #endregion
+
+        public LaboDataViscosityDto()
+        { }
 
         private LaboDataViscosityDto(Builder builder)
         {
@@ -78,7 +81,6 @@ namespace Laboratorium.ADO.DTO
         private void ChangeState(RowState state)
         {
             _rowState = _rowState == RowState.UNCHANGED ? state : _rowState;
-            DateUpdated = DateTime.Today;
             if (_service != null)
                 _service.Modify(state);
         }
@@ -331,6 +333,26 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _iciComment = value;
+                ChangeState(RowState.MODIFIED);
+            }
+        }
+
+        public DateTime DateCreated
+        {
+            get => _dateCreated;
+            set
+            {
+                _dateCreated = value;
+                ChangeState(RowState.MODIFIED);
+            }
+        }
+
+        public DateTime DateUpdated
+        {
+            get => _dateUpdated;
+            set
+            {
+                _dateUpdated = value;
                 ChangeState(RowState.MODIFIED);
             }
         }

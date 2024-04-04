@@ -118,6 +118,8 @@
             this.label26 = new System.Windows.Forms.Label();
             this.TxtObservation = new System.Windows.Forms.TextBox();
             this.TxtConclusion = new System.Windows.Forms.TextBox();
+            this.TbViscosity = new System.Windows.Forms.TabPage();
+            this.DgvViscosity = new System.Windows.Forms.DataGridView();
             this.TxtTitle = new System.Windows.Forms.TextBox();
             this.LblTitle = new System.Windows.Forms.Label();
             this.BtnAdd = new System.Windows.Forms.Button();
@@ -131,8 +133,6 @@
             this.LblNrD = new System.Windows.Forms.Label();
             this.LblProject = new System.Windows.Forms.Label();
             this.BtnChangeProject = new System.Windows.Forms.Button();
-            this.TbViscosity = new System.Windows.Forms.TabPage();
-            this.DgvViscosity = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.BindingNavigatorLabo)).BeginInit();
             this.BindingNavigatorLabo.SuspendLayout();
             this.TabLabo.SuspendLayout();
@@ -152,9 +152,9 @@
             this.tableLayoutPanel6.SuspendLayout();
             this.TbConclusion.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
-            this.LabMainMenuStrip.SuspendLayout();
             this.TbViscosity.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvViscosity)).BeginInit();
+            this.LabMainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // BindingNavigatorLabo
@@ -481,7 +481,7 @@
             this.CmbScrubClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbScrubClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbScrubClass.FormattingEnabled = true;
-            this.CmbScrubClass.Location = new System.Drawing.Point(205, 202);
+            this.CmbScrubClass.Location = new System.Drawing.Point(205, 203);
             this.CmbScrubClass.Name = "CmbScrubClass";
             this.CmbScrubClass.Size = new System.Drawing.Size(159, 28);
             this.CmbScrubClass.TabIndex = 3;
@@ -693,7 +693,7 @@
             this.CmbGlossClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbGlossClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbGlossClass.FormattingEnabled = true;
-            this.CmbGlossClass.Location = new System.Drawing.Point(207, 245);
+            this.CmbGlossClass.Location = new System.Drawing.Point(207, 246);
             this.CmbGlossClass.Name = "CmbGlossClass";
             this.CmbGlossClass.Size = new System.Drawing.Size(224, 28);
             this.CmbGlossClass.TabIndex = 10;
@@ -818,7 +818,7 @@
             this.CmbContrastClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbContrastClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbContrastClass.FormattingEnabled = true;
-            this.CmbContrastClass.Location = new System.Drawing.Point(205, 120);
+            this.CmbContrastClass.Location = new System.Drawing.Point(205, 118);
             this.CmbContrastClass.Name = "CmbContrastClass";
             this.CmbContrastClass.Size = new System.Drawing.Size(149, 28);
             this.CmbContrastClass.TabIndex = 5;
@@ -887,7 +887,7 @@
             this.CmbVocClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbVocClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbVocClass.FormattingEnabled = true;
-            this.CmbVocClass.Location = new System.Drawing.Point(205, 82);
+            this.CmbVocClass.Location = new System.Drawing.Point(205, 83);
             this.CmbVocClass.Name = "CmbVocClass";
             this.CmbVocClass.Size = new System.Drawing.Size(298, 28);
             this.CmbVocClass.TabIndex = 12;
@@ -1266,6 +1266,33 @@
             this.TxtConclusion.Size = new System.Drawing.Size(660, 519);
             this.TxtConclusion.TabIndex = 11;
             // 
+            // TbViscosity
+            // 
+            this.TbViscosity.BackColor = System.Drawing.SystemColors.Control;
+            this.TbViscosity.Controls.Add(this.DgvViscosity);
+            this.TbViscosity.Location = new System.Drawing.Point(4, 29);
+            this.TbViscosity.Name = "TbViscosity";
+            this.TbViscosity.Size = new System.Drawing.Size(1368, 601);
+            this.TbViscosity.TabIndex = 3;
+            this.TbViscosity.Text = "Lepkość";
+            // 
+            // DgvViscosity
+            // 
+            this.DgvViscosity.AllowUserToAddRows = false;
+            this.DgvViscosity.AllowUserToDeleteRows = false;
+            this.DgvViscosity.AllowUserToResizeRows = false;
+            this.DgvViscosity.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.DgvViscosity.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DgvViscosity.Location = new System.Drawing.Point(4, 3);
+            this.DgvViscosity.Name = "DgvViscosity";
+            this.DgvViscosity.RowHeadersWidth = 51;
+            this.DgvViscosity.RowTemplate.Height = 24;
+            this.DgvViscosity.Size = new System.Drawing.Size(1361, 595);
+            this.DgvViscosity.TabIndex = 0;
+            this.DgvViscosity.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.DgvViscosity_DefaultValuesNeeded);
+            // 
             // TxtTitle
             // 
             this.TxtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -1410,32 +1437,6 @@
             this.BtnChangeProject.UseVisualStyleBackColor = true;
             this.BtnChangeProject.Click += new System.EventHandler(this.BtnChangeProject_Click);
             // 
-            // TbViscosity
-            // 
-            this.TbViscosity.BackColor = System.Drawing.SystemColors.Control;
-            this.TbViscosity.Controls.Add(this.DgvViscosity);
-            this.TbViscosity.Location = new System.Drawing.Point(4, 29);
-            this.TbViscosity.Name = "TbViscosity";
-            this.TbViscosity.Size = new System.Drawing.Size(1368, 601);
-            this.TbViscosity.TabIndex = 3;
-            this.TbViscosity.Text = "Lepkość";
-            // 
-            // DgvViscosity
-            // 
-            this.DgvViscosity.AllowUserToAddRows = false;
-            this.DgvViscosity.AllowUserToDeleteRows = false;
-            this.DgvViscosity.AllowUserToResizeRows = false;
-            this.DgvViscosity.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.DgvViscosity.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DgvViscosity.Location = new System.Drawing.Point(4, 3);
-            this.DgvViscosity.Name = "DgvViscosity";
-            this.DgvViscosity.RowHeadersWidth = 51;
-            this.DgvViscosity.RowTemplate.Height = 24;
-            this.DgvViscosity.Size = new System.Drawing.Size(1361, 595);
-            this.DgvViscosity.TabIndex = 0;
-            // 
             // LabForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1489,10 +1490,10 @@
             this.TbConclusion.ResumeLayout(false);
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel7.PerformLayout();
-            this.LabMainMenuStrip.ResumeLayout(false);
-            this.LabMainMenuStrip.PerformLayout();
             this.TbViscosity.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DgvViscosity)).EndInit();
+            this.LabMainMenuStrip.ResumeLayout(false);
+            this.LabMainMenuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

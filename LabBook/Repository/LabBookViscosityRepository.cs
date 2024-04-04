@@ -138,8 +138,8 @@ namespace Laboratorium.LabBook.Repository
                 {
                     while (reader.Read())
                     {
-                        long id = reader.GetInt64(1);
-                        int title = reader.GetInt32(2);
+                        int id = reader.GetInt32(1);
+                        int labId = reader.GetInt32(2);
                         bool toCompare = reader.GetBoolean(3);
                         double? pH = CommonFunction.DBNullToDoubleConv(reader.GetValue(4));
                         string temp = CommonFunction.DBNullToStringConv(reader.GetValue(5));
@@ -165,10 +165,12 @@ namespace Laboratorium.LabBook.Repository
                         double? ici = CommonFunction.DBNullToDoubleConv(reader.GetValue(25));
                         string iciDisc = CommonFunction.DBNullToStringConv(reader.GetValue(26));
                         string iciComment = CommonFunction.DBNullToStringConv(reader.GetValue(27));
-                        DateTime dateCreated = reader.GetDateTime(2);
-                        DateTime dateUpdated = !reader.GetValue(3).Equals(DBNull.Value) ? reader.GetDateTime(3) : dateCreated;
+                        DateTime dateCreated = reader.GetDateTime(28);
+                        DateTime dateUpdated = !reader.GetValue(29).Equals(DBNull.Value) ? reader.GetDateTime(29) : dateCreated;
 
                         LaboDataViscosityDto labo = new LaboDataViscosityDto.Builder()
+                            .Id(id)
+                            .LaboId(laboId)
                             .ToCompare(toCompare)
                             .pH(pH)
                             .Temp(temp)

@@ -152,5 +152,10 @@ namespace Laboratorium.LabBook.Forms
         {
             _service.ChangeProject();
         }
+
+        private void DgvViscosity_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
+        {
+            _service.DefaultValuesForViscosity(e);
+        }
     }
 }
