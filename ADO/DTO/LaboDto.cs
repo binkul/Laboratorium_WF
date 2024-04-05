@@ -19,6 +19,7 @@ namespace Laboratorium.ADO.DTO
         private short _userId;
         private UserDto _user;
         private ProjectDto _project;
+        private LaboDataViscosityColDto _viscosityProfile;
         private RowState _rowState = RowState.ADDED;
         private IService _service;
 
@@ -155,6 +156,16 @@ namespace Laboratorium.ADO.DTO
         }
 
         public string ProjectName => _project != null ? _project.Title : "-- Brak --";
+
+        public LaboDataViscosityColDto ViscosityProfile
+        {
+            get => _viscosityProfile;
+            set
+            {
+                _viscosityProfile = value;
+                ChangeState(RowState.MODIFIED);
+            }
+        }
 
         public RowState GetRowState => _rowState;
 

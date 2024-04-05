@@ -126,6 +126,21 @@
             this.LabMainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.widokToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lepkościToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.StdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.StdXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.StdSolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.StdXsolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PrbToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.KrebsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.KrebsSolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.StdKrebsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.StdKrebsSolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.IciToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.IciSolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.StdIciToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.StdIciSolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BtnDelete = new System.Windows.Forms.Button();
             this.BtnSave = new System.Windows.Forms.Button();
             this.LblDateCreated = new System.Windows.Forms.Label();
@@ -133,6 +148,7 @@
             this.LblNrD = new System.Windows.Forms.Label();
             this.LblProject = new System.Windows.Forms.Label();
             this.BtnChangeProject = new System.Windows.Forms.Button();
+            this.SpecialToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.BindingNavigatorLabo)).BeginInit();
             this.BindingNavigatorLabo.SuspendLayout();
             this.TabLabo.SuspendLayout();
@@ -1333,7 +1349,8 @@
             this.LabMainMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.LabMainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileToolStripMenuItem,
-            this.EditToolStripMenuItem});
+            this.EditToolStripMenuItem,
+            this.widokToolStripMenuItem});
             this.LabMainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.LabMainMenuStrip.Name = "LabMainMenuStrip";
             this.LabMainMenuStrip.Size = new System.Drawing.Size(1376, 31);
@@ -1352,6 +1369,139 @@
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
             this.EditToolStripMenuItem.Size = new System.Drawing.Size(73, 27);
             this.EditToolStripMenuItem.Text = "Edycja";
+            // 
+            // widokToolStripMenuItem
+            // 
+            this.widokToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lepkościToolStripMenuItem});
+            this.widokToolStripMenuItem.Name = "widokToolStripMenuItem";
+            this.widokToolStripMenuItem.Size = new System.Drawing.Size(73, 27);
+            this.widokToolStripMenuItem.Text = "Widok";
+            // 
+            // lepkościToolStripMenuItem
+            // 
+            this.lepkościToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StdXToolStripMenuItem,
+            this.StdXsolToolStripMenuItem,
+            this.StdToolStripMenuItem,
+            this.StdSolToolStripMenuItem,
+            this.PrbToolStripMenuItem,
+            this.KrebsToolStripMenuItem,
+            this.KrebsSolToolStripMenuItem,
+            this.StdKrebsToolStripMenuItem,
+            this.StdKrebsSolToolStripMenuItem,
+            this.IciToolStripMenuItem,
+            this.IciSolToolStripMenuItem,
+            this.StdIciToolStripMenuItem,
+            this.StdIciSolToolStripMenuItem,
+            this.SpecialToolStripMenuItem});
+            this.lepkościToolStripMenuItem.Name = "lepkościToolStripMenuItem";
+            this.lepkościToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
+            this.lepkościToolStripMenuItem.Text = "Lepkości profile";
+            // 
+            // StdToolStripMenuItem
+            // 
+            this.StdToolStripMenuItem.Name = "StdToolStripMenuItem";
+            this.StdToolStripMenuItem.Size = new System.Drawing.Size(248, 28);
+            this.StdToolStripMenuItem.Tag = "2";
+            this.StdToolStripMenuItem.Text = "Standard bez X";
+            this.StdToolStripMenuItem.Click += new System.EventHandler(this.StdXToolStripMenuItem_Click);
+            // 
+            // StdXToolStripMenuItem
+            // 
+            this.StdXToolStripMenuItem.Name = "StdXToolStripMenuItem";
+            this.StdXToolStripMenuItem.Size = new System.Drawing.Size(248, 28);
+            this.StdXToolStripMenuItem.Tag = "0";
+            this.StdXToolStripMenuItem.Text = "Standard";
+            this.StdXToolStripMenuItem.Click += new System.EventHandler(this.StdXToolStripMenuItem_Click);
+            // 
+            // StdSolToolStripMenuItem
+            // 
+            this.StdSolToolStripMenuItem.Name = "StdSolToolStripMenuItem";
+            this.StdSolToolStripMenuItem.Size = new System.Drawing.Size(248, 28);
+            this.StdSolToolStripMenuItem.Tag = "3";
+            this.StdSolToolStripMenuItem.Text = "Standard bez X i pH";
+            this.StdSolToolStripMenuItem.Click += new System.EventHandler(this.StdXToolStripMenuItem_Click);
+            // 
+            // StdXsolToolStripMenuItem
+            // 
+            this.StdXsolToolStripMenuItem.Name = "StdXsolToolStripMenuItem";
+            this.StdXsolToolStripMenuItem.Size = new System.Drawing.Size(248, 28);
+            this.StdXsolToolStripMenuItem.Tag = "1";
+            this.StdXsolToolStripMenuItem.Text = "Standard bez pH";
+            this.StdXsolToolStripMenuItem.Click += new System.EventHandler(this.StdXToolStripMenuItem_Click);
+            // 
+            // PrbToolStripMenuItem
+            // 
+            this.PrbToolStripMenuItem.Name = "PrbToolStripMenuItem";
+            this.PrbToolStripMenuItem.Size = new System.Drawing.Size(248, 28);
+            this.PrbToolStripMenuItem.Tag = "4";
+            this.PrbToolStripMenuItem.Text = "PRB";
+            this.PrbToolStripMenuItem.Click += new System.EventHandler(this.StdXToolStripMenuItem_Click);
+            // 
+            // KrebsToolStripMenuItem
+            // 
+            this.KrebsToolStripMenuItem.Name = "KrebsToolStripMenuItem";
+            this.KrebsToolStripMenuItem.Size = new System.Drawing.Size(248, 28);
+            this.KrebsToolStripMenuItem.Tag = "5";
+            this.KrebsToolStripMenuItem.Text = "Krebs";
+            this.KrebsToolStripMenuItem.Click += new System.EventHandler(this.StdXToolStripMenuItem_Click);
+            // 
+            // KrebsSolToolStripMenuItem
+            // 
+            this.KrebsSolToolStripMenuItem.Name = "KrebsSolToolStripMenuItem";
+            this.KrebsSolToolStripMenuItem.Size = new System.Drawing.Size(248, 28);
+            this.KrebsSolToolStripMenuItem.Tag = "6";
+            this.KrebsSolToolStripMenuItem.Text = "Krebs bez pH";
+            this.KrebsSolToolStripMenuItem.Click += new System.EventHandler(this.StdXToolStripMenuItem_Click);
+            // 
+            // StdKrebsToolStripMenuItem
+            // 
+            this.StdKrebsToolStripMenuItem.Name = "StdKrebsToolStripMenuItem";
+            this.StdKrebsToolStripMenuItem.Size = new System.Drawing.Size(248, 28);
+            this.StdKrebsToolStripMenuItem.Tag = "7";
+            this.StdKrebsToolStripMenuItem.Text = "Std + Krebs";
+            this.StdKrebsToolStripMenuItem.Click += new System.EventHandler(this.StdXToolStripMenuItem_Click);
+            // 
+            // StdKrebsSolToolStripMenuItem
+            // 
+            this.StdKrebsSolToolStripMenuItem.Name = "StdKrebsSolToolStripMenuItem";
+            this.StdKrebsSolToolStripMenuItem.Size = new System.Drawing.Size(248, 28);
+            this.StdKrebsSolToolStripMenuItem.Tag = "8";
+            this.StdKrebsSolToolStripMenuItem.Text = "Std + Krebs bez pH";
+            this.StdKrebsSolToolStripMenuItem.Click += new System.EventHandler(this.StdXToolStripMenuItem_Click);
+            // 
+            // IciToolStripMenuItem
+            // 
+            this.IciToolStripMenuItem.Name = "IciToolStripMenuItem";
+            this.IciToolStripMenuItem.Size = new System.Drawing.Size(248, 28);
+            this.IciToolStripMenuItem.Tag = "9";
+            this.IciToolStripMenuItem.Text = "ICI";
+            this.IciToolStripMenuItem.Click += new System.EventHandler(this.StdXToolStripMenuItem_Click);
+            // 
+            // IciSolToolStripMenuItem
+            // 
+            this.IciSolToolStripMenuItem.Name = "IciSolToolStripMenuItem";
+            this.IciSolToolStripMenuItem.Size = new System.Drawing.Size(248, 28);
+            this.IciSolToolStripMenuItem.Tag = "10";
+            this.IciSolToolStripMenuItem.Text = "ICI bez pH";
+            this.IciSolToolStripMenuItem.Click += new System.EventHandler(this.StdXToolStripMenuItem_Click);
+            // 
+            // StdIciToolStripMenuItem
+            // 
+            this.StdIciToolStripMenuItem.Name = "StdIciToolStripMenuItem";
+            this.StdIciToolStripMenuItem.Size = new System.Drawing.Size(248, 28);
+            this.StdIciToolStripMenuItem.Tag = "11";
+            this.StdIciToolStripMenuItem.Text = "Std + ICI";
+            this.StdIciToolStripMenuItem.Click += new System.EventHandler(this.StdXToolStripMenuItem_Click);
+            // 
+            // StdIciSolToolStripMenuItem
+            // 
+            this.StdIciSolToolStripMenuItem.Name = "StdIciSolToolStripMenuItem";
+            this.StdIciSolToolStripMenuItem.Size = new System.Drawing.Size(248, 28);
+            this.StdIciSolToolStripMenuItem.Tag = "12";
+            this.StdIciSolToolStripMenuItem.Text = "Std + ICI bez pH";
+            this.StdIciSolToolStripMenuItem.Click += new System.EventHandler(this.StdXToolStripMenuItem_Click);
             // 
             // BtnDelete
             // 
@@ -1436,6 +1586,14 @@
             this.BtnChangeProject.Text = "<- Zmień";
             this.BtnChangeProject.UseVisualStyleBackColor = true;
             this.BtnChangeProject.Click += new System.EventHandler(this.BtnChangeProject_Click);
+            // 
+            // SpecialToolStripMenuItem
+            // 
+            this.SpecialToolStripMenuItem.Name = "SpecialToolStripMenuItem";
+            this.SpecialToolStripMenuItem.Size = new System.Drawing.Size(248, 28);
+            this.SpecialToolStripMenuItem.Tag = "13";
+            this.SpecialToolStripMenuItem.Text = "Wybrane";
+            this.SpecialToolStripMenuItem.Click += new System.EventHandler(this.StdXToolStripMenuItem_Click);
             // 
             // LabForm
             // 
@@ -1603,5 +1761,21 @@
         private System.Windows.Forms.TextBox TxtConclusion;
         private System.Windows.Forms.TabPage TbViscosity;
         private System.Windows.Forms.DataGridView DgvViscosity;
+        private System.Windows.Forms.ToolStripMenuItem widokToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem lepkościToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem StdToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem StdXToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem StdSolToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem StdXsolToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem PrbToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem KrebsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem KrebsSolToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem StdKrebsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem StdKrebsSolToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem IciToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem IciSolToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem StdIciToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem StdIciSolToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SpecialToolStripMenuItem;
     }
 }

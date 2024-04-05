@@ -157,5 +157,12 @@ namespace Laboratorium.LabBook.Forms
         {
             _service.DefaultValuesForViscosity(e);
         }
+
+        private void StdXToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            int nr = Convert.ToInt32(item.Tag);
+            _service.ChangeViscosityProfile(nr);
+        }
     }
 }

@@ -69,7 +69,53 @@ namespace Laboratorium.LabBook.Repository
 
         public override IList<LaboDataViscosityColDto> GetAll()
         {
-            throw new NotImplementedException();
+            List<LaboDataViscosityColDto> list = new List<LaboDataViscosityColDto>();
+
+            try
+            {
+                SqlCommand command = new SqlCommand(SqlRead.Read[_sqlIndex], _connection);
+                _connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        int laboId = reader.GetInt32(0);
+                        string type = reader.GetString(1);
+                        string columns = CommonFunction.DBNullToStringConv(reader.GetValue(2));
+
+                        LaboDataViscosityColDto visProfile;
+                        if (Enum.TryParse(type, out Profile profile))
+                        {
+                            visProfile = new LaboDataViscosityColDto(laboId, profile, columns);
+                        }
+                        else
+                        {
+                            visProfile = new LaboDataViscosityColDto(laboId, Profile.STD_X, columns);
+                        }
+
+                        list.Add(visProfile);
+                    }
+                    reader.Close();
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu GetAll " + _tableName,
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "': '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return list;
         }
 
         public override LaboDataViscosityColDto Save(LaboDataViscosityColDto data)

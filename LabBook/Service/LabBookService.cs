@@ -49,6 +49,7 @@ namespace Laboratorium.LabBook.Service
         private BindingSource _laboBasicBinding;
         private IList<LaboDataViscosityDto> _laboViscosityList;
         private BindingSource _laboViscosityBinding;
+        private IList<LaboDataViscosityColDto> _laboViscosityColList;
         private IList<UserDto> _userList;
         private IList<ProjectDto> _projectList;
         private IList<ContrastClassDto> _contrastClassList;
@@ -217,7 +218,7 @@ namespace Laboratorium.LabBook.Service
             _laboViscosityList = _repositoryViscosity.GetAllByLaboId(-1);
             _laboViscosityBinding = new BindingSource();
             _laboViscosityBinding.DataSource = _laboViscosityList;
-
+            _laboViscosityColList = _repositoryViscosityCol.GetAll();
 
             IBasicCRUD<ContrastClassDto> contrast = new ContrastClassRepository(_connection);
             _contrastClassList = contrast.GetAll();
@@ -321,6 +322,13 @@ namespace Laboratorium.LabBook.Service
                 ProjectDto project = _projectList.Where(i => i.Id == projectId).FirstOrDefault();
                 if (project != null)
                     labo.Project = project;
+
+                LaboDataViscosityColDto profile = _laboViscosityColList.Where(i => i.LaboId == labo.Id).FirstOrDefault();
+                if (profile != null)
+                {
+                    labo.ViscosityProfile = profile;
+                    labo.AcceptChanged();
+                }
             }
         }
 
@@ -741,8 +749,7 @@ namespace Laboratorium.LabBook.Service
                 _laboViscosityList = _repositoryViscosity.GetAllByLaboId(_currentLabBook.Id);
                 _laboViscosityBinding.DataSource = _laboViscosityList;
 
-                IList<LaboDataViscosityColDto> colList = _repositoryViscosityCol.GetAllByLaboId(_currentLabBook.Id);
-                SetViscosityVisbility(colList);
+                SetViscosityVisbility(_currentLabBook.ViscosityProfile);
             }
 
             #endregion
@@ -750,13 +757,13 @@ namespace Laboratorium.LabBook.Service
             _cmbBlock = false;
         }
 
-        private void SetViscosityVisbility(IList<LaboDataViscosityColDto> colList)
+        private void SetViscosityVisbility(LaboDataViscosityColDto profile)
         {
             LaboDataViscosityColDto col;
 
-            if (colList != null)
+            if (profile != null)
             {
-                col = colList[0];
+                col = profile;
             }
             else
             {
@@ -929,6 +936,16 @@ namespace Laboratorium.LabBook.Service
                     _form.GetDgvLabo.InvalidateRow(_form.GetDgvLabo.CurrentRow.Index);
                 }
             }
+        }
+
+        #endregion
+
+
+        #region Menu
+
+        public void ChangeViscosityProfile(int nr)
+        {
+
         }
 
         #endregion

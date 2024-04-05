@@ -14,6 +14,7 @@ namespace Laboratorium.ADO.SqlDataConstant
             {SqlIndex.LaboViscosityIndex, "Select DATEDIFF(DAY, date_created, date_updated) as [day], id, labo_id, to_compare, ROUND(pH, 2) as pH, temp, brook_1, brook_5, brook_10, brook_20, brook_30, " +
                 "brook_40, brook_50, brook_60, brook_70, brook_80, brook_90, brook_100, brook_disc, brook_comment, brook_x_vis, brook_x_rpm, brook_x_disc, krebs, krebs_comment, ici, ici_disc, " +
                 "ici_comment, date_created, date_updated From Konkurencja.dbo.LaboDataViscosity Order By date_created, [day], id" },
+            {SqlIndex.LaboViscosityColIndex, "Select labo_id, [type], [columns] From Konkurencja.dbo.LaboDataViscosityCol" },
             {SqlIndex.GlossClassIndex, "Select id, name_pl, name_en From Konkurencja.dbo.CmbClassGloss order by id" },
             {SqlIndex.ScrubClassIndex, "Select id, name_pl, name_en From Konkurencja.dbo.CmbClassScrub order by id" },
             {SqlIndex.VocClassIndex, "Select id, name_pl From Konkurencja.dbo.CmbClassVoc order by id" },
