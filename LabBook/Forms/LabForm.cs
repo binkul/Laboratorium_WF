@@ -23,6 +23,7 @@ namespace Laboratorium.LabBook.Forms
         private readonly LabBookService _service;
         private UserDto _user;
         private bool _loginOk = false;
+        private bool _init = true;
 
         public DataGridView GetDgvLabo => DgvLabo;
         public DataGridView GetDgvViscosity => DgvViscosity;
@@ -71,6 +72,15 @@ namespace Laboratorium.LabBook.Forms
             _service = new LabBookService(_connection, _user, this);
         }
 
+        public bool Init => _init;
+
+        public void ActivateSave(bool state)
+        {
+            if (_init)
+                return;
+            BtnSave.Enabled = state;   
+        }
+
         private void LabForm_Load(object sender, EventArgs e)
         {
             using (LoginForm form = new LoginForm(_connection))
@@ -93,6 +103,8 @@ namespace Laboratorium.LabBook.Forms
 
             _service.PrepareAllData();
             _service.LoadFormData();
+
+            _init = false;
         }
 
         private void LabForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -163,6 +175,11 @@ namespace Laboratorium.LabBook.Forms
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             int nr = Convert.ToInt32(item.Tag);
             _service.ChangeViscosityProfile(nr);
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            _service.Save();
         }
     }
 }

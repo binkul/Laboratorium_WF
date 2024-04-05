@@ -75,7 +75,14 @@ namespace Laboratorium.LabBook.Service
 
         public void Modify(RowState state)
         {
+            if (_form.Init)
+                return;
 
+            bool laboModify = _laboList.Where(i => i.GetRowState != RowState.UNCHANGED).Any();
+            bool basicModify = _laboBasicList.Where(i => i.GetRowState != RowState.UNCHANGED).Any();
+            bool visModify = _laboViscosityList.Where(i => i.GetRowState != RowState.UNCHANGED).Any();
+
+            _form.ActivateSave(laboModify | basicModify | visModify);
         }
 
         #region Open/Close form 
@@ -945,7 +952,76 @@ namespace Laboratorium.LabBook.Service
 
         public void ChangeViscosityProfile(int nr)
         {
+            if (_currentLabBook == null)
+                return;
 
+            Profile profile;
+
+            switch (nr)
+            {
+                case 0:
+                    profile = Profile.STD_X;
+                    break;
+                case 1:
+                    profile = Profile.STD_X_SOL;
+                    break;
+                case 2:
+                    profile = Profile.STD;
+                    break;
+                case 3:
+                    profile = Profile.STD_SOL;
+                    break;
+                case 4:
+                    profile = Profile.PRB;
+                    break;
+                case 5:
+                    profile = Profile.KREBS;
+                    break;
+                case 6:
+                    profile = Profile.KREBS_SOL;
+                    break;
+                case 7:
+                    profile = Profile.STD_KREBS;
+                    break;
+                case 8:
+                    profile = Profile.STD_KREBS_SOL;
+                    break;
+                case 9:
+                    profile = Profile.ICI;
+                    break;
+                case 10:
+                    profile = Profile.ICI_SOL;
+                    break;
+                case 11:
+                    profile = Profile.STD_ICI;
+                    break;
+                case 12:
+                    profile = Profile.STD_ICI_SOL;
+                    break;
+                case 13:
+                    profile = Profile.STD_X;
+                    break;
+                default:
+                    profile = Profile.STD_X;
+                    break;
+            }
+
+            if (profile == Profile.STD_X)
+            {
+                _currentLabBook.ViscosityProfile = null;
+                return;
+            }
+
+            if (_currentLabBook.ViscosityProfile != null)
+            {
+                _currentLabBook.ViscosityProfile.Profile = profile;
+            }
+            else
+            {
+                _currentLabBook.ViscosityProfile = new LaboDataViscosityColDto(_currentLabBook.Id, profile, "");
+            }
+
+            SetViscosityVisbility(_currentLabBook.ViscosityProfile);
         }
 
         #endregion
@@ -1000,6 +1076,31 @@ namespace Laboratorium.LabBook.Service
                     SetFilter();
                 }
             }
+        }
+
+        #endregion
+
+
+        #region CRUD
+
+        public void Save()
+        {
+
+        }
+
+        private void SaveBasicData()
+        {
+
+        }
+
+        private void SaveViscosity()
+        {
+
+        }
+
+        private void SaveViscosityColumn()
+        {
+
         }
 
         #endregion
