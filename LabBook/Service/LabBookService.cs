@@ -377,6 +377,7 @@ namespace Laboratorium.LabBook.Service
             view.Columns.Remove("GetRowState");
             view.Columns.Remove("User");
             view.Columns.Remove("Project");
+            view.Columns.Remove("CrudState");
             view.Columns["IsDeleted"].Visible = false;
             view.Columns["UserId"].Visible = false;
 

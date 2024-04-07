@@ -35,6 +35,7 @@ namespace Laboratorium.ADO.DTO
         public DateTime DateUpdated { get; private set; }
         private RowState _rowState = RowState.ADDED;
         private readonly IService _service;
+        public CrudState CrudState { get; set; } = CrudState.OK;
 
         #endregion
 

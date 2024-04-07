@@ -22,6 +22,7 @@ namespace Laboratorium.ADO.DTO
         private LaboDataViscosityColDto _viscosityProfile;
         private RowState _rowState = RowState.ADDED;
         private IService _service;
+        public CrudState CrudState { get; set; } = CrudState.OK;
 
         public LaboDto() { }
 

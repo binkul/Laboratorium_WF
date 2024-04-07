@@ -120,7 +120,37 @@ namespace Laboratorium.LabBook.Repository
 
         public override LaboDataViscosityColDto Save(LaboDataViscosityColDto data)
         {
-            throw new NotImplementedException();
+            LaboDataViscosityColDto item = data;
+
+            try
+            {
+                SqlCommand command = new SqlCommand();
+                command.Connection = _connection;
+                command.CommandText = SqlSave.Save[_sqlIndex];
+                command.Parameters.AddWithValue("@labo_id", item.LaboId);
+                command.Parameters.AddWithValue("@type", item.Profile);
+                command.Parameters.AddWithValue("@columns", CommonFunction.NullStringToDBNullConv(item.Columns));
+                OpenConnection();
+                command.ExecuteNonQuery();
+                item.CrudState = CrudState.OK;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu Save " + _tableName,
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "': '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return item;
         }
 
         public override LaboDataViscosityColDto Update(LaboDataViscosityColDto data)

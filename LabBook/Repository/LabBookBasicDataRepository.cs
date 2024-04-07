@@ -119,12 +119,117 @@ namespace Laboratorium.LabBook.Repository
 
         public override LaboDataBasicDto Save(LaboDataBasicDto data)
         {
-            throw new NotImplementedException();
+            LaboDataBasicDto item = data;
+
+            try
+            {
+                SqlCommand command = new SqlCommand();
+                command.Connection = _connection;
+                command.CommandText = SqlSave.Save[_sqlIndex];
+                command.Parameters.AddWithValue("@labo_id", item.LaboId);
+                command.Parameters.AddWithValue("@gloss_20", CommonFunction.NullDoubleToDBNullConv(item.Gloss20));
+                command.Parameters.AddWithValue("@gloss_60", CommonFunction.NullDoubleToDBNullConv(item.Gloss60));
+                command.Parameters.AddWithValue("@gloss_85", CommonFunction.NullDoubleToDBNullConv(item.Gloss85));
+                command.Parameters.AddWithValue("@gloss_class", item.GlossClassId);
+                command.Parameters.AddWithValue("@gloss_comment", CommonFunction.NullStringToDBNullConv(item.GlossComment));
+                command.Parameters.AddWithValue("@scrub_brush", CommonFunction.NullStringToDBNullConv(item.ScrubBrush));
+                command.Parameters.AddWithValue("@scrub_sponge", CommonFunction.NullStringToDBNullConv(item.ScrubSponge));
+                command.Parameters.AddWithValue("@scrub_class", item.ScrubClassId);
+                command.Parameters.AddWithValue("@scrub_comment", CommonFunction.NullStringToDBNullConv(item.ScrubComment));
+                command.Parameters.AddWithValue("@contrast_class", item.ContrastClassId);
+                command.Parameters.AddWithValue("@contrast_comment", CommonFunction.NullStringToDBNullConv(item.ContrastComment));
+                command.Parameters.AddWithValue("@voc", CommonFunction.NullStringToDBNullConv(item.VOC));
+                command.Parameters.AddWithValue("@voc_class", item.VocClassId);
+                command.Parameters.AddWithValue("@yield", CommonFunction.NullStringToDBNullConv(item.Yield));
+                command.Parameters.AddWithValue("@yield_formula", CommonFunction.NullStringToDBNullConv(item.YieldFormula));
+                command.Parameters.AddWithValue("@adhesion", CommonFunction.NullStringToDBNullConv(item.Adhesion));
+                command.Parameters.AddWithValue("@flow", CommonFunction.NullStringToDBNullConv(item.Flow));
+                command.Parameters.AddWithValue("@spill", CommonFunction.NullStringToDBNullConv(item.Spill));
+                command.Parameters.AddWithValue("@drying_I", CommonFunction.NullStringToDBNullConv(item.DryingI));
+                command.Parameters.AddWithValue("@drying_II", CommonFunction.NullStringToDBNullConv(item.DryingII));
+                command.Parameters.AddWithValue("@drying_III", CommonFunction.NullStringToDBNullConv(item.DryingIII));
+                command.Parameters.AddWithValue("@drying_IV", CommonFunction.NullStringToDBNullConv(item.DryingIV));
+                command.Parameters.AddWithValue("@drying_V", CommonFunction.NullStringToDBNullConv(item.DryingV));
+                command.Parameters.AddWithValue("@date_updated", item.DateUpdated);
+                OpenConnection();
+                short id = Convert.ToInt16(command.ExecuteScalar());
+                item.Id = id;
+                item.CrudState = CrudState.OK;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu Save " + _tableName,
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "': '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return item;
         }
 
         public override LaboDataBasicDto Update(LaboDataBasicDto data)
         {
-            throw new NotImplementedException();
+            LaboDataBasicDto item = data;
+
+            try
+            {
+                SqlCommand command = new SqlCommand();
+                command.Connection = _connection;
+                command.CommandText = SqlUpdate.Update[_sqlIndex];
+                command.Parameters.AddWithValue("@gloss_20", CommonFunction.NullDoubleToDBNullConv(item.Gloss20));
+                command.Parameters.AddWithValue("@gloss_60", CommonFunction.NullDoubleToDBNullConv(item.Gloss60));
+                command.Parameters.AddWithValue("@gloss_85", CommonFunction.NullDoubleToDBNullConv(item.Gloss85));
+                command.Parameters.AddWithValue("@gloss_class", item.GlossClassId);
+                command.Parameters.AddWithValue("@gloss_comment", CommonFunction.NullStringToDBNullConv(item.GlossComment));
+                command.Parameters.AddWithValue("@scrub_brush", CommonFunction.NullStringToDBNullConv(item.ScrubBrush));
+                command.Parameters.AddWithValue("@scrub_sponge", CommonFunction.NullStringToDBNullConv(item.ScrubSponge));
+                command.Parameters.AddWithValue("@scrub_class", item.ScrubClassId);
+                command.Parameters.AddWithValue("@scrub_comment", CommonFunction.NullStringToDBNullConv(item.ScrubComment));
+                command.Parameters.AddWithValue("@contrast_class", item.ContrastClassId);
+                command.Parameters.AddWithValue("@contrast_comment", CommonFunction.NullStringToDBNullConv(item.ContrastComment));
+                command.Parameters.AddWithValue("@voc", CommonFunction.NullStringToDBNullConv(item.VOC));
+                command.Parameters.AddWithValue("@voc_class", item.VocClassId);
+                command.Parameters.AddWithValue("@yield", CommonFunction.NullStringToDBNullConv(item.Yield));
+                command.Parameters.AddWithValue("@yield_formula", CommonFunction.NullStringToDBNullConv(item.YieldFormula));
+                command.Parameters.AddWithValue("@adhesion", CommonFunction.NullStringToDBNullConv(item.Adhesion));
+                command.Parameters.AddWithValue("@flow", CommonFunction.NullStringToDBNullConv(item.Flow));
+                command.Parameters.AddWithValue("@spill", CommonFunction.NullStringToDBNullConv(item.Spill));
+                command.Parameters.AddWithValue("@drying_I", CommonFunction.NullStringToDBNullConv(item.DryingI));
+                command.Parameters.AddWithValue("@drying_II", CommonFunction.NullStringToDBNullConv(item.DryingII));
+                command.Parameters.AddWithValue("@drying_III", CommonFunction.NullStringToDBNullConv(item.DryingIII));
+                command.Parameters.AddWithValue("@drying_IV", CommonFunction.NullStringToDBNullConv(item.DryingIV));
+                command.Parameters.AddWithValue("@drying_V", CommonFunction.NullStringToDBNullConv(item.DryingV));
+                command.Parameters.AddWithValue("@date_updated", item.DateUpdated);
+                command.Parameters.AddWithValue("@labo_id", item.LaboId);
+                OpenConnection();
+                command.ExecuteNonQuery();
+                item.CrudState = CrudState.OK;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu Update " + _tableName,
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "': '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return item;
         }
     }
 }

@@ -6,11 +6,9 @@ namespace Laboratorium.ADO.SqlDataConstant
     {
         public static readonly Dictionary<SqlIndex, string> Save = new Dictionary<SqlIndex, string>
         {
-            {SqlIndex.LaboIndex, "Insert Into Konkurencja.dbo.DoswTytul(Numer_d, Data, Tytuł, Cel, UwagiWnioski, Gestosc, Wyrob, " +
-                "WyrEksperyment, WyrNazwa, WyrSkrot, WyrFunkcja1, WyrFunkcja2, WyrPolysk, WyrArchiwum, WyrNiebezpieczny, WyrIndex, " +
-                "IsDeleted, DateUpdated, UserId, ProjectId) Values(@Numer_d, @Data, @Tytul, @Cel, @UwagiWnioski, @Gestosc, @Wyrob, " +
-                "@WyrEksperyment, @WyrNazwa, @WyrSkrot, @WyrFunkcja1, @WyrFunkcja2, @WyrPolysk, @WyrArchiwum, @WyrNiebezpieczny, " +
-                "@WyrIndex, @IsDeleted, @DateUpdated, @UserId, @ProjectId)" },
+            {SqlIndex.LaboIndex, "Insert Into Konkurencja.dbo.DoswTytul(Numer_d, Data, Tytuł, Cel, UwagiWnioski, Observation, Gestosc, " +
+                "IsDeleted, DateUpdated, UserId, ProjectId) Values(@Numer_d, @Data, @Tytul, @Cel, @UwagiWnioski, @Observation, @Gestosc, " +
+                "@IsDeleted, @DateUpdated, @UserId, @ProjectId)" },
             {SqlIndex.LaboBasicIndex, "Insert Into Konkurencja.dbo.LaboDataBasic(labo_id, gloss_20, gloss_60, gloss_85, gloss_class, " +
                 "gloss_comment, scrub_brush, scrub_sponge, scrub_class, scrub_comment, contrast_class, contrast_comment, voc, voc_class, " +
                 "yield, yield_formula, adhesion, flow, spill, drying_I, drying_II, drying_III, drying_IV, drying_V, date_updated) " +

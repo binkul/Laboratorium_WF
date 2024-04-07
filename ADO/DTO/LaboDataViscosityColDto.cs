@@ -7,6 +7,7 @@ namespace Laboratorium.ADO.DTO
         public int LaboId { get; set; }
         public Profile Profile { get; set; }
         public string Columns { get; set; }
+        public CrudState CrudState { get; set; } = CrudState.OK;
 
         public LaboDataViscosityColDto(int laboId, Profile profile, string columns)
         {

@@ -77,12 +77,86 @@ namespace Laboratorium.LabBook.Repository
 
         public override LaboDto Save(LaboDto data)
         {
-            throw new NotImplementedException();
+            LaboDto item = data;
+
+            try
+            {
+                SqlCommand command = new SqlCommand();
+                command.Connection = _connection;
+                command.CommandText = SqlSave.Save[_sqlIndex];
+                command.Parameters.AddWithValue("@Numer_d", item.Id);
+                command.Parameters.AddWithValue("@Data", item.DateCreated);
+                command.Parameters.AddWithValue("@Tytul", item.Title);
+                command.Parameters.AddWithValue("@Cel", CommonFunction.NullStringToDBNullConv(item.Goal));
+                command.Parameters.AddWithValue("@UwagiWnioski", CommonFunction.NullStringToDBNullConv(item.Conclusion));
+                command.Parameters.AddWithValue("@Observation", CommonFunction.NullStringToDBNullConv(item.Observation));
+                command.Parameters.AddWithValue("@Gestosc", CommonFunction.NullDoubleToDBNullConv(item.Density));
+                command.Parameters.AddWithValue("@IsDeleted", item.IsDeleted);
+                command.Parameters.AddWithValue("@DateUpdated", item.DateUpdated);
+                command.Parameters.AddWithValue("@UserId", item.UserId);
+                command.Parameters.AddWithValue("@ProjectId", item.ProjectId);
+                OpenConnection();
+                command.ExecuteNonQuery();
+                item.CrudState = CrudState.OK;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu Save " + _tableName,
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "': '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return item;
         }
 
         public override LaboDto Update(LaboDto data)
         {
-            throw new NotImplementedException();
+            LaboDto item = data;
+
+            try
+            {
+                SqlCommand command = new SqlCommand();
+                command.Connection = _connection;
+                command.CommandText = SqlUpdate.Update[_sqlIndex];
+                command.Parameters.AddWithValue("@Tytul", item.Title);
+                command.Parameters.AddWithValue("@Cel", CommonFunction.NullStringToDBNullConv(item.Goal));
+                command.Parameters.AddWithValue("@UwagiWnioski", CommonFunction.NullStringToDBNullConv(item.Conclusion));
+                command.Parameters.AddWithValue("@Observation", CommonFunction.NullStringToDBNullConv(item.Observation));
+                command.Parameters.AddWithValue("@Gestosc", CommonFunction.NullDoubleToDBNullConv(item.Density));
+                command.Parameters.AddWithValue("@IsDeleted", item.IsDeleted);
+                command.Parameters.AddWithValue("@DateUpdated", item.DateUpdated);
+                command.Parameters.AddWithValue("@ProjectId", item.ProjectId);
+                command.Parameters.AddWithValue("@Numer_d", item.Id);
+                OpenConnection();
+                command.ExecuteNonQuery();
+                item.CrudState = CrudState.OK;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu Update " + _tableName,
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "': '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState= CrudState.ERROR;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return item;
         }
 
         public override void UpdateRow(DataRow row)

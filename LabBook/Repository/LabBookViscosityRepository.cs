@@ -226,12 +226,123 @@ namespace Laboratorium.LabBook.Repository
 
         public override LaboDataViscosityDto Save(LaboDataViscosityDto data)
         {
-            throw new System.NotImplementedException();
+            LaboDataViscosityDto item = data;
+
+            try
+            {
+                SqlCommand command = new SqlCommand();
+                command.Connection = _connection;
+                command.CommandText = SqlSave.Save[_sqlIndex];
+                command.Parameters.AddWithValue("@labo_id", item.LaboId);
+                command.Parameters.AddWithValue("@to_compare", item.ToCompare);
+                command.Parameters.AddWithValue("@pH", CommonFunction.NullDoubleToDBNullConv(item.pH));
+                command.Parameters.AddWithValue("@temp", CommonFunction.NullStringToDBNullConv(item.Temp));
+                command.Parameters.AddWithValue("@brook_1", CommonFunction.NullDoubleToDBNullConv(item.Brook1));
+                command.Parameters.AddWithValue("@brook_5", CommonFunction.NullDoubleToDBNullConv(item.Brook5));
+                command.Parameters.AddWithValue("@brook_10", CommonFunction.NullDoubleToDBNullConv(item.Brook10));
+                command.Parameters.AddWithValue("@brook_20", CommonFunction.NullDoubleToDBNullConv(item.Brook20));
+                command.Parameters.AddWithValue("@brook_30", CommonFunction.NullDoubleToDBNullConv(item.Brook30));
+                command.Parameters.AddWithValue("@brook_40", CommonFunction.NullDoubleToDBNullConv(item.Brook40));
+                command.Parameters.AddWithValue("@brook_50", CommonFunction.NullDoubleToDBNullConv(item.Brook50));
+                command.Parameters.AddWithValue("@brook_60", CommonFunction.NullDoubleToDBNullConv(item.Brook60));
+                command.Parameters.AddWithValue("@brook_70", CommonFunction.NullDoubleToDBNullConv(item.Brook70));
+                command.Parameters.AddWithValue("@brook_80", CommonFunction.NullDoubleToDBNullConv(item.Brook80));
+                command.Parameters.AddWithValue("@brook_90", CommonFunction.NullDoubleToDBNullConv(item.Brook90));
+                command.Parameters.AddWithValue("@brook_100", CommonFunction.NullDoubleToDBNullConv(item.Brook100));
+                command.Parameters.AddWithValue("@brook_disc", CommonFunction.NullStringToDBNullConv(item.BrookDisc));
+                command.Parameters.AddWithValue("@brook_comment", CommonFunction.NullStringToDBNullConv(item.BrookComment));
+                command.Parameters.AddWithValue("@brook_x_vis", CommonFunction.NullDoubleToDBNullConv(item.BrookXvisc));
+                command.Parameters.AddWithValue("@brook_x_rpm", CommonFunction.NullStringToDBNullConv(item.BrookXrpm));
+                command.Parameters.AddWithValue("@brook_x_disc", CommonFunction.NullStringToDBNullConv(item.BrookXdisc));
+                command.Parameters.AddWithValue("@krebs", CommonFunction.NullDoubleToDBNullConv(item.Krebs));
+                command.Parameters.AddWithValue("@krebs_comment", CommonFunction.NullStringToDBNullConv(item.KrebsComment));
+                command.Parameters.AddWithValue("@ici", CommonFunction.NullDoubleToDBNullConv(item.ICI));
+                command.Parameters.AddWithValue("@ici_disc", CommonFunction.NullStringToDBNullConv(item.IciDisc));
+                command.Parameters.AddWithValue("@ici_comment", CommonFunction.NullStringToDBNullConv(item.IciComment));
+                command.Parameters.AddWithValue("@date_created", item.DateCreated);
+                command.Parameters.AddWithValue("@date_updated", item.DateUpdated);
+                OpenConnection();
+                short id = Convert.ToInt16(command.ExecuteScalar());
+                item.Id = id;
+                item.CrudState = CrudState.OK;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu Save " + _tableName,
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "': '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return item;
         }
 
         public override LaboDataViscosityDto Update(LaboDataViscosityDto data)
         {
-            throw new System.NotImplementedException();
+            LaboDataViscosityDto item = data;
+
+            try
+            {
+                SqlCommand command = new SqlCommand();
+                command.Connection = _connection;
+                command.CommandText = SqlUpdate.Update[_sqlIndex];
+                command.Parameters.AddWithValue("@to_compare", item.ToCompare);
+                command.Parameters.AddWithValue("@pH", CommonFunction.NullDoubleToDBNullConv(item.pH));
+                command.Parameters.AddWithValue("@temp", CommonFunction.NullStringToDBNullConv(item.Temp));
+                command.Parameters.AddWithValue("@brook_1", CommonFunction.NullDoubleToDBNullConv(item.Brook1));
+                command.Parameters.AddWithValue("@brook_5", CommonFunction.NullDoubleToDBNullConv(item.Brook5));
+                command.Parameters.AddWithValue("@brook_10", CommonFunction.NullDoubleToDBNullConv(item.Brook10));
+                command.Parameters.AddWithValue("@brook_20", CommonFunction.NullDoubleToDBNullConv(item.Brook20));
+                command.Parameters.AddWithValue("@brook_30", CommonFunction.NullDoubleToDBNullConv(item.Brook30));
+                command.Parameters.AddWithValue("@brook_40", CommonFunction.NullDoubleToDBNullConv(item.Brook40));
+                command.Parameters.AddWithValue("@brook_50", CommonFunction.NullDoubleToDBNullConv(item.Brook50));
+                command.Parameters.AddWithValue("@brook_60", CommonFunction.NullDoubleToDBNullConv(item.Brook60));
+                command.Parameters.AddWithValue("@brook_70", CommonFunction.NullDoubleToDBNullConv(item.Brook70));
+                command.Parameters.AddWithValue("@brook_80", CommonFunction.NullDoubleToDBNullConv(item.Brook80));
+                command.Parameters.AddWithValue("@brook_90", CommonFunction.NullDoubleToDBNullConv(item.Brook90));
+                command.Parameters.AddWithValue("@brook_100", CommonFunction.NullDoubleToDBNullConv(item.Brook100));
+                command.Parameters.AddWithValue("@brook_disc", CommonFunction.NullStringToDBNullConv(item.BrookDisc));
+                command.Parameters.AddWithValue("@brook_comment", CommonFunction.NullStringToDBNullConv(item.BrookComment));
+                command.Parameters.AddWithValue("@brook_x_vis", CommonFunction.NullDoubleToDBNullConv(item.BrookXvisc));
+                command.Parameters.AddWithValue("@brook_x_rpm", CommonFunction.NullStringToDBNullConv(item.BrookXrpm));
+                command.Parameters.AddWithValue("@brook_x_disc", CommonFunction.NullStringToDBNullConv(item.BrookXdisc));
+                command.Parameters.AddWithValue("@krebs", CommonFunction.NullDoubleToDBNullConv(item.Krebs));
+                command.Parameters.AddWithValue("@krebs_comment", CommonFunction.NullStringToDBNullConv(item.KrebsComment));
+                command.Parameters.AddWithValue("@ici", CommonFunction.NullDoubleToDBNullConv(item.ICI));
+                command.Parameters.AddWithValue("@ici_disc", CommonFunction.NullStringToDBNullConv(item.IciDisc));
+                command.Parameters.AddWithValue("@ici_comment", CommonFunction.NullStringToDBNullConv(item.IciComment));
+                command.Parameters.AddWithValue("@date_created", item.DateCreated);
+                command.Parameters.AddWithValue("@date_updated", item.DateUpdated);
+                command.Parameters.AddWithValue("@id", item.Id);
+                OpenConnection();
+                command.ExecuteNonQuery();
+                item.CrudState = CrudState.OK;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu Update " + _tableName,
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "': '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return item;
         }
 
         public override void UpdateRow(DataRow row)
