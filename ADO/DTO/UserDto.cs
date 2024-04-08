@@ -5,7 +5,7 @@ namespace Laboratorium.ADO.DTO
 {
     public class UserDto
     {
-        private int _id;
+        private short _id;
         private string _name;
         private string _surname;
         private string _email;
@@ -20,7 +20,7 @@ namespace Laboratorium.ADO.DTO
 
         public UserDto() { }
 
-        public UserDto(int id, string name, string surname, string email, string login, string password, string permission, 
+        public UserDto(short id, string name, string surname, string email, string login, string password, string permission, 
             string identifier, bool active, DateTime dateCreated)
         {
             _id = id;
@@ -35,7 +35,7 @@ namespace Laboratorium.ADO.DTO
             _dateCreated = dateCreated;
         }
 
-        public UserDto(int id, string name, string login, string identifier, bool active)
+        public UserDto(short id, string name, string login, string identifier, bool active)
         {
             _id = id;
             _name = name;
@@ -45,7 +45,7 @@ namespace Laboratorium.ADO.DTO
             _rowState = RowState.UNCHANGED;
         }
 
-        public int Id
+        public short Id
         {
             get => _id;
             set

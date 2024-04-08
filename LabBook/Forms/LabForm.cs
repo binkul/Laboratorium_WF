@@ -20,7 +20,7 @@ namespace Laboratorium.LabBook.Forms
 
         private readonly string connectionString = ConfigurationManager.ConnectionStrings["connection"].ConnectionString;
         private readonly SqlConnection _connection;
-        private readonly LabBookService _service;
+        private LabBookService _service;
         private UserDto _user;
         private bool _loginOk = false;
         private bool _init = true;
@@ -69,7 +69,6 @@ namespace Laboratorium.LabBook.Forms
         {
             InitializeComponent();
             _connection = new SqlConnection(connectionString);
-            _service = new LabBookService(_connection, _user, this);
         }
 
         public bool Init => _init;
@@ -95,11 +94,15 @@ namespace Laboratorium.LabBook.Forms
                 Application.Exit();
                 return;
             }
+            else
+            {
+                _service = new LabBookService(_connection, _user, this);
+            }
 
-            //Rectangle tmp = Screen.FromControl(this).Bounds;
-            //Width = tmp.Width - 100;
-            //Height = tmp.Height - 200;
-            //CenterToScreen();
+            ToolTip toolTip_1 = new ToolTip();
+            toolTip_1.SetToolTip(BtnAdd, "Dodaj pojedynczy");
+            ToolTip toolTip_2 = new ToolTip();
+            toolTip_2.SetToolTip(BtnAddMany, "Dodaj wiele");
 
             _service.PrepareAllData();
             _service.LoadFormData();
@@ -180,6 +183,26 @@ namespace Laboratorium.LabBook.Forms
         private void BtnSave_Click(object sender, EventArgs e)
         {
             _service.Save();
+        }
+
+        private void TabLabo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TabControl control = (TabControl)sender;
+            if (control.SelectedTab.Name == TbLabBook.Name)
+            {
+                BtnAdd.Enabled = true;
+                BtnAddMany.Enabled = true;
+            }
+            else
+            {
+                BtnAdd.Enabled = false;
+                BtnAddMany.Enabled = false;
+            }
+        }
+
+        private void BtnAdd_Click(object sender, EventArgs e)
+        {
+            _service.AddOneLabBook();
         }
     }
 }

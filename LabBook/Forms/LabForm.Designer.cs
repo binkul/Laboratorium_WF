@@ -149,6 +149,7 @@
             this.LblNrD = new System.Windows.Forms.Label();
             this.LblProject = new System.Windows.Forms.Label();
             this.BtnChangeProject = new System.Windows.Forms.Button();
+            this.BtnAddMany = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.BindingNavigatorLabo)).BeginInit();
             this.BindingNavigatorLabo.SuspendLayout();
             this.TabLabo.SuspendLayout();
@@ -284,6 +285,7 @@
             this.TabLabo.SelectedIndex = 0;
             this.TabLabo.Size = new System.Drawing.Size(1376, 634);
             this.TabLabo.TabIndex = 10;
+            this.TabLabo.SelectedIndexChanged += new System.EventHandler(this.TabLabo_SelectedIndexChanged);
             // 
             // TbLabBook
             // 
@@ -497,7 +499,7 @@
             this.CmbScrubClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbScrubClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbScrubClass.FormattingEnabled = true;
-            this.CmbScrubClass.Location = new System.Drawing.Point(205, 202);
+            this.CmbScrubClass.Location = new System.Drawing.Point(205, 203);
             this.CmbScrubClass.Name = "CmbScrubClass";
             this.CmbScrubClass.Size = new System.Drawing.Size(159, 28);
             this.CmbScrubClass.TabIndex = 3;
@@ -709,7 +711,7 @@
             this.CmbGlossClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbGlossClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbGlossClass.FormattingEnabled = true;
-            this.CmbGlossClass.Location = new System.Drawing.Point(207, 245);
+            this.CmbGlossClass.Location = new System.Drawing.Point(207, 246);
             this.CmbGlossClass.Name = "CmbGlossClass";
             this.CmbGlossClass.Size = new System.Drawing.Size(224, 28);
             this.CmbGlossClass.TabIndex = 10;
@@ -834,7 +836,7 @@
             this.CmbContrastClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbContrastClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbContrastClass.FormattingEnabled = true;
-            this.CmbContrastClass.Location = new System.Drawing.Point(205, 120);
+            this.CmbContrastClass.Location = new System.Drawing.Point(205, 118);
             this.CmbContrastClass.Name = "CmbContrastClass";
             this.CmbContrastClass.Size = new System.Drawing.Size(149, 28);
             this.CmbContrastClass.TabIndex = 5;
@@ -903,7 +905,7 @@
             this.CmbVocClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbVocClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbVocClass.FormattingEnabled = true;
-            this.CmbVocClass.Location = new System.Drawing.Point(205, 82);
+            this.CmbVocClass.Location = new System.Drawing.Point(205, 83);
             this.CmbVocClass.Name = "CmbVocClass";
             this.CmbVocClass.Size = new System.Drawing.Size(298, 28);
             this.CmbVocClass.TabIndex = 12;
@@ -1342,6 +1344,7 @@
             this.BtnAdd.Size = new System.Drawing.Size(50, 50);
             this.BtnAdd.TabIndex = 20;
             this.BtnAdd.UseVisualStyleBackColor = true;
+            this.BtnAdd.Click += new System.EventHandler(this.BtnAdd_Click);
             // 
             // LabMainMenuStrip
             // 
@@ -1396,7 +1399,7 @@
             this.StdIciSolToolStripMenuItem,
             this.SpecialToolStripMenuItem});
             this.lepkościToolStripMenuItem.Name = "lepkościToolStripMenuItem";
-            this.lepkościToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
+            this.lepkościToolStripMenuItem.Size = new System.Drawing.Size(213, 28);
             this.lepkościToolStripMenuItem.Text = "Lepkości profile";
             // 
             // StdXToolStripMenuItem
@@ -1515,7 +1518,7 @@
             // 
             this.BtnDelete.BackgroundImage = global::Laboratorium.Properties.Resources.delete;
             this.BtnDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BtnDelete.Location = new System.Drawing.Point(66, 34);
+            this.BtnDelete.Location = new System.Drawing.Point(137, 34);
             this.BtnDelete.Margin = new System.Windows.Forms.Padding(4);
             this.BtnDelete.Name = "BtnDelete";
             this.BtnDelete.Size = new System.Drawing.Size(50, 50);
@@ -1527,7 +1530,7 @@
             this.BtnSave.BackgroundImage = global::Laboratorium.Properties.Resources.Save;
             this.BtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnSave.Enabled = false;
-            this.BtnSave.Location = new System.Drawing.Point(124, 35);
+            this.BtnSave.Location = new System.Drawing.Point(195, 34);
             this.BtnSave.Margin = new System.Windows.Forms.Padding(4);
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(50, 50);
@@ -1597,11 +1600,23 @@
             this.BtnChangeProject.UseVisualStyleBackColor = true;
             this.BtnChangeProject.Click += new System.EventHandler(this.BtnChangeProject_Click);
             // 
+            // BtnAddMany
+            // 
+            this.BtnAddMany.BackgroundImage = global::Laboratorium.Properties.Resources.Add_Many_II;
+            this.BtnAddMany.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BtnAddMany.Location = new System.Drawing.Point(66, 34);
+            this.BtnAddMany.Margin = new System.Windows.Forms.Padding(4);
+            this.BtnAddMany.Name = "BtnAddMany";
+            this.BtnAddMany.Size = new System.Drawing.Size(50, 50);
+            this.BtnAddMany.TabIndex = 25;
+            this.BtnAddMany.UseVisualStyleBackColor = true;
+            // 
             // LabForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1376, 848);
+            this.Controls.Add(this.BtnAddMany);
             this.Controls.Add(this.BtnChangeProject);
             this.Controls.Add(this.LblProject);
             this.Controls.Add(this.LblNrD);
@@ -1779,5 +1794,6 @@
         private System.Windows.Forms.ToolStripMenuItem StdIciToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem StdIciSolToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SpecialToolStripMenuItem;
+        private System.Windows.Forms.Button BtnAddMany;
     }
 }

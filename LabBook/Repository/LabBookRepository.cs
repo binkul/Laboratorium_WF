@@ -159,6 +159,41 @@ namespace Laboratorium.LabBook.Repository
             return item;
         }
 
+        public LaboDto AddNewLabo(LaboDto laboDto)
+        {
+            bool error = false;
+            LaboDto labo = laboDto;
+
+            try
+            {
+                SqlCommand command = new SqlCommand("Select CAST(MAX(Numer_d) As int) As max_id From Konkurencja.dbo.DoswTytul", _connection);
+                _connection.Open();
+                int id = (int)command.ExecuteScalar();
+                id++;
+                labo.Id = id;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu GetAll " + _tableName,
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                error = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "': '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                error = true;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            if (!error)
+                Save(labo);
+
+            return labo;
+        }
+
         public override void UpdateRow(DataRow row)
         {
             throw new NotImplementedException();

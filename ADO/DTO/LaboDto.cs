@@ -135,11 +135,7 @@ namespace Laboratorium.ADO.DTO
         public short UserId
         {
             get => _userId;
-            set
-            {
-                _userId = value;
-                ChangeState(RowState.MODIFIED);
-            }
+            set => _userId = value;
         }
 
         public UserDto User

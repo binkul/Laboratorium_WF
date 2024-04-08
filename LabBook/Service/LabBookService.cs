@@ -662,8 +662,9 @@ namespace Laboratorium.LabBook.Service
                 string nr = "D-" + _currentLabBook.Id.ToString();
                 _form.GetLblNrD.Text = nr;
 
-                string project = "Projekt #" + _currentLabBook.ProjectId + " - '" + _currentLabBook.Project.Title + "'";
-                _form.GetLblProject.Text = project;
+                string projectName = _currentLabBook.Project != null ? _currentLabBook.Project.Title : "-- Brak --";
+                string project = "Projekt #" + _currentLabBook.ProjectId + " - '" + projectName + "'";
+                _form.GetLblProject.Text = project;                             
                 _form.GetBtnProjectChange.Left = _form.GetLblProject.Left + _form.GetLblProject.Width + 10;
             }
             else
@@ -946,6 +947,27 @@ namespace Laboratorium.LabBook.Service
             }
         }
 
+        public void AddOneLabBook()
+        {
+            LabBookRepository repository = (LabBookRepository)_repositoryLabo;
+            LaboDto newLabo = new LaboDto(0, "PUSTY", DateTime.Today, 1, _user.Id, this);
+            ProjectDto project = _projectList.Where(i => i.Id == 1).FirstOrDefault();
+            newLabo.User = _user;
+            newLabo.Project = project;
+
+            newLabo = repository.AddNewLabo(newLabo);
+
+            if (newLabo.CrudState == CrudState.OK)
+            {
+                newLabo.AcceptChanged();
+                _laboBinding.Add(newLabo);
+                _laboBinding.EndEdit();
+                _form.GetDgvLabo.Refresh();
+                int position = _laboList.IndexOf(newLabo);
+                _laboBinding.Position = position;
+            }
+        }
+
         #endregion
 
 
@@ -1085,6 +1107,11 @@ namespace Laboratorium.LabBook.Service
         #region CRUD
 
         public void Save()
+        {
+
+        }
+
+        private void UpdateLabo()
         {
 
         }
