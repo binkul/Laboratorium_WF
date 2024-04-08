@@ -58,6 +58,7 @@
     <Compile Include="ADO\DTO\UserDto.cs" />
     <Compile Include="ADO\DTO\ProgramDataDto.cs" />
     <Compile Include="ADO\DTO\VocClassDto.cs" />
+    <Compile Include="ADO\Permission.cs" />
     <Compile Include="ADO\Repository\BasicCRUD.cs" />
     <Compile Include="ADO\Repository\ExtendedCRUD.cs" />
     <Compile Include="ADO\Repository\IBasicCRUD.cs" />

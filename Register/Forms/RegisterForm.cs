@@ -1,4 +1,5 @@
-﻿using Laboratorium.ADO.DTO;
+﻿using Laboratorium.ADO;
+using Laboratorium.ADO.DTO;
 using Laboratorium.Login.Forms;
 using Laboratorium.Login.Repository;
 using Laboratorium.Security;
@@ -72,7 +73,7 @@ namespace Laboratorium.Register.Forms
                     Login = TxtLogin.Text,
                     Password = password,
                     Identifier = TxtName.Text.ToUpper().Substring(0, 1) + TxtSurname.Text.ToUpper().Substring(0, 1),
-                    Permission = "user",
+                    Permission = Permission.USER.ToString(),
                     Active = false,
                     DateCreated = DateTime.Today
                 };

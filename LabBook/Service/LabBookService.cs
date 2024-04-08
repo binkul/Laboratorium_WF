@@ -1108,17 +1108,71 @@ namespace Laboratorium.LabBook.Service
 
         public void Save()
         {
+            if (Enum.TryParse(_user.Permission.ToUpper(), out Permission permission))
+            {
+                permission = Permission.USER;
+            }
 
+            UpdateLabo(permission);
         }
 
-        private void UpdateLabo()
+        private bool UpdateLabo(Permission permission)
         {
+            IList<LaboDto> updated = _laboList
+                .Where(i => i.GetRowState == RowState.MODIFIED)
+                .ToList();
 
+            foreach (LaboDto labo in updated) 
+            {
+                if (permission == Permission.ADMIN || (permission == Permission.USER && _user.Id == labo.UserId))
+                {
+                    CrudState answer = _repositoryLabo.Update(labo).CrudState;
+                    if (answer == CrudState.OK)
+                        labo.AcceptChanged();
+                    else
+                        return false;
+                }
+                else
+                {
+                    labo.AcceptChanged();
+                }
+            }
+
+            return true;
         }
 
-        private void SaveBasicData()
+        private bool SaveBasicData(Permission permission)
         {
+            IList<LaboDataBasicDto> saved = _laboBasicList
+                .Where(i => i.GetRowState == RowState.ADDED)
+                .ToList();
+            IList<LaboDataBasicDto> updated = _laboBasicList
+                .Where(i => i.GetRowState == RowState.MODIFIED)
+                .ToList();
 
+            foreach (LaboDataBasicDto labo in saved)
+            {
+                short id = _laboList
+                    .Where(i => i.Id == labo.LaboId)
+                    .Select(i => i.UserId)
+                    .FirstOrDefault();
+
+                if (permission == Permission.ADMIN || (permission == Permission.USER && _user.Id == id))
+                {
+                    CrudState answer = _repositoryLaboBasic.Save(labo).CrudState;
+                    if (answer == CrudState.OK)
+                        labo.AcceptChanged();
+                    else
+                        return false;
+                }
+                else
+                {
+                    labo.AcceptChanged();
+                }
+            }
+
+
+            return true;
         }
 
         private void SaveViscosity()
