@@ -221,7 +221,6 @@ namespace Laboratorium.LabBook.Service
             _laboBasicList = _repositoryLaboBasic.GetAll();
             _laboBasicBinding = new BindingSource();
 
-
             _laboViscosityList = _repositoryViscosity.GetAllByLaboId(-1);
             _laboViscosityBinding = new BindingSource();
             _laboViscosityBinding.DataSource = _laboViscosityList;
@@ -295,9 +294,17 @@ namespace Laboratorium.LabBook.Service
             _form.GetTxtScrubSponge.DataBindings.Add("Text", _laboBasicBinding, "ScrubSponge");
             _form.GetTxtScrubComment.DataBindings.Add("Text", _laboBasicBinding, "ScrubComment");
             _form.GetTxtContrastComment.DataBindings.Add("Text", _laboBasicBinding, "ContrastComment");
-            _form.GetTxtGloss20.DataBindings.Add("Text", _laboBasicBinding, "Gloss20");
-            _form.GetTxtGloss60.DataBindings.Add("Text", _laboBasicBinding, "Gloss60");
-            _form.GetTxtGloss85.DataBindings.Add("Text", _laboBasicBinding, "Gloss85");
+
+            Binding gloss20 = new Binding("Text", _laboBasicBinding, "Gloss20", true);
+            gloss20.Parse += TxtDouble_Parse;
+            Binding gloss60 = new Binding("Text", _laboBasicBinding, "Gloss60", true);
+            gloss60.Parse += TxtDouble_Parse;
+            Binding gloss85 = new Binding("Text", _laboBasicBinding, "Gloss85", true);
+            gloss85.Parse += TxtDouble_Parse;
+            _form.GetTxtGloss20.DataBindings.Add(gloss20);
+            _form.GetTxtGloss60.DataBindings.Add(gloss60);
+            _form.GetTxtGloss85.DataBindings.Add(gloss85);
+
             _form.GetTxtGlossComment.DataBindings.Add("Text", _laboBasicBinding, "GlossComment");
             _form.GetTxtVoc.DataBindings.Add("Text", _laboBasicBinding, "VOC");
             _form.GetTxtYield.DataBindings.Add("Text", _laboBasicBinding, "Yield");
@@ -321,16 +328,28 @@ namespace Laboratorium.LabBook.Service
             foreach (LaboDto labo in _laboList)
             {
                 short id = labo.UserId;
-                UserDto user = _userList.Where(i => i.Id == id).FirstOrDefault();
+                UserDto user = _userList
+                    .Where(i => i.Id == id)
+                    .FirstOrDefault();
                 if (user != null)
                     labo.User = user;
 
                 int projectId = labo.ProjectId;
-                ProjectDto project = _projectList.Where(i => i.Id == projectId).FirstOrDefault();
+                ProjectDto project = _projectList
+                    .Where(i => i.Id == projectId)
+                    .FirstOrDefault();
                 if (project != null)
                     labo.Project = project;
 
-                LaboDataViscosityColDto profile = _laboViscosityColList.Where(i => i.LaboId == labo.Id).FirstOrDefault();
+                LaboDataBasicDto basicData = _laboBasicList
+                    .Where(i => i.LaboId == labo.Id)
+                    .FirstOrDefault();
+                if (basicData != null)
+                    labo.LaboBasicData = basicData;
+
+                LaboDataViscosityColDto profile = _laboViscosityColList
+                    .Where(i => i.LaboId == labo.Id)
+                    .FirstOrDefault();
                 if (profile != null)
                 {
                     labo.ViscosityProfile = profile;
@@ -377,6 +396,7 @@ namespace Laboratorium.LabBook.Service
             view.Columns.Remove("GetRowState");
             view.Columns.Remove("User");
             view.Columns.Remove("Project");
+            view.Columns.Remove("LaboBasicData");
             view.Columns.Remove("CrudState");
             view.Columns["IsDeleted"].Visible = false;
             view.Columns["UserId"].Visible = false;
@@ -439,6 +459,7 @@ namespace Laboratorium.LabBook.Service
             view.AutoGenerateColumns = false;
 
             view.Columns.Remove("GetRowState");
+            view.Columns.Remove("CrudState");
             view.Columns["Id"].Visible = false;
             view.Columns["LaboId"].Visible = false;
 
@@ -680,19 +701,11 @@ namespace Laboratorium.LabBook.Service
             #region Create Basic Data if not exist
 
             _laboBasicBinding.EndEdit();
-            LaboDataBasicDto basicCurrent = _currentLabBook != null ? _laboBasicList.Where(i => i.LaboId == _currentLabBook.Id).FirstOrDefault() : null;
+            LaboDataBasicDto basicCurrent = _currentLabBook != null ? _currentLabBook.LaboBasicData : null; // _laboBasicList.Where(i => i.LaboId == _currentLabBook.Id).FirstOrDefault() : null;
             if (_currentLabBook != null && basicCurrent == null)
             {
-                basicCurrent = new LaboDataBasicDto.Builder()
-                    .LaboId(_currentLabBook.Id)
-                    .GlossClassId(1)
-                    .ContrastClassId(1)
-                    .ScrubClassId(1)
-                    .VocClassId(1)
-                    .Date(DateTime.Today)
-                    .Service(this)
-                    .Build();
-                _laboBasicList.Add(basicCurrent);
+                basicCurrent = CreateEmptyLabodataBasic(); 
+                _currentLabBook.LaboBasicData = basicCurrent;
             }
 
             _laboBasicBinding.DataSource = basicCurrent;
@@ -809,6 +822,19 @@ namespace Laboratorium.LabBook.Service
             {
                 view.Columns[column].Visible = true;
             }
+        }
+
+        private LaboDataBasicDto CreateEmptyLabodataBasic()
+        {
+            return new LaboDataBasicDto.Builder()
+                    .LaboId(_currentLabBook.Id)
+                    .GlossClassId(1)
+                    .ContrastClassId(1)
+                    .ScrubClassId(1)
+                    .VocClassId(1)
+                    .Date(DateTime.Today)
+                    .Service(this)
+                    .Build();
         }
 
         #endregion
@@ -952,6 +978,8 @@ namespace Laboratorium.LabBook.Service
             LabBookRepository repository = (LabBookRepository)_repositoryLabo;
             LaboDto newLabo = new LaboDto(0, "PUSTY", DateTime.Today, 1, _user.Id, this);
             ProjectDto project = _projectList.Where(i => i.Id == 1).FirstOrDefault();
+            LaboDataBasicDto basic = CreateEmptyLabodataBasic();
+            newLabo.LaboBasicData = basic;
             newLabo.User = _user;
             newLabo.Project = project;
 
@@ -1032,16 +1060,13 @@ namespace Laboratorium.LabBook.Service
             if (profile == Profile.STD_X)
             {
                 _currentLabBook.ViscosityProfile = null;
-                return;
-            }
-
-            if (_currentLabBook.ViscosityProfile != null)
-            {
-                _currentLabBook.ViscosityProfile.Profile = profile;
             }
             else
             {
-                _currentLabBook.ViscosityProfile = new LaboDataViscosityColDto(_currentLabBook.Id, profile, "");
+                if (_currentLabBook.ViscosityProfile != null)
+                    _currentLabBook.ViscosityProfile.Profile = profile;
+                else
+                    _currentLabBook.ViscosityProfile = new LaboDataViscosityColDto(_currentLabBook.Id, profile, "");
             }
 
             SetViscosityVisbility(_currentLabBook.ViscosityProfile);
@@ -1104,6 +1129,17 @@ namespace Laboratorium.LabBook.Service
         #endregion
 
 
+        #region Parse and Validating
+
+        private void TxtDouble_Parse(object sender, ConvertEventArgs e)
+        {
+            if (e.Value.Equals(""))
+                e.Value = null;
+        }
+
+        #endregion
+
+
         #region CRUD
 
         public void Save()
@@ -1114,6 +1150,8 @@ namespace Laboratorium.LabBook.Service
             }
 
             UpdateLabo(permission);
+            SaveBasicData(permission);
+            SaveViscosity();
         }
 
         private bool UpdateLabo(Permission permission)
@@ -1128,7 +1166,10 @@ namespace Laboratorium.LabBook.Service
                 {
                     CrudState answer = _repositoryLabo.Update(labo).CrudState;
                     if (answer == CrudState.OK)
+                    {
+                        SaveViscosityColumn(labo);
                         labo.AcceptChanged();
+                    }
                     else
                         return false;
                 }
@@ -1143,46 +1184,107 @@ namespace Laboratorium.LabBook.Service
 
         private bool SaveBasicData(Permission permission)
         {
-            IList<LaboDataBasicDto> saved = _laboBasicList
-                .Where(i => i.GetRowState == RowState.ADDED)
-                .ToList();
-            IList<LaboDataBasicDto> updated = _laboBasicList
-                .Where(i => i.GetRowState == RowState.MODIFIED)
+            #region Save new
+
+            var added = _laboList
+                .Where(i => i.LaboBasicData != null)
+                .Select(i => new { i.UserId, i.LaboBasicData})
+                .Where(i => i.LaboBasicData.GetRowState == RowState.ADDED)
                 .ToList();
 
-            foreach (LaboDataBasicDto labo in saved)
+            foreach (var labo in added)
             {
-                short id = _laboList
-                    .Where(i => i.Id == labo.LaboId)
-                    .Select(i => i.UserId)
-                    .FirstOrDefault();
-
-                if (permission == Permission.ADMIN || (permission == Permission.USER && _user.Id == id))
+                if (permission == Permission.ADMIN || (permission == Permission.USER && _user.Id == labo.UserId))
                 {
-                    CrudState answer = _repositoryLaboBasic.Save(labo).CrudState;
+                    CrudState answer = _repositoryLaboBasic.Save(labo.LaboBasicData).CrudState;
                     if (answer == CrudState.OK)
-                        labo.AcceptChanged();
+                        labo.LaboBasicData.AcceptChanged();
                     else
                         return false;
                 }
                 else
                 {
-                    labo.AcceptChanged();
+                    labo.LaboBasicData.AcceptChanged();
                 }
             }
 
+            #endregion
+
+            #region Update
+
+            var modified = _laboList
+                .Where(i => i.LaboBasicData != null)
+                .Select(i => new { i.UserId, i.LaboBasicData })
+                .Where(i => i.LaboBasicData.GetRowState == RowState.MODIFIED)
+                .ToList();
+
+            foreach (var labo in modified)
+            {
+                if (permission == Permission.ADMIN || (permission == Permission.USER && _user.Id == labo.UserId))
+                {
+                    CrudState answer = _repositoryLaboBasic.Update(labo.LaboBasicData).CrudState;
+                    if (answer == CrudState.OK)
+                        labo.LaboBasicData.AcceptChanged();
+                    else
+                        return false;
+                }
+                else
+                {
+                    labo.LaboBasicData.AcceptChanged();
+                }
+            }
+
+            #endregion
 
             return true;
         }
 
-        private void SaveViscosity()
+        private bool SaveViscosity()
         {
+            #region Save new
 
+            var added = _laboViscosityList
+                .Where(i => i.GetRowState == RowState.ADDED)
+                .ToList();
+
+            foreach (var vis in added)
+            {
+                CrudState answer = _repositoryViscosity.Save(vis).CrudState;
+                if (answer == CrudState.OK)
+                    vis.AcceptChanged();
+                else
+                    return false;
+            }
+
+            #endregion
+
+            #region Update
+
+            var modified = _laboViscosityList
+                .Where(i => i.GetRowState == RowState.MODIFIED)
+                .ToList();
+
+            foreach (var vis in modified)
+            {
+                CrudState answer = _repositoryViscosity.Save(vis).CrudState;
+                if (answer == CrudState.OK)
+                    vis.AcceptChanged();
+                else
+                    return false;
+            }
+
+            #endregion
+
+            return true;
         }
 
-        private void SaveViscosityColumn()
+        private void SaveViscosityColumn(LaboDto labo)
         {
-
+            _repositoryViscosityCol.DeleteById(labo.Id);
+            if (labo.ViscosityProfile != null)
+            {
+                _repositoryViscosityCol.Save(labo.ViscosityProfile);
+            }
         }
 
         #endregion

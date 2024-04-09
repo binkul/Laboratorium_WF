@@ -499,7 +499,7 @@
             this.CmbScrubClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbScrubClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbScrubClass.FormattingEnabled = true;
-            this.CmbScrubClass.Location = new System.Drawing.Point(205, 203);
+            this.CmbScrubClass.Location = new System.Drawing.Point(205, 202);
             this.CmbScrubClass.Name = "CmbScrubClass";
             this.CmbScrubClass.Size = new System.Drawing.Size(159, 28);
             this.CmbScrubClass.TabIndex = 3;
@@ -641,6 +641,7 @@
             this.TxtGloss85.TabIndex = 8;
             this.TxtGloss85.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TxtGloss85.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTitle_KeyPress);
+            this.TxtGloss85.Validating += new System.ComponentModel.CancelEventHandler(this.TxtGloss20_Validating);
             // 
             // TxtGloss60
             // 
@@ -651,6 +652,7 @@
             this.TxtGloss60.TabIndex = 7;
             this.TxtGloss60.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TxtGloss60.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTitle_KeyPress);
+            this.TxtGloss60.Validating += new System.ComponentModel.CancelEventHandler(this.TxtGloss20_Validating);
             // 
             // TxtGloss20
             // 
@@ -661,6 +663,7 @@
             this.TxtGloss20.TabIndex = 6;
             this.TxtGloss20.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TxtGloss20.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTitle_KeyPress);
+            this.TxtGloss20.Validating += new System.ComponentModel.CancelEventHandler(this.TxtGloss20_Validating);
             // 
             // label8
             // 
@@ -711,7 +714,7 @@
             this.CmbGlossClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbGlossClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbGlossClass.FormattingEnabled = true;
-            this.CmbGlossClass.Location = new System.Drawing.Point(207, 246);
+            this.CmbGlossClass.Location = new System.Drawing.Point(207, 245);
             this.CmbGlossClass.Name = "CmbGlossClass";
             this.CmbGlossClass.Size = new System.Drawing.Size(224, 28);
             this.CmbGlossClass.TabIndex = 10;
@@ -836,7 +839,7 @@
             this.CmbContrastClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbContrastClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbContrastClass.FormattingEnabled = true;
-            this.CmbContrastClass.Location = new System.Drawing.Point(205, 118);
+            this.CmbContrastClass.Location = new System.Drawing.Point(205, 120);
             this.CmbContrastClass.Name = "CmbContrastClass";
             this.CmbContrastClass.Size = new System.Drawing.Size(149, 28);
             this.CmbContrastClass.TabIndex = 5;
@@ -905,7 +908,7 @@
             this.CmbVocClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbVocClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbVocClass.FormattingEnabled = true;
-            this.CmbVocClass.Location = new System.Drawing.Point(205, 83);
+            this.CmbVocClass.Location = new System.Drawing.Point(205, 82);
             this.CmbVocClass.Name = "CmbVocClass";
             this.CmbVocClass.Size = new System.Drawing.Size(298, 28);
             this.CmbVocClass.TabIndex = 12;
@@ -1615,6 +1618,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
             this.ClientSize = new System.Drawing.Size(1376, 848);
             this.Controls.Add(this.BtnAddMany);
             this.Controls.Add(this.BtnChangeProject);

@@ -6,6 +6,8 @@ using System;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace Laboratorium.LabBook.Forms
@@ -139,6 +141,23 @@ namespace Laboratorium.LabBook.Forms
             }
         }
 
+        private void TxtGloss20_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            TextBox box = (TextBox)sender;
+            string text = box.Text;
+            string separator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+            string wzor = (separator == ".") ? @"^[0-9]*\" + separator + "?[0-9]*$"
+                                             : "^[0-9]*" + separator + "?[0-9]*$";
+            Regex wzorzec = new Regex(wzor);
+
+            if (!wzorzec.IsMatch(text) && text.Length > 0)
+            {
+                MessageBox.Show("Wprowadzona wartość nie jest liczbą '" + text + "'",
+                    "Błąd wartości", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.Cancel = true;
+            }
+        }
+
         private void DgvLabo_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
         {
             _service.ResizeLaboColumn(e);
@@ -204,5 +223,6 @@ namespace Laboratorium.LabBook.Forms
         {
             _service.AddOneLabBook();
         }
+
     }
 }
