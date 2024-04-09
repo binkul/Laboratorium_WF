@@ -10,7 +10,6 @@ using Laboratorium.Project.Repository;
 using Laboratorium.User.Repository;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -462,6 +461,7 @@ namespace Laboratorium.LabBook.Service
             view.Columns.Remove("CrudState");
             view.Columns["Id"].Visible = false;
             view.Columns["LaboId"].Visible = false;
+            view.Columns["Service"].Visible = false;
 
             view.Columns["ToCompare"].HeaderText = "X";
             view.Columns["ToCompare"].DisplayIndex = 0;
@@ -950,6 +950,7 @@ namespace Laboratorium.LabBook.Service
             e.Row.Cells["Temp"].Value = "20oC";
             e.Row.Cells["DateCreated"].Value = DateTime.Today;
             e.Row.Cells["DateUpdated"].Value = DateTime.Today;
+            e.Row.Cells["Service"].Value = this;
         }
 
         #endregion
@@ -1063,10 +1064,7 @@ namespace Laboratorium.LabBook.Service
             }
             else
             {
-                if (_currentLabBook.ViscosityProfile != null)
-                    _currentLabBook.ViscosityProfile.Profile = profile;
-                else
-                    _currentLabBook.ViscosityProfile = new LaboDataViscosityColDto(_currentLabBook.Id, profile, "");
+                _currentLabBook.ViscosityProfile = new LaboDataViscosityColDto(_currentLabBook.Id, profile, "");
             }
 
             SetViscosityVisbility(_currentLabBook.ViscosityProfile);
@@ -1144,6 +1142,10 @@ namespace Laboratorium.LabBook.Service
 
         public void Save()
         {
+            _laboBinding.EndEdit();
+            _laboBasicBinding.EndEdit();    
+            _laboViscosityBinding.EndEdit();
+
             if (Enum.TryParse(_user.Permission.ToUpper(), out Permission permission))
             {
                 permission = Permission.USER;

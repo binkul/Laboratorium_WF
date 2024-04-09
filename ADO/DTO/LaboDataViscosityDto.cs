@@ -37,7 +37,7 @@ namespace Laboratorium.ADO.DTO
         private DateTime _dateCreated = DateTime.Today;
         private DateTime _dateUpdated = DateTime.Today;
         private RowState _rowState = RowState.ADDED;
-        private readonly IService _service;
+        private IService _service;
         public CrudState CrudState { get; set; } = CrudState.OK;
 
         #endregion
@@ -359,6 +359,12 @@ namespace Laboratorium.ADO.DTO
         }
 
         public RowState GetRowState => _rowState;
+
+        public IService Service
+        {
+            get => _service;
+            set => _service = value;
+        }
 
         public void AcceptChanged()
         {

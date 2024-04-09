@@ -128,7 +128,7 @@ namespace Laboratorium.LabBook.Repository
                 command.Connection = _connection;
                 command.CommandText = SqlSave.Save[_sqlIndex];
                 command.Parameters.AddWithValue("@labo_id", item.LaboId);
-                command.Parameters.AddWithValue("@type", item.Profile);
+                command.Parameters.AddWithValue("@type", item.Profile.ToString());
                 command.Parameters.AddWithValue("@columns", CommonFunction.NullStringToDBNullConv(item.Columns));
                 OpenConnection();
                 command.ExecuteNonQuery();
