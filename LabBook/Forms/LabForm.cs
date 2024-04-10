@@ -170,11 +170,7 @@ namespace Laboratorium.LabBook.Forms
 
         private void BtnFilterCancel_Click(object sender, EventArgs e)
         {
-            TxtFilterNumD.Text = string.Empty;
-            TxtFilterTitle.Text = string.Empty;
-            TxtFilterUser.Text = string.Empty;
-            BtnFilterByProject.Text = CommonData.ALL_DATA_PL;
-            _service.SetFilter();
+            _service.ClearFilter();
         }
 
         private void BtnFilterByProject_Click(object sender, EventArgs e)
@@ -224,5 +220,9 @@ namespace Laboratorium.LabBook.Forms
             _service.AddOneLabBook();
         }
 
+        private void BtnAddMany_Click(object sender, EventArgs e)
+        {
+            _service.AddSeriesLabBooks();
+        }
     }
 }

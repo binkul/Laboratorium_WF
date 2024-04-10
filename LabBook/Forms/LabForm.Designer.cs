@@ -499,7 +499,7 @@
             this.CmbScrubClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbScrubClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbScrubClass.FormattingEnabled = true;
-            this.CmbScrubClass.Location = new System.Drawing.Point(205, 202);
+            this.CmbScrubClass.Location = new System.Drawing.Point(205, 203);
             this.CmbScrubClass.Name = "CmbScrubClass";
             this.CmbScrubClass.Size = new System.Drawing.Size(159, 28);
             this.CmbScrubClass.TabIndex = 3;
@@ -714,7 +714,7 @@
             this.CmbGlossClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbGlossClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbGlossClass.FormattingEnabled = true;
-            this.CmbGlossClass.Location = new System.Drawing.Point(207, 245);
+            this.CmbGlossClass.Location = new System.Drawing.Point(207, 246);
             this.CmbGlossClass.Name = "CmbGlossClass";
             this.CmbGlossClass.Size = new System.Drawing.Size(224, 28);
             this.CmbGlossClass.TabIndex = 10;
@@ -839,7 +839,7 @@
             this.CmbContrastClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbContrastClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbContrastClass.FormattingEnabled = true;
-            this.CmbContrastClass.Location = new System.Drawing.Point(205, 120);
+            this.CmbContrastClass.Location = new System.Drawing.Point(205, 118);
             this.CmbContrastClass.Name = "CmbContrastClass";
             this.CmbContrastClass.Size = new System.Drawing.Size(149, 28);
             this.CmbContrastClass.TabIndex = 5;
@@ -908,7 +908,7 @@
             this.CmbVocClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbVocClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbVocClass.FormattingEnabled = true;
-            this.CmbVocClass.Location = new System.Drawing.Point(205, 82);
+            this.CmbVocClass.Location = new System.Drawing.Point(205, 83);
             this.CmbVocClass.Name = "CmbVocClass";
             this.CmbVocClass.Size = new System.Drawing.Size(298, 28);
             this.CmbVocClass.TabIndex = 12;
@@ -1613,6 +1613,7 @@
             this.BtnAddMany.Size = new System.Drawing.Size(50, 50);
             this.BtnAddMany.TabIndex = 25;
             this.BtnAddMany.UseVisualStyleBackColor = true;
+            this.BtnAddMany.Click += new System.EventHandler(this.BtnAddMany_Click);
             // 
             // LabForm
             // 

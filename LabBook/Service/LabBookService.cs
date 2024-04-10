@@ -31,7 +31,8 @@ namespace Laboratorium.LabBook.Service
         private const string ID = "Id";
         private const string NAME_PL = "NamePl";
 
-        bool _cmbBlock = false;
+        private bool _filterBlock = false;
+        private bool _cmbBlock = false;
         private readonly IExtendedCRUD<LaboDto> _repositoryLabo;
         private readonly IBasicCRUD<LaboDataBasicDto> _repositoryLaboBasic;
         private readonly IExtendedCRUD<UserDto> _repositoryUser;
@@ -44,7 +45,6 @@ namespace Laboratorium.LabBook.Service
 
         private IList<LaboDto> _laboList;
         private BindingSource _laboBinding;
-        private IList<LaboDataBasicDto> _laboBasicList;
         private BindingSource _laboBasicBinding;
         private IList<LaboDataViscosityDto> _laboViscosityList;
         private BindingSource _laboViscosityBinding;
@@ -77,12 +77,21 @@ namespace Laboratorium.LabBook.Service
             if (_form.Init)
                 return;
 
-            bool laboModify = _laboList.Where(i => i.GetRowState != RowState.UNCHANGED).Any();
-            bool basicModify = _laboBasicList.Where(i => i.GetRowState != RowState.UNCHANGED).Any();
-            bool visModify = _laboViscosityList.Where(i => i.GetRowState != RowState.UNCHANGED).Any();
+            bool laboModify = _laboList
+                .Where(i => i.GetRowState != RowState.UNCHANGED)
+                .Any();
+            bool basicModify = _laboList
+                .Where(i => i.LaboBasicData != null)
+                .Select(i => i.LaboBasicData)
+                .Where(i => i.GetRowState != RowState.UNCHANGED)
+                .Any();
+            bool visModify = _laboViscosityList
+                .Where(i => i.GetRowState != RowState.UNCHANGED)
+                .Any();
 
             _form.ActivateSave(laboModify | basicModify | visModify);
         }
+
 
         #region Open/Close form 
 
@@ -216,8 +225,6 @@ namespace Laboratorium.LabBook.Service
             _userList = _repositoryUser.GetAll();
             _projectList = _repositoryProject.GetAll();
 
-
-            _laboBasicList = _repositoryLaboBasic.GetAll();
             _laboBasicBinding = new BindingSource();
 
             _laboViscosityList = _repositoryViscosity.GetAllByLaboId(-1);
@@ -236,7 +243,6 @@ namespace Laboratorium.LabBook.Service
 
             IBasicCRUD<VocClassDto> voc = new VocClassRepository(_connection);
             _vocClassList = voc.GetAll();
-
 
             FillDependece();
 
@@ -324,6 +330,8 @@ namespace Laboratorium.LabBook.Service
 
         private void FillDependece()
         {
+            IList<LaboDataBasicDto> laboBasicList = _repositoryLaboBasic.GetAll();
+
             foreach (LaboDto labo in _laboList)
             {
                 short id = labo.UserId;
@@ -340,7 +348,7 @@ namespace Laboratorium.LabBook.Service
                 if (project != null)
                     labo.Project = project;
 
-                LaboDataBasicDto basicData = _laboBasicList
+                LaboDataBasicDto basicData = laboBasicList
                     .Where(i => i.LaboId == labo.Id)
                     .FirstOrDefault();
                 if (basicData != null)
@@ -704,7 +712,7 @@ namespace Laboratorium.LabBook.Service
             LaboDataBasicDto basicCurrent = _currentLabBook != null ? _currentLabBook.LaboBasicData : null; // _laboBasicList.Where(i => i.LaboId == _currentLabBook.Id).FirstOrDefault() : null;
             if (_currentLabBook != null && basicCurrent == null)
             {
-                basicCurrent = CreateEmptyLabodataBasic(); 
+                basicCurrent = CreateEmptyLabodataBasic(_currentLabBook); 
                 _currentLabBook.LaboBasicData = basicCurrent;
             }
 
@@ -824,10 +832,10 @@ namespace Laboratorium.LabBook.Service
             }
         }
 
-        private LaboDataBasicDto CreateEmptyLabodataBasic()
+        private LaboDataBasicDto CreateEmptyLabodataBasic(LaboDto labo)
         {
             return new LaboDataBasicDto.Builder()
-                    .LaboId(_currentLabBook.Id)
+                    .LaboId(labo.Id)
                     .GlossClassId(1)
                     .ContrastClassId(1)
                     .ScrubClassId(1)
@@ -976,25 +984,152 @@ namespace Laboratorium.LabBook.Service
 
         public void AddOneLabBook()
         {
-            LabBookRepository repository = (LabBookRepository)_repositoryLabo;
+            ClearFilter();
+
             LaboDto newLabo = new LaboDto(0, "PUSTY", DateTime.Today, 1, _user.Id, this);
             ProjectDto project = _projectList.Where(i => i.Id == 1).FirstOrDefault();
-            LaboDataBasicDto basic = CreateEmptyLabodataBasic();
-            newLabo.LaboBasicData = basic;
             newLabo.User = _user;
             newLabo.Project = project;
 
-            newLabo = repository.AddNewLabo(newLabo);
+            newLabo = InsertNewlabo(newLabo);
+            newLabo.LaboBasicData = CreateEmptyLabodataBasic(newLabo);
+            int position = _laboList.IndexOf(newLabo);
+            _laboBinding.Position = position;
 
-            if (newLabo.CrudState == CrudState.OK)
+            Modify(RowState.ADDED);
+        }
+
+        public void AddSeriesLabBooks()
+        {
+            if (_currentLabBook == null)
+                return;
+
+            int nr = _currentLabBook.Id;
+            string title = _currentLabBook.Title;
+            int amount = 1;
+            int type = 1;
+            bool ok = false;
+
+            using (AddSeriesLaboForm form = new AddSeriesLaboForm(nr, title))
             {
-                newLabo.AcceptChanged();
-                _laboBinding.Add(newLabo);
-                _laboBinding.EndEdit();
-                _form.GetDgvLabo.Refresh();
+                form.ShowDialog();
+                amount = form.Amount;
+                type = form.Type;
+                ok = form.Ok;
+            }
+
+            if (!ok)
+                return;
+
+            ClearFilter();
+            LaboDto current = _currentLabBook;
+            if (type == 1)
+            {
+                LaboDto lastLabo = _laboList[_laboList.Count - 1];
+                LaboDto newLabo = new LaboDto(0, lastLabo.Title, DateTime.Today, DateTime.Today, lastLabo.ProjectId,
+                    lastLabo.Goal, null, "", "", false, _user.Id, this)
+                {
+                    User = _user,
+                    Project = lastLabo.Project,
+                    ViscosityProfile = lastLabo.ViscosityProfile
+                };
+
+                newLabo = InsertNewlabo(newLabo);
+                newLabo.LaboBasicData = CreateEmptyLabodataBasic(newLabo);
                 int position = _laboList.IndexOf(newLabo);
                 _laboBinding.Position = position;
             }
+            else if (type == 2)
+            {
+                LaboDto newLabo = new LaboDto(0, current.Title, DateTime.Today, DateTime.Today, current.ProjectId,
+                    current.Goal, null, "", "", false, _user.Id, this)
+                {
+                    User = _user,
+                    Project = current.Project,
+                    ViscosityProfile = current.ViscosityProfile
+                };
+
+                newLabo = InsertNewlabo(newLabo);
+                newLabo.LaboBasicData = CreateEmptyLabodataBasic(newLabo);
+                int position = _laboList.IndexOf(newLabo);
+                _laboBinding.Position = position;
+            }
+            else if (type == 3)
+            {
+                for (int i = 0; i < amount; i++)
+                {
+                    LaboDto newLabo = new LaboDto(0, current.Title, DateTime.Today, DateTime.Today, current.ProjectId,
+                        current.Goal, null, "", "", false, _user.Id, this)
+                    {
+                        User = _user,
+                        Project = current.Project,
+                        ViscosityProfile = current.ViscosityProfile
+                    };
+                    newLabo = InsertNewlabo(newLabo);
+                    newLabo.LaboBasicData = CreateEmptyLabodataBasic(newLabo);
+                }
+
+                _laboBinding.Position = _laboBinding.Count - 1;
+            }
+            else if (type == 4)
+            {
+                for (int i = 0; i < amount; i++)
+                {
+                    string newTitle = i == 0 ? current.Title : "PUSTY";
+                    LaboDto newLabo = new LaboDto(0, newTitle, DateTime.Today, DateTime.Today, current.ProjectId,
+                        current.Goal, null, "", "", false, _user.Id, this)
+                    {
+                        User = _user,
+                        Project = current.Project,
+                        ViscosityProfile = current.ViscosityProfile
+                    };
+                    newLabo = InsertNewlabo(newLabo);
+                    newLabo.LaboBasicData = CreateEmptyLabodataBasic(newLabo);
+                }
+
+                _laboBinding.Position = _laboBinding.Count - 1;
+            }
+            else if (type == 5)
+            {
+                for (int i = 0; i < amount; i++)
+                {
+                    LaboDto newLabo = new LaboDto(0, "PUSTY", DateTime.Today, DateTime.Today, current.ProjectId,
+                        current.Goal, null, "", "", false, _user.Id, this)
+                    {
+                        User = _user,
+                        Project = current.Project,
+                        ViscosityProfile = current.ViscosityProfile
+                    };
+                    newLabo = InsertNewlabo(newLabo);
+                    newLabo.LaboBasicData = CreateEmptyLabodataBasic(newLabo);
+                }
+
+                _laboBinding.Position = _laboBinding.Count - 1;
+            }
+            else if (type == 6)
+            {
+                ProjectDto project = _projectList
+                    .Where(i => i.Id == 1)
+                    .FirstOrDefault();
+
+                for (int i = 0; i < amount; i++)
+                {
+                    LaboDto newLabo = new LaboDto(0, "PUSTY", DateTime.Today, DateTime.Today, project.Id,
+                        "", null, "", "", false, _user.Id, this)
+                    {
+                        User = _user,
+                        Project = project,
+                        LaboBasicData = null,
+                    };
+                    newLabo = InsertNewlabo(newLabo);
+                    newLabo.LaboBasicData = CreateEmptyLabodataBasic(newLabo); 
+                    newLabo.ViscosityProfile = new LaboDataViscosityColDto(newLabo.Id, Profile.STD, "");
+                }
+
+                _laboBinding.Position = _laboBinding.Count - 1;
+            }
+
+            Modify(RowState.ADDED);
         }
 
         #endregion
@@ -1075,8 +1210,22 @@ namespace Laboratorium.LabBook.Service
 
         #region Filtering
 
+        public void ClearFilter()
+        {
+            _filterBlock = true;
+            _form.GetTxtFilterNumD.Text = string.Empty;
+            _form.GetTxtFilterTitle.Text = string.Empty;
+            _form.GetTxtFilterUser.Text = string.Empty;
+            _form.GetBtnFilterProject.Text = CommonData.ALL_DATA_PL;
+            _filterBlock = false;
+            SetFilter();
+        }
+
         public void SetFilter()
         {
+            if (_filterBlock)
+                return;
+
             string nr = _form.GetTxtFilterNumD.Text;
             string title = _form.GetTxtFilterTitle.Text;
             string user = _form.GetTxtFilterUser.Text;
@@ -1139,6 +1288,22 @@ namespace Laboratorium.LabBook.Service
 
 
         #region CRUD
+
+        private LaboDto InsertNewlabo(LaboDto labo)
+        {
+            LabBookRepository repository = (LabBookRepository)_repositoryLabo;
+            LaboDto newLabo = repository.AddNewLabo(labo);
+
+            if (newLabo.CrudState == CrudState.OK)
+            {
+                newLabo.AcceptChanged();
+                _laboBinding.Add(newLabo);
+                _laboBinding.EndEdit();
+                _form.GetDgvLabo.Refresh();
+            }
+
+            return newLabo;
+        }
 
         public void Save()
         {

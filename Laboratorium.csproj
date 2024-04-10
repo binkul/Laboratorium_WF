@@ -76,6 +76,12 @@
     <Compile Include="Commons\CommonData.cs" />
     <Compile Include="Commons\CommonFunction.cs" />
     <Compile Include="Commons\SerializeClass.cs" />
+    <Compile Include="LabBook\Forms\AddSeriesLaboForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LabBook\Forms\AddSeriesLaboForm.Designer.cs">
+      <DependentUpon>AddSeriesLaboForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="LabBook\Forms\LabForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,6 +123,9 @@
     </Compile>
     <Compile Include="Security\Encrypt.cs" />
     <Compile Include="User\Repository\UserRepository.cs" />
+    <EmbeddedResource Include="LabBook\Forms\AddSeriesLaboForm.resx">
+      <DependentUpon>AddSeriesLaboForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LabBook\Forms\LabForm.resx">
       <DependentUpon>LabForm.cs</DependentUpon>
     </EmbeddedResource>
