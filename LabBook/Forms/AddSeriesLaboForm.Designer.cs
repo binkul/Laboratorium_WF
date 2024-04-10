@@ -54,7 +54,6 @@ namespace Laboratorium.LabBook.Forms
             this.RdCopyI.Name = "RdCopyI";
             this.RdCopyI.Size = new System.Drawing.Size(204, 24);
             this.RdCopyI.TabIndex = 0;
-            this.RdCopyI.TabStop = true;
             this.RdCopyI.Text = "Skopiuj 1x poprzedni";
             this.RdCopyI.UseVisualStyleBackColor = true;
             this.RdCopyI.CheckedChanged += new System.EventHandler(this.RdCopyI_CheckedChanged);
@@ -103,7 +102,6 @@ namespace Laboratorium.LabBook.Forms
             this.RdCopyVI.Name = "RdCopyVI";
             this.RdCopyVI.Size = new System.Drawing.Size(319, 24);
             this.RdCopyVI.TabIndex = 4;
-            this.RdCopyVI.TabStop = true;
             this.RdCopyVI.Text = "Wstaw same \'PUSTY\' bez niczego";
             this.RdCopyVI.UseVisualStyleBackColor = true;
             this.RdCopyVI.CheckedChanged += new System.EventHandler(this.RdCopyVI_CheckedChanged);
@@ -194,13 +192,11 @@ namespace Laboratorium.LabBook.Forms
             // RdCopyII
             // 
             this.RdCopyII.AutoSize = true;
-            this.RdCopyII.Checked = true;
             this.RdCopyII.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.RdCopyII.Location = new System.Drawing.Point(12, 168);
             this.RdCopyII.Name = "RdCopyII";
             this.RdCopyII.Size = new System.Drawing.Size(193, 24);
             this.RdCopyII.TabIndex = 12;
-            this.RdCopyII.TabStop = true;
             this.RdCopyII.Text = "Skopiuj 1x bierzący";
             this.RdCopyII.UseVisualStyleBackColor = true;
             this.RdCopyII.CheckedChanged += new System.EventHandler(this.RdCopyII_CheckedChanged);

@@ -35,31 +35,31 @@ namespace Laboratorium.LabBook.Forms
         private void RdCopyII_CheckedChanged(object sender, EventArgs e)
         {
             if (RdCopyII.Checked)
-                Type = 1;
+                Type = 2;
         }
 
         private void RdCopyIII_CheckedChanged(object sender, EventArgs e)
         {
             if (RdCopyIII.Checked)
-                Type = 2;
+                Type = 3;
         }
 
         private void RdCopyIV_CheckedChanged(object sender, EventArgs e)
         {
             if (RdCopyIV.Checked)
-                Type = 3;
+                Type = 4;
         }
 
         private void RdCopyV_CheckedChanged(object sender, EventArgs e)
         {
             if (RdCopyV.Checked)
-                Type = 4;
+                Type = 5;
         }
 
         private void RdCopyVI_CheckedChanged(object sender, EventArgs e)
         {
             if (RdCopyVI.Checked)
-                Type = 5;
+                Type = 6;
         }
 
         private void NumericUpDown_ValueChanged(object sender, EventArgs e)

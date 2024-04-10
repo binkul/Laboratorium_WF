@@ -1021,8 +1021,8 @@ namespace Laboratorium.LabBook.Service
             if (!ok)
                 return;
 
-            ClearFilter();
             LaboDto current = _currentLabBook;
+            ClearFilter();
             if (type == 1)
             {
                 LaboDto lastLabo = _laboList[_laboList.Count - 1];
