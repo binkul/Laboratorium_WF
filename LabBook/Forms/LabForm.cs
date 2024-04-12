@@ -165,7 +165,7 @@ namespace Laboratorium.LabBook.Forms
 
         private void TxtFilterNumD_TextChanged(object sender, EventArgs e)
         {
-            _service.SetFilter();
+            _service.SetFilter(0);
         }
 
         private void BtnFilterCancel_Click(object sender, EventArgs e)
