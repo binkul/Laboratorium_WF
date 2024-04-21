@@ -405,6 +405,7 @@ namespace Laboratorium.LabBook.Service
             view.Columns.Remove("Project");
             view.Columns.Remove("LaboBasicData");
             view.Columns.Remove("CrudState");
+            view.Columns.Remove("ViscosityProfile");
             view.Columns["IsDeleted"].Visible = false;
             view.Columns["UserId"].Visible = false;
 
