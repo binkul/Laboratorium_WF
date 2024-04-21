@@ -363,3 +363,9 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Properties/Resources.Designer.cs
+/Properties/Settings.Designer.cs
+/Laboratorium.csproj
+/Properties/Resources.Designer.cs
+/Properties/Settings.Designer.cs
+/Laboratorium.csproj
