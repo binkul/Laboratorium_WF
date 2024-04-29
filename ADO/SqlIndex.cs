@@ -4,6 +4,7 @@
     {
         LaboIndex,
         LaboBasicIndex,
+        LaboContrastIndex,
         LaboViscosityIndex,
         LaboViscosityColIndex,
         UserIndex,

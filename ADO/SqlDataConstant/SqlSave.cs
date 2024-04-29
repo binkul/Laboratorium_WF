@@ -21,6 +21,9 @@ namespace Laboratorium.ADO.SqlDataConstant
                 "date_updated) Output INSERTED.id Values(@labo_id, @to_compare, @pH, @temp, @brook_1, @brook_5, @brook_10, @brook_20, " +
                 "@brook_30, @brook_40, @brook_50, @brook_60, @brook_70, @brook_80, @brook_90, @brook_100, @brook_disc, @brook_comment, " +
                 "@brook_x_vis, @brook_x_rpm, @brook_x_disc, @krebs, @krebs_comment, @ici, @ici_disc, @ici_comment, @date_created, @date_updated)" },
+            {SqlIndex.LaboContrastIndex, "Insert Into Konkurencja.dbo.LaboDataContrast(labo_id, is_deleted, applicator_name, position, substrate, " +
+                "contrast, tw, sp, comments, date_created, date_updated) Output INSERTED.id Values(@labo_id, @is_deleted, @applicator_name, @position, " +
+                "@substrate, @contrast, @tw, @sp, @comments, @date_created, @date_updated)" },
             {SqlIndex.LaboViscosityColIndex, "Insert Into Konkurencja.dbo.LaboDataViscosityCol(labo_id, [type], [columns]) Values(@labo_id, @type, @columns)" },
             {SqlIndex.UserIndex, "Insert Into Konkurencja.dbo.LaboUsers(name, surname, e_mail, login, password, permission, identifier, active, date_created) " +
                  "Output INSERTED.id Values(@name, @surname, @e_mail, @login, @password, @permission, @identifier, @active, @date_created)"},

@@ -39,6 +39,7 @@ namespace Laboratorium.LabBook.Service
         private readonly IBasicCRUD<ProjectDto> _repositoryProject;
         private readonly IBasicCRUD<LaboDataViscosityDto> _repositoryViscosity;
         private readonly IBasicCRUD<LaboDataViscosityColDto> _repositoryViscosityCol;
+        private readonly IBasicCRUD<LaboDataContrastDto> _repositoryContrast;
         private readonly SqlConnection _connection;
         private readonly UserDto _user;
         private readonly LabForm _form;
@@ -49,6 +50,9 @@ namespace Laboratorium.LabBook.Service
         private IList<LaboDataViscosityDto> _laboViscosityList;
         private BindingSource _laboViscosityBinding;
         private IList<LaboDataViscosityColDto> _laboViscosityColList;
+        private IList<LaboDataContrastDto> _laboContrastsList;
+        private IList<LaboDataContrastDto> _laboContrastsListCurrent;
+        private BindingSource _laboContrastBinding;
         private IList<UserDto> _userList;
         private IList<ProjectDto> _projectList;
         private IList<ContrastClassDto> _contrastClassList;
@@ -68,6 +72,7 @@ namespace Laboratorium.LabBook.Service
             _repositoryLaboBasic = new LabBookBasicDataRepository(_connection, this);
             _repositoryViscosity = new LabBookViscosityRepository(_connection, this);
             _repositoryViscosityCol = new LabBookViscosityColRepository(_connection);
+            _repositoryContrast = new LabBookContrastRepository(_connection, this);
             _repositoryUser = new UserRepository(_connection);
             _repositoryProject = new ProjectRepository(_connection);
         }
@@ -231,6 +236,9 @@ namespace Laboratorium.LabBook.Service
             _laboViscosityBinding = new BindingSource();
             _laboViscosityBinding.DataSource = _laboViscosityList;
             _laboViscosityColList = _repositoryViscosityCol.GetAll();
+
+            _laboContrastsList = _repositoryContrast.GetAll();
+            _laboContrastBinding = new BindingSource();
 
             IBasicCRUD<ContrastClassDto> contrast = new ContrastClassRepository(_connection);
             _contrastClassList = contrast.GetAll();
@@ -781,6 +789,18 @@ namespace Laboratorium.LabBook.Service
                 _laboViscosityBinding.DataSource = _laboViscosityList;
 
                 SetViscosityVisbility(_currentLabBook.ViscosityProfile);
+            }
+
+            #endregion
+
+            #region Synchronize Contrast
+
+            if (_currentLabBook != null)
+            {
+                _laboContrastsListCurrent = _laboContrastsList
+                    .Where(i => i.LaboId == _currentLabBook.Id)
+                    .ToList();
+                _laboContrastBinding.DataSource = _laboContrastsListCurrent;
             }
 
             #endregion

@@ -18,6 +18,8 @@ namespace Laboratorium.ADO.SqlDataConstant
                 "brook_80=@brook_80, brook_90=@brook_90, brook_100=@brook_100, brook_disc=@brook_disc, brook_comment=@brook_comment, brook_x_vis=@brook_x_vis, " +
                 "brook_x_rpm=@brook_x_rpm, brook_x_disc=@brook_x_disc, krebs=@krebs, krebs_comment=@krebs_comment, ici=@ici, ici_disc=@ici_disc, " +
                 "ici_comment=@ici_comment, date_created=@date_created, date_updated=@date_updated Where id=@id" },
+            {SqlIndex.LaboContrastIndex, "Update Konkurencja.dbo.LaboDataContrast Set is_deleted=@is_deleted, applicator_name=@applicator_name, " +
+                "position=@position, substrate=@substrate, contrast=@contrast, tw=@tw, sp=@sp, comments=@comments, date_updated=@date_updated Where id=@id" },
             {SqlIndex.UserIndex, "Update Konkurencja.dbo.LaboUsers Set name=@name, surname=@surname, e_mail=@e_mail, [login]=@login, [password]=@password, permission=@permission, " +
                 "identifier=@identifier, active=@active, date_created=@date_created) Where id=@id" }
         };

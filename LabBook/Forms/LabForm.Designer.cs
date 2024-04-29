@@ -120,6 +120,8 @@
             this.TxtConclusion = new System.Windows.Forms.TextBox();
             this.TbViscosity = new System.Windows.Forms.TabPage();
             this.DgvViscosity = new System.Windows.Forms.DataGridView();
+            this.TbContrast = new System.Windows.Forms.TabPage();
+            this.DgvContrast = new System.Windows.Forms.DataGridView();
             this.TxtTitle = new System.Windows.Forms.TextBox();
             this.LblTitle = new System.Windows.Forms.Label();
             this.BtnAdd = new System.Windows.Forms.Button();
@@ -150,7 +152,8 @@
             this.LblProject = new System.Windows.Forms.Label();
             this.BtnChangeProject = new System.Windows.Forms.Button();
             this.BtnAddMany = new System.Windows.Forms.Button();
-            this.TbContrast = new System.Windows.Forms.TabPage();
+            this.BtnUp = new System.Windows.Forms.Button();
+            this.BtnDown = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.BindingNavigatorLabo)).BeginInit();
             this.BindingNavigatorLabo.SuspendLayout();
             this.TabLabo.SuspendLayout();
@@ -172,6 +175,8 @@
             this.tableLayoutPanel7.SuspendLayout();
             this.TbViscosity.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvViscosity)).BeginInit();
+            this.TbContrast.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DgvContrast)).BeginInit();
             this.LabMainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -237,6 +242,7 @@
             // 
             this.bindingNavigatorPositionItem.AccessibleName = "Pozycja";
             this.bindingNavigatorPositionItem.AutoSize = false;
+            this.bindingNavigatorPositionItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
             this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(49, 27);
             this.bindingNavigatorPositionItem.Text = "0";
@@ -501,7 +507,7 @@
             this.CmbScrubClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbScrubClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbScrubClass.FormattingEnabled = true;
-            this.CmbScrubClass.Location = new System.Drawing.Point(205, 202);
+            this.CmbScrubClass.Location = new System.Drawing.Point(205, 201);
             this.CmbScrubClass.Name = "CmbScrubClass";
             this.CmbScrubClass.Size = new System.Drawing.Size(159, 28);
             this.CmbScrubClass.TabIndex = 3;
@@ -716,7 +722,7 @@
             this.CmbGlossClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbGlossClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbGlossClass.FormattingEnabled = true;
-            this.CmbGlossClass.Location = new System.Drawing.Point(207, 245);
+            this.CmbGlossClass.Location = new System.Drawing.Point(207, 244);
             this.CmbGlossClass.Name = "CmbGlossClass";
             this.CmbGlossClass.Size = new System.Drawing.Size(224, 28);
             this.CmbGlossClass.TabIndex = 10;
@@ -910,7 +916,7 @@
             this.CmbVocClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbVocClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbVocClass.FormattingEnabled = true;
-            this.CmbVocClass.Location = new System.Drawing.Point(205, 82);
+            this.CmbVocClass.Location = new System.Drawing.Point(205, 81);
             this.CmbVocClass.Name = "CmbVocClass";
             this.CmbVocClass.Size = new System.Drawing.Size(298, 28);
             this.CmbVocClass.TabIndex = 12;
@@ -1316,6 +1322,29 @@
             this.DgvViscosity.TabIndex = 0;
             this.DgvViscosity.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.DgvViscosity_DefaultValuesNeeded);
             // 
+            // TbContrast
+            // 
+            this.TbContrast.BackColor = System.Drawing.SystemColors.Control;
+            this.TbContrast.Controls.Add(this.DgvContrast);
+            this.TbContrast.Location = new System.Drawing.Point(4, 29);
+            this.TbContrast.Name = "TbContrast";
+            this.TbContrast.Size = new System.Drawing.Size(1368, 601);
+            this.TbContrast.TabIndex = 4;
+            this.TbContrast.Text = "Krycia";
+            // 
+            // DgvContrast
+            // 
+            this.DgvContrast.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.DgvContrast.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DgvContrast.Location = new System.Drawing.Point(3, 3);
+            this.DgvContrast.Name = "DgvContrast";
+            this.DgvContrast.RowHeadersWidth = 51;
+            this.DgvContrast.RowTemplate.Height = 24;
+            this.DgvContrast.Size = new System.Drawing.Size(1362, 595);
+            this.DgvContrast.TabIndex = 0;
+            // 
             // TxtTitle
             // 
             this.TxtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -1552,7 +1581,7 @@
             this.LblDateCreated.Location = new System.Drawing.Point(1134, 99);
             this.LblDateCreated.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblDateCreated.Name = "LblDateCreated";
-            this.LblDateCreated.Size = new System.Drawing.Size(246, 24);
+            this.LblDateCreated.Size = new System.Drawing.Size(241, 22);
             this.LblDateCreated.TabIndex = 7;
             this.LblDateCreated.Text = "Utworzenie: 00-00-0000   ";
             // 
@@ -1565,7 +1594,7 @@
             this.LblDateModified.Location = new System.Drawing.Point(1128, 135);
             this.LblDateModified.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblDateModified.Name = "LblDateModified";
-            this.LblDateModified.Size = new System.Drawing.Size(251, 24);
+            this.LblDateModified.Size = new System.Drawing.Size(247, 22);
             this.LblDateModified.TabIndex = 8;
             this.LblDateModified.Text = "Modyfikacja: 00-00-0000   ";
             // 
@@ -1617,14 +1646,27 @@
             this.BtnAddMany.UseVisualStyleBackColor = true;
             this.BtnAddMany.Click += new System.EventHandler(this.BtnAddMany_Click);
             // 
-            // TbContrast
+            // BtnUp
             // 
-            this.TbContrast.BackColor = System.Drawing.SystemColors.Control;
-            this.TbContrast.Location = new System.Drawing.Point(4, 29);
-            this.TbContrast.Name = "TbContrast";
-            this.TbContrast.Size = new System.Drawing.Size(1368, 601);
-            this.TbContrast.TabIndex = 4;
-            this.TbContrast.Text = "Krycia";
+            this.BtnUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnUp.BackgroundImage = global::Laboratorium.Properties.Resources.arrow_up;
+            this.BtnUp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BtnUp.Location = new System.Drawing.Point(263, 34);
+            this.BtnUp.Name = "BtnUp";
+            this.BtnUp.Size = new System.Drawing.Size(50, 50);
+            this.BtnUp.TabIndex = 1;
+            this.BtnUp.UseVisualStyleBackColor = true;
+            // 
+            // BtnDown
+            // 
+            this.BtnDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnDown.BackgroundImage = global::Laboratorium.Properties.Resources.arrow_down;
+            this.BtnDown.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BtnDown.Location = new System.Drawing.Point(319, 34);
+            this.BtnDown.Name = "BtnDown";
+            this.BtnDown.Size = new System.Drawing.Size(50, 50);
+            this.BtnDown.TabIndex = 26;
+            this.BtnDown.UseVisualStyleBackColor = true;
             // 
             // LabForm
             // 
@@ -1632,6 +1674,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
             this.ClientSize = new System.Drawing.Size(1376, 848);
+            this.Controls.Add(this.BtnDown);
+            this.Controls.Add(this.BtnUp);
             this.Controls.Add(this.BtnAddMany);
             this.Controls.Add(this.BtnChangeProject);
             this.Controls.Add(this.LblProject);
@@ -1683,6 +1727,8 @@
             this.tableLayoutPanel7.PerformLayout();
             this.TbViscosity.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DgvViscosity)).EndInit();
+            this.TbContrast.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.DgvContrast)).EndInit();
             this.LabMainMenuStrip.ResumeLayout(false);
             this.LabMainMenuStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -1812,5 +1858,8 @@
         private System.Windows.Forms.ToolStripMenuItem SpecialToolStripMenuItem;
         private System.Windows.Forms.Button BtnAddMany;
         private System.Windows.Forms.TabPage TbContrast;
+        private System.Windows.Forms.DataGridView DgvContrast;
+        private System.Windows.Forms.Button BtnUp;
+        private System.Windows.Forms.Button BtnDown;
     }
 }

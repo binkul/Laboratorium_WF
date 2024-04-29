@@ -25,6 +25,9 @@
         // LaboDataBasic table
         public static readonly string LABO_BASIC_DATA_TABLE = "LaboDataBasic";
 
+        // LaboContrast table
+        public static readonly string LABO_CONTRAST_TABLE = "LaboDataContrast";
+
         // LaboDataViscosity
         public static readonly string LABO_VISC_DATA_TABLE = "LaboDataViscosity";
         public static readonly string LABO_VISC_COL_DATA_TABLE = "LaboDataViscosityCol";

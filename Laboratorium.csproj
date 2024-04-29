@@ -49,6 +49,7 @@
     <Compile Include="ADO\DTO\ContrastClassDto.cs" />
     <Compile Include="ADO\DTO\GlossClassDto.cs" />
     <Compile Include="ADO\DTO\LaboDataBasicDto.cs" />
+    <Compile Include="ADO\DTO\LaboDataContrastDto.cs" />
     <Compile Include="ADO\DTO\LaboDataViscosityColDto.cs" />
     <Compile Include="ADO\DTO\LaboDataViscosityDto.cs" />
     <Compile Include="ADO\DTO\LaboDto.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="LabBook\Repository\ContrastClassRepository.cs" />
     <Compile Include="LabBook\Repository\GlossClassRepository.cs" />
     <Compile Include="LabBook\Repository\LabBookBasicDataRepository.cs" />
+    <Compile Include="LabBook\Repository\LabBookContrastRepository.cs" />
     <Compile Include="LabBook\Repository\LabBookRepository.cs" />
     <Compile Include="LabBook\Repository\LabBookViscosityColRepository.cs" />
     <Compile Include="LabBook\Repository\LabBookViscosityRepository.cs" />
@@ -179,6 +181,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Add Many.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow_up.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

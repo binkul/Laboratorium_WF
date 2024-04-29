@@ -29,6 +29,7 @@ namespace Laboratorium.LabBook.Forms
 
         public DataGridView GetDgvLabo => DgvLabo;
         public DataGridView GetDgvViscosity => DgvViscosity;
+        public DataGridView GetDgvContrast => DgvContrast;
         public BindingNavigator GetNavigatorLabo => BindingNavigatorLabo;
         public ComboBox GetCmbGlossClass => CmbGlossClass;
         public ComboBox GetCmbContrastClass => CmbContrastClass;
