@@ -5,7 +5,7 @@ namespace Laboratorium.ADO.DTO
 {
     public class LaboDataContrastDto
     {
-        public int Id { get; set; }
+        public int Id { get; set; } = 0;
         public int LaboId { get; set; }
         public DateTime DateCreated { get; set; }
 
@@ -54,6 +54,17 @@ namespace Laboratorium.ADO.DTO
             _comment = comment;
             DateUpdated = dateUpdated;
             _service = service;
+        }
+
+        public LaboDataContrastDto(int laboId, DateTime dateCreated, bool isDeleted, string applicator, short position, string substrate, DateTime dateUpdated)
+        {
+            LaboId = laboId;
+            DateCreated = dateCreated;
+            _isDeleted = isDeleted;
+            _applicator = applicator;
+            _position = position;
+            _substrate = substrate;
+            DateUpdated = dateUpdated;
         }
 
         private void ChangeState(RowState state)

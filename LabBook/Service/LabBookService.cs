@@ -2,6 +2,7 @@
 using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.Service;
+using Laboratorium.ADO.Tables;
 using Laboratorium.Commons;
 using Laboratorium.LabBook.Forms;
 using Laboratorium.LabBook.Repository;
@@ -12,10 +13,13 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Laboratorium.LabBook.Service
 {
@@ -51,7 +55,6 @@ namespace Laboratorium.LabBook.Service
         private BindingSource _laboViscosityBinding;
         private IList<LaboDataViscosityColDto> _laboViscosityColList;
         private IList<LaboDataContrastDto> _laboContrastsList;
-        private IList<LaboDataContrastDto> _laboContrastsListCurrent;
         private BindingSource _laboContrastBinding;
         private IList<UserDto> _userList;
         private IList<ProjectDto> _projectList;
@@ -239,6 +242,7 @@ namespace Laboratorium.LabBook.Service
 
             _laboContrastsList = _repositoryContrast.GetAll();
             _laboContrastBinding = new BindingSource();
+            _laboContrastBinding.DataSource = _laboContrastsList;
 
             IBasicCRUD<ContrastClassDto> contrast = new ContrastClassRepository(_connection);
             _contrastClassList = contrast.GetAll();
@@ -262,9 +266,15 @@ namespace Laboratorium.LabBook.Service
 
             #endregion
 
-            #region Prepare DgvLabViscosity
+            #region Prepare DgvViscosity
 
             PrepareDgvViscosity();
+
+            #endregion
+
+            #region Prepare DgvContrast
+
+            PrepareDgvContrast();
 
             #endregion
 
@@ -461,7 +471,7 @@ namespace Laboratorium.LabBook.Service
             DataGridView view = _form.GetDgvViscosity;
             view.DataSource = _laboViscosityBinding;
             view.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.RowsDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 9, FontStyle.Regular);
+            view.RowsDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Regular);
             view.ColumnHeadersDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Bold);
             view.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
             view.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
@@ -488,13 +498,13 @@ namespace Laboratorium.LabBook.Service
 
             view.Columns["DateCreated"].HeaderText = "Start";
             view.Columns["DateCreated"].DisplayIndex = 1;
-            view.Columns["DateCreated"].Width = _formData.ContainsKey("DateCreated") ? (int)_formData["DateCreated"] : 100;
+            view.Columns["DateCreated"].Width = _formData.ContainsKey("DateCreated") ? (int)_formData["DateCreated"] : 120;
             view.Columns["DateCreated"].SortMode = DataGridViewColumnSortMode.NotSortable;
             view.Columns["DateCreated"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             view.Columns["DateUpdated"].HeaderText = "Koniec";
             view.Columns["DateUpdated"].DisplayIndex = 2;
-            view.Columns["DateUpdated"].Width = _formData.ContainsKey("DateUpdated") ? (int)_formData["DateUpdated"] : 100;
+            view.Columns["DateUpdated"].Width = _formData.ContainsKey("DateUpdated") ? (int)_formData["DateUpdated"] : 120;
             view.Columns["DateUpdated"].SortMode = DataGridViewColumnSortMode.NotSortable;
             view.Columns["DateUpdated"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
@@ -651,6 +661,69 @@ namespace Laboratorium.LabBook.Service
 
         }
 
+        private void PrepareDgvContrast()
+        {
+            DataGridView view = _form.GetDgvContrast;
+            view.DataSource = _laboContrastBinding;
+            view.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.RowsDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Regular);
+            view.ColumnHeadersDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Bold);
+            view.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            view.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            view.RowHeadersWidth = HEADER_WIDTH;
+            view.DefaultCellStyle.ForeColor = Color.Black;
+            view.MultiSelect = false;
+            view.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            view.ReadOnly = false;
+            view.AllowUserToAddRows = false;
+            view.AllowUserToDeleteRows = false;
+            view.AutoGenerateColumns = false;
+
+            view.Columns.Remove("GetRowState");
+            view.Columns.Remove("CrudState");
+
+            view.Columns["Id"].Visible = false;
+            view.Columns["LaboId"].Visible = false;
+            view.Columns["IsDeleted"].Visible = false;
+            view.Columns["DateUpdated"].Visible = false;
+            view.Columns["Position"].Visible = false;
+
+            view.Columns["DateCreated"].HeaderText = "Data";
+            view.Columns["DateCreated"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns["DateCreated"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["DateCreated"].DisplayIndex = 0;
+
+            view.Columns["Applicator"].HeaderText = "Aplikator";
+            view.Columns["Applicator"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            view.Columns["Applicator"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Applicator"].DisplayIndex = 1;
+
+            view.Columns["Substrate"].HeaderText = "Podłoże";
+            view.Columns["Substrate"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            view.Columns["Substrate"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Substrate"].DisplayIndex = 2;
+
+            view.Columns["Contrast"].HeaderText = "Krycie";
+            view.Columns["Contrast"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns["Contrast"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Contrast"].DisplayIndex = 3;
+
+            view.Columns["Sp"].HeaderText = "Sp";
+            view.Columns["Sp"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns["Sp"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Sp"].DisplayIndex = 4;
+
+            view.Columns["Tw"].HeaderText = "Tw";
+            view.Columns["Tw"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns["Tw"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Tw"].DisplayIndex = 5;
+
+            view.Columns["Comments"].HeaderText = "Uwagi";
+            view.Columns["Comments"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            view.Columns["Comments"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Comments"].DisplayIndex = 6;
+        }
+
         private void PrepareComboBoxes()
         {
             _form.GetCmbGlossClass.DataSource = _glossClassList;
@@ -781,7 +854,7 @@ namespace Laboratorium.LabBook.Service
 
             #endregion
 
-            #region Set Viscosity data and fields
+            #region Synchronize Voscosity
 
             if (_currentLabBook != null)
             {
@@ -797,10 +870,7 @@ namespace Laboratorium.LabBook.Service
 
             if (_currentLabBook != null)
             {
-                _laboContrastsListCurrent = _laboContrastsList
-                    .Where(i => i.LaboId == _currentLabBook.Id)
-                    .ToList();
-                _laboContrastBinding.DataSource = _laboContrastsListCurrent;
+                _laboContrastBinding.DataSource = GetCurrentContrasts();
             }
 
             #endregion
@@ -864,6 +934,11 @@ namespace Laboratorium.LabBook.Service
                     .Date(DateTime.Today)
                     .Service(this)
                     .Build();
+        }
+
+        private IList<LaboDataContrastDto> GetCurrentContrasts()
+        {
+            return _laboContrastsList.Where(i => i.LaboId == _currentLabBook.Id).ToList();
         }
 
         #endregion
@@ -964,6 +1039,20 @@ namespace Laboratorium.LabBook.Service
                 + _form.GetDgvLabo.Columns["ProjectName"].Width + _form.GetDgvLabo.Columns["Density"].Width + HEADER_WIDTH;
         }
 
+        public void ResizeContrastColumn()
+        {
+            DataGridView view = _form.GetDgvContrast;
+
+            view.Columns["DateCreated"].Width = 120;
+            int contrastWidth = view.Width - view.RowHeadersWidth - view.Columns["DateCreated"].Width;
+            view.Columns["Applicator"].Width = (int)(contrastWidth * 0.27);
+            view.Columns["Substrate"].Width = (int)(contrastWidth * 0.13);
+            view.Columns["Contrast"].Width = (int)(contrastWidth * 0.11);
+            view.Columns["Sp"].Width = (int)(contrastWidth * 0.11);
+            view.Columns["Tw"].Width = (int)(contrastWidth * 0.11);
+            view.Columns["Comments"].Width = (int)(contrastWidth * 0.27);
+        }
+
         public void DefaultValuesForViscosity(DataGridViewRowEventArgs e)
         {
             if (_currentLabBook != null)
@@ -981,6 +1070,7 @@ namespace Laboratorium.LabBook.Service
             e.Row.Cells["DateUpdated"].Value = DateTime.Today;
             e.Row.Cells["Service"].Value = this;
         }
+
 
         #endregion
 
@@ -1315,6 +1405,62 @@ namespace Laboratorium.LabBook.Service
             }
 
             SetViscosityVisbility(_currentLabBook.ViscosityProfile);
+        }
+
+        public void StandardApplicatorInsert()
+        {
+            _form.GetDgvContrast.EndEdit();
+            _laboContrastBinding.EndEdit();
+
+            if (_currentLabBook == null)
+                return;
+            int id = _currentLabBook.Id;
+
+            List<short> contrasts = _laboContrastsList
+                .Where(i => i.LaboId == id)
+                .OrderBy(i => i.Position)
+                .Select(i => i.Position)
+                .ToList();
+
+            short pos = (short)(contrasts.Count > 0 ? contrasts[contrasts.Count - 1] + 1 : 0);
+
+            for (int i = 0; i < 4; i++)
+            {
+                LaboDataContrastDto contrast = new LaboDataContrastDto(id, DateTime.Today, false, CommonData.AplikatorsStd[i], pos++, CommonData.LENETA, DateTime.Today);
+                _laboContrastsList.Add(contrast);
+            }
+            _laboContrastBinding.DataSource = GetCurrentContrasts();
+        }
+
+        public void ApplicatorInsert(int appNr)
+        {
+            if (_currentLabBook == null)
+                return;
+
+            _form.GetDgvContrast.EndEdit();
+            _laboContrastBinding.EndEdit();
+
+            int id = _currentLabBook.Id;
+            short position = _laboContrastsList
+                .Where(i => i.LaboId == id)
+                .Select(i => i.Position)
+                .DefaultIfEmpty()
+                .Max();
+            position++;
+
+            string applicator;
+            if (appNr == -1)
+            {
+                applicator = CommonData.Aplikators[0];
+            }
+            else
+            {
+                applicator = CommonData.Aplikators[appNr];
+            }
+
+            LaboDataContrastDto contrast = new LaboDataContrastDto(id, DateTime.Today, false, applicator, position, CommonData.LENETA, DateTime.Today);
+            _laboContrastsList.Add(contrast);
+            _laboContrastBinding.DataSource = GetCurrentContrasts();
         }
 
         #endregion

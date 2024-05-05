@@ -144,6 +144,36 @@
             this.StdIciToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StdIciSolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SpecialToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wstawToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ApplicatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.standardoweToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wybraneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Normal75ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Normal100ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Normal125ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Normal150ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Normal200ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Normal240ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Normal250ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Normal300ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Round50ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Round75ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Round100ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Round125ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Round150ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Round175ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Round200ToolStripManuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Round250ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Round300ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Wire50ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Wire75ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Wire100ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Wire125ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Wire150ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Wire175ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Wire200ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Wire250ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Wire300ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BtnDelete = new System.Windows.Forms.Button();
             this.BtnSave = new System.Windows.Forms.Button();
             this.LblDateCreated = new System.Windows.Forms.Label();
@@ -197,14 +227,14 @@
             this.bindingNavigatorMoveNextItem,
             this.bindingNavigatorMoveLastItem,
             this.bindingNavigatorSeparator2});
-            this.BindingNavigatorLabo.Location = new System.Drawing.Point(0, 821);
+            this.BindingNavigatorLabo.Location = new System.Drawing.Point(0, 817);
             this.BindingNavigatorLabo.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
             this.BindingNavigatorLabo.MoveLastItem = this.bindingNavigatorMoveLastItem;
             this.BindingNavigatorLabo.MoveNextItem = this.bindingNavigatorMoveNextItem;
             this.BindingNavigatorLabo.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.BindingNavigatorLabo.Name = "BindingNavigatorLabo";
             this.BindingNavigatorLabo.PositionItem = this.bindingNavigatorPositionItem;
-            this.BindingNavigatorLabo.Size = new System.Drawing.Size(1376, 27);
+            this.BindingNavigatorLabo.Size = new System.Drawing.Size(1376, 31);
             this.BindingNavigatorLabo.TabIndex = 1;
             this.BindingNavigatorLabo.Text = "bindingNavigator1";
             // 
@@ -221,7 +251,7 @@
             this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
             this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
             this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(29, 24);
+            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(29, 28);
             this.bindingNavigatorMoveFirstItem.Text = "Przenieś pierwszy";
             // 
             // bindingNavigatorMovePreviousItem
@@ -1334,6 +1364,8 @@
             // 
             // DgvContrast
             // 
+            this.DgvContrast.AllowUserToAddRows = false;
+            this.DgvContrast.AllowUserToDeleteRows = false;
             this.DgvContrast.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -1344,6 +1376,7 @@
             this.DgvContrast.RowTemplate.Height = 24;
             this.DgvContrast.Size = new System.Drawing.Size(1362, 595);
             this.DgvContrast.TabIndex = 0;
+            this.DgvContrast.SizeChanged += new System.EventHandler(this.DgvContrast_SizeChanged);
             // 
             // TxtTitle
             // 
@@ -1382,12 +1415,13 @@
             // 
             // LabMainMenuStrip
             // 
-            this.LabMainMenuStrip.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LabMainMenuStrip.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.LabMainMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.LabMainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileToolStripMenuItem,
             this.EditToolStripMenuItem,
-            this.widokToolStripMenuItem});
+            this.widokToolStripMenuItem,
+            this.wstawToolStripMenuItem});
             this.LabMainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.LabMainMenuStrip.Name = "LabMainMenuStrip";
             this.LabMainMenuStrip.Size = new System.Drawing.Size(1376, 31);
@@ -1548,6 +1582,272 @@
             this.SpecialToolStripMenuItem.Text = "Wybrane";
             this.SpecialToolStripMenuItem.Click += new System.EventHandler(this.StdXToolStripMenuItem_Click);
             // 
+            // wstawToolStripMenuItem
+            // 
+            this.wstawToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ApplicatorToolStripMenuItem});
+            this.wstawToolStripMenuItem.Name = "wstawToolStripMenuItem";
+            this.wstawToolStripMenuItem.Size = new System.Drawing.Size(75, 27);
+            this.wstawToolStripMenuItem.Text = "Wstaw";
+            // 
+            // ApplicatorToolStripMenuItem
+            // 
+            this.ApplicatorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.standardoweToolStripMenuItem,
+            this.wybraneToolStripMenuItem});
+            this.ApplicatorToolStripMenuItem.Enabled = false;
+            this.ApplicatorToolStripMenuItem.Name = "ApplicatorToolStripMenuItem";
+            this.ApplicatorToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
+            this.ApplicatorToolStripMenuItem.Text = "Aplikator";
+            // 
+            // standardoweToolStripMenuItem
+            // 
+            this.standardoweToolStripMenuItem.Name = "standardoweToolStripMenuItem";
+            this.standardoweToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
+            this.standardoweToolStripMenuItem.Text = "Standardowe";
+            this.standardoweToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorStdInsertstandardoweToolStripMenuItem_Click);
+            // 
+            // wybraneToolStripMenuItem
+            // 
+            this.wybraneToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Normal75ToolStripMenuItem,
+            this.Normal100ToolStripMenuItem,
+            this.Normal125ToolStripMenuItem,
+            this.Normal150ToolStripMenuItem,
+            this.Normal200ToolStripMenuItem,
+            this.Normal240ToolStripMenuItem,
+            this.Normal250ToolStripMenuItem,
+            this.Normal300ToolStripMenuItem,
+            this.Round50ToolStripMenuItem,
+            this.Round75ToolStripMenuItem,
+            this.Round100ToolStripMenuItem,
+            this.Round125ToolStripMenuItem,
+            this.Round150ToolStripMenuItem,
+            this.Round175ToolStripMenuItem,
+            this.Round200ToolStripManuItem,
+            this.Round250ToolStripMenuItem,
+            this.Round300ToolStripMenuItem,
+            this.Wire50ToolStripMenuItem,
+            this.Wire75ToolStripMenuItem,
+            this.Wire100ToolStripMenuItem,
+            this.Wire125ToolStripMenuItem,
+            this.Wire150ToolStripMenuItem,
+            this.Wire175ToolStripMenuItem,
+            this.Wire200ToolStripMenuItem,
+            this.Wire250ToolStripMenuItem,
+            this.Wire300ToolStripMenuItem});
+            this.wybraneToolStripMenuItem.Name = "wybraneToolStripMenuItem";
+            this.wybraneToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
+            this.wybraneToolStripMenuItem.Text = "Wybrane";
+            // 
+            // Normal75ToolStripMenuItem
+            // 
+            this.Normal75ToolStripMenuItem.Name = "Normal75ToolStripMenuItem";
+            this.Normal75ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Normal75ToolStripMenuItem.Tag = "0";
+            this.Normal75ToolStripMenuItem.Text = "Aplikator zwykły 75um";
+            this.Normal75ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Normal100ToolStripMenuItem
+            // 
+            this.Normal100ToolStripMenuItem.Name = "Normal100ToolStripMenuItem";
+            this.Normal100ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Normal100ToolStripMenuItem.Tag = "1";
+            this.Normal100ToolStripMenuItem.Text = "Aplikator zwykły 100um";
+            this.Normal100ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Normal125ToolStripMenuItem
+            // 
+            this.Normal125ToolStripMenuItem.Name = "Normal125ToolStripMenuItem";
+            this.Normal125ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Normal125ToolStripMenuItem.Tag = "2";
+            this.Normal125ToolStripMenuItem.Text = "Aplikator zwykły 125um";
+            this.Normal125ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Normal150ToolStripMenuItem
+            // 
+            this.Normal150ToolStripMenuItem.Name = "Normal150ToolStripMenuItem";
+            this.Normal150ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Normal150ToolStripMenuItem.Tag = "3";
+            this.Normal150ToolStripMenuItem.Text = "Aplikator zwykły 150um";
+            this.Normal150ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Normal200ToolStripMenuItem
+            // 
+            this.Normal200ToolStripMenuItem.Name = "Normal200ToolStripMenuItem";
+            this.Normal200ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Normal200ToolStripMenuItem.Tag = "4";
+            this.Normal200ToolStripMenuItem.Text = "Aplikator zwykły 200um";
+            this.Normal200ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Normal240ToolStripMenuItem
+            // 
+            this.Normal240ToolStripMenuItem.Name = "Normal240ToolStripMenuItem";
+            this.Normal240ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Normal240ToolStripMenuItem.Tag = "5";
+            this.Normal240ToolStripMenuItem.Text = "Aplikator zwykły 240um";
+            this.Normal240ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Normal250ToolStripMenuItem
+            // 
+            this.Normal250ToolStripMenuItem.Name = "Normal250ToolStripMenuItem";
+            this.Normal250ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Normal250ToolStripMenuItem.Tag = "6";
+            this.Normal250ToolStripMenuItem.Text = "Aplikator zwykły 250um";
+            this.Normal250ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Normal300ToolStripMenuItem
+            // 
+            this.Normal300ToolStripMenuItem.Name = "Normal300ToolStripMenuItem";
+            this.Normal300ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Normal300ToolStripMenuItem.Tag = "7";
+            this.Normal300ToolStripMenuItem.Text = "Aplikator zwykły 300um";
+            this.Normal300ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Round50ToolStripMenuItem
+            // 
+            this.Round50ToolStripMenuItem.Name = "Round50ToolStripMenuItem";
+            this.Round50ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Round50ToolStripMenuItem.Tag = "8";
+            this.Round50ToolStripMenuItem.Text = "Aplikator okrągły 50um";
+            this.Round50ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Round75ToolStripMenuItem
+            // 
+            this.Round75ToolStripMenuItem.Name = "Round75ToolStripMenuItem";
+            this.Round75ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Round75ToolStripMenuItem.Tag = "9";
+            this.Round75ToolStripMenuItem.Text = "Aplikator okrągły 75um";
+            this.Round75ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Round100ToolStripMenuItem
+            // 
+            this.Round100ToolStripMenuItem.Name = "Round100ToolStripMenuItem";
+            this.Round100ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Round100ToolStripMenuItem.Tag = "10";
+            this.Round100ToolStripMenuItem.Text = "Aplikator okrągły 100um";
+            this.Round100ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Round125ToolStripMenuItem
+            // 
+            this.Round125ToolStripMenuItem.Name = "Round125ToolStripMenuItem";
+            this.Round125ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Round125ToolStripMenuItem.Tag = "11";
+            this.Round125ToolStripMenuItem.Text = "Aplikator okrągły 125um";
+            this.Round125ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Round150ToolStripMenuItem
+            // 
+            this.Round150ToolStripMenuItem.Name = "Round150ToolStripMenuItem";
+            this.Round150ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Round150ToolStripMenuItem.Tag = "12";
+            this.Round150ToolStripMenuItem.Text = "Aplikator okrągły 150um";
+            this.Round150ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Round175ToolStripMenuItem
+            // 
+            this.Round175ToolStripMenuItem.Name = "Round175ToolStripMenuItem";
+            this.Round175ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Round175ToolStripMenuItem.Tag = "13";
+            this.Round175ToolStripMenuItem.Text = "Aplikator okrągły 175um";
+            this.Round175ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Round200ToolStripManuItem
+            // 
+            this.Round200ToolStripManuItem.Name = "Round200ToolStripManuItem";
+            this.Round200ToolStripManuItem.Size = new System.Drawing.Size(289, 28);
+            this.Round200ToolStripManuItem.Tag = "14";
+            this.Round200ToolStripManuItem.Text = "Aplikator okrągły 200um";
+            this.Round200ToolStripManuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Round250ToolStripMenuItem
+            // 
+            this.Round250ToolStripMenuItem.Name = "Round250ToolStripMenuItem";
+            this.Round250ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Round250ToolStripMenuItem.Tag = "15";
+            this.Round250ToolStripMenuItem.Text = "Aplikator okrągły 250um";
+            this.Round250ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Round300ToolStripMenuItem
+            // 
+            this.Round300ToolStripMenuItem.Name = "Round300ToolStripMenuItem";
+            this.Round300ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Round300ToolStripMenuItem.Tag = "16";
+            this.Round300ToolStripMenuItem.Text = "Aplikator okrągły 300um";
+            this.Round300ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Wire50ToolStripMenuItem
+            // 
+            this.Wire50ToolStripMenuItem.Name = "Wire50ToolStripMenuItem";
+            this.Wire50ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Wire50ToolStripMenuItem.Tag = "17";
+            this.Wire50ToolStripMenuItem.Text = "Aplikator drutowy 50um";
+            this.Wire50ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Wire75ToolStripMenuItem
+            // 
+            this.Wire75ToolStripMenuItem.Name = "Wire75ToolStripMenuItem";
+            this.Wire75ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Wire75ToolStripMenuItem.Tag = "18";
+            this.Wire75ToolStripMenuItem.Text = "Aplikator drutowy 75um";
+            this.Wire75ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Wire100ToolStripMenuItem
+            // 
+            this.Wire100ToolStripMenuItem.Name = "Wire100ToolStripMenuItem";
+            this.Wire100ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Wire100ToolStripMenuItem.Tag = "19";
+            this.Wire100ToolStripMenuItem.Text = "Aplikator drutowy 100um";
+            this.Wire100ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Wire125ToolStripMenuItem
+            // 
+            this.Wire125ToolStripMenuItem.Name = "Wire125ToolStripMenuItem";
+            this.Wire125ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Wire125ToolStripMenuItem.Tag = "20";
+            this.Wire125ToolStripMenuItem.Text = "Aplikator drutowy 125um";
+            this.Wire125ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Wire150ToolStripMenuItem
+            // 
+            this.Wire150ToolStripMenuItem.Name = "Wire150ToolStripMenuItem";
+            this.Wire150ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Wire150ToolStripMenuItem.Tag = "21";
+            this.Wire150ToolStripMenuItem.Text = "Aplikator drutowy 150um";
+            this.Wire150ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Wire175ToolStripMenuItem
+            // 
+            this.Wire175ToolStripMenuItem.Name = "Wire175ToolStripMenuItem";
+            this.Wire175ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Wire175ToolStripMenuItem.Tag = "22";
+            this.Wire175ToolStripMenuItem.Text = "Aplikator drutowy 175um";
+            this.Wire175ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Wire200ToolStripMenuItem
+            // 
+            this.Wire200ToolStripMenuItem.Name = "Wire200ToolStripMenuItem";
+            this.Wire200ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Wire200ToolStripMenuItem.Tag = "23";
+            this.Wire200ToolStripMenuItem.Text = "Aplikator drutowy 200um";
+            this.Wire200ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Wire250ToolStripMenuItem
+            // 
+            this.Wire250ToolStripMenuItem.Name = "Wire250ToolStripMenuItem";
+            this.Wire250ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Wire250ToolStripMenuItem.Tag = "24";
+            this.Wire250ToolStripMenuItem.Text = "Aplikator drutowy 250um";
+            this.Wire250ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
+            // Wire300ToolStripMenuItem
+            // 
+            this.Wire300ToolStripMenuItem.Name = "Wire300ToolStripMenuItem";
+            this.Wire300ToolStripMenuItem.Size = new System.Drawing.Size(289, 28);
+            this.Wire300ToolStripMenuItem.Tag = "25";
+            this.Wire300ToolStripMenuItem.Text = "Aplikator drutowy 300um";
+            this.Wire300ToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorInsertToolStripMenuItem_Click);
+            // 
             // BtnDelete
             // 
             this.BtnDelete.BackgroundImage = global::Laboratorium.Properties.Resources.delete;
@@ -1648,7 +1948,6 @@
             // 
             // BtnUp
             // 
-            this.BtnUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnUp.BackgroundImage = global::Laboratorium.Properties.Resources.arrow_up;
             this.BtnUp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnUp.Location = new System.Drawing.Point(263, 34);
@@ -1659,7 +1958,6 @@
             // 
             // BtnDown
             // 
-            this.BtnDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnDown.BackgroundImage = global::Laboratorium.Properties.Resources.arrow_down;
             this.BtnDown.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnDown.Location = new System.Drawing.Point(319, 34);
@@ -1861,5 +2159,35 @@
         private System.Windows.Forms.DataGridView DgvContrast;
         private System.Windows.Forms.Button BtnUp;
         private System.Windows.Forms.Button BtnDown;
+        private System.Windows.Forms.ToolStripMenuItem wstawToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ApplicatorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem standardoweToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem wybraneToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Normal75ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Normal100ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Normal125ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Normal150ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Normal200ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Normal240ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Normal250ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Normal300ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Round50ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Round75ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Round100ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Round125ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Round150ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Round175ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Round200ToolStripManuItem;
+        private System.Windows.Forms.ToolStripMenuItem Round250ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Round300ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Wire50ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Wire75ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Wire100ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Wire125ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Wire150ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Wire175ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Wire200ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Wire250ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Wire300ToolStripMenuItem;
     }
 }

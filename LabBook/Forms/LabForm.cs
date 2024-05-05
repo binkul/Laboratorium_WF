@@ -164,6 +164,12 @@ namespace Laboratorium.LabBook.Forms
             _service.ResizeLaboColumn(e);
         }
 
+        private void DgvContrast_SizeChanged(object sender, EventArgs e)
+        {
+            if (_service != null)
+                _service.ResizeContrastColumn();
+        }
+
         private void TxtFilterNumD_TextChanged(object sender, EventArgs e)
         {
             _service.SetFilter(0);
@@ -214,6 +220,15 @@ namespace Laboratorium.LabBook.Forms
                 BtnAdd.Enabled = false;
                 BtnAddMany.Enabled = false;
             }
+
+            if (control.SelectedTab.Name == TbContrast.Name)
+            {
+                ApplicatorToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                ApplicatorToolStripMenuItem.Enabled= false;
+            }
         }
 
         private void BtnAdd_Click(object sender, EventArgs e)
@@ -224,6 +239,18 @@ namespace Laboratorium.LabBook.Forms
         private void BtnAddMany_Click(object sender, EventArgs e)
         {
             _service.AddSeriesLabBooks();
+        }
+
+        private void ApplicatorInsertToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem menu = (ToolStripMenuItem)sender;
+            int tag = menu.Tag != null ? Convert.ToInt32(menu.Tag) : -1;
+            _service.ApplicatorInsert(tag);
+        }
+
+        private void ApplicatorStdInsertstandardoweToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _service.StandardApplicatorInsert();
         }
     }
 }
