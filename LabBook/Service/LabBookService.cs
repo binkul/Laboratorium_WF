@@ -96,8 +96,10 @@ namespace Laboratorium.LabBook.Service
             bool visModify = _laboViscosityList
                 .Where(i => i.GetRowState != RowState.UNCHANGED)
                 .Any();
-
-            _form.ActivateSave(laboModify | basicModify | visModify);
+            bool conModify = _laboContrastsList
+                .Where(i => i.GetRowState != RowState.UNCHANGED)
+                .Any();
+            _form.ActivateSave(laboModify | basicModify | visModify | conModify);
         }
 
 
@@ -378,7 +380,7 @@ namespace Laboratorium.LabBook.Service
                 if (profile != null)
                 {
                     labo.ViscosityProfile = profile;
-                    labo.AcceptChanged();
+                    labo.AcceptChanges();
                 }
             }
         }
@@ -1093,6 +1095,9 @@ namespace Laboratorium.LabBook.Service
             newLabo.LaboBasicData = CreateEmptyLabodataBasic(newLabo);
             newLabo.ViscosityProfile = new LaboDataViscosityColDto(newLabo.Id, Profile.STD, "");
 
+            _ = _repositoryLaboBasic.Save(newLabo.LaboBasicData);
+            newLabo.LaboBasicData.AcceptChanges();
+
             Modify(RowState.ADDED);
         }
 
@@ -1109,6 +1114,9 @@ namespace Laboratorium.LabBook.Service
             newLabo = SaveNewlabo(newLabo);
             newLabo.LaboBasicData = CreateEmptyLabodataBasic(newLabo);
             newLabo.ViscosityProfile = new LaboDataViscosityColDto(newLabo.Id, Profile.STD, "");
+
+            _ = _repositoryLaboBasic.Save(newLabo.LaboBasicData);
+            newLabo.LaboBasicData.AcceptChanges();
         }
 
         private void InsertCopyCurrentLabo()
@@ -1127,6 +1135,9 @@ namespace Laboratorium.LabBook.Service
             newLabo = SaveNewlabo(newLabo);
             newLabo.LaboBasicData = CreateEmptyLabodataBasic(newLabo);
             newLabo.ViscosityProfile = new LaboDataViscosityColDto(newLabo.Id, Profile.STD, "");
+
+            _ = _repositoryLaboBasic.Save(newLabo.LaboBasicData);
+            newLabo.LaboBasicData.AcceptChanges();
         }
 
         private void InsertCopyCurrentEmptyLabo()
@@ -1145,6 +1156,9 @@ namespace Laboratorium.LabBook.Service
             newLabo = SaveNewlabo(newLabo);
             newLabo.LaboBasicData = CreateEmptyLabodataBasic(newLabo);
             newLabo.ViscosityProfile = new LaboDataViscosityColDto(newLabo.Id, Profile.STD, "");
+
+            _ = _repositoryLaboBasic.Save(newLabo.LaboBasicData);
+            newLabo.LaboBasicData.AcceptChanges();
         }
 
         #endregion
@@ -1198,46 +1212,18 @@ namespace Laboratorium.LabBook.Service
                 return;
 
             LaboDto current = _currentLabBook;
-            //ClearFilter();
 
             if (type == 1)
             {
                 ClearFiltersBox();
                 InsertCopyLastLabo();
                 SetFilter(_laboBinding.Count - 1);
-
-                //LaboDto lastLabo = _laboList[_laboList.Count - 1];
-                //LaboDto newLabo = new LaboDto(0, lastLabo.Title, DateTime.Today, DateTime.Today, lastLabo.ProjectId,
-                //    lastLabo.Goal, null, "", "", false, _user.Id, this)
-                //{
-                //    User = _user,
-                //    Project = lastLabo.Project,
-                //    ViscosityProfile = lastLabo.ViscosityProfile
-                //};
-
-                //newLabo = SaveNewlabo(newLabo);
-                //newLabo.LaboBasicData = CreateEmptyLabodataBasic(newLabo);
-                //int position = _laboList.IndexOf(newLabo);
-                //_laboBinding.Position = position;
             }
             else if (type == 2)
             {
                 ClearFiltersBox();
                 InsertCopyCurrentLabo();
                 SetFilter(_laboBinding.Count - 1);
-
-                //LaboDto newLabo = new LaboDto(0, current.Title, DateTime.Today, DateTime.Today, current.ProjectId,
-                //    current.Goal, null, "", "", false, _user.Id, this)
-                //{
-                //    User = _user,
-                //    Project = current.Project,
-                //    ViscosityProfile = current.ViscosityProfile
-                //};
-
-                //newLabo = SaveNewlabo(newLabo);
-                //newLabo.LaboBasicData = CreateEmptyLabodataBasic(newLabo);
-                //int position = _laboList.IndexOf(newLabo);
-                //_laboBinding.Position = position;
             }
             else if (type == 3)
             {
@@ -1245,19 +1231,8 @@ namespace Laboratorium.LabBook.Service
                 for (int i = 0; i < amount; i++)
                 {
                     InsertCopyCurrentLabo();
-
-                    //LaboDto newLabo = new LaboDto(0, current.Title, DateTime.Today, DateTime.Today, current.ProjectId,
-                    //    current.Goal, null, "", "", false, _user.Id, this)
-                    //{
-                    //    User = _user,
-                    //    Project = current.Project,
-                    //    ViscosityProfile = current.ViscosityProfile
-                    //};
-                    //newLabo = SaveNewlabo(newLabo);
-                    //newLabo.LaboBasicData = CreateEmptyLabodataBasic(newLabo);
                 }
 
-                //_laboBinding.Position = _laboBinding.Count - 1;
                 SetFilter(_laboBinding.Count - 1);
             }
             else if (type == 4)
@@ -1265,22 +1240,11 @@ namespace Laboratorium.LabBook.Service
                 ClearFiltersBox();
                 InsertCopyCurrentLabo();
 
-                for (int i = 0; i < amount; i++)
+                for (int i = 0; i < amount - 1; i++)
                 {
                     InsertCopyCurrentEmptyLabo();
-                    //string newTitle = i == 0 ? current.Title : "PUSTY";
-                    //LaboDto newLabo = new LaboDto(0, newTitle, DateTime.Today, DateTime.Today, current.ProjectId,
-                    //    current.Goal, null, "", "", false, _user.Id, this)
-                    //{
-                    //    User = _user,
-                    //    Project = current.Project,
-                    //    ViscosityProfile = current.ViscosityProfile
-                    //};
-                    //newLabo = SaveNewlabo(newLabo);
-                    //newLabo.LaboBasicData = CreateEmptyLabodataBasic(newLabo);
                 }
 
-                //_laboBinding.Position = _laboBinding.Count - 1;
                 SetFilter(_laboBinding.Count - 1);
 
             }
@@ -1290,44 +1254,19 @@ namespace Laboratorium.LabBook.Service
                 for (int i = 0; i < amount; i++)
                 {
                     InsertCopyCurrentEmptyLabo();
-
-                    //LaboDto newLabo = new LaboDto(0, "PUSTY", DateTime.Today, DateTime.Today, current.ProjectId,
-                    //    current.Goal, null, "", "", false, _user.Id, this)
-                    //{
-                    //    User = _user,
-                    //    Project = current.Project,
-                    //    ViscosityProfile = current.ViscosityProfile
-                    //};
-                    //newLabo = SaveNewlabo(newLabo);
-                    //newLabo.LaboBasicData = CreateEmptyLabodataBasic(newLabo);
                 }
 
-                //_laboBinding.Position = _laboBinding.Count - 1;
                 SetFilter(_laboBinding.Count - 1);
             }
             else if (type == 6)
             {
                 ClearFiltersBox();
-                //ProjectDto project = _projectList
-                //    .Where(i => i.Id == 1)
-                //    .FirstOrDefault();
 
                 for (int i = 0; i < amount; i++)
                 {
                     InsertNewEmptyLabo();
-                //    LaboDto newLabo = new LaboDto(0, "PUSTY", DateTime.Today, DateTime.Today, project.Id,
-                //        "", null, "", "", false, _user.Id, this)
-                //    {
-                //        User = _user,
-                //        Project = project,
-                //        LaboBasicData = null,
-                //    };
-                //    newLabo = InsertNewlabo(newLabo);
-                //    newLabo.LaboBasicData = CreateEmptyLabodataBasic(newLabo); 
-                //    newLabo.ViscosityProfile = new LaboDataViscosityColDto(newLabo.Id, Profile.STD, "");
                 }
 
-                //_laboBinding.Position = _laboBinding.Count - 1;
                 SetFilter(_laboBinding.Count - 1);
             }
 
@@ -1422,11 +1361,11 @@ namespace Laboratorium.LabBook.Service
                 .Select(i => i.Position)
                 .ToList();
 
-            short pos = (short)(contrasts.Count > 0 ? contrasts[contrasts.Count - 1] + 1 : 0);
+            short pos = (short)(contrasts.Count > 0 ? contrasts[contrasts.Count - 1] + 1 : 1);
 
             for (int i = 0; i < 4; i++)
             {
-                LaboDataContrastDto contrast = new LaboDataContrastDto(id, DateTime.Today, false, CommonData.AplikatorsStd[i], pos++, CommonData.LENETA, DateTime.Today);
+                LaboDataContrastDto contrast = new LaboDataContrastDto(id, DateTime.Today, false, CommonData.AplikatorsStd[i], pos++, CommonData.LENETA, DateTime.Today, this);
                 _laboContrastsList.Add(contrast);
             }
             _laboContrastBinding.DataSource = GetCurrentContrasts();
@@ -1458,7 +1397,7 @@ namespace Laboratorium.LabBook.Service
                 applicator = CommonData.Aplikators[appNr];
             }
 
-            LaboDataContrastDto contrast = new LaboDataContrastDto(id, DateTime.Today, false, applicator, position, CommonData.LENETA, DateTime.Today);
+            LaboDataContrastDto contrast = new LaboDataContrastDto(id, DateTime.Today, false, applicator, position, CommonData.LENETA, DateTime.Today, this);
             _laboContrastsList.Add(contrast);
             _laboContrastBinding.DataSource = GetCurrentContrasts();
         }
@@ -1573,7 +1512,7 @@ namespace Laboratorium.LabBook.Service
 
             if (newLabo.CrudState == CrudState.OK)
             {
-                newLabo.AcceptChanged();
+                newLabo.AcceptChanges();
                 _laboBinding.Add(newLabo);
                 _laboBinding.EndEdit();
                 _form.GetDgvLabo.Refresh();
@@ -1596,6 +1535,9 @@ namespace Laboratorium.LabBook.Service
             UpdateLabo(permission);
             SaveBasicData(permission);
             SaveViscosity();
+            SaveContrast();
+
+            Modify(RowState.UNCHANGED);
         }
 
         private bool UpdateLabo(Permission permission)
@@ -1612,14 +1554,14 @@ namespace Laboratorium.LabBook.Service
                     if (answer == CrudState.OK)
                     {
                         SaveViscosityColumn(labo);
-                        labo.AcceptChanged();
+                        labo.AcceptChanges();
                     }
                     else
                         return false;
                 }
                 else
                 {
-                    labo.AcceptChanged();
+                    labo.AcceptChanges();
                 }
             }
 
@@ -1642,13 +1584,13 @@ namespace Laboratorium.LabBook.Service
                 {
                     CrudState answer = _repositoryLaboBasic.Save(labo.LaboBasicData).CrudState;
                     if (answer == CrudState.OK)
-                        labo.LaboBasicData.AcceptChanged();
+                        labo.LaboBasicData.AcceptChanges();
                     else
                         return false;
                 }
                 else
                 {
-                    labo.LaboBasicData.AcceptChanged();
+                    labo.LaboBasicData.AcceptChanges();
                 }
             }
 
@@ -1668,13 +1610,13 @@ namespace Laboratorium.LabBook.Service
                 {
                     CrudState answer = _repositoryLaboBasic.Update(labo.LaboBasicData).CrudState;
                     if (answer == CrudState.OK)
-                        labo.LaboBasicData.AcceptChanged();
+                        labo.LaboBasicData.AcceptChanges();
                     else
                         return false;
                 }
                 else
                 {
-                    labo.LaboBasicData.AcceptChanged();
+                    labo.LaboBasicData.AcceptChanges();
                 }
             }
 
@@ -1695,7 +1637,7 @@ namespace Laboratorium.LabBook.Service
             {
                 CrudState answer = _repositoryViscosity.Save(vis).CrudState;
                 if (answer == CrudState.OK)
-                    vis.AcceptChanged();
+                    vis.AcceptChanges();
                 else
                     return false;
             }
@@ -1710,9 +1652,9 @@ namespace Laboratorium.LabBook.Service
 
             foreach (var vis in modified)
             {
-                CrudState answer = _repositoryViscosity.Save(vis).CrudState;
+                CrudState answer = _repositoryViscosity.Update(vis).CrudState;
                 if (answer == CrudState.OK)
-                    vis.AcceptChanged();
+                    vis.AcceptChanges();
                 else
                     return false;
             }
@@ -1729,6 +1671,45 @@ namespace Laboratorium.LabBook.Service
             {
                 _repositoryViscosityCol.Save(labo.ViscosityProfile);
             }
+        }
+
+        private bool SaveContrast()
+        {
+            #region Save new
+
+            var added = _laboContrastsList
+                .Where(i => i.GetRowState == RowState.ADDED)
+                .ToList();
+
+            foreach (var con in added)
+            {
+                CrudState answer = _repositoryContrast.Save(con).CrudState;
+                if (answer == CrudState.OK)
+                    con.AcceptChanges();
+                else
+                    return false;
+            }
+
+            #endregion
+
+            #region Update
+
+            var modified = _laboContrastsList
+                .Where(i => i.GetRowState == RowState.MODIFIED)
+                .ToList();
+
+            foreach (var con in modified)
+            {
+                CrudState answer = _repositoryContrast.Update(con).CrudState;
+                if (answer == CrudState.OK)
+                    con.AcceptChanges();
+                else
+                    return false;
+            }
+
+            #endregion
+
+            return true;
         }
 
         #endregion

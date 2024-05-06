@@ -56,7 +56,7 @@ namespace Laboratorium.ADO.DTO
             _service = service;
         }
 
-        public LaboDataContrastDto(int laboId, DateTime dateCreated, bool isDeleted, string applicator, short position, string substrate, DateTime dateUpdated)
+        public LaboDataContrastDto(int laboId, DateTime dateCreated, bool isDeleted, string applicator, short position, string substrate, DateTime dateUpdated, IService service)
         {
             LaboId = laboId;
             DateCreated = dateCreated;
@@ -65,6 +65,7 @@ namespace Laboratorium.ADO.DTO
             _position = position;
             _substrate = substrate;
             DateUpdated = dateUpdated;
+            _service = service;
         }
 
         private void ChangeState(RowState state)
@@ -158,7 +159,7 @@ namespace Laboratorium.ADO.DTO
 
         public RowState GetRowState => _rowState;
 
-        public void AcceptChanged()
+        public void AcceptChanges()
         {
             _rowState = RowState.UNCHANGED;
             if (_service != null)

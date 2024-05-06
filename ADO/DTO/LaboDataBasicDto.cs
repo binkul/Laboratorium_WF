@@ -310,7 +310,7 @@ namespace Laboratorium.ADO.DTO
 
         public RowState GetRowState => _rowState;
 
-        public void AcceptChanged()
+        public void AcceptChanges()
         {
             _rowState = RowState.UNCHANGED;
             if (_service != null)

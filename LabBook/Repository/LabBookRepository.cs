@@ -51,7 +51,7 @@ namespace Laboratorium.LabBook.Repository
                         short userId = reader.GetInt16(10);
 
                         LaboDto labo = new LaboDto((int)id, title, dateCreated, dateUpdated, (int)project, target, density, conclusion, observation, deleted, userId, _service);
-                        labo.AcceptChanged();
+                        labo.AcceptChanges();
                         list.Add(labo);
                     }
                     reader.Close();

@@ -52,7 +52,7 @@ namespace Laboratorium.LabBook.Repository
 
                         LaboDataContrastDto data = new LaboDataContrastDto(id, laboId, dateCreated, isDeleted, applicator, position, substrate, contrast, tw, sp, comments, dateUpdated, _service);
 
-                        data.AcceptChanged();
+                        data.AcceptChanges();
                         list.Add(data);
                     }
                     reader.Close();

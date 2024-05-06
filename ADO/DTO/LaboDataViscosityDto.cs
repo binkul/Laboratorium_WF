@@ -366,7 +366,7 @@ namespace Laboratorium.ADO.DTO
             set => _service = value;
         }
 
-        public void AcceptChanged()
+        public void AcceptChanges()
         {
             _rowState = RowState.UNCHANGED;
             if (_service != null)

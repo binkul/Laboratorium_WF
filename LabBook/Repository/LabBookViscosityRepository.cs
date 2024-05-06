@@ -99,7 +99,7 @@ namespace Laboratorium.LabBook.Repository
                             .Service(_service)
                             .Build();
 
-                        labo.AcceptChanged();
+                        labo.AcceptChanges();
                         list.Add(labo);
                     }
                     reader.Close();
@@ -201,7 +201,7 @@ namespace Laboratorium.LabBook.Repository
                             .Service(_service)
                             .Build();
 
-                        labo.AcceptChanged();
+                        labo.AcceptChanges();
                         list.Add(labo);
                     }
                     reader.Close();
