@@ -25,6 +25,9 @@ namespace Laboratorium.LabBook.Service
 {
     public class LabBookService : IService
     {
+        private static readonly Color LightGrey = Color.FromArgb(200, 210, 210, 210);
+        private static readonly SolidBrush redBrush = new SolidBrush(Color.Red);
+
         private const int HEADER_WIDTH = 35;
         private const string FORM_TOP = "Form_Top";
         private const string FORM_LEFT = "Form_Left";
@@ -757,6 +760,8 @@ namespace Laboratorium.LabBook.Service
         private void LaboBinding_PositionChanged(object sender, EventArgs e)
         {
             _cmbBlock = true;
+            bool admin = false;
+            bool deleted = true;
 
             #region Set Current Controls
 
@@ -876,6 +881,26 @@ namespace Laboratorium.LabBook.Service
             }
 
             #endregion
+
+            #region Block Controls
+
+            if (_currentLabBook != null)
+            {
+                //admin = (long)_currentLabBook["user_id"] == _user.Id || _labBookForm.IsAdmin ? true : false;
+                deleted = _currentLabBook.IsDeleted;
+            }
+
+            if (deleted) // || !admin)
+            {
+                FullBlockControls();
+            }
+            else
+            {
+                FullUnblockControls();
+            }
+
+            #endregion
+
 
             _cmbBlock = false;
         }
@@ -1020,6 +1045,57 @@ namespace Laboratorium.LabBook.Service
         #endregion
 
 
+        #region Block Controls
+
+        private void FullBlockControls()
+        {
+            _form.GetBtnDelete.Enabled = false;
+            _form.GetBtnProjectChange.Enabled = false;
+            _form.GetBtnUp.Enabled = false;
+            _form.GetBtnDown.Enabled = false;
+            _form.GetTxtTitle.Enabled = false;
+            _form.GetTxtConclusion.Enabled = false;
+            _form.GetTxtObservation.Enabled = false;
+
+            _form.GetPageBasic.Enabled = false;
+            _form.GetMainMenu.Enabled = false;
+
+            _form.GetDgvLabo.Columns["Id"].ReadOnly = true;
+            _form.GetDgvLabo.Columns["Title"].ReadOnly = true;
+            _form.GetDgvLabo.Columns["ProjectName"].ReadOnly = true;
+            _form.GetDgvLabo.Columns["Density"].ReadOnly = true;
+            _form.GetDgvLabo.Columns["UserShortcut"].ReadOnly = true;
+
+            _form.GetDgvViscosity.Enabled = false;
+            _form.GetDgvContrast.Enabled = false;
+        }
+
+        private void FullUnblockControls()
+        {
+            _form.GetBtnDelete.Enabled = true;
+            _form.GetBtnProjectChange.Enabled = true;
+            _form.GetBtnUp.Enabled = true;
+            _form.GetBtnDown.Enabled = true;
+            _form.GetTxtTitle.Enabled = true;
+            _form.GetTxtConclusion.Enabled = true;
+            _form.GetTxtObservation.Enabled = true;
+
+            _form.GetPageBasic.Enabled = true;
+            _form.GetMainMenu.Enabled = true;
+
+            _form.GetDgvLabo.Columns["Id"].ReadOnly = true;
+            _form.GetDgvLabo.Columns["Title"].ReadOnly = false;
+            _form.GetDgvLabo.Columns["ProjectName"].ReadOnly = true;
+            _form.GetDgvLabo.Columns["Density"].ReadOnly = false;
+            _form.GetDgvLabo.Columns["UserShortcut"].ReadOnly = true;
+
+            _form.GetDgvViscosity.Enabled = true;
+            _form.GetDgvContrast.Enabled = true;
+        }
+
+        #endregion
+
+
         #region DataGridView Events
 
         public void ResizeLaboColumn(DataGridViewColumnEventArgs e)
@@ -1071,6 +1147,47 @@ namespace Laboratorium.LabBook.Service
             e.Row.Cells["DateCreated"].Value = DateTime.Today;
             e.Row.Cells["DateUpdated"].Value = DateTime.Today;
             e.Row.Cells["Service"].Value = this;
+        }
+
+        public void BrightForeColorInDeleted(DataGridViewCellFormattingEventArgs e)
+        {
+            bool deleted = Convert.ToBoolean(_form.GetDgvLabo.Rows[e.RowIndex].Cells["IsDeleted"].Value);
+
+            if (deleted)
+            {
+                e.CellStyle.ForeColor = LightGrey;
+            }
+        }
+
+        public void IconInCellPainting(DataGridViewRowPostPaintEventArgs e)
+        {
+            long userId = Convert.ToInt32(_form.GetDgvLabo.Rows[e.RowIndex].Cells["UserId"].Value);
+            bool deleted = Convert.ToBoolean(_form.GetDgvLabo.Rows[e.RowIndex].Cells["IsDeleted"].Value);
+
+            if (deleted)
+            {
+                string drawString = "Deleted ... Deleted ...";
+                StringFormat drawFormat = new StringFormat();
+                drawFormat.Alignment = StringAlignment.Center;
+                Font drawFont = new Font("Arial", 12, FontStyle.Bold);
+                int x = _form.GetDgvLabo.RowHeadersWidth + 20;
+                int y = e.RowBounds.Top + 4;
+                int width = 300;
+                int height = e.RowBounds.Height;
+                Rectangle drawRect = new Rectangle(x, y, width, height);
+
+                e.Graphics.DrawString(drawString, drawFont, redBrush, drawRect, drawFormat);
+            }
+            //else if (_user.Id != userId)
+            //{
+            //    int x = e.RowBounds.Left + 25;
+            //    int width = 4;
+            //    Rectangle rectangleTop = new Rectangle(x, e.RowBounds.Top + 4, width, e.RowBounds.Height - 14);
+            //    Rectangle rectangleBottom = new Rectangle(x, e.RowBounds.Top + e.RowBounds.Height - 8, width, 4);
+
+            //    e.Graphics.FillRectangle(redBrush, rectangleTop);
+            //    e.Graphics.FillRectangle(redBrush, rectangleBottom);
+            //}
         }
 
 

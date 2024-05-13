@@ -227,14 +227,14 @@
             this.bindingNavigatorMoveNextItem,
             this.bindingNavigatorMoveLastItem,
             this.bindingNavigatorSeparator2});
-            this.BindingNavigatorLabo.Location = new System.Drawing.Point(0, 817);
+            this.BindingNavigatorLabo.Location = new System.Drawing.Point(0, 821);
             this.BindingNavigatorLabo.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
             this.BindingNavigatorLabo.MoveLastItem = this.bindingNavigatorMoveLastItem;
             this.BindingNavigatorLabo.MoveNextItem = this.bindingNavigatorMoveNextItem;
             this.BindingNavigatorLabo.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.BindingNavigatorLabo.Name = "BindingNavigatorLabo";
             this.BindingNavigatorLabo.PositionItem = this.bindingNavigatorPositionItem;
-            this.BindingNavigatorLabo.Size = new System.Drawing.Size(1376, 31);
+            this.BindingNavigatorLabo.Size = new System.Drawing.Size(1376, 27);
             this.BindingNavigatorLabo.TabIndex = 1;
             this.BindingNavigatorLabo.Text = "bindingNavigator1";
             // 
@@ -251,7 +251,7 @@
             this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
             this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
             this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(29, 28);
+            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(29, 24);
             this.bindingNavigatorMoveFirstItem.Text = "Przenieś pierwszy";
             // 
             // bindingNavigatorMovePreviousItem
@@ -414,7 +414,9 @@
             this.DgvLabo.RowTemplate.Height = 24;
             this.DgvLabo.Size = new System.Drawing.Size(1357, 551);
             this.DgvLabo.TabIndex = 0;
+            this.DgvLabo.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvLabo_CellFormatting);
             this.DgvLabo.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.DgvLabo_ColumnWidthChanged);
+            this.DgvLabo.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.DgvLabo_RowPostPaint);
             // 
             // TbBasicData
             // 
@@ -464,7 +466,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1359, 593);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1356, 593);
             this.tableLayoutPanel2.TabIndex = 6;
             // 
             // panel2
@@ -537,7 +539,7 @@
             this.CmbScrubClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbScrubClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbScrubClass.FormattingEnabled = true;
-            this.CmbScrubClass.Location = new System.Drawing.Point(205, 201);
+            this.CmbScrubClass.Location = new System.Drawing.Point(205, 203);
             this.CmbScrubClass.Name = "CmbScrubClass";
             this.CmbScrubClass.Size = new System.Drawing.Size(159, 28);
             this.CmbScrubClass.TabIndex = 3;
@@ -752,7 +754,7 @@
             this.CmbGlossClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbGlossClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbGlossClass.FormattingEnabled = true;
-            this.CmbGlossClass.Location = new System.Drawing.Point(207, 244);
+            this.CmbGlossClass.Location = new System.Drawing.Point(207, 246);
             this.CmbGlossClass.Name = "CmbGlossClass";
             this.CmbGlossClass.Size = new System.Drawing.Size(224, 28);
             this.CmbGlossClass.TabIndex = 10;
@@ -877,7 +879,7 @@
             this.CmbContrastClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbContrastClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbContrastClass.FormattingEnabled = true;
-            this.CmbContrastClass.Location = new System.Drawing.Point(205, 120);
+            this.CmbContrastClass.Location = new System.Drawing.Point(205, 118);
             this.CmbContrastClass.Name = "CmbContrastClass";
             this.CmbContrastClass.Size = new System.Drawing.Size(149, 28);
             this.CmbContrastClass.TabIndex = 5;
@@ -946,7 +948,7 @@
             this.CmbVocClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbVocClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbVocClass.FormattingEnabled = true;
-            this.CmbVocClass.Location = new System.Drawing.Point(205, 81);
+            this.CmbVocClass.Location = new System.Drawing.Point(205, 83);
             this.CmbVocClass.Name = "CmbVocClass";
             this.CmbVocClass.Size = new System.Drawing.Size(298, 28);
             this.CmbVocClass.TabIndex = 12;
@@ -983,7 +985,7 @@
             this.panel6.Location = new System.Drawing.Point(1073, 23);
             this.panel6.Name = "panel6";
             this.tableLayoutPanel2.SetRowSpan(this.panel6, 10);
-            this.panel6.Size = new System.Drawing.Size(283, 459);
+            this.panel6.Size = new System.Drawing.Size(280, 459);
             this.panel6.TabIndex = 131;
             // 
             // tableLayoutPanel6
@@ -1029,7 +1031,7 @@
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(275, 435);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(272, 435);
             this.tableLayoutPanel6.TabIndex = 0;
             // 
             // TxtYieldFormula
@@ -1037,7 +1039,7 @@
             this.TxtYieldFormula.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtYieldFormula.Location = new System.Drawing.Point(203, 76);
             this.TxtYieldFormula.Name = "TxtYieldFormula";
-            this.TxtYieldFormula.Size = new System.Drawing.Size(69, 27);
+            this.TxtYieldFormula.Size = new System.Drawing.Size(66, 27);
             this.TxtYieldFormula.TabIndex = 14;
             // 
             // label24
@@ -1060,7 +1062,7 @@
             this.label14.ForeColor = System.Drawing.Color.Blue;
             this.label14.Location = new System.Drawing.Point(3, 0);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(269, 30);
+            this.label14.Size = new System.Drawing.Size(266, 30);
             this.label14.TabIndex = 126;
             this.label14.Text = "Wyniki podstawowe pozostałe";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1070,7 +1072,7 @@
             this.TxtYield.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtYield.Location = new System.Drawing.Point(203, 36);
             this.TxtYield.Name = "TxtYield";
-            this.TxtYield.Size = new System.Drawing.Size(69, 27);
+            this.TxtYield.Size = new System.Drawing.Size(66, 27);
             this.TxtYield.TabIndex = 13;
             this.TxtYield.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTitle_KeyPress);
             // 
@@ -1090,7 +1092,7 @@
             this.TxtDryV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtDryV.Location = new System.Drawing.Point(203, 399);
             this.TxtDryV.Name = "TxtDryV";
-            this.TxtDryV.Size = new System.Drawing.Size(69, 27);
+            this.TxtDryV.Size = new System.Drawing.Size(66, 27);
             this.TxtDryV.TabIndex = 22;
             this.TxtDryV.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTitle_KeyPress);
             // 
@@ -1110,7 +1112,7 @@
             this.TxtDryIV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtDryIV.Location = new System.Drawing.Point(203, 356);
             this.TxtDryIV.Name = "TxtDryIV";
-            this.TxtDryIV.Size = new System.Drawing.Size(69, 27);
+            this.TxtDryIV.Size = new System.Drawing.Size(66, 27);
             this.TxtDryIV.TabIndex = 21;
             this.TxtDryIV.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTitle_KeyPress);
             // 
@@ -1130,7 +1132,7 @@
             this.TxtDryIII.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtDryIII.Location = new System.Drawing.Point(203, 316);
             this.TxtDryIII.Name = "TxtDryIII";
-            this.TxtDryIII.Size = new System.Drawing.Size(69, 27);
+            this.TxtDryIII.Size = new System.Drawing.Size(66, 27);
             this.TxtDryIII.TabIndex = 20;
             this.TxtDryIII.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTitle_KeyPress);
             // 
@@ -1150,7 +1152,7 @@
             this.TxtDryII.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtDryII.Location = new System.Drawing.Point(203, 276);
             this.TxtDryII.Name = "TxtDryII";
-            this.TxtDryII.Size = new System.Drawing.Size(69, 27);
+            this.TxtDryII.Size = new System.Drawing.Size(66, 27);
             this.TxtDryII.TabIndex = 19;
             this.TxtDryII.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTitle_KeyPress);
             // 
@@ -1170,7 +1172,7 @@
             this.TxtDryI.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtDryI.Location = new System.Drawing.Point(203, 236);
             this.TxtDryI.Name = "TxtDryI";
-            this.TxtDryI.Size = new System.Drawing.Size(69, 27);
+            this.TxtDryI.Size = new System.Drawing.Size(66, 27);
             this.TxtDryI.TabIndex = 18;
             this.TxtDryI.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTitle_KeyPress);
             // 
@@ -1190,7 +1192,7 @@
             this.TxtSpill.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtSpill.Location = new System.Drawing.Point(203, 196);
             this.TxtSpill.Name = "TxtSpill";
-            this.TxtSpill.Size = new System.Drawing.Size(69, 27);
+            this.TxtSpill.Size = new System.Drawing.Size(66, 27);
             this.TxtSpill.TabIndex = 17;
             this.TxtSpill.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTitle_KeyPress);
             // 
@@ -1210,7 +1212,7 @@
             this.TxtFlow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtFlow.Location = new System.Drawing.Point(203, 156);
             this.TxtFlow.Name = "TxtFlow";
-            this.TxtFlow.Size = new System.Drawing.Size(69, 27);
+            this.TxtFlow.Size = new System.Drawing.Size(66, 27);
             this.TxtFlow.TabIndex = 16;
             this.TxtFlow.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTitle_KeyPress);
             // 
@@ -1230,7 +1232,7 @@
             this.TxtAdhesion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtAdhesion.Location = new System.Drawing.Point(203, 116);
             this.TxtAdhesion.Name = "TxtAdhesion";
-            this.TxtAdhesion.Size = new System.Drawing.Size(69, 27);
+            this.TxtAdhesion.Size = new System.Drawing.Size(66, 27);
             this.TxtAdhesion.TabIndex = 15;
             this.TxtAdhesion.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTitle_KeyPress);
             // 
@@ -1274,7 +1276,7 @@
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(1352, 595);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(1349, 595);
             this.tableLayoutPanel7.TabIndex = 0;
             // 
             // label25
@@ -1296,7 +1298,7 @@
             this.label26.AutoSize = true;
             this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label26.ForeColor = System.Drawing.Color.Blue;
-            this.label26.Location = new System.Drawing.Point(690, 37);
+            this.label26.Location = new System.Drawing.Point(688, 37);
             this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(71, 25);
@@ -1311,7 +1313,7 @@
             this.TxtObservation.Location = new System.Drawing.Point(3, 73);
             this.TxtObservation.Multiline = true;
             this.TxtObservation.Name = "TxtObservation";
-            this.TxtObservation.Size = new System.Drawing.Size(660, 519);
+            this.TxtObservation.Size = new System.Drawing.Size(658, 519);
             this.TxtObservation.TabIndex = 10;
             // 
             // TxtConclusion
@@ -1319,10 +1321,10 @@
             this.TxtConclusion.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TxtConclusion.Location = new System.Drawing.Point(689, 73);
+            this.TxtConclusion.Location = new System.Drawing.Point(687, 73);
             this.TxtConclusion.Multiline = true;
             this.TxtConclusion.Name = "TxtConclusion";
-            this.TxtConclusion.Size = new System.Drawing.Size(660, 519);
+            this.TxtConclusion.Size = new System.Drawing.Size(659, 519);
             this.TxtConclusion.TabIndex = 11;
             // 
             // TbViscosity
@@ -1348,7 +1350,7 @@
             this.DgvViscosity.Name = "DgvViscosity";
             this.DgvViscosity.RowHeadersWidth = 51;
             this.DgvViscosity.RowTemplate.Height = 24;
-            this.DgvViscosity.Size = new System.Drawing.Size(1361, 595);
+            this.DgvViscosity.Size = new System.Drawing.Size(1358, 595);
             this.DgvViscosity.TabIndex = 0;
             this.DgvViscosity.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.DgvViscosity_DefaultValuesNeeded);
             // 
@@ -1358,7 +1360,7 @@
             this.TbContrast.Controls.Add(this.DgvContrast);
             this.TbContrast.Location = new System.Drawing.Point(4, 29);
             this.TbContrast.Name = "TbContrast";
-            this.TbContrast.Size = new System.Drawing.Size(1368, 601);
+            this.TbContrast.Size = new System.Drawing.Size(1371, 601);
             this.TbContrast.TabIndex = 4;
             this.TbContrast.Text = "Krycia";
             // 
@@ -1597,13 +1599,13 @@
             this.wybraneToolStripMenuItem});
             this.ApplicatorToolStripMenuItem.Enabled = false;
             this.ApplicatorToolStripMenuItem.Name = "ApplicatorToolStripMenuItem";
-            this.ApplicatorToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
+            this.ApplicatorToolStripMenuItem.Size = new System.Drawing.Size(163, 28);
             this.ApplicatorToolStripMenuItem.Text = "Aplikator";
             // 
             // standardoweToolStripMenuItem
             // 
             this.standardoweToolStripMenuItem.Name = "standardoweToolStripMenuItem";
-            this.standardoweToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
+            this.standardoweToolStripMenuItem.Size = new System.Drawing.Size(195, 28);
             this.standardoweToolStripMenuItem.Text = "Standardowe";
             this.standardoweToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorStdInsertstandardoweToolStripMenuItem_Click);
             // 
@@ -1637,7 +1639,7 @@
             this.Wire250ToolStripMenuItem,
             this.Wire300ToolStripMenuItem});
             this.wybraneToolStripMenuItem.Name = "wybraneToolStripMenuItem";
-            this.wybraneToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
+            this.wybraneToolStripMenuItem.Size = new System.Drawing.Size(195, 28);
             this.wybraneToolStripMenuItem.Text = "Wybrane";
             // 
             // Normal75ToolStripMenuItem

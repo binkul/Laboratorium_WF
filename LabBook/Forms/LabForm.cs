@@ -27,6 +27,7 @@ namespace Laboratorium.LabBook.Forms
         private bool _loginOk = false;
         private bool _init = true;
 
+        public MenuStrip GetMainMenu => LabMainMenuStrip;
         public DataGridView GetDgvLabo => DgvLabo;
         public DataGridView GetDgvViscosity => DgvViscosity;
         public DataGridView GetDgvContrast => DgvContrast;
@@ -38,6 +39,9 @@ namespace Laboratorium.LabBook.Forms
         public Button GetBtnFilterCancel => BtnFilterCancel;
         public Button GetBtnFilterProject => BtnFilterByProject;
         public Button GetBtnProjectChange => BtnChangeProject;
+        public Button GetBtnDelete => BtnDelete;
+        public Button GetBtnUp => BtnUp;
+        public Button GetBtnDown => BtnDown;
         public TextBox GetTxtTitle => TxtTitle;
         public TextBox GetTxtObservation => TxtObservation;
         public TextBox GetTxtConclusion => TxtConclusion;
@@ -63,6 +67,7 @@ namespace Laboratorium.LabBook.Forms
         public TextBox GetTxtDryIII => TxtDryIII;
         public TextBox GetTxtDryIV => TxtDryIV;
         public TextBox GetTxtDryV => TxtDryV;
+        public TabPage GetPageBasic => TbBasicData;
         public Label GetLblDateCreated => LblDateCreated;
         public Label GetLblDateModified => LblDateModified;
         public Label GetLblNrD => LblNrD;
@@ -159,17 +164,6 @@ namespace Laboratorium.LabBook.Forms
             }
         }
 
-        private void DgvLabo_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
-        {
-            _service.ResizeLaboColumn(e);
-        }
-
-        private void DgvContrast_SizeChanged(object sender, EventArgs e)
-        {
-            if (_service != null)
-                _service.ResizeContrastColumn();
-        }
-
         private void TxtFilterNumD_TextChanged(object sender, EventArgs e)
         {
             _service.SetFilter(0);
@@ -188,11 +182,6 @@ namespace Laboratorium.LabBook.Forms
         private void BtnChangeProject_Click(object sender, EventArgs e)
         {
             _service.ChangeProject();
-        }
-
-        private void DgvViscosity_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
-        {
-            _service.DefaultValuesForViscosity(e);
         }
 
         private void StdXToolStripMenuItem_Click(object sender, EventArgs e)
@@ -229,6 +218,17 @@ namespace Laboratorium.LabBook.Forms
             {
                 ApplicatorToolStripMenuItem.Enabled= false;
             }
+
+            if (control.SelectedTab.Name == TbContrast.Name || control.SelectedTab.Name == TbViscosity.Name)
+            {
+                BtnUp.Enabled = true;
+                BtnDown.Enabled = true;
+            }
+            else
+            {
+                BtnUp.Enabled = false;
+                BtnDown.Enabled = false;
+            }
         }
 
         private void BtnAdd_Click(object sender, EventArgs e)
@@ -252,5 +252,37 @@ namespace Laboratorium.LabBook.Forms
         {
             _service.StandardApplicatorInsert();
         }
+
+
+        #region DataGridView Events
+
+        private void DgvContrast_SizeChanged(object sender, EventArgs e)
+        {
+            if (_service != null)
+                _service.ResizeContrastColumn();
+        }
+
+        private void DgvLabo_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            _service.ResizeLaboColumn(e);
+        }
+
+        private void DgvLabo_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            _service.BrightForeColorInDeleted(e);
+        }
+
+        private void DgvLabo_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            _service.IconInCellPainting(e);
+        }
+
+        private void DgvViscosity_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
+        {
+            _service.DefaultValuesForViscosity(e);
+        }
+
+        #endregion
+
     }
 }
