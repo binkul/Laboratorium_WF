@@ -1,5 +1,4 @@
 ﻿using Laboratorium.ADO.DTO;
-using Laboratorium.Commons;
 using Laboratorium.LabBook.Service;
 using Laboratorium.Login.Forms;
 using System;
@@ -31,6 +30,7 @@ namespace Laboratorium.LabBook.Forms
         public DataGridView GetDgvLabo => DgvLabo;
         public DataGridView GetDgvViscosity => DgvViscosity;
         public DataGridView GetDgvContrast => DgvContrast;
+        public DataGridView GetDgvNormTest => DgvNormTest;
         public BindingNavigator GetNavigatorLabo => BindingNavigatorLabo;
         public ComboBox GetCmbGlossClass => CmbGlossClass;
         public ComboBox GetCmbContrastClass => CmbContrastClass;

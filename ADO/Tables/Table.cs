@@ -52,8 +52,11 @@
         // LaboDataBasic table
         public static readonly string LABO_BASIC_DATA_TABLE = "LaboDataBasic";
 
+        //LaboDataNrom
+        public static readonly string LABO_NORM_TEST_TABLE = "LaboDataBasic";
+
         // LaboContrast table
-        public static readonly string LABO_CONTRAST_TABLE = "LaboDataContrast";
+        public static readonly string LABO_CONTRAST_TABLE = "LaboDataNorm";
 
         // LaboDataViscosity
         public static readonly string LABO_VISC_DATA_TABLE = "LaboDataViscosity";

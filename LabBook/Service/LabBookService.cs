@@ -2,7 +2,6 @@
 using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.Service;
-using Laboratorium.ADO.Tables;
 using Laboratorium.Commons;
 using Laboratorium.LabBook.Forms;
 using Laboratorium.LabBook.Repository;
@@ -13,13 +12,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using System.Xml.Linq;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Laboratorium.LabBook.Service
 {
@@ -28,7 +24,8 @@ namespace Laboratorium.LabBook.Service
         private static readonly Color LightGrey = Color.FromArgb(200, 210, 210, 210);
         private static readonly SolidBrush redBrush = new SolidBrush(Color.Red);
 
-        private const int HEADER_WIDTH = 35;
+        private const int HEADER_WIDTH_ADMIN = 35;
+        private const int HEADER_WIDTH_USER = 40;
         private const string FORM_TOP = "Form_Top";
         private const string FORM_LEFT = "Form_Left";
         private const string FORM_WIDTH = "Form_Width";
@@ -47,6 +44,7 @@ namespace Laboratorium.LabBook.Service
         private readonly IBasicCRUD<LaboDataViscosityDto> _repositoryViscosity;
         private readonly IBasicCRUD<LaboDataViscosityColDto> _repositoryViscosityCol;
         private readonly IBasicCRUD<LaboDataContrastDto> _repositoryContrast;
+        private readonly IBasicCRUD<LaboDataNormTestDto> _repositoryNormTest;
         private readonly SqlConnection _connection;
         private readonly UserDto _user;
         private readonly LabForm _form;
@@ -59,6 +57,8 @@ namespace Laboratorium.LabBook.Service
         private IList<LaboDataViscosityColDto> _laboViscosityColList;
         private IList<LaboDataContrastDto> _laboContrastsList;
         private BindingSource _laboContrastBinding;
+        private IList<LaboDataNormTestDto> _laboNormTestList;
+        private BindingSource _laboNormTestBinding;
         private IList<UserDto> _userList;
         private IList<ProjectDto> _projectList;
         private IList<ContrastClassDto> _contrastClassList;
@@ -76,6 +76,7 @@ namespace Laboratorium.LabBook.Service
             _form = form;
             _repositoryLabo = new LabBookRepository(_connection, this);
             _repositoryLaboBasic = new LabBookBasicDataRepository(_connection, this);
+            _repositoryNormTest = new LabBookNormTestRepository(_connection, this);
             _repositoryViscosity = new LabBookViscosityRepository(_connection, this);
             _repositoryViscosityCol = new LabBookViscosityColRepository(_connection);
             _repositoryContrast = new LabBookContrastRepository(_connection, this);
@@ -104,6 +105,8 @@ namespace Laboratorium.LabBook.Service
                 .Any();
             _form.ActivateSave(laboModify | basicModify | visModify | conModify);
         }
+
+        private bool IsAdmin => _currentLabBook != null ? _user.Permission.ToLower() == "admin" : false;
 
 
         #region Open/Close form 
@@ -249,6 +252,10 @@ namespace Laboratorium.LabBook.Service
             _laboContrastBinding = new BindingSource();
             _laboContrastBinding.DataSource = _laboContrastsList;
 
+            _laboNormTestList = _repositoryNormTest.GetAll();
+            _laboNormTestBinding = new BindingSource();
+            _laboNormTestBinding.DataSource = _laboNormTestList;
+
             IBasicCRUD<ContrastClassDto> contrast = new ContrastClassRepository(_connection);
             _contrastClassList = contrast.GetAll();
 
@@ -280,6 +287,12 @@ namespace Laboratorium.LabBook.Service
             #region Prepare DgvContrast
 
             PrepareDgvContrast();
+
+            #endregion
+
+            #region Prepare DgvNormTest
+
+            PrepareDgvNormTest();
 
             #endregion
 
@@ -408,7 +421,7 @@ namespace Laboratorium.LabBook.Service
             view.ColumnHeadersDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Bold);
             view.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
             view.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            view.RowHeadersWidth = HEADER_WIDTH;
+            view.RowHeadersWidth = IsAdmin ? HEADER_WIDTH_ADMIN : HEADER_WIDTH_USER;
             view.DefaultCellStyle.ForeColor = Color.Black;
             view.MultiSelect = false;
             view.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -462,7 +475,7 @@ namespace Laboratorium.LabBook.Service
             view.Columns["UserShortcut"].SortMode = DataGridViewColumnSortMode.NotSortable;
             view.Columns["UserShortcut"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            int width = view.Width - HEADER_WIDTH - view.Columns["Id"].Width - view.Columns["Density"].Width - view.Columns["UserShortcut"].Width;
+            int width = view.Width - HEADER_WIDTH_ADMIN - view.Columns["Id"].Width - view.Columns["Density"].Width - view.Columns["UserShortcut"].Width;
             if (view.ScrollBars == ScrollBars.Vertical || view.ScrollBars == ScrollBars.Both)
             {
                 width -= SystemInformation.VerticalScrollBarWidth;
@@ -480,7 +493,7 @@ namespace Laboratorium.LabBook.Service
             view.ColumnHeadersDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Bold);
             view.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
             view.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            view.RowHeadersWidth = HEADER_WIDTH;
+            view.RowHeadersWidth = HEADER_WIDTH_ADMIN;
             view.DefaultCellStyle.ForeColor = Color.Black;
             view.MultiSelect = false;
             view.SelectionMode = DataGridViewSelectionMode.CellSelect;
@@ -675,7 +688,7 @@ namespace Laboratorium.LabBook.Service
             view.ColumnHeadersDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Bold);
             view.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
             view.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            view.RowHeadersWidth = HEADER_WIDTH;
+            view.RowHeadersWidth = HEADER_WIDTH_ADMIN;
             view.DefaultCellStyle.ForeColor = Color.Black;
             view.MultiSelect = false;
             view.SelectionMode = DataGridViewSelectionMode.CellSelect;
@@ -727,6 +740,26 @@ namespace Laboratorium.LabBook.Service
             view.Columns["Comments"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             view.Columns["Comments"].SortMode = DataGridViewColumnSortMode.NotSortable;
             view.Columns["Comments"].DisplayIndex = 6;
+        }
+
+        private void PrepareDgvNormTest()
+        {
+            DataGridView view = _form.GetDgvNormTest;
+            view.DataSource = _laboNormTestBinding;
+            view.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.RowsDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Regular);
+            view.ColumnHeadersDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Bold);
+            view.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            view.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            view.RowHeadersWidth = HEADER_WIDTH_ADMIN;
+            view.DefaultCellStyle.ForeColor = Color.Black;
+            view.MultiSelect = false;
+            view.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            view.ReadOnly = false;
+            view.AllowUserToAddRows = false;
+            view.AllowUserToDeleteRows = false;
+            view.AutoGenerateColumns = false;
+
         }
 
         private void PrepareComboBoxes()
@@ -886,13 +919,17 @@ namespace Laboratorium.LabBook.Service
 
             if (_currentLabBook != null)
             {
-                //admin = (long)_currentLabBook["user_id"] == _user.Id || _labBookForm.IsAdmin ? true : false;
+                admin = _currentLabBook.UserId == _user.Id || IsAdmin ? true : false;
                 deleted = _currentLabBook.IsDeleted;
             }
 
-            if (deleted) // || !admin)
+            if (deleted)
             {
                 FullBlockControls();
+            }
+            else if (!admin)
+            {
+                BlockControlsForNotAdmin();
             }
             else
             {
@@ -900,7 +937,6 @@ namespace Laboratorium.LabBook.Service
             }
 
             #endregion
-
 
             _cmbBlock = false;
         }
@@ -1068,6 +1104,7 @@ namespace Laboratorium.LabBook.Service
 
             _form.GetDgvViscosity.Enabled = false;
             _form.GetDgvContrast.Enabled = false;
+            _form.GetDgvNormTest.Enabled = false;
         }
 
         private void FullUnblockControls()
@@ -1093,6 +1130,30 @@ namespace Laboratorium.LabBook.Service
             _form.GetDgvContrast.Enabled = true;
         }
 
+        private void BlockControlsForNotAdmin()
+        {
+            _form.GetBtnDelete.Enabled = false;
+            _form.GetBtnProjectChange.Enabled = false;
+            _form.GetBtnUp.Enabled = false;
+            _form.GetBtnDown.Enabled = false;
+            _form.GetTxtTitle.Enabled = false;
+            _form.GetTxtConclusion.Enabled = false;
+            _form.GetTxtObservation.Enabled = false;
+
+            _form.GetPageBasic.Enabled = false;
+            _form.GetMainMenu.Enabled = true;
+
+            _form.GetDgvLabo.Columns["Id"].ReadOnly = true;
+            _form.GetDgvLabo.Columns["Title"].ReadOnly = true;
+            _form.GetDgvLabo.Columns["ProjectName"].ReadOnly = true;
+            _form.GetDgvLabo.Columns["Density"].ReadOnly = true;
+            _form.GetDgvLabo.Columns["UserShortcut"].ReadOnly = true;
+
+            _form.GetDgvViscosity.Enabled = true;
+            _form.GetDgvContrast.Enabled = true;
+            _form.GetDgvNormTest.Enabled = true;
+        }
+
         #endregion
 
 
@@ -1101,20 +1162,20 @@ namespace Laboratorium.LabBook.Service
         public void ResizeLaboColumn(DataGridViewColumnEventArgs e)
         {
             _form.GetBtnFilterCancel.Size = new Size(_form.GetTxtFilterTitle.Height, _form.GetTxtFilterTitle.Height);
-            _form.GetBtnFilterCancel.Left = _form.GetDgvLabo.Left + (HEADER_WIDTH / 2) - (_form.GetBtnFilterCancel.Size.Width / 2);
+            _form.GetBtnFilterCancel.Left = _form.GetDgvLabo.Left + (HEADER_WIDTH_ADMIN / 2) - (_form.GetBtnFilterCancel.Size.Width / 2);
 
             _form.GetTxtFilterNumD.Width = _form.GetDgvLabo.Columns["Id"].Width - 1;
-            _form.GetTxtFilterNumD.Left = _form.GetDgvLabo.Left + HEADER_WIDTH;
+            _form.GetTxtFilterNumD.Left = _form.GetDgvLabo.Left + HEADER_WIDTH_ADMIN;
 
             _form.GetTxtFilterTitle.Width = _form.GetDgvLabo.Columns["Title"].Width - 2;
-            _form.GetTxtFilterTitle.Left = _form.GetDgvLabo.Left + _form.GetDgvLabo.Columns["Id"].Width + HEADER_WIDTH;
+            _form.GetTxtFilterTitle.Left = _form.GetDgvLabo.Left + _form.GetDgvLabo.Columns["Id"].Width + HEADER_WIDTH_ADMIN;
 
             _form.GetBtnFilterProject.Width = _form.GetDgvLabo.Columns["ProjectName"].Width;
-            _form.GetBtnFilterProject.Left = _form.GetDgvLabo.Left + _form.GetDgvLabo.Columns["Id"].Width + _form.GetDgvLabo.Columns["Title"].Width + HEADER_WIDTH;
+            _form.GetBtnFilterProject.Left = _form.GetDgvLabo.Left + _form.GetDgvLabo.Columns["Id"].Width + _form.GetDgvLabo.Columns["Title"].Width + HEADER_WIDTH_ADMIN;
 
             _form.GetTxtFilterUser.Width = _form.GetDgvLabo.Columns["UserShortcut"].Width;
             _form.GetTxtFilterUser.Left = _form.GetDgvLabo.Left + _form.GetDgvLabo.Columns["Id"].Width + _form.GetDgvLabo.Columns["Title"].Width
-                + _form.GetDgvLabo.Columns["ProjectName"].Width + _form.GetDgvLabo.Columns["Density"].Width + HEADER_WIDTH;
+                + _form.GetDgvLabo.Columns["ProjectName"].Width + _form.GetDgvLabo.Columns["Density"].Width + HEADER_WIDTH_ADMIN;
         }
 
         public void ResizeContrastColumn()
@@ -1166,10 +1227,13 @@ namespace Laboratorium.LabBook.Service
 
             if (deleted)
             {
+                Font font = _form.GetDgvLabo.RowsDefaultCellStyle.Font;
+                float size = font.Size - 2;
+
                 string drawString = "Deleted ... Deleted ...";
                 StringFormat drawFormat = new StringFormat();
                 drawFormat.Alignment = StringAlignment.Center;
-                Font drawFont = new Font("Arial", 12, FontStyle.Bold);
+                Font drawFont = new Font("Arial", size, FontStyle.Bold);
                 int x = _form.GetDgvLabo.RowHeadersWidth + 20;
                 int y = e.RowBounds.Top + 4;
                 int width = 300;
@@ -1178,16 +1242,16 @@ namespace Laboratorium.LabBook.Service
 
                 e.Graphics.DrawString(drawString, drawFont, redBrush, drawRect, drawFormat);
             }
-            //else if (_user.Id != userId)
-            //{
-            //    int x = e.RowBounds.Left + 25;
-            //    int width = 4;
-            //    Rectangle rectangleTop = new Rectangle(x, e.RowBounds.Top + 4, width, e.RowBounds.Height - 14);
-            //    Rectangle rectangleBottom = new Rectangle(x, e.RowBounds.Top + e.RowBounds.Height - 8, width, 4);
+            else if (_user.Id != userId)
+            {
+                int x = e.RowBounds.Left + 25;
+                int width = 4;
+                Rectangle rectangleTop = new Rectangle(x, e.RowBounds.Top + 4, width, e.RowBounds.Height - 14);
+                Rectangle rectangleBottom = new Rectangle(x, e.RowBounds.Top + e.RowBounds.Height - 8, width, 4);
 
-            //    e.Graphics.FillRectangle(redBrush, rectangleTop);
-            //    e.Graphics.FillRectangle(redBrush, rectangleBottom);
-            //}
+                e.Graphics.FillRectangle(redBrush, rectangleTop);
+                e.Graphics.FillRectangle(redBrush, rectangleBottom);
+            }
         }
 
 

@@ -15,7 +15,7 @@ namespace Laboratorium.LabBook.Repository
     public class LabBookContrastRepository : BasicCRUD<LaboDataContrastDto>
     {
         private static readonly SqlIndex SQL_INDEX = SqlIndex.LaboContrastIndex;
-        private static readonly string TABLE_NAME = Table.LABO_CONTRAST_TABLE;
+        private static readonly string TABLE_NAME = Table.LABO_NORM_TEST_TABLE;
         private readonly IService _service;
 
         public LabBookContrastRepository(SqlConnection connection, IService service) : base(connection, SQL_INDEX, TABLE_NAME)

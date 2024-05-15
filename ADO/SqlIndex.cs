@@ -4,6 +4,7 @@
     {
         LaboIndex,
         LaboBasicIndex,
+        LaboNormTestIndex,
         LaboContrastIndex,
         LaboViscosityIndex,
         LaboViscosityColIndex,

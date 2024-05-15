@@ -184,6 +184,8 @@
             this.BtnAddMany = new System.Windows.Forms.Button();
             this.BtnUp = new System.Windows.Forms.Button();
             this.BtnDown = new System.Windows.Forms.Button();
+            this.TbTests = new System.Windows.Forms.TabPage();
+            this.DgvNormTest = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.BindingNavigatorLabo)).BeginInit();
             this.BindingNavigatorLabo.SuspendLayout();
             this.TabLabo.SuspendLayout();
@@ -208,6 +210,8 @@
             this.TbContrast.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvContrast)).BeginInit();
             this.LabMainMenuStrip.SuspendLayout();
+            this.TbTests.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DgvNormTest)).BeginInit();
             this.SuspendLayout();
             // 
             // BindingNavigatorLabo
@@ -272,7 +276,6 @@
             // 
             this.bindingNavigatorPositionItem.AccessibleName = "Pozycja";
             this.bindingNavigatorPositionItem.AutoSize = false;
-            this.bindingNavigatorPositionItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
             this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(49, 27);
             this.bindingNavigatorPositionItem.Text = "0";
@@ -316,6 +319,7 @@
             this.TabLabo.Controls.Add(this.TbConclusion);
             this.TabLabo.Controls.Add(this.TbViscosity);
             this.TabLabo.Controls.Add(this.TbContrast);
+            this.TabLabo.Controls.Add(this.TbTests);
             this.TabLabo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.TabLabo.Location = new System.Drawing.Point(0, 182);
             this.TabLabo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -539,7 +543,7 @@
             this.CmbScrubClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbScrubClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbScrubClass.FormattingEnabled = true;
-            this.CmbScrubClass.Location = new System.Drawing.Point(205, 203);
+            this.CmbScrubClass.Location = new System.Drawing.Point(205, 202);
             this.CmbScrubClass.Name = "CmbScrubClass";
             this.CmbScrubClass.Size = new System.Drawing.Size(159, 28);
             this.CmbScrubClass.TabIndex = 3;
@@ -754,7 +758,7 @@
             this.CmbGlossClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbGlossClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbGlossClass.FormattingEnabled = true;
-            this.CmbGlossClass.Location = new System.Drawing.Point(207, 246);
+            this.CmbGlossClass.Location = new System.Drawing.Point(207, 245);
             this.CmbGlossClass.Name = "CmbGlossClass";
             this.CmbGlossClass.Size = new System.Drawing.Size(224, 28);
             this.CmbGlossClass.TabIndex = 10;
@@ -879,7 +883,7 @@
             this.CmbContrastClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbContrastClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbContrastClass.FormattingEnabled = true;
-            this.CmbContrastClass.Location = new System.Drawing.Point(205, 118);
+            this.CmbContrastClass.Location = new System.Drawing.Point(205, 120);
             this.CmbContrastClass.Name = "CmbContrastClass";
             this.CmbContrastClass.Size = new System.Drawing.Size(149, 28);
             this.CmbContrastClass.TabIndex = 5;
@@ -948,7 +952,7 @@
             this.CmbVocClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbVocClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbVocClass.FormattingEnabled = true;
-            this.CmbVocClass.Location = new System.Drawing.Point(205, 83);
+            this.CmbVocClass.Location = new System.Drawing.Point(205, 82);
             this.CmbVocClass.Name = "CmbVocClass";
             this.CmbVocClass.Size = new System.Drawing.Size(298, 28);
             this.CmbVocClass.TabIndex = 12;
@@ -1360,7 +1364,7 @@
             this.TbContrast.Controls.Add(this.DgvContrast);
             this.TbContrast.Location = new System.Drawing.Point(4, 29);
             this.TbContrast.Name = "TbContrast";
-            this.TbContrast.Size = new System.Drawing.Size(1371, 601);
+            this.TbContrast.Size = new System.Drawing.Size(1368, 601);
             this.TbContrast.TabIndex = 4;
             this.TbContrast.Text = "Krycia";
             // 
@@ -1883,7 +1887,7 @@
             this.LblDateCreated.Location = new System.Drawing.Point(1134, 99);
             this.LblDateCreated.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblDateCreated.Name = "LblDateCreated";
-            this.LblDateCreated.Size = new System.Drawing.Size(241, 22);
+            this.LblDateCreated.Size = new System.Drawing.Size(246, 24);
             this.LblDateCreated.TabIndex = 7;
             this.LblDateCreated.Text = "Utworzenie: 00-00-0000   ";
             // 
@@ -1896,7 +1900,7 @@
             this.LblDateModified.Location = new System.Drawing.Point(1128, 135);
             this.LblDateModified.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblDateModified.Name = "LblDateModified";
-            this.LblDateModified.Size = new System.Drawing.Size(247, 22);
+            this.LblDateModified.Size = new System.Drawing.Size(251, 24);
             this.LblDateModified.TabIndex = 8;
             this.LblDateModified.Text = "Modyfikacja: 00-00-0000   ";
             // 
@@ -1968,6 +1972,29 @@
             this.BtnDown.TabIndex = 26;
             this.BtnDown.UseVisualStyleBackColor = true;
             // 
+            // TbTests
+            // 
+            this.TbTests.BackColor = System.Drawing.SystemColors.Control;
+            this.TbTests.Controls.Add(this.DgvNormTest);
+            this.TbTests.Location = new System.Drawing.Point(4, 29);
+            this.TbTests.Name = "TbTests";
+            this.TbTests.Size = new System.Drawing.Size(1368, 601);
+            this.TbTests.TabIndex = 5;
+            this.TbTests.Text = "Badania";
+            // 
+            // DgvNormTest
+            // 
+            this.DgvNormTest.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.DgvNormTest.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DgvNormTest.Location = new System.Drawing.Point(3, 3);
+            this.DgvNormTest.Name = "DgvNormTest";
+            this.DgvNormTest.RowHeadersWidth = 51;
+            this.DgvNormTest.RowTemplate.Height = 24;
+            this.DgvNormTest.Size = new System.Drawing.Size(1357, 595);
+            this.DgvNormTest.TabIndex = 0;
+            // 
             // LabForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -2031,6 +2058,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.DgvContrast)).EndInit();
             this.LabMainMenuStrip.ResumeLayout(false);
             this.LabMainMenuStrip.PerformLayout();
+            this.TbTests.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.DgvNormTest)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2191,5 +2220,7 @@
         private System.Windows.Forms.ToolStripMenuItem Wire200ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem Wire250ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem Wire300ToolStripMenuItem;
+        private System.Windows.Forms.TabPage TbTests;
+        private System.Windows.Forms.DataGridView DgvNormTest;
     }
 }
