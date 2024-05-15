@@ -91,7 +91,7 @@ namespace Laboratorium.ADO.DTO
             }
         }
 
-        public string Descriptio
+        public string Description
         {
             get => _description;
             set

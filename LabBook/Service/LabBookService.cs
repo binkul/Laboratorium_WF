@@ -133,6 +133,7 @@ namespace Laboratorium.LabBook.Service
 
             AddLaboColumnData(list);
             AddViscosityColumnData(list);
+            AddNormTestData(list);
             CommonFunction.WriteWindowsData(list, FORM_DATA);
         }
 
@@ -225,6 +226,37 @@ namespace Laboratorium.LabBook.Service
             list.Add(name, width);
             name = _form.GetDgvViscosity.Columns["BrookXdisc"].Name;
             width = _form.GetDgvViscosity.Columns["BrookXdisc"].Width;
+            list.Add(name, width);
+        }
+
+        private void AddNormTestData(IDictionary<string, double> list)
+        {
+            string name = "DateCreated_test";
+            double width = _form.GetDgvNormTest.Columns["DateCreated"].Width;
+            list.Add(name, width);
+            name = "DateUpdated_test";
+            width = _form.GetDgvNormTest.Columns["DateUpdated"].Width;
+            list.Add(name, width);
+            name = "Days_test";
+            width = _form.GetDgvNormTest.Columns["Days"].Width;
+            list.Add(name, width);
+            name = "Norm_test";
+            width = _form.GetDgvNormTest.Columns["Norm"].Width;
+            list.Add(name, width);
+            name = "Description_test";
+            width = _form.GetDgvNormTest.Columns["Description"].Width;
+            list.Add(name, width);
+            name = "Requirement_test";
+            width = _form.GetDgvNormTest.Columns["Requirement"].Width;
+            list.Add(name, width);
+            name = "Result_test";
+            width = _form.GetDgvNormTest.Columns["Result"].Width;
+            list.Add(name, width);
+            name = "Substrate_test";
+            width = _form.GetDgvNormTest.Columns["Substrate"].Width;
+            list.Add(name, width);
+            name = "Comments_test";
+            width = _form.GetDgvNormTest.Columns["Comments"].Width;
             list.Add(name, width);
         }
 
@@ -760,6 +792,67 @@ namespace Laboratorium.LabBook.Service
             view.AllowUserToDeleteRows = false;
             view.AutoGenerateColumns = false;
 
+            view.Columns.Remove("GetRowState");
+            view.Columns.Remove("CrudState");
+
+            view.Columns["Id"].Visible = false;
+            view.Columns["LaboId"].Visible = false;
+            view.Columns["Position"].Visible = false;
+
+            view.Columns["DateCreated"].HeaderText = "Start";
+            view.Columns["DateCreated"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns["DateCreated"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["DateCreated"].Width = _formData.ContainsKey("DateCreated_test") ? (int)_formData["DateCreated_test"] : view.Columns["DateCreated"].Width;
+            view.Columns["DateCreated"].DisplayIndex = 0;
+
+            view.Columns["DateUpdated"].HeaderText = "Koniec";
+            view.Columns["DateUpdated"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns["DateUpdated"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["DateUpdated"].Width = _formData.ContainsKey("DateUpdated_test") ? (int)_formData["DateUpdated_test"] : view.Columns["DateUpdated"].Width;
+            view.Columns["DateUpdated"].DisplayIndex = 1;
+
+            view.Columns["Days"].HeaderText = "Doba";
+            view.Columns["Days"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns["Days"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Days"].ReadOnly = true;
+            view.Columns["Days"].Width = _formData.ContainsKey("Days_test") ? (int)_formData["Days_test"] : view.Columns["Days"].Width;
+            view.Columns["Days"].DisplayIndex = 2;
+
+            view.Columns["Norm"].HeaderText = "Norma";
+            view.Columns["Norm"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            view.Columns["Norm"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Norm"].Width = _formData.ContainsKey("Norm_test") ? (int)_formData["Norm_test"] : view.Columns["Norm"].Width;
+            view.Columns["Norm"].DisplayIndex = 3;
+
+            view.Columns["Description"].HeaderText = "Opis";
+            view.Columns["Description"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            view.Columns["Description"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Description"].Width = _formData.ContainsKey("Description_test") ? (int)_formData["Description_test"] : view.Columns["Description"].Width;
+            view.Columns["Description"].DisplayIndex = 4;
+
+            view.Columns["Requirement"].HeaderText = "Wymogi";
+            view.Columns["Requirement"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            view.Columns["Requirement"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Requirement"].Width = _formData.ContainsKey("Requirement_test") ? (int)_formData["Requirement_test"] : view.Columns["Requirement"].Width;
+            view.Columns["Requirement"].DisplayIndex = 5;
+
+            view.Columns["Result"].HeaderText = "Wynik";
+            view.Columns["Result"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            view.Columns["Result"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Result"].Width = _formData.ContainsKey("Result_test") ? (int)_formData["Result_test"] : view.Columns["Result"].Width;
+            view.Columns["Result"].DisplayIndex = 6;
+
+            view.Columns["Substrate"].HeaderText = "Podłoże";
+            view.Columns["Substrate"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            view.Columns["Substrate"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Substrate"].Width = _formData.ContainsKey("Substrate_test") ? (int)_formData["Substrate_test"] : view.Columns["Substrate"].Width;
+            view.Columns["Substrate"].DisplayIndex = 7;
+
+            view.Columns["Comments"].HeaderText = "Uwagi";
+            view.Columns["Comments"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            view.Columns["Comments"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns["Comments"].Width = _formData.ContainsKey("Comments_test") ? (int)_formData["Comments_test"] : view.Columns["Comments"].Width;
+            view.Columns["Comments"].DisplayIndex = 8;
         }
 
         private void PrepareComboBoxes()

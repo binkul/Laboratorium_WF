@@ -13,6 +13,8 @@ namespace Laboratorium.ADO.SqlDataConstant
                 "scrub_comment=@scrub_comment, contrast_class=@contrast_class, contrast_comment=@contrast_comment, voc=@voc, voc_class=@voc_class, " +
                 "yield=@yield, yield_formula=@yield_formula, adhesion=@adhesion, flow=@flow, spill=@spill, drying_I=@drying_I, drying_II=@drying_II, " +
                 "drying_III=@drying_III, drying_IV=@drying_IV, drying_V=@drying_V, date_updated=@date_updated Where labo_id=@labo_id" },
+            {SqlIndex.LaboNormTestIndex, "Update Konkurencja.dbo.LaboDataNorm Set position=@position, norm=@norm, [description]=@description, requirement=@requirement, " +
+                "result=@result, substarte=@substarte, comment=@comment, date_created=@date_created, date_updated=@date_updated Where id=@id" },
             {SqlIndex.LaboViscosityIndex, "Update Konkurencja.dbo.LaboDataViscosity Set to_compare=@to_compare, pH=@pH, temp=@temp, brook_1=@brook_1, brook_5=@brook_5, " +
                 "brook_10=@brook_10, brook_20=@brook_20, brook_30=@brook_30, brook_40=@brook_40, brook_50=@brook_50, brook_60=@brook_60, brook_70=@brook_70, " +
                 "brook_80=@brook_80, brook_90=@brook_90, brook_100=@brook_100, brook_disc=@brook_disc, brook_comment=@brook_comment, brook_x_vis=@brook_x_vis, " +

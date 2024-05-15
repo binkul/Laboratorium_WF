@@ -78,12 +78,87 @@ namespace Laboratorium.LabBook.Repository
 
         public override LaboDataNormTestDto Save(LaboDataNormTestDto data)
         {
-            throw new NotImplementedException();
+            LaboDataNormTestDto item = data;
+
+            try
+            {
+                SqlCommand command = new SqlCommand();
+                command.Connection = _connection;
+                command.CommandText = SqlSave.Save[_sqlIndex];
+                command.Parameters.AddWithValue("@labo_id", item.LaboId);
+                command.Parameters.AddWithValue("@position", item.Position);
+                command.Parameters.AddWithValue("@norm", CommonFunction.NullStringToDBNullConv(item.Norm));
+                command.Parameters.AddWithValue("@description", CommonFunction.NullStringToDBNullConv(item.Description));
+                command.Parameters.AddWithValue("@requirement", CommonFunction.NullStringToDBNullConv(item.Requirement));
+                command.Parameters.AddWithValue("@result", CommonFunction.NullStringToDBNullConv(item.Result));
+                command.Parameters.AddWithValue("@substarte", CommonFunction.NullStringToDBNullConv(item.Substrate));
+                command.Parameters.AddWithValue("@comment", CommonFunction.NullStringToDBNullConv(item.Comments));
+                command.Parameters.AddWithValue("@date_created", item.DateCreated);
+                command.Parameters.AddWithValue("@date_updated", item.DateUpdated);
+                OpenConnection();
+                int id = Convert.ToInt32(command.ExecuteScalar());
+                item.Id = id;
+                item.CrudState = CrudState.OK;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu Save " + _tableName,
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "': '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return item;
         }
 
         public override LaboDataNormTestDto Update(LaboDataNormTestDto data)
         {
-            throw new NotImplementedException();
+            LaboDataNormTestDto item = data;
+
+            try
+            {
+                SqlCommand command = new SqlCommand();
+                command.Connection = _connection;
+                command.CommandText = SqlUpdate.Update[_sqlIndex];
+                command.Parameters.AddWithValue("@position", item.Position);
+                command.Parameters.AddWithValue("@norm", CommonFunction.NullStringToDBNullConv(item.Norm));
+                command.Parameters.AddWithValue("@description", CommonFunction.NullStringToDBNullConv(item.Description));
+                command.Parameters.AddWithValue("@requirement", CommonFunction.NullStringToDBNullConv(item.Requirement));
+                command.Parameters.AddWithValue("@result", CommonFunction.NullStringToDBNullConv(item.Result));
+                command.Parameters.AddWithValue("@substarte", CommonFunction.NullStringToDBNullConv(item.Substrate));
+                command.Parameters.AddWithValue("@comment", CommonFunction.NullStringToDBNullConv(item.Comments));
+                command.Parameters.AddWithValue("@date_created", item.DateCreated);
+                command.Parameters.AddWithValue("@date_updated", item.DateUpdated);
+                command.Parameters.AddWithValue("@id", item.Id);
+                OpenConnection();
+                command.ExecuteNonQuery();
+                item.CrudState = CrudState.OK;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu Update " + _tableName,
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "': '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return item;
         }
     }
 }
