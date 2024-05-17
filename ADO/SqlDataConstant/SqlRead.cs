@@ -20,6 +20,8 @@ namespace Laboratorium.ADO.SqlDataConstant
             {SqlIndex.GlossClassIndex, "Select id, name_pl, name_en From Konkurencja.dbo.CmbClassGloss order by id" },
             {SqlIndex.ScrubClassIndex, "Select id, name_pl, name_en From Konkurencja.dbo.CmbClassScrub order by id" },
             {SqlIndex.VocClassIndex, "Select id, name_pl From Konkurencja.dbo.CmbClassVoc order by id" },
+            {SqlIndex.NormIndex, "Select id, name_pl, name_en, class, [description], position from Konkurencja.dbo.CmbNorm Order by class, position" },
+            {SqlIndex.NormDetailIndex, "Select id, norm_id, substrate, detail From Konkurencja.dbo.CmbNormDetail Order By norm_id" },
             {SqlIndex.UserIndex, "Select id, name, surname, e_mail, [login], permission, identifier, active, date_created From Konkurencja.dbo.LaboUsers" },
             {SqlIndex.ProjectIndex, "Select id, name, comments, is_archive, is_labo, is_auction, local_disc, [date], ovner From Konkurencja.dbo.Project Order By Id" },
             {SqlIndex.ProjectSubCatIndex, "Select id, project_id, name, date_created From Konkurencja.dbo.ProjectSubCategory Order By project_id, name" },
@@ -31,6 +33,7 @@ namespace Laboratorium.ADO.SqlDataConstant
                 "brook_40, brook_50, brook_60, brook_70, brook_80, brook_90, brook_100, brook_disc, brook_comment, brook_x_vis, brook_x_rpm, brook_x_disc, krebs, krebs_comment, ici, ici_disc, " +
                 "ici_comment, date_created, date_updated From Konkurencja.dbo.LaboDataViscosity Where labo_id=XXXX Order By date_created, [day], id" },
             {SqlIndex.LaboViscosityColIndex, "Select labo_id, [type], [columns] From Konkurencja.dbo.LaboDataViscosityCol Where labo_id=" },
+            {SqlIndex.NormDetailIndex, "Select id, norm_id, substrate, detail From Konkurencja.dbo.CmbNormDetail Where norm_id=XXXX" },
             {SqlIndex.LaboNormTestIndex, "Select DATEDIFF(DAY, date_created, date_updated) as [day], id, labo_id, position, norm, [description], requirement, result, substarte, comment, " +
                 "date_created, date_updated From Konkurencja.dbo.LaboDataNorm Where labo_id=XXXX Order By position" },
             {SqlIndex.UserIndex, "Select id, name, surname, e_mail, login, permission, identifier, active, date_created from Konkurencja.dbo.LaboUsers Where login = 'XXXX' and password = 'YYYY'"},

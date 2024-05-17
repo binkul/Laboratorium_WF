@@ -54,6 +54,8 @@
     <Compile Include="ADO\DTO\LaboDataViscosityColDto.cs" />
     <Compile Include="ADO\DTO\LaboDataViscosityDto.cs" />
     <Compile Include="ADO\DTO\LaboDto.cs" />
+    <Compile Include="ADO\DTO\NormDetailDto.cs" />
+    <Compile Include="ADO\DTO\NormDto.cs" />
     <Compile Include="ADO\DTO\ProjectDto.cs" />
     <Compile Include="ADO\DTO\ProjectSubCategoryDto.cs" />
     <Compile Include="ADO\DTO\ScrubClassDto.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="LabBook\Repository\LabBookRepository.cs" />
     <Compile Include="LabBook\Repository\LabBookViscosityColRepository.cs" />
     <Compile Include="LabBook\Repository\LabBookViscosityRepository.cs" />
+    <Compile Include="LabBook\Repository\NormRepository.cs" />
     <Compile Include="LabBook\Repository\ScrubClassRepository.cs" />
     <Compile Include="LabBook\Repository\VocClassRepository.cs" />
     <Compile Include="LabBook\Service\LabBookService.cs" />

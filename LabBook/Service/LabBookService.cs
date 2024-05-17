@@ -334,6 +334,12 @@ namespace Laboratorium.LabBook.Service
 
             #endregion
 
+            #region Prepare Menu
+
+            PrepareNormMenu();
+
+            #endregion
+
             #region Prepare others control
 
             _form.GetTxtTitle.DataBindings.Clear();
@@ -876,6 +882,11 @@ namespace Laboratorium.LabBook.Service
             _form.GetCmbVocClass.ValueMember = ID;
             _form.GetCmbVocClass.DisplayMember = NAME_PL;
             _form.GetCmbVocClass.SelectedIndexChanged += CmbVocClass_SelectedIndexChanged;
+        }
+
+        private void PrepareNormMenu()
+        {
+
         }
 
         #endregion

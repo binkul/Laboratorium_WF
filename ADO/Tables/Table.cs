@@ -74,6 +74,12 @@
         // VocClass table
         public static readonly string VOC_CLASS_TABLE = "CmbClassVoc";
 
+        // CmbNorm
+        public static readonly string NORM_TABLE = "CmbNorm";
+
+        // CmbNormDetail
+        public static readonly string NORM_DETAIL_TABLE = "CmbNormdetail";
+
         // table Users
         public static readonly string USER_TABLE = "LaboUsers";
 

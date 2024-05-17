@@ -122,6 +122,8 @@
             this.DgvViscosity = new System.Windows.Forms.DataGridView();
             this.TbContrast = new System.Windows.Forms.TabPage();
             this.DgvContrast = new System.Windows.Forms.DataGridView();
+            this.TbTests = new System.Windows.Forms.TabPage();
+            this.DgvNormTest = new System.Windows.Forms.DataGridView();
             this.TxtTitle = new System.Windows.Forms.TextBox();
             this.LblTitle = new System.Windows.Forms.Label();
             this.BtnAdd = new System.Windows.Forms.Button();
@@ -184,8 +186,7 @@
             this.BtnAddMany = new System.Windows.Forms.Button();
             this.BtnUp = new System.Windows.Forms.Button();
             this.BtnDown = new System.Windows.Forms.Button();
-            this.TbTests = new System.Windows.Forms.TabPage();
-            this.DgvNormTest = new System.Windows.Forms.DataGridView();
+            this.NormsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.BindingNavigatorLabo)).BeginInit();
             this.BindingNavigatorLabo.SuspendLayout();
             this.TabLabo.SuspendLayout();
@@ -209,9 +210,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.DgvViscosity)).BeginInit();
             this.TbContrast.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvContrast)).BeginInit();
-            this.LabMainMenuStrip.SuspendLayout();
             this.TbTests.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvNormTest)).BeginInit();
+            this.LabMainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // BindingNavigatorLabo
@@ -543,7 +544,7 @@
             this.CmbScrubClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbScrubClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbScrubClass.FormattingEnabled = true;
-            this.CmbScrubClass.Location = new System.Drawing.Point(205, 202);
+            this.CmbScrubClass.Location = new System.Drawing.Point(205, 203);
             this.CmbScrubClass.Name = "CmbScrubClass";
             this.CmbScrubClass.Size = new System.Drawing.Size(159, 28);
             this.CmbScrubClass.TabIndex = 3;
@@ -758,7 +759,7 @@
             this.CmbGlossClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbGlossClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbGlossClass.FormattingEnabled = true;
-            this.CmbGlossClass.Location = new System.Drawing.Point(207, 245);
+            this.CmbGlossClass.Location = new System.Drawing.Point(207, 246);
             this.CmbGlossClass.Name = "CmbGlossClass";
             this.CmbGlossClass.Size = new System.Drawing.Size(224, 28);
             this.CmbGlossClass.TabIndex = 10;
@@ -883,7 +884,7 @@
             this.CmbContrastClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbContrastClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbContrastClass.FormattingEnabled = true;
-            this.CmbContrastClass.Location = new System.Drawing.Point(205, 120);
+            this.CmbContrastClass.Location = new System.Drawing.Point(205, 118);
             this.CmbContrastClass.Name = "CmbContrastClass";
             this.CmbContrastClass.Size = new System.Drawing.Size(149, 28);
             this.CmbContrastClass.TabIndex = 5;
@@ -952,7 +953,7 @@
             this.CmbVocClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbVocClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbVocClass.FormattingEnabled = true;
-            this.CmbVocClass.Location = new System.Drawing.Point(205, 82);
+            this.CmbVocClass.Location = new System.Drawing.Point(205, 83);
             this.CmbVocClass.Name = "CmbVocClass";
             this.CmbVocClass.Size = new System.Drawing.Size(298, 28);
             this.CmbVocClass.TabIndex = 12;
@@ -1384,6 +1385,29 @@
             this.DgvContrast.TabIndex = 0;
             this.DgvContrast.SizeChanged += new System.EventHandler(this.DgvContrast_SizeChanged);
             // 
+            // TbTests
+            // 
+            this.TbTests.BackColor = System.Drawing.SystemColors.Control;
+            this.TbTests.Controls.Add(this.DgvNormTest);
+            this.TbTests.Location = new System.Drawing.Point(4, 29);
+            this.TbTests.Name = "TbTests";
+            this.TbTests.Size = new System.Drawing.Size(1368, 601);
+            this.TbTests.TabIndex = 5;
+            this.TbTests.Text = "Badania";
+            // 
+            // DgvNormTest
+            // 
+            this.DgvNormTest.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.DgvNormTest.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DgvNormTest.Location = new System.Drawing.Point(3, 3);
+            this.DgvNormTest.Name = "DgvNormTest";
+            this.DgvNormTest.RowHeadersWidth = 51;
+            this.DgvNormTest.RowTemplate.Height = 24;
+            this.DgvNormTest.Size = new System.Drawing.Size(1357, 595);
+            this.DgvNormTest.TabIndex = 0;
+            // 
             // TxtTitle
             // 
             this.TxtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -1591,7 +1615,8 @@
             // wstawToolStripMenuItem
             // 
             this.wstawToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ApplicatorToolStripMenuItem});
+            this.ApplicatorToolStripMenuItem,
+            this.NormsToolStripMenuItem});
             this.wstawToolStripMenuItem.Name = "wstawToolStripMenuItem";
             this.wstawToolStripMenuItem.Size = new System.Drawing.Size(75, 27);
             this.wstawToolStripMenuItem.Text = "Wstaw";
@@ -1603,13 +1628,13 @@
             this.wybraneToolStripMenuItem});
             this.ApplicatorToolStripMenuItem.Enabled = false;
             this.ApplicatorToolStripMenuItem.Name = "ApplicatorToolStripMenuItem";
-            this.ApplicatorToolStripMenuItem.Size = new System.Drawing.Size(163, 28);
+            this.ApplicatorToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
             this.ApplicatorToolStripMenuItem.Text = "Aplikator";
             // 
             // standardoweToolStripMenuItem
             // 
             this.standardoweToolStripMenuItem.Name = "standardoweToolStripMenuItem";
-            this.standardoweToolStripMenuItem.Size = new System.Drawing.Size(195, 28);
+            this.standardoweToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
             this.standardoweToolStripMenuItem.Text = "Standardowe";
             this.standardoweToolStripMenuItem.Click += new System.EventHandler(this.ApplicatorStdInsertstandardoweToolStripMenuItem_Click);
             // 
@@ -1643,7 +1668,7 @@
             this.Wire250ToolStripMenuItem,
             this.Wire300ToolStripMenuItem});
             this.wybraneToolStripMenuItem.Name = "wybraneToolStripMenuItem";
-            this.wybraneToolStripMenuItem.Size = new System.Drawing.Size(195, 28);
+            this.wybraneToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
             this.wybraneToolStripMenuItem.Text = "Wybrane";
             // 
             // Normal75ToolStripMenuItem
@@ -1972,28 +1997,11 @@
             this.BtnDown.TabIndex = 26;
             this.BtnDown.UseVisualStyleBackColor = true;
             // 
-            // TbTests
+            // NormsToolStripMenuItem
             // 
-            this.TbTests.BackColor = System.Drawing.SystemColors.Control;
-            this.TbTests.Controls.Add(this.DgvNormTest);
-            this.TbTests.Location = new System.Drawing.Point(4, 29);
-            this.TbTests.Name = "TbTests";
-            this.TbTests.Size = new System.Drawing.Size(1368, 601);
-            this.TbTests.TabIndex = 5;
-            this.TbTests.Text = "Badania";
-            // 
-            // DgvNormTest
-            // 
-            this.DgvNormTest.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.DgvNormTest.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DgvNormTest.Location = new System.Drawing.Point(3, 3);
-            this.DgvNormTest.Name = "DgvNormTest";
-            this.DgvNormTest.RowHeadersWidth = 51;
-            this.DgvNormTest.RowTemplate.Height = 24;
-            this.DgvNormTest.Size = new System.Drawing.Size(1357, 595);
-            this.DgvNormTest.TabIndex = 0;
+            this.NormsToolStripMenuItem.Name = "NormsToolStripMenuItem";
+            this.NormsToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
+            this.NormsToolStripMenuItem.Text = "Normy";
             // 
             // LabForm
             // 
@@ -2056,10 +2064,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.DgvViscosity)).EndInit();
             this.TbContrast.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DgvContrast)).EndInit();
-            this.LabMainMenuStrip.ResumeLayout(false);
-            this.LabMainMenuStrip.PerformLayout();
             this.TbTests.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DgvNormTest)).EndInit();
+            this.LabMainMenuStrip.ResumeLayout(false);
+            this.LabMainMenuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2222,5 +2230,6 @@
         private System.Windows.Forms.ToolStripMenuItem Wire300ToolStripMenuItem;
         private System.Windows.Forms.TabPage TbTests;
         private System.Windows.Forms.DataGridView DgvNormTest;
+        private System.Windows.Forms.ToolStripMenuItem NormsToolStripMenuItem;
     }
 }

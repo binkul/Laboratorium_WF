@@ -9,11 +9,14 @@
         LaboViscosityIndex,
         LaboViscosityColIndex,
         UserIndex,
+
         ContrastClassIndex,
         GlossClassIndex,
         ScrubClassIndex,
         VocClassIndex,
 
+        NormIndex,
+        NormDetailIndex,
 
         ProjectIndex,
         ProjectSubCatIndex,
