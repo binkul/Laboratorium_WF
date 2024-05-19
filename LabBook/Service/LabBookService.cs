@@ -42,7 +42,6 @@ namespace Laboratorium.LabBook.Service
         private readonly IBasicCRUD<LaboDataViscosityDto> _repositoryViscosity;
         private readonly IBasicCRUD<LaboDataViscosityColDto> _repositoryViscosityCol;
         private readonly IBasicCRUD<LaboDataContrastDto> _repositoryContrast;
-        private readonly IBasicCRUD<LaboDataNormTestDto> _repositoryNormTest;
         private readonly SqlConnection _connection;
         private readonly UserDto _user;
         private readonly LabForm _form;
@@ -74,7 +73,6 @@ namespace Laboratorium.LabBook.Service
             _form = form;
             _repositoryLabo = new LabBookRepository(_connection, this);
             _repositoryLaboBasic = new LabBookBasicDataRepository(_connection, this);
-            _repositoryNormTest = new LabBookNormTestRepository(_connection, this);
             _repositoryViscosity = new LabBookViscosityRepository(_connection, this);
             _repositoryViscosityCol = new LabBookViscosityColRepository(_connection);
             _repositoryContrast = new LabBookContrastRepository(_connection, this);
@@ -84,12 +82,10 @@ namespace Laboratorium.LabBook.Service
             _normTestService = new LabBookNormTestService(connection, user, form, this);
         }
 
-        public bool Modify(RowState state)
+        public void Modify(RowState state)
         {
             if (_form.Init)
-                return false;
-
-            IService service;
+                return;
 
             bool laboModify = _laboList
                 .Where(i => i.GetRowState != RowState.UNCHANGED)
@@ -106,14 +102,11 @@ namespace Laboratorium.LabBook.Service
                 .Where(i => i.GetRowState != RowState.UNCHANGED)
                 .Any();
 
-            service = (IService)_normTestService;
-            bool normModify = service.Modify(state);
+            bool normModify = _normTestService.Modify();
 
             bool result = laboModify | basicModify | visModify | conModify | normModify;
 
             _form.ActivateSave(result);
-
-            return result;
         }
 
         private bool IsAdmin => _currentLabBook != null ? _user.Permission.ToLower() == "admin" : false;

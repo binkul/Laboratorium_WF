@@ -16,9 +16,9 @@ namespace Laboratorium.LabBook.Repository
     {
         private static readonly SqlIndex SQL_INDEX = SqlIndex.LaboNormTestIndex;
         private static readonly string TABLE_NAME = Table.LABO_NORM_TEST_TABLE;
-        private readonly IService _service;
+        private readonly IDgvService _service;
 
-        public LabBookNormTestRepository(SqlConnection connection, IService service) : base(connection, SQL_INDEX, TABLE_NAME)
+        public LabBookNormTestRepository(SqlConnection connection, IDgvService service) : base(connection, SQL_INDEX, TABLE_NAME)
         {
             _service = service;
         }

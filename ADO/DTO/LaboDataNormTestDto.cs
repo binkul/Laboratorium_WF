@@ -19,11 +19,11 @@ namespace Laboratorium.ADO.DTO
         private string _comment;
         public DateTime DateUpdated { get; private set; }
         private RowState _rowState = RowState.ADDED;
-        private readonly IService _service;
+        private readonly IDgvService _service;
         public CrudState CrudState { get; set; } = CrudState.OK;
 
         public LaboDataNormTestDto(int days, int id, int laboId, short position, string norm, string description, string requirement, 
-            string result, string substrate, string comment, DateTime dateCreated, DateTime dateUpdated, IService service)
+            string result, string substrate, string comment, DateTime dateCreated, DateTime dateUpdated, IDgvService service)
         {
             Days = days;
             Id = id;
@@ -41,7 +41,7 @@ namespace Laboratorium.ADO.DTO
         }
 
         public LaboDataNormTestDto(int laboId, short position, string norm, string description, string requirement, string result, 
-            string substrate, string comment, DateTime dateUpdated, IService service)
+            string substrate, string comment, DateTime dateUpdated, IDgvService service)
         {
             LaboId = laboId;
             _position = position;
@@ -55,7 +55,7 @@ namespace Laboratorium.ADO.DTO
             DateUpdated = dateUpdated;
         }
 
-        public LaboDataNormTestDto(int laboId, short position, DateTime dateUpdated, IService service)
+        public LaboDataNormTestDto(int laboId, short position, DateTime dateUpdated, IDgvService service)
         {
             LaboId = laboId;
             _position = position;
@@ -68,7 +68,7 @@ namespace Laboratorium.ADO.DTO
             _rowState = _rowState == RowState.UNCHANGED ? state : _rowState;
             DateUpdated = DateTime.Today;
             if (_service != null)
-                _service.Modify(state);
+                _service.Modify();
         }
 
         public short Position
@@ -147,7 +147,7 @@ namespace Laboratorium.ADO.DTO
         {
             _rowState = RowState.UNCHANGED;
             if (_service != null)
-                _service.Modify(RowState.UNCHANGED);
+                _service.Modify();
         }
 
     }

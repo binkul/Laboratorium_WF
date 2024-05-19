@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace Laboratorium.LabBook.Service
 {
-    public class LabBookNormTestService : IDgvService, IService
+    public class LabBookNormTestService : IDgvService
     {
         private readonly SqlConnection _connection;
         private readonly UserDto _user;
@@ -34,7 +34,7 @@ namespace Laboratorium.LabBook.Service
             _repositoryNormTest = new LabBookNormTestRepository(_connection, this);
         }
 
-        public bool Modify(RowState state)
+        public bool Modify()
         {
             return _laboNormTestList
                 .Where(i => i.GetRowState != RowState.UNCHANGED)
