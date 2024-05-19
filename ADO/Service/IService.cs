@@ -2,6 +2,6 @@
 {
     public interface IService
     {
-        void Modify(RowState state);
+        bool Modify(RowState state);
     }
 }

@@ -24,8 +24,6 @@ namespace Laboratorium.LabBook.Service
         private static readonly Color LightGrey = Color.FromArgb(200, 210, 210, 210);
         private static readonly SolidBrush redBrush = new SolidBrush(Color.Red);
 
-        private const int HEADER_WIDTH_ADMIN = 35;
-        private const int HEADER_WIDTH_USER = 40;
         private const string FORM_TOP = "Form_Top";
         private const string FORM_LEFT = "Form_Left";
         private const string FORM_WIDTH = "Form_Width";
@@ -49,6 +47,8 @@ namespace Laboratorium.LabBook.Service
         private readonly UserDto _user;
         private readonly LabForm _form;
 
+        private readonly IDgvService _normTestService;
+
         private IList<LaboDto> _laboList;
         private BindingSource _laboBinding;
         private BindingSource _laboBasicBinding;
@@ -57,8 +57,6 @@ namespace Laboratorium.LabBook.Service
         private IList<LaboDataViscosityColDto> _laboViscosityColList;
         private IList<LaboDataContrastDto> _laboContrastsList;
         private BindingSource _laboContrastBinding;
-        private IList<LaboDataNormTestDto> _laboNormTestList;
-        private BindingSource _laboNormTestBinding;
         private IList<UserDto> _userList;
         private IList<ProjectDto> _projectList;
         private IList<ContrastClassDto> _contrastClassList;
@@ -82,12 +80,16 @@ namespace Laboratorium.LabBook.Service
             _repositoryContrast = new LabBookContrastRepository(_connection, this);
             _repositoryUser = new UserRepository(_connection);
             _repositoryProject = new ProjectRepository(_connection);
+
+            _normTestService = new LabBookNormTestService(connection, user, form, this);
         }
 
-        public void Modify(RowState state)
+        public bool Modify(RowState state)
         {
             if (_form.Init)
-                return;
+                return false;
+
+            IService service;
 
             bool laboModify = _laboList
                 .Where(i => i.GetRowState != RowState.UNCHANGED)
@@ -103,11 +105,19 @@ namespace Laboratorium.LabBook.Service
             bool conModify = _laboContrastsList
                 .Where(i => i.GetRowState != RowState.UNCHANGED)
                 .Any();
-            _form.ActivateSave(laboModify | basicModify | visModify | conModify);
+
+            service = (IService)_normTestService;
+            bool normModify = service.Modify(state);
+
+            bool result = laboModify | basicModify | visModify | conModify | normModify;
+
+            _form.ActivateSave(result);
+
+            return result;
         }
 
         private bool IsAdmin => _currentLabBook != null ? _user.Permission.ToLower() == "admin" : false;
-
+        public IDictionary<string, double> GetFormData => _formData;
 
         #region Open/Close form 
 
@@ -284,9 +294,7 @@ namespace Laboratorium.LabBook.Service
             _laboContrastBinding = new BindingSource();
             _laboContrastBinding.DataSource = _laboContrastsList;
 
-            _laboNormTestList = _repositoryNormTest.GetAll();
-            _laboNormTestBinding = new BindingSource();
-            _laboNormTestBinding.DataSource = _laboNormTestList;
+            _normTestService.PrepareData();
 
             IBasicCRUD<ContrastClassDto> contrast = new ContrastClassRepository(_connection);
             _contrastClassList = contrast.GetAll();
@@ -322,21 +330,9 @@ namespace Laboratorium.LabBook.Service
 
             #endregion
 
-            #region Prepare DgvNormTest
-
-            PrepareDgvNormTest();
-
-            #endregion
-
             #region Prepare ComboBoxes
 
             PrepareComboBoxes();
-
-            #endregion
-
-            #region Prepare Menu
-
-            PrepareNormMenu();
 
             #endregion
 
@@ -459,7 +455,7 @@ namespace Laboratorium.LabBook.Service
             view.ColumnHeadersDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Bold);
             view.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
             view.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            view.RowHeadersWidth = IsAdmin ? HEADER_WIDTH_ADMIN : HEADER_WIDTH_USER;
+            view.RowHeadersWidth = IsAdmin ? CommonData.HEADER_WIDTH_ADMIN : CommonData.HEADER_WIDTH_USER;
             view.DefaultCellStyle.ForeColor = Color.Black;
             view.MultiSelect = false;
             view.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -513,7 +509,7 @@ namespace Laboratorium.LabBook.Service
             view.Columns["UserShortcut"].SortMode = DataGridViewColumnSortMode.NotSortable;
             view.Columns["UserShortcut"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            int width = view.Width - HEADER_WIDTH_ADMIN - view.Columns["Id"].Width - view.Columns["Density"].Width - view.Columns["UserShortcut"].Width;
+            int width = view.Width - CommonData.HEADER_WIDTH_ADMIN - view.Columns["Id"].Width - view.Columns["Density"].Width - view.Columns["UserShortcut"].Width;
             if (view.ScrollBars == ScrollBars.Vertical || view.ScrollBars == ScrollBars.Both)
             {
                 width -= SystemInformation.VerticalScrollBarWidth;
@@ -531,7 +527,7 @@ namespace Laboratorium.LabBook.Service
             view.ColumnHeadersDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Bold);
             view.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
             view.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            view.RowHeadersWidth = HEADER_WIDTH_ADMIN;
+            view.RowHeadersWidth = CommonData.HEADER_WIDTH_ADMIN;
             view.DefaultCellStyle.ForeColor = Color.Black;
             view.MultiSelect = false;
             view.SelectionMode = DataGridViewSelectionMode.CellSelect;
@@ -726,7 +722,7 @@ namespace Laboratorium.LabBook.Service
             view.ColumnHeadersDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Bold);
             view.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
             view.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            view.RowHeadersWidth = HEADER_WIDTH_ADMIN;
+            view.RowHeadersWidth = CommonData.HEADER_WIDTH_ADMIN;
             view.DefaultCellStyle.ForeColor = Color.Black;
             view.MultiSelect = false;
             view.SelectionMode = DataGridViewSelectionMode.CellSelect;
@@ -780,87 +776,6 @@ namespace Laboratorium.LabBook.Service
             view.Columns["Comments"].DisplayIndex = 6;
         }
 
-        private void PrepareDgvNormTest()
-        {
-            DataGridView view = _form.GetDgvNormTest;
-            view.DataSource = _laboNormTestBinding;
-            view.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.RowsDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Regular);
-            view.ColumnHeadersDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Bold);
-            view.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
-            view.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            view.RowHeadersWidth = HEADER_WIDTH_ADMIN;
-            view.DefaultCellStyle.ForeColor = Color.Black;
-            view.MultiSelect = false;
-            view.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            view.ReadOnly = false;
-            view.AllowUserToAddRows = false;
-            view.AllowUserToDeleteRows = false;
-            view.AutoGenerateColumns = false;
-
-            view.Columns.Remove("GetRowState");
-            view.Columns.Remove("CrudState");
-
-            view.Columns["Id"].Visible = false;
-            view.Columns["LaboId"].Visible = false;
-            view.Columns["Position"].Visible = false;
-
-            view.Columns["DateCreated"].HeaderText = "Start";
-            view.Columns["DateCreated"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns["DateCreated"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["DateCreated"].Width = _formData.ContainsKey("DateCreated_test") ? (int)_formData["DateCreated_test"] : view.Columns["DateCreated"].Width;
-            view.Columns["DateCreated"].DisplayIndex = 0;
-
-            view.Columns["DateUpdated"].HeaderText = "Koniec";
-            view.Columns["DateUpdated"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns["DateUpdated"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["DateUpdated"].Width = _formData.ContainsKey("DateUpdated_test") ? (int)_formData["DateUpdated_test"] : view.Columns["DateUpdated"].Width;
-            view.Columns["DateUpdated"].DisplayIndex = 1;
-
-            view.Columns["Days"].HeaderText = "Doba";
-            view.Columns["Days"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns["Days"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["Days"].ReadOnly = true;
-            view.Columns["Days"].Width = _formData.ContainsKey("Days_test") ? (int)_formData["Days_test"] : view.Columns["Days"].Width;
-            view.Columns["Days"].DisplayIndex = 2;
-
-            view.Columns["Norm"].HeaderText = "Norma";
-            view.Columns["Norm"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            view.Columns["Norm"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["Norm"].Width = _formData.ContainsKey("Norm_test") ? (int)_formData["Norm_test"] : view.Columns["Norm"].Width;
-            view.Columns["Norm"].DisplayIndex = 3;
-
-            view.Columns["Description"].HeaderText = "Opis";
-            view.Columns["Description"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            view.Columns["Description"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["Description"].Width = _formData.ContainsKey("Description_test") ? (int)_formData["Description_test"] : view.Columns["Description"].Width;
-            view.Columns["Description"].DisplayIndex = 4;
-
-            view.Columns["Requirement"].HeaderText = "Wymogi";
-            view.Columns["Requirement"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            view.Columns["Requirement"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["Requirement"].Width = _formData.ContainsKey("Requirement_test") ? (int)_formData["Requirement_test"] : view.Columns["Requirement"].Width;
-            view.Columns["Requirement"].DisplayIndex = 5;
-
-            view.Columns["Result"].HeaderText = "Wynik";
-            view.Columns["Result"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            view.Columns["Result"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["Result"].Width = _formData.ContainsKey("Result_test") ? (int)_formData["Result_test"] : view.Columns["Result"].Width;
-            view.Columns["Result"].DisplayIndex = 6;
-
-            view.Columns["Substrate"].HeaderText = "Podłoże";
-            view.Columns["Substrate"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            view.Columns["Substrate"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["Substrate"].Width = _formData.ContainsKey("Substrate_test") ? (int)_formData["Substrate_test"] : view.Columns["Substrate"].Width;
-            view.Columns["Substrate"].DisplayIndex = 7;
-
-            view.Columns["Comments"].HeaderText = "Uwagi";
-            view.Columns["Comments"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            view.Columns["Comments"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["Comments"].Width = _formData.ContainsKey("Comments_test") ? (int)_formData["Comments_test"] : view.Columns["Comments"].Width;
-            view.Columns["Comments"].DisplayIndex = 8;
-        }
-
         private void PrepareComboBoxes()
         {
             _form.GetCmbGlossClass.DataSource = _glossClassList;
@@ -882,11 +797,6 @@ namespace Laboratorium.LabBook.Service
             _form.GetCmbVocClass.ValueMember = ID;
             _form.GetCmbVocClass.DisplayMember = NAME_PL;
             _form.GetCmbVocClass.SelectedIndexChanged += CmbVocClass_SelectedIndexChanged;
-        }
-
-        private void PrepareNormMenu()
-        {
-
         }
 
         #endregion
@@ -998,24 +908,18 @@ namespace Laboratorium.LabBook.Service
 
             #endregion
 
-            #region Synchronize Voscosity
+            #region Synchronize DataGridViews
 
             if (_currentLabBook != null)
             {
                 _laboViscosityList = _repositoryViscosity.GetAllByLaboId(_currentLabBook.Id);
                 _laboViscosityBinding.DataSource = _laboViscosityList;
-
                 SetViscosityVisbility(_currentLabBook.ViscosityProfile);
-            }
 
-            #endregion
-
-            #region Synchronize Contrast
-
-            if (_currentLabBook != null)
-            {
                 _laboContrastBinding.DataSource = GetCurrentContrasts();
-            }
+
+                _normTestService.SynchronizeData(_currentLabBook.Id);
+           }
 
             #endregion
 
@@ -1266,20 +1170,20 @@ namespace Laboratorium.LabBook.Service
         public void ResizeLaboColumn(DataGridViewColumnEventArgs e)
         {
             _form.GetBtnFilterCancel.Size = new Size(_form.GetTxtFilterTitle.Height, _form.GetTxtFilterTitle.Height);
-            _form.GetBtnFilterCancel.Left = _form.GetDgvLabo.Left + (HEADER_WIDTH_ADMIN / 2) - (_form.GetBtnFilterCancel.Size.Width / 2);
+            _form.GetBtnFilterCancel.Left = _form.GetDgvLabo.Left + (CommonData.HEADER_WIDTH_ADMIN / 2) - (_form.GetBtnFilterCancel.Size.Width / 2);
 
             _form.GetTxtFilterNumD.Width = _form.GetDgvLabo.Columns["Id"].Width - 1;
-            _form.GetTxtFilterNumD.Left = _form.GetDgvLabo.Left + HEADER_WIDTH_ADMIN;
+            _form.GetTxtFilterNumD.Left = _form.GetDgvLabo.Left + CommonData.HEADER_WIDTH_ADMIN;
 
             _form.GetTxtFilterTitle.Width = _form.GetDgvLabo.Columns["Title"].Width - 2;
-            _form.GetTxtFilterTitle.Left = _form.GetDgvLabo.Left + _form.GetDgvLabo.Columns["Id"].Width + HEADER_WIDTH_ADMIN;
+            _form.GetTxtFilterTitle.Left = _form.GetDgvLabo.Left + _form.GetDgvLabo.Columns["Id"].Width + CommonData.HEADER_WIDTH_ADMIN;
 
             _form.GetBtnFilterProject.Width = _form.GetDgvLabo.Columns["ProjectName"].Width;
-            _form.GetBtnFilterProject.Left = _form.GetDgvLabo.Left + _form.GetDgvLabo.Columns["Id"].Width + _form.GetDgvLabo.Columns["Title"].Width + HEADER_WIDTH_ADMIN;
+            _form.GetBtnFilterProject.Left = _form.GetDgvLabo.Left + _form.GetDgvLabo.Columns["Id"].Width + _form.GetDgvLabo.Columns["Title"].Width + CommonData.HEADER_WIDTH_ADMIN;
 
             _form.GetTxtFilterUser.Width = _form.GetDgvLabo.Columns["UserShortcut"].Width;
             _form.GetTxtFilterUser.Left = _form.GetDgvLabo.Left + _form.GetDgvLabo.Columns["Id"].Width + _form.GetDgvLabo.Columns["Title"].Width
-                + _form.GetDgvLabo.Columns["ProjectName"].Width + _form.GetDgvLabo.Columns["Density"].Width + HEADER_WIDTH_ADMIN;
+                + _form.GetDgvLabo.Columns["ProjectName"].Width + _form.GetDgvLabo.Columns["Density"].Width + CommonData.HEADER_WIDTH_ADMIN;
         }
 
         public void ResizeContrastColumn()
