@@ -11,17 +11,17 @@ using System.Windows.Forms;
 
 namespace Laboratorium.LabBook.Repository
 {
-    public class NormRepository : BasicCRUD<NormDto>
+    public class NormDetailRepository : BasicCRUD<NormDetailDto>
     {
-        private static readonly SqlIndex SQL_INDEX = SqlIndex.NormIndex;
-        private static readonly string TABLE_NAME = Table.NORM_TABLE;
+        private static readonly SqlIndex SQL_INDEX = SqlIndex.NormDetailIndex;
+        private static readonly string TABLE_NAME = Table.NORM_DETAIL_TABLE;
 
-        public NormRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
+        public NormDetailRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
         { }
 
-        public override IList<NormDto> GetAll()
+        public override IList<NormDetailDto> GetAll()
         {
-            List<NormDto> list = new List<NormDto>();
+            List<NormDetailDto> list = new List<NormDetailDto>();
 
             try
             {
@@ -34,14 +34,11 @@ namespace Laboratorium.LabBook.Repository
                     while (reader.Read())
                     {
                         short id = reader.GetInt16(0);
-                        string namePl = CommonFunction.DBNullToStringConv(reader.GetValue(1));
-                        string nameEn = CommonFunction.DBNullToStringConv(reader.GetValue(2));
-                        string descrip = CommonFunction.DBNullToStringConv(reader.GetValue(3));
-                        byte position = reader.GetByte(4);
-                        string groupName = CommonFunction.DBNullToStringConv(reader.GetValue(5));
-                        byte groupId = reader.GetByte(6);
+                        short normId = reader.GetInt16(1);
+                        string substrate = CommonFunction.DBNullToStringConv(reader.GetValue(2));
+                        string detail = CommonFunction.DBNullToStringConv(reader.GetValue(3));
 
-                        NormDto norm = new NormDto(id, namePl, nameEn, descrip, position, groupName, groupId);
+                        NormDetailDto norm = new NormDetailDto(id, normId, substrate, detail);
                         list.Add(norm);
                     }
                     reader.Close();
@@ -65,14 +62,14 @@ namespace Laboratorium.LabBook.Repository
             return list;
         }
 
-        public override NormDto Save(NormDto data)
+        public override NormDetailDto Save(NormDetailDto data)
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
 
-        public override NormDto Update(NormDto data)
+        public override NormDetailDto Update(NormDetailDto data)
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -41,12 +41,12 @@ namespace Laboratorium.LabBook.Repository
                         int id = reader.GetInt32(1);
                         int laboId = reader.GetInt32(2);
                         short position = reader.GetInt16(3);
-                        string norm = CommonFunction.DBNullToStringConv(reader.GetString(4));
-                        string desc = CommonFunction.DBNullToStringConv(reader.GetString(5));
-                        string requery = CommonFunction.DBNullToStringConv(reader.GetString(6));
-                        string result = CommonFunction.DBNullToStringConv(reader.GetString(7));
-                        string substrate = CommonFunction.DBNullToStringConv(reader.GetString(8));
-                        string comment = CommonFunction.DBNullToStringConv(reader.GetString(9));
+                        string norm = CommonFunction.DBNullToStringConv(reader.GetValue(4));
+                        string desc = CommonFunction.DBNullToStringConv(reader.GetValue(5));
+                        string requery = CommonFunction.DBNullToStringConv(reader.GetValue(6));
+                        string result = CommonFunction.DBNullToStringConv(reader.GetValue(7));
+                        string substrate = CommonFunction.DBNullToStringConv(reader.GetValue(8));
+                        string comment = CommonFunction.DBNullToStringConv(reader.GetValue(9));
                         DateTime dateCreated = reader.GetDateTime(10);
                         DateTime dateUpdated = !reader.GetValue(11).Equals(DBNull.Value) ? reader.GetDateTime(11) : dateCreated;
 

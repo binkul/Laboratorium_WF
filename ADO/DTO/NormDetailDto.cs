@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Laboratorium.ADO.DTO
+﻿namespace Laboratorium.ADO.DTO
 {
     public class NormDetailDto
     {

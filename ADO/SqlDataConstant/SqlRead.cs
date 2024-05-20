@@ -20,7 +20,7 @@ namespace Laboratorium.ADO.SqlDataConstant
             {SqlIndex.GlossClassIndex, "Select id, name_pl, name_en From Konkurencja.dbo.CmbClassGloss order by id" },
             {SqlIndex.ScrubClassIndex, "Select id, name_pl, name_en From Konkurencja.dbo.CmbClassScrub order by id" },
             {SqlIndex.VocClassIndex, "Select id, name_pl From Konkurencja.dbo.CmbClassVoc order by id" },
-            {SqlIndex.NormIndex, "Select id, name_pl, name_en, class, [description], position from Konkurencja.dbo.CmbNorm Order by class, position" },
+            {SqlIndex.NormIndex, "Select n.id, n.name_pl, n.name_en, n.[description], n.position, g.name_pl as group_pl, n.group_id from Konkurencja.dbo.CmbNorm n Left Join Konkurencja.dbo.CmbNormGroup g on n.group_id=g.id Order by g.name_pl, n.position" },
             {SqlIndex.NormDetailIndex, "Select id, norm_id, substrate, detail From Konkurencja.dbo.CmbNormDetail Order By norm_id" },
             {SqlIndex.UserIndex, "Select id, name, surname, e_mail, [login], permission, identifier, active, date_created From Konkurencja.dbo.LaboUsers" },
             {SqlIndex.ProjectIndex, "Select id, name, comments, is_archive, is_labo, is_auction, local_disc, [date], ovner From Konkurencja.dbo.Project Order By Id" },

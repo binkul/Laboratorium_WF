@@ -101,6 +101,7 @@
     <Compile Include="LabBook\Repository\LabBookRepository.cs" />
     <Compile Include="LabBook\Repository\LabBookViscosityColRepository.cs" />
     <Compile Include="LabBook\Repository\LabBookViscosityRepository.cs" />
+    <Compile Include="LabBook\Repository\NormDetailRepository.cs" />
     <Compile Include="LabBook\Repository\NormRepository.cs" />
     <Compile Include="LabBook\Repository\ScrubClassRepository.cs" />
     <Compile Include="LabBook\Repository\VocClassRepository.cs" />

@@ -27,6 +27,7 @@ namespace Laboratorium.LabBook.Forms
         private bool _init = true;
 
         public MenuStrip GetMainMenu => LabMainMenuStrip;
+        public ToolStripMenuItem GetNormMenu => NormsToolStripMenuItem;
         public DataGridView GetDgvLabo => DgvLabo;
         public DataGridView GetDgvViscosity => DgvViscosity;
         public DataGridView GetDgvContrast => DgvContrast;
@@ -68,7 +69,6 @@ namespace Laboratorium.LabBook.Forms
         public TextBox GetTxtDryIV => TxtDryIV;
         public TextBox GetTxtDryV => TxtDryV;
         public TabPage GetPageBasic => TbBasicData;
-        public ToolStripMenuItem GetNormMenu => NormsToolStripMenuItem;
         public Label GetLblDateCreated => LblDateCreated;
         public Label GetLblDateModified => LblDateModified;
         public Label GetLblNrD => LblNrD;

@@ -21,6 +21,7 @@ namespace Laboratorium.LabBook.Service
         private readonly UserDto _user;
         private readonly LabForm _form;
         private readonly IService _service;
+        private IList<NormDto> _normList;
         private IList<LaboDataNormTestDto> _laboNormTestList;
         private BindingSource _laboNormTestBinding;
         private readonly IBasicCRUD<LaboDataNormTestDto> _repositoryNormTest;
@@ -137,7 +138,59 @@ namespace Laboratorium.LabBook.Service
 
         private void PrepareNormMenu()
         {
+            LoadDataForMenu();
 
+            var menus = _normList
+                .Select(i => new { i.Group, i.GroupId })
+                .Distinct()
+                .ToList();
+
+            foreach (var menu in menus)
+            {
+                ToolStripMenuItem item = new ToolStripMenuItem();
+                item.Text = menu.Group;
+                item.Name = menu.Group;
+                item.Tag = menu.GroupId;
+
+                var subMenus = _normList
+                    .Where(i => i.Group.Equals(menu.Group))
+                    .Select(i => new { i.NamePl, i.Id } )
+                    .ToList();
+                foreach(var subMenu in subMenus)
+                {
+                    ToolStripMenuItem subItem = new ToolStripMenuItem();
+                    subItem.Name = "SubMenu_" + subMenu.Id.ToString();
+                    subItem.Text = subMenu.NamePl;
+                    subItem.Tag = subMenu.Id;
+                    subItem.Click += SubItem_Click;
+                    item.DropDownItems.Add(subItem);
+                }
+
+;                _form.GetNormMenu.DropDownItems.Add(item);
+            }
+        }
+
+        private void LoadDataForMenu()
+        {
+            IBasicCRUD<NormDto> normRep = new NormRepository(_connection);
+            _normList = normRep.GetAll();
+
+            IBasicCRUD<NormDetailDto> detailRep = new NormDetailRepository(_connection);
+            IList<NormDetailDto> details = detailRep.GetAll();
+
+            foreach (NormDto norm in _normList)
+            {
+                List<NormDetailDto> tmp = details
+                    .Where(i => i.NormId == norm.Id)
+                    .ToList();
+
+                norm.Details = tmp;
+            }
+        }
+
+        private void SubItem_Click(object sender, EventArgs e)
+        {
+            
         }
 
         public void SynchronizeData(int LaboId)
