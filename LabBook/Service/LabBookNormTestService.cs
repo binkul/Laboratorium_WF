@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Laboratorium.LabBook.Service
 {
@@ -50,6 +51,12 @@ namespace Laboratorium.LabBook.Service
 
             PrepareDgvNormTest();
             PrepareNormMenu();
+        }
+
+        private LaboDto GetCurrentLaboDto() 
+        {
+            LabBookService service = (LabBookService)_service;
+            return service.CurrentLabBook;
         }
 
         private void PrepareDgvNormTest()
@@ -190,12 +197,55 @@ namespace Laboratorium.LabBook.Service
 
         private void SubItem_Click(object sender, EventArgs e)
         {
-            
+            ToolStripMenuItem menu = (ToolStripMenuItem)sender;
+            LaboDto laboDto = GetCurrentLaboDto();
+
+            if (menu.Tag == null || laboDto == null)
+                return;
+
+            short id = Convert.ToInt16(menu.Tag);
+            NormDto norm = _normList
+                .Where(i => i.Id == id)
+                .FirstOrDefault();
+
+            if (norm == null)
+                return;
+
+            List<NormDetailDto> subNorm = norm.Details
+                .Where(i => i.NormId == id)
+                .OrderBy(i => i.Id)
+                .ToList();
+
+            byte position = _laboNormTestList
+                .Where(i => i.LaboId == laboDto.Id)
+                .Select(i => i.Position)
+                .DefaultIfEmpty()
+                .Max();
+
+            position++;
+            foreach (NormDetailDto detail in subNorm)
+            {
+                LaboDataNormTestDto test = new LaboDataNormTestDto(laboDto.Id, position, norm.NamePl, detail.Detail, detail.Substrate, this);
+                _laboNormTestList.Add(test);
+                position++;
+            }
+
+            SynchronizeData(laboDto.Id);
         }
 
         public void SynchronizeData(int LaboId)
         {
-            //throw new NotImplementedException();
+            LaboDto laboDto = GetCurrentLaboDto();
+
+            if (laboDto == null)
+                return;
+
+            var normList = _laboNormTestList
+                .Where(i => i.LaboId == laboDto.Id)
+                .OrderBy(i => i.Position)
+                .ToList();
+
+            _laboNormTestBinding.DataSource = normList;
         }
 
         public void AddNew(int number)

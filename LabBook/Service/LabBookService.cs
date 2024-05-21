@@ -64,7 +64,7 @@ namespace Laboratorium.LabBook.Service
         private IList<VocClassDto> _vocClassList;
 
         private IDictionary<string, double> _formData = CommonFunction.LoadWindowsDataAsDictionary(FORM_DATA);
-        private LaboDto _currentLabBook => _laboBinding != null && _laboBinding.Count > 0 ? (LaboDto)_laboBinding.Current : null;
+        internal LaboDto CurrentLabBook => _laboBinding != null && _laboBinding.Count > 0 ? (LaboDto)_laboBinding.Current : null;
         private LaboDataBasicDto _currentLabBookBasic => _laboBasicBinding != null ? (LaboDataBasicDto)_laboBasicBinding.Current : null;
         public LabBookService(SqlConnection connection, UserDto user, LabForm form)
         {
@@ -109,7 +109,7 @@ namespace Laboratorium.LabBook.Service
             _form.ActivateSave(result);
         }
 
-        private bool IsAdmin => _currentLabBook != null ? _user.Permission.ToLower() == "admin" : false;
+        private bool IsAdmin => CurrentLabBook != null ? _user.Permission.ToLower() == "admin" : false;
         public IDictionary<string, double> GetFormData => _formData;
 
         #region Open/Close form 
@@ -805,23 +805,23 @@ namespace Laboratorium.LabBook.Service
 
             #region Set Current Controls
 
-            if (_currentLabBook != null)
+            if (CurrentLabBook != null)
             {
-                DateTime date = Convert.ToDateTime(_currentLabBook.DateCreated);
+                DateTime date = Convert.ToDateTime(CurrentLabBook.DateCreated);
                 string show = date.ToString("dd-MM-yyyy");
                 _form.GetLblDateCreated.Text = "Utworzenie: " + show;
                 _form.GetLblDateCreated.Left = _form.ClientSize.Width - _form.GetLblDateCreated.Width - 10;
 
-                date = Convert.ToDateTime(_currentLabBook.DateUpdated);
+                date = Convert.ToDateTime(CurrentLabBook.DateUpdated);
                 show = date.ToString("dd-MM-yyyy");
                 _form.GetLblDateModified.Text = "Modyfikacja: " + show;
                 _form.GetLblDateModified.Left = _form.ClientSize.Width - _form.GetLblDateModified.Width - 10;
 
-                string nr = "D-" + _currentLabBook.Id.ToString();
+                string nr = "D-" + CurrentLabBook.Id.ToString();
                 _form.GetLblNrD.Text = nr;
 
-                string projectName = _currentLabBook.Project != null ? _currentLabBook.Project.Title : "-- Brak --";
-                string project = "Projekt #" + _currentLabBook.ProjectId + " - '" + projectName + "'";
+                string projectName = CurrentLabBook.Project != null ? CurrentLabBook.Project.Title : "-- Brak --";
+                string project = "Projekt #" + CurrentLabBook.ProjectId + " - '" + projectName + "'";
                 _form.GetLblProject.Text = project;                             
                 _form.GetBtnProjectChange.Left = _form.GetLblProject.Left + _form.GetLblProject.Width + 10;
             }
@@ -838,11 +838,11 @@ namespace Laboratorium.LabBook.Service
             #region Create Basic Data if not exist
 
             _laboBasicBinding.EndEdit();
-            LaboDataBasicDto basicCurrent = _currentLabBook != null ? _currentLabBook.LaboBasicData : null; // _laboBasicList.Where(i => i.LaboId == _currentLabBook.Id).FirstOrDefault() : null;
-            if (_currentLabBook != null && basicCurrent == null)
+            LaboDataBasicDto basicCurrent = CurrentLabBook != null ? CurrentLabBook.LaboBasicData : null; // _laboBasicList.Where(i => i.LaboId == _currentLabBook.Id).FirstOrDefault() : null;
+            if (CurrentLabBook != null && basicCurrent == null)
             {
-                basicCurrent = CreateEmptyLabodataBasic(_currentLabBook); 
-                _currentLabBook.LaboBasicData = basicCurrent;
+                basicCurrent = CreateEmptyLabodataBasic(CurrentLabBook); 
+                CurrentLabBook.LaboBasicData = basicCurrent;
             }
 
             _laboBasicBinding.DataSource = basicCurrent;
@@ -903,25 +903,25 @@ namespace Laboratorium.LabBook.Service
 
             #region Synchronize DataGridViews
 
-            if (_currentLabBook != null)
+            if (CurrentLabBook != null)
             {
-                _laboViscosityList = _repositoryViscosity.GetAllByLaboId(_currentLabBook.Id);
+                _laboViscosityList = _repositoryViscosity.GetAllByLaboId(CurrentLabBook.Id);
                 _laboViscosityBinding.DataSource = _laboViscosityList;
-                SetViscosityVisbility(_currentLabBook.ViscosityProfile);
+                SetViscosityVisbility(CurrentLabBook.ViscosityProfile);
 
                 _laboContrastBinding.DataSource = GetCurrentContrasts();
 
-                _normTestService.SynchronizeData(_currentLabBook.Id);
+                _normTestService.SynchronizeData(CurrentLabBook.Id);
            }
 
             #endregion
 
             #region Block Controls
 
-            if (_currentLabBook != null)
+            if (CurrentLabBook != null)
             {
-                admin = _currentLabBook.UserId == _user.Id || IsAdmin ? true : false;
-                deleted = _currentLabBook.IsDeleted;
+                admin = CurrentLabBook.UserId == _user.Id || IsAdmin ? true : false;
+                deleted = CurrentLabBook.IsDeleted;
             }
 
             if (deleted)
@@ -952,7 +952,7 @@ namespace Laboratorium.LabBook.Service
             }
             else
             {
-                col = new LaboDataViscosityColDto(_currentLabBook.Id, Profile.STD_X, "");
+                col = new LaboDataViscosityColDto(CurrentLabBook.Id, Profile.STD_X, "");
             }
 
             DataGridView view = _form.GetDgvViscosity;
@@ -1002,7 +1002,7 @@ namespace Laboratorium.LabBook.Service
 
         private IList<LaboDataContrastDto> GetCurrentContrasts()
         {
-            return _laboContrastsList.Where(i => i.LaboId == _currentLabBook.Id).ToList();
+            return _laboContrastsList.Where(i => i.LaboId == CurrentLabBook.Id).ToList();
         }
 
         #endregion
@@ -1129,6 +1129,7 @@ namespace Laboratorium.LabBook.Service
 
             _form.GetDgvViscosity.Enabled = true;
             _form.GetDgvContrast.Enabled = true;
+            _form.GetDgvNormTest.Enabled = true;
         }
 
         private void BlockControlsForNotAdmin()
@@ -1195,9 +1196,9 @@ namespace Laboratorium.LabBook.Service
 
         public void DefaultValuesForViscosity(DataGridViewRowEventArgs e)
         {
-            if (_currentLabBook != null)
+            if (CurrentLabBook != null)
             {
-                e.Row.Cells["LaboId"].Value = _currentLabBook.Id;
+                e.Row.Cells["LaboId"].Value = CurrentLabBook.Id;
             }
             else
             {
@@ -1303,10 +1304,10 @@ namespace Laboratorium.LabBook.Service
 
         private void InsertCopyCurrentLabo()
         {
-            if (_currentLabBook == null)
+            if (CurrentLabBook == null)
                 return;
 
-            LaboDto current = _currentLabBook;
+            LaboDto current = CurrentLabBook;
             LaboDto newLabo = new LaboDto(0, current.Title, DateTime.Today, DateTime.Today, current.ProjectId,
                 current.Goal, null, "", "", false, _user.Id, this)
             {
@@ -1324,10 +1325,10 @@ namespace Laboratorium.LabBook.Service
 
         private void InsertCopyCurrentEmptyLabo()
         {
-            if (_currentLabBook == null)
+            if (CurrentLabBook == null)
                 return;
 
-            LaboDto current = _currentLabBook;
+            LaboDto current = CurrentLabBook;
             LaboDto newLabo = new LaboDto(0, "PUSTY", DateTime.Today, DateTime.Today, current.ProjectId,
                 current.Goal, null, "", "", false, _user.Id, this)
             {
@@ -1353,10 +1354,10 @@ namespace Laboratorium.LabBook.Service
             using (FindProjectForm form = new FindProjectForm(_projectList))
             {
                 form.ShowDialog();
-                if (form.Ok && _currentLabBook != null)
+                if (form.Ok && CurrentLabBook != null)
                 {
-                    _currentLabBook.ProjectId = form.Result.Id;
-                    _currentLabBook.Project = form.Result;
+                    CurrentLabBook.ProjectId = form.Result.Id;
+                    CurrentLabBook.Project = form.Result;
                     _laboBinding.EndEdit();
                     LaboBinding_PositionChanged(null, null);
                     _form.GetDgvLabo.InvalidateRow(_form.GetDgvLabo.CurrentRow.Index);
@@ -1373,11 +1374,11 @@ namespace Laboratorium.LabBook.Service
 
         public void AddSeriesLabBooks()
         {
-            if (_currentLabBook == null)
+            if (CurrentLabBook == null)
                 return;
 
-            int nr = _currentLabBook.Id;
-            string title = _currentLabBook.Title;
+            int nr = CurrentLabBook.Id;
+            string title = CurrentLabBook.Title;
             int amount = 1;
             int type = 1;
             bool ok = false;
@@ -1393,7 +1394,7 @@ namespace Laboratorium.LabBook.Service
             if (!ok)
                 return;
 
-            LaboDto current = _currentLabBook;
+            LaboDto current = CurrentLabBook;
 
             if (type == 1)
             {
@@ -1462,7 +1463,7 @@ namespace Laboratorium.LabBook.Service
 
         public void ChangeViscosityProfile(int nr)
         {
-            if (_currentLabBook == null)
+            if (CurrentLabBook == null)
                 return;
 
             Profile profile;
@@ -1518,14 +1519,14 @@ namespace Laboratorium.LabBook.Service
 
             if (profile == Profile.STD_X)
             {
-                _currentLabBook.ViscosityProfile = null;
+                CurrentLabBook.ViscosityProfile = null;
             }
             else
             {
-                _currentLabBook.ViscosityProfile = new LaboDataViscosityColDto(_currentLabBook.Id, profile, "");
+                CurrentLabBook.ViscosityProfile = new LaboDataViscosityColDto(CurrentLabBook.Id, profile, "");
             }
 
-            SetViscosityVisbility(_currentLabBook.ViscosityProfile);
+            SetViscosityVisbility(CurrentLabBook.ViscosityProfile);
         }
 
         public void StandardApplicatorInsert()
@@ -1533,9 +1534,9 @@ namespace Laboratorium.LabBook.Service
             _form.GetDgvContrast.EndEdit();
             _laboContrastBinding.EndEdit();
 
-            if (_currentLabBook == null)
+            if (CurrentLabBook == null)
                 return;
-            int id = _currentLabBook.Id;
+            int id = CurrentLabBook.Id;
 
             List<short> contrasts = _laboContrastsList
                 .Where(i => i.LaboId == id)
@@ -1555,13 +1556,13 @@ namespace Laboratorium.LabBook.Service
 
         public void ApplicatorInsert(int appNr)
         {
-            if (_currentLabBook == null)
+            if (CurrentLabBook == null)
                 return;
 
             _form.GetDgvContrast.EndEdit();
             _laboContrastBinding.EndEdit();
 
-            int id = _currentLabBook.Id;
+            int id = CurrentLabBook.Id;
             short position = _laboContrastsList
                 .Where(i => i.LaboId == id)
                 .Select(i => i.Position)
@@ -1604,7 +1605,7 @@ namespace Laboratorium.LabBook.Service
             else
             {
                 ClearFiltersBox();
-                int position = _currentLabBook != null && _laboBinding.Count > 0 ? _laboList.IndexOf(_currentLabBook) : -1;
+                int position = CurrentLabBook != null && _laboBinding.Count > 0 ? _laboList.IndexOf(CurrentLabBook) : -1;
                 SetFilter(position);
             }
         }

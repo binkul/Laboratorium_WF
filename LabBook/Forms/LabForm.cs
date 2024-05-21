@@ -220,7 +220,16 @@ namespace Laboratorium.LabBook.Forms
                 ApplicatorToolStripMenuItem.Enabled= false;
             }
 
-            if (control.SelectedTab.Name == TbContrast.Name || control.SelectedTab.Name == TbViscosity.Name)
+            if (control.SelectedTab.Name == TbTests.Name)
+            {
+                NormsToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                NormsToolStripMenuItem.Enabled = false;
+            }
+
+            if (control.SelectedTab.Name == TbContrast.Name || control.SelectedTab.Name == TbViscosity.Name || control.SelectedTab.Name == TbTests.Name)
             {
                 BtnUp.Enabled = true;
                 BtnDown.Enabled = true;

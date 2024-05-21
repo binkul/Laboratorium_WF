@@ -40,7 +40,7 @@ namespace Laboratorium.LabBook.Repository
                         int days = reader.GetInt32(0);
                         int id = reader.GetInt32(1);
                         int laboId = reader.GetInt32(2);
-                        short position = reader.GetInt16(3);
+                        byte position = reader.GetByte(3);
                         string norm = CommonFunction.DBNullToStringConv(reader.GetValue(4));
                         string desc = CommonFunction.DBNullToStringConv(reader.GetValue(5));
                         string requery = CommonFunction.DBNullToStringConv(reader.GetValue(6));
