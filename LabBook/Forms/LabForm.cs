@@ -292,7 +292,11 @@ namespace Laboratorium.LabBook.Forms
             _service.DefaultValuesForViscosity(e);
         }
 
-        #endregion
+        private void DgvNormTest_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            _service.PaintHeaderForNormTest(e);
+        }
 
+        #endregion
     }
 }

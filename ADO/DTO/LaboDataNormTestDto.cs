@@ -12,6 +12,7 @@ namespace Laboratorium.ADO.DTO
         private string _result;
         private string _substrate;
         private string _comment;
+        private byte _groupId;
         private RowState _rowState = RowState.ADDED;
         private readonly IDgvService _service;
 
@@ -24,7 +25,7 @@ namespace Laboratorium.ADO.DTO
 
 
         public LaboDataNormTestDto(int days, int id, int laboId, byte position, string norm, string description, string requirement, 
-            string result, string substrate, string comment, DateTime dateCreated, DateTime dateUpdated, IDgvService service)
+            string result, string substrate, string comment, byte groupId, DateTime dateCreated, DateTime dateUpdated, IDgvService service)
         {
             Days = days;
             Id = id;
@@ -37,12 +38,13 @@ namespace Laboratorium.ADO.DTO
             _result = result;
             _substrate = substrate;
             _comment = comment;
+            _groupId = groupId;
             DateUpdated = dateUpdated;
             _service = service;
         }
 
         public LaboDataNormTestDto(int laboId, byte position, string norm, string description, string requirement, string result, 
-            string substrate, string comment, DateTime dateUpdated, IDgvService service)
+            string substrate, string comment, byte groupId, DateTime dateUpdated, IDgvService service)
         {
             LaboId = laboId;
             _position = position;
@@ -52,17 +54,19 @@ namespace Laboratorium.ADO.DTO
             _result = result;
             _substrate = substrate;
             _comment = comment;
+            _groupId = groupId;
             _service = service;
             DateUpdated = dateUpdated;
         }
 
-        public LaboDataNormTestDto(int laboId, byte position, string norm, string description, string substrate, IDgvService service)
+        public LaboDataNormTestDto(int laboId, byte position, string norm, string description, string substrate, byte groupId, IDgvService service)
         {
             LaboId = laboId;
             _position = position;
             _norm = norm;
             _description = description;
             _substrate = substrate;
+            _groupId = groupId;
             _service = service;
             DateUpdated = DateTime.Today;
         }
@@ -141,6 +145,16 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _comment = value;
+                ChangeState(RowState.MODIFIED);
+            }
+        }
+
+        public byte GroupId
+        {
+            get => _groupId;
+            set
+            {
+                _groupId = value;
                 ChangeState(RowState.MODIFIED);
             }
         }

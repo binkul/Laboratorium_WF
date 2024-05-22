@@ -47,10 +47,11 @@ namespace Laboratorium.LabBook.Repository
                         string result = CommonFunction.DBNullToStringConv(reader.GetValue(7));
                         string substrate = CommonFunction.DBNullToStringConv(reader.GetValue(8));
                         string comment = CommonFunction.DBNullToStringConv(reader.GetValue(9));
-                        DateTime dateCreated = reader.GetDateTime(10);
-                        DateTime dateUpdated = !reader.GetValue(11).Equals(DBNull.Value) ? reader.GetDateTime(11) : dateCreated;
+                        byte groupId = reader.GetByte(10);
+                        DateTime dateCreated = reader.GetDateTime(11);
+                        DateTime dateUpdated = !reader.GetValue(11).Equals(DBNull.Value) ? reader.GetDateTime(12) : dateCreated;
 
-                        LaboDataNormTestDto data = new LaboDataNormTestDto(days, id, laboId, position, norm, desc, requery, result, substrate, comment, dateCreated, dateUpdated, _service);
+                        LaboDataNormTestDto data = new LaboDataNormTestDto(days, id, laboId, position, norm, desc, requery, result, substrate, comment, groupId, dateCreated, dateUpdated, _service);
 
                         data.AcceptChanges();
                         list.Add(data);

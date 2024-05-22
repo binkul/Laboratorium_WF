@@ -23,6 +23,7 @@ namespace Laboratorium.LabBook.Service
     {
         private static readonly Color LightGrey = Color.FromArgb(200, 210, 210, 210);
         private static readonly SolidBrush redBrush = new SolidBrush(Color.Red);
+        private static readonly SolidBrush blueBrush = new SolidBrush(Color.LightBlue);
 
         private const string FORM_TOP = "Form_Top";
         private const string FORM_LEFT = "Form_Left";
@@ -1256,6 +1257,39 @@ namespace Laboratorium.LabBook.Service
             }
         }
 
+        public void PaintHeaderForNormTest(DataGridViewRowPostPaintEventArgs e)
+        {
+            if (_form.Init)
+                return;
+
+            bool head = Convert.ToInt32(_form.GetDgvNormTest.Rows[e.RowIndex].Cells["LaboId"].Value) == -1;
+
+            if (head)
+            {
+                // drive red rectangle on all row
+                DataGridView view = _form.GetDgvNormTest;
+                string name = _form.GetDgvNormTest.Rows[e.RowIndex].Cells["Norm"].Value.ToString();
+                int x = e.RowBounds.Left + (IsAdmin ? CommonData.HEADER_WIDTH_ADMIN : CommonData.HEADER_WIDTH_USER);
+                int y = e.RowBounds.Top;
+                int width = 0;
+                foreach (DataGridViewColumn column in view.Columns)
+                {
+                    if (column.Visible)
+                        width += column.Width;
+                }
+                int height = e.RowBounds.Height;
+                Graphics graph = e.Graphics;
+                graph.FillRectangle(blueBrush, new Rectangle(x, y, width, height));
+
+                // print name of the group norm test
+                Font font = view.RowsDefaultCellStyle.Font;
+                StringFormat drawFormat = new StringFormat();
+                drawFormat.Alignment = StringAlignment.Center;
+                Font drawFont = new Font("Arial", font.Size, FontStyle.Bold);
+                Rectangle drawRect = new Rectangle(x, y + 2, width, height);
+                e.Graphics.DrawString(name, drawFont, redBrush, drawRect, drawFormat);
+            }
+        }
 
         #endregion
 

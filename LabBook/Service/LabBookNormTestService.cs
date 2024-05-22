@@ -24,7 +24,7 @@ namespace Laboratorium.LabBook.Service
         private readonly IService _service;
         private IList<NormDto> _normList;
         private IList<LaboDataNormTestDto> _laboNormTestList;
-        private BindingSource _laboNormTestBinding;
+        public BindingSource LaboNormTestBinding { get; private set; }
         private readonly IBasicCRUD<LaboDataNormTestDto> _repositoryNormTest;
 
         public LabBookNormTestService(SqlConnection connection, UserDto user, LabForm form, IService service)
@@ -46,8 +46,8 @@ namespace Laboratorium.LabBook.Service
         public void PrepareData()
         {
             _laboNormTestList = _repositoryNormTest.GetAll();
-            _laboNormTestBinding = new BindingSource();
-            _laboNormTestBinding.DataSource = _laboNormTestList;
+            LaboNormTestBinding = new BindingSource();
+            LaboNormTestBinding.DataSource = _laboNormTestList;
 
             PrepareDgvNormTest();
             PrepareNormMenu();
@@ -65,7 +65,7 @@ namespace Laboratorium.LabBook.Service
             LabBookService service = (LabBookService)_service;
             IDictionary<string, double> formData = service.GetFormData;
 
-            view.DataSource = _laboNormTestBinding;
+            view.DataSource = LaboNormTestBinding;
             view.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             view.RowsDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Regular);
             view.ColumnHeadersDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Bold);
@@ -82,6 +82,7 @@ namespace Laboratorium.LabBook.Service
 
             view.Columns.Remove("GetRowState");
             view.Columns.Remove("CrudState");
+            view.Columns.Remove("GroupId");
 
             view.Columns["Id"].Visible = false;
             view.Columns["LaboId"].Visible = false;
@@ -203,6 +204,7 @@ namespace Laboratorium.LabBook.Service
             if (menu.Tag == null || laboDto == null)
                 return;
 
+            // get norm (clicked on menu)
             short id = Convert.ToInt16(menu.Tag);
             NormDto norm = _normList
                 .Where(i => i.Id == id)
@@ -211,21 +213,30 @@ namespace Laboratorium.LabBook.Service
             if (norm == null)
                 return;
 
+            // get all tests that belong to the norm
             List<NormDetailDto> subNorm = norm.Details
                 .Where(i => i.NormId == id)
                 .OrderBy(i => i.Id)
                 .ToList();
 
+            if (subNorm.Count == 0)
+            {
+                NormDetailDto mainSub = new NormDetailDto(0, norm.Id, "", norm.NamePl);
+                subNorm.Add(mainSub);
+            }
+
+            // get last position of tests that belong to the current labo
             byte position = _laboNormTestList
                 .Where(i => i.LaboId == laboDto.Id)
                 .Select(i => i.Position)
                 .DefaultIfEmpty()
                 .Max();
 
+            // insert new test to list
             position++;
             foreach (NormDetailDto detail in subNorm)
             {
-                LaboDataNormTestDto test = new LaboDataNormTestDto(laboDto.Id, position, norm.NamePl, detail.Detail, detail.Substrate, this);
+                LaboDataNormTestDto test = new LaboDataNormTestDto(laboDto.Id, position, norm.NamePl, detail.Detail, detail.Substrate, norm.GroupId, this);
                 _laboNormTestList.Add(test);
                 position++;
             }
@@ -240,12 +251,33 @@ namespace Laboratorium.LabBook.Service
             if (laboDto == null)
                 return;
 
-            var normList = _laboNormTestList
+            // get all norm test for current labo
+            List<LaboDataNormTestDto> normList = _laboNormTestList
                 .Where(i => i.LaboId == laboDto.Id)
                 .OrderBy(i => i.Position)
                 .ToList();
 
-            _laboNormTestBinding.DataSource = normList;
+            // get all groups from above
+            List<byte> groups = normList
+                .Select(i => i.GroupId)
+                .Distinct()
+                .ToList();
+
+            // add groups as heders (wth LaboId = -1)
+            foreach(byte group in groups)
+            {
+                string name = _normList.Where(i => i.GroupId == group).Select(i => i.Group).Distinct().FirstOrDefault();
+                LaboDataNormTestDto head = new LaboDataNormTestDto(-1, 0, name, "", "", group, this);
+                normList.Add(head);
+            }
+
+            // order norm test I-by groups, II-by position in groups
+            normList = normList
+                .OrderBy(i => i.GroupId)
+                .ThenBy(i => i.Position)
+                .ToList();
+
+            LaboNormTestBinding.DataSource = normList;
         }
 
         public void AddNew(int number)
