@@ -16,8 +16,8 @@ namespace Laboratorium.ADO.SqlDataConstant
                 "@scrub_sponge, @scrub_class, @scrub_comment, @contrast_class, @contrast_comment, @voc, @voc_class, @yield, @yield_formula, " +
                 "@adhesion, @flow, @spill, @drying_I, @drying_II, @drying_III, @drying_IV, @drying_V, @date_updated)" },
             {SqlIndex.LaboNormTestIndex, "Insert Into Konkurencja.dbo.LaboDataNorm(labo_id, position, norm, [description], requirement, result, substarte, " +
-                "comment, date_created, date_updated) Output INSERTED.id Values(@labo_id, @position, @norm, @description, @requirement, @result, @substarte, " +
-                "@comment, @date_created, @date_updated)" },
+                "comment, date_created, date_updated, group_id) Output INSERTED.id Values(@labo_id, @position, @norm, @description, @requirement, @result, @substarte, " +
+                "@comment, @date_created, @date_updated, @group_id)" },
             {SqlIndex.LaboViscosityIndex, "Insert Into Konkurencja.dbo.LaboDataViscosity(labo_id, to_compare, pH, temp, brook_1, brook_5, " +
                 "brook_10, brook_20, brook_30, brook_40, brook_50, brook_60, brook_70, brook_80, brook_90, brook_100, brook_disc, " +
                 "brook_comment, brook_x_vis, brook_x_rpm, brook_x_disc, krebs, krebs_comment, ici, ici_disc, ici_comment, date_created, " +

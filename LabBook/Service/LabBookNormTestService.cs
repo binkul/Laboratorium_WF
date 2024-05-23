@@ -19,7 +19,6 @@ namespace Laboratorium.LabBook.Service
     public class LabBookNormTestService : IDgvService
     {
         private readonly SqlConnection _connection;
-        private readonly UserDto _user;
         private readonly LabForm _form;
         private readonly IService _service;
         private IList<NormDto> _normList;
@@ -27,13 +26,12 @@ namespace Laboratorium.LabBook.Service
         public BindingSource LaboNormTestBinding { get; private set; }
         private readonly IBasicCRUD<LaboDataNormTestDto> _repositoryNormTest;
 
-        public LabBookNormTestService(SqlConnection connection, UserDto user, LabForm form, IService service)
+        public LabBookNormTestService(SqlConnection connection, LabForm form, IService service)
         {
             _connection = connection;
-            _user = user;
             _form = form;
             _service = service;
-            _repositoryNormTest = new LabBookNormTestRepository(_connection, this);
+            _repositoryNormTest = new LabBookNormTestRepository(_connection, _service);
         }
 
         public bool Modify()
@@ -43,14 +41,26 @@ namespace Laboratorium.LabBook.Service
                 .Any();
         }
 
+        private LaboDataNormTestDto _current => LaboNormTestBinding != null ? (LaboDataNormTestDto)LaboNormTestBinding.Current : null;
+        private bool _isHead => LaboNormTestBinding != null ? _current.TmpId == -1 : false;
+
         public void PrepareData()
         {
             _laboNormTestList = _repositoryNormTest.GetAll();
             LaboNormTestBinding = new BindingSource();
             LaboNormTestBinding.DataSource = _laboNormTestList;
+            LaboNormTestBinding.PositionChanged += LaboNormTestBinding_PositionChanged;
 
             PrepareDgvNormTest();
             PrepareNormMenu();
+            LaboNormTestBinding_PositionChanged(null, null);
+        }
+
+        private void LaboNormTestBinding_PositionChanged(object sender, EventArgs e)
+        {
+            DataGridView view = _form.GetDgvNormTest;
+            view.ReadOnly = _isHead;
+            view.Columns["Days"].ReadOnly = true;
         }
 
         private LaboDto GetCurrentLaboDto() 
@@ -85,63 +95,80 @@ namespace Laboratorium.LabBook.Service
             view.Columns.Remove("GroupId");
 
             view.Columns["Id"].Visible = false;
+            view.Columns["TmpId"].Visible = false;
             view.Columns["LaboId"].Visible = false;
             view.Columns["Position"].Visible = false;
+
+            DataGridViewButtonColumn buttonColumn = new DataGridViewButtonColumn();
+            buttonColumn.Name = "Del";
+            buttonColumn.HeaderText = "Del";
+            buttonColumn.Text = "X";
+            buttonColumn.FlatStyle = FlatStyle.Popup;
+            buttonColumn.DefaultCellStyle.ForeColor = Color.Red;
+            buttonColumn.DefaultCellStyle.BackColor = Color.LightGray;
+            buttonColumn.UseColumnTextForButtonValue = true;
+            buttonColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
+            buttonColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            buttonColumn.Resizable = DataGridViewTriState.False;
+            buttonColumn.Width = 45;
+            buttonColumn.DisplayIndex = 0;
+            buttonColumn.ToolTipText = "Usuń";
+            view.Columns.Add(buttonColumn);
 
             view.Columns["DateCreated"].HeaderText = "Start";
             view.Columns["DateCreated"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             view.Columns["DateCreated"].SortMode = DataGridViewColumnSortMode.NotSortable;
             view.Columns["DateCreated"].Width = formData.ContainsKey("DateCreated_test") ? (int)formData["DateCreated_test"] : view.Columns["DateCreated"].Width;
-            view.Columns["DateCreated"].DisplayIndex = 0;
+            view.Columns["DateCreated"].DisplayIndex = 1;
 
             view.Columns["DateUpdated"].HeaderText = "Koniec";
             view.Columns["DateUpdated"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             view.Columns["DateUpdated"].SortMode = DataGridViewColumnSortMode.NotSortable;
             view.Columns["DateUpdated"].Width = formData.ContainsKey("DateUpdated_test") ? (int)formData["DateUpdated_test"] : view.Columns["DateUpdated"].Width;
-            view.Columns["DateUpdated"].DisplayIndex = 1;
+            view.Columns["DateUpdated"].DisplayIndex = 2;
 
             view.Columns["Days"].HeaderText = "Doba";
             view.Columns["Days"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             view.Columns["Days"].SortMode = DataGridViewColumnSortMode.NotSortable;
             view.Columns["Days"].ReadOnly = true;
             view.Columns["Days"].Width = formData.ContainsKey("Days_test") ? (int)formData["Days_test"] : view.Columns["Days"].Width;
-            view.Columns["Days"].DisplayIndex = 2;
+            view.Columns["Days"].DisplayIndex = 3;
 
             view.Columns["Norm"].HeaderText = "Norma";
             view.Columns["Norm"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             view.Columns["Norm"].SortMode = DataGridViewColumnSortMode.NotSortable;
             view.Columns["Norm"].Width = formData.ContainsKey("Norm_test") ? (int)formData["Norm_test"] : view.Columns["Norm"].Width;
-            view.Columns["Norm"].DisplayIndex = 3;
+            view.Columns["Norm"].DisplayIndex = 4;
 
             view.Columns["Description"].HeaderText = "Opis";
             view.Columns["Description"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             view.Columns["Description"].SortMode = DataGridViewColumnSortMode.NotSortable;
             view.Columns["Description"].Width = formData.ContainsKey("Description_test") ? (int)formData["Description_test"] : view.Columns["Description"].Width;
-            view.Columns["Description"].DisplayIndex = 4;
+            view.Columns["Description"].DisplayIndex = 5;
 
             view.Columns["Requirement"].HeaderText = "Wymogi";
             view.Columns["Requirement"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             view.Columns["Requirement"].SortMode = DataGridViewColumnSortMode.NotSortable;
             view.Columns["Requirement"].Width = formData.ContainsKey("Requirement_test") ? (int)formData["Requirement_test"] : view.Columns["Requirement"].Width;
-            view.Columns["Requirement"].DisplayIndex = 5;
+            view.Columns["Requirement"].DisplayIndex = 6;
 
             view.Columns["Result"].HeaderText = "Wynik";
             view.Columns["Result"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             view.Columns["Result"].SortMode = DataGridViewColumnSortMode.NotSortable;
             view.Columns["Result"].Width = formData.ContainsKey("Result_test") ? (int)formData["Result_test"] : view.Columns["Result"].Width;
-            view.Columns["Result"].DisplayIndex = 6;
+            view.Columns["Result"].DisplayIndex = 7;
 
             view.Columns["Substrate"].HeaderText = "Podłoże";
             view.Columns["Substrate"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             view.Columns["Substrate"].SortMode = DataGridViewColumnSortMode.NotSortable;
             view.Columns["Substrate"].Width = formData.ContainsKey("Substrate_test") ? (int)formData["Substrate_test"] : view.Columns["Substrate"].Width;
-            view.Columns["Substrate"].DisplayIndex = 7;
+            view.Columns["Substrate"].DisplayIndex = 8;
 
             view.Columns["Comments"].HeaderText = "Uwagi";
             view.Columns["Comments"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             view.Columns["Comments"].SortMode = DataGridViewColumnSortMode.NotSortable;
             view.Columns["Comments"].Width = formData.ContainsKey("Comments_test") ? (int)formData["Comments_test"] : view.Columns["Comments"].Width;
-            view.Columns["Comments"].DisplayIndex = 8;
+            view.Columns["Comments"].DisplayIndex = 9;
         }
 
         private void PrepareNormMenu()
@@ -213,6 +240,13 @@ namespace Laboratorium.LabBook.Service
             if (norm == null)
                 return;
 
+            // get max TmpId in LaboNormTestList
+            int maxId = _laboNormTestList
+                .Select(i => i.TmpId)
+                .Distinct()
+                .DefaultIfEmpty()
+                .Max();
+
             // get all tests that belong to the norm
             List<NormDetailDto> subNorm = norm.Details
                 .Where(i => i.NormId == id)
@@ -226,7 +260,7 @@ namespace Laboratorium.LabBook.Service
             }
 
             // get last position of tests that belong to the current labo
-            byte position = _laboNormTestList
+            short position = _laboNormTestList
                 .Where(i => i.LaboId == laboDto.Id)
                 .Select(i => i.Position)
                 .DefaultIfEmpty()
@@ -234,14 +268,17 @@ namespace Laboratorium.LabBook.Service
 
             // insert new test to list
             position++;
+            maxId++;
             foreach (NormDetailDto detail in subNorm)
             {
-                LaboDataNormTestDto test = new LaboDataNormTestDto(laboDto.Id, position, norm.NamePl, detail.Detail, detail.Substrate, norm.GroupId, this);
+                LaboDataNormTestDto test = new LaboDataNormTestDto(maxId, laboDto.Id, position, norm.NamePl, detail.Detail, detail.Substrate, norm.GroupId, _service);
                 _laboNormTestList.Add(test);
                 position++;
+                maxId++;
             }
 
             SynchronizeData(laboDto.Id);
+            _service.Modify(RowState.ADDED);
         }
 
         public void SynchronizeData(int LaboId)
@@ -267,7 +304,7 @@ namespace Laboratorium.LabBook.Service
             foreach(byte group in groups)
             {
                 string name = _normList.Where(i => i.GroupId == group).Select(i => i.Group).Distinct().FirstOrDefault();
-                LaboDataNormTestDto head = new LaboDataNormTestDto(-1, 0, name, "", "", group, this);
+                LaboDataNormTestDto head = new LaboDataNormTestDto(-1, -1, 0, name, "", "", group, _service);
                 normList.Add(head);
             }
 
@@ -285,14 +322,79 @@ namespace Laboratorium.LabBook.Service
             throw new NotImplementedException();
         }
 
-        public bool Delete()
+        public bool Delete(long id, long tmpId)
         {
-            throw new NotImplementedException();
+            if (id > 0)
+            {
+                LaboDataNormTestDto data = _laboNormTestList
+                    .Where(i => i.Id == id)
+                    .FirstOrDefault();
+
+                if (data == null)
+                    return false;
+
+                _laboNormTestList.Remove(data);
+                _repositoryNormTest.DeleteById(id);
+                LaboDto laboDto = GetCurrentLaboDto();
+                SynchronizeData(laboDto != null ? laboDto.Id : -1);
+            }
+            else
+            {
+                LaboDataNormTestDto data = _laboNormTestList
+                    .Where(i => i.TmpId == tmpId)
+                    .FirstOrDefault();
+
+                if (data == null)
+                    return false;
+
+                _laboNormTestList.Remove(data);
+                LaboDto laboDto = GetCurrentLaboDto();
+                SynchronizeData(laboDto != null ? laboDto.Id : -1);
+            }
+
+            return true;
         }
 
         public bool Save()
         {
-            throw new NotImplementedException();
+            _form.GetDgvNormTest.EndEdit();
+            LaboNormTestBinding.EndEdit();
+
+            #region Save new
+
+            var added = _laboNormTestList
+                .Where(i => i.GetRowState == RowState.ADDED)
+                .ToList();
+
+            foreach (var norm in added)
+            {
+                CrudState answer = _repositoryNormTest.Save(norm).CrudState;
+                if (answer == CrudState.OK)
+                    norm.AcceptChanges();
+                else
+                    return false;
+            }
+
+            #endregion
+
+            #region Update
+
+            var modified = _laboNormTestList
+                .Where(i => i.GetRowState == RowState.MODIFIED)
+                .ToList();
+
+            foreach (var norm in modified)
+            {
+                CrudState answer = _repositoryNormTest.Update(norm).CrudState;
+                if (answer == CrudState.OK)
+                    norm.AcceptChanges();
+                else
+                    return false;
+            }
+
+            #endregion
+
+            return true;
         }
     }
 }

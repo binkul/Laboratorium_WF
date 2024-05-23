@@ -16,9 +16,9 @@ namespace Laboratorium.LabBook.Repository
     {
         private static readonly SqlIndex SQL_INDEX = SqlIndex.LaboNormTestIndex;
         private static readonly string TABLE_NAME = Table.LABO_NORM_TEST_TABLE;
-        private readonly IDgvService _service;
+        private readonly IService _service;
 
-        public LabBookNormTestRepository(SqlConnection connection, IDgvService service) : base(connection, SQL_INDEX, TABLE_NAME)
+        public LabBookNormTestRepository(SqlConnection connection, IService service) : base(connection, SQL_INDEX, TABLE_NAME)
         {
             _service = service;
         }
@@ -40,7 +40,7 @@ namespace Laboratorium.LabBook.Repository
                         int days = reader.GetInt32(0);
                         int id = reader.GetInt32(1);
                         int laboId = reader.GetInt32(2);
-                        byte position = reader.GetByte(3);
+                        short position = reader.GetInt16(3);
                         string norm = CommonFunction.DBNullToStringConv(reader.GetValue(4));
                         string desc = CommonFunction.DBNullToStringConv(reader.GetValue(5));
                         string requery = CommonFunction.DBNullToStringConv(reader.GetValue(6));
@@ -96,6 +96,7 @@ namespace Laboratorium.LabBook.Repository
                 command.Parameters.AddWithValue("@comment", CommonFunction.NullStringToDBNullConv(item.Comments));
                 command.Parameters.AddWithValue("@date_created", item.DateCreated);
                 command.Parameters.AddWithValue("@date_updated", item.DateUpdated);
+                command.Parameters.AddWithValue("@group_id", item.GroupId);
                 OpenConnection();
                 int id = Convert.ToInt32(command.ExecuteScalar());
                 item.Id = id;
@@ -138,6 +139,7 @@ namespace Laboratorium.LabBook.Repository
                 command.Parameters.AddWithValue("@comment", CommonFunction.NullStringToDBNullConv(item.Comments));
                 command.Parameters.AddWithValue("@date_created", item.DateCreated);
                 command.Parameters.AddWithValue("@date_updated", item.DateUpdated);
+                command.Parameters.AddWithValue("@group_id", item.GroupId);
                 command.Parameters.AddWithValue("@id", item.Id);
                 OpenConnection();
                 command.ExecuteNonQuery();

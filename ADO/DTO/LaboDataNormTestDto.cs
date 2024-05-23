@@ -5,7 +5,7 @@ namespace Laboratorium.ADO.DTO
 {
     public class LaboDataNormTestDto
     {
-        private byte _position;
+        private short _position;
         private string _norm;
         private string _description;
         private string _requirement;
@@ -14,21 +14,23 @@ namespace Laboratorium.ADO.DTO
         private string _comment;
         private byte _groupId;
         private RowState _rowState = RowState.ADDED;
-        private readonly IDgvService _service;
+        private readonly IService _service;
 
         public int Id { get; set; } = 0;
+        public int TmpId { get; set; } = 0;
         public int LaboId { get; set; }
-        public int Days { get; set; } = 0;
+        public int Days { get; private set; } = 0;
         public DateTime DateCreated { get; set; } = DateTime.Today;
-        public DateTime DateUpdated { get; private set; }
+        public DateTime DateUpdated { get; set; }
         public CrudState CrudState { get; set; } = CrudState.OK;
 
 
-        public LaboDataNormTestDto(int days, int id, int laboId, byte position, string norm, string description, string requirement, 
-            string result, string substrate, string comment, byte groupId, DateTime dateCreated, DateTime dateUpdated, IDgvService service)
+        public LaboDataNormTestDto(int days, int id, int laboId, short position, string norm, string description, string requirement, 
+            string result, string substrate, string comment, byte groupId, DateTime dateCreated, DateTime dateUpdated, IService service)
         {
             Days = days;
             Id = id;
+            TmpId = id;
             LaboId = laboId;
             DateCreated = dateCreated;
             _position = position;
@@ -43,9 +45,10 @@ namespace Laboratorium.ADO.DTO
             _service = service;
         }
 
-        public LaboDataNormTestDto(int laboId, byte position, string norm, string description, string requirement, string result, 
-            string substrate, string comment, byte groupId, DateTime dateUpdated, IDgvService service)
+        public LaboDataNormTestDto(int tmpId, int laboId, short position, string norm, string description, string requirement, string result, 
+            string substrate, string comment, byte groupId, DateTime dateUpdated, IService service)
         {
+            TmpId = tmpId;
             LaboId = laboId;
             _position = position;
             _norm = norm;
@@ -59,8 +62,9 @@ namespace Laboratorium.ADO.DTO
             DateUpdated = dateUpdated;
         }
 
-        public LaboDataNormTestDto(int laboId, byte position, string norm, string description, string substrate, byte groupId, IDgvService service)
+        public LaboDataNormTestDto(int tmpId, int laboId, short position, string norm, string description, string substrate, byte groupId, IService service)
         {
+            TmpId = tmpId;
             LaboId = laboId;
             _position = position;
             _norm = norm;
@@ -76,10 +80,10 @@ namespace Laboratorium.ADO.DTO
             _rowState = _rowState == RowState.UNCHANGED ? state : _rowState;
             DateUpdated = DateTime.Today;
             if (_service != null)
-                _service.Modify();
+                _service.Modify(_rowState);
         }
 
-        public byte Position
+        public short Position
         {
             get => _position;
             set
@@ -165,7 +169,7 @@ namespace Laboratorium.ADO.DTO
         {
             _rowState = RowState.UNCHANGED;
             if (_service != null)
-                _service.Modify();
+                _service.Modify(_rowState);
         }
 
     }

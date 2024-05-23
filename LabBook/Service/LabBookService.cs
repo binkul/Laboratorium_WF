@@ -67,6 +67,7 @@ namespace Laboratorium.LabBook.Service
         private IDictionary<string, double> _formData = CommonFunction.LoadWindowsDataAsDictionary(FORM_DATA);
         internal LaboDto CurrentLabBook => _laboBinding != null && _laboBinding.Count > 0 ? (LaboDto)_laboBinding.Current : null;
         private LaboDataBasicDto _currentLabBookBasic => _laboBasicBinding != null ? (LaboDataBasicDto)_laboBasicBinding.Current : null;
+        
         public LabBookService(SqlConnection connection, UserDto user, LabForm form)
         {
             _connection = connection;
@@ -80,7 +81,7 @@ namespace Laboratorium.LabBook.Service
             _repositoryUser = new UserRepository(_connection);
             _repositoryProject = new ProjectRepository(_connection);
 
-            _normTestService = new LabBookNormTestService(connection, user, form, this);
+            _normTestService = new LabBookNormTestService(connection, form, this);
         }
 
         public void Modify(RowState state)
@@ -111,7 +112,9 @@ namespace Laboratorium.LabBook.Service
         }
 
         private bool IsAdmin => CurrentLabBook != null ? _user.Permission.ToLower() == "admin" : false;
+        private bool IsValidUser => CurrentLabBook != null ? _user.Id == CurrentLabBook.UserId : false;
         public IDictionary<string, double> GetFormData => _formData;
+
 
         #region Open/Close form 
 
@@ -1245,7 +1248,7 @@ namespace Laboratorium.LabBook.Service
 
                 e.Graphics.DrawString(drawString, drawFont, redBrush, drawRect, drawFormat);
             }
-            else if (_user.Id != userId)
+            else if (!IsAdmin && !IsValidUser)
             {
                 int x = e.RowBounds.Left + 25;
                 int width = 4;
@@ -1269,7 +1272,7 @@ namespace Laboratorium.LabBook.Service
                 // drive red rectangle on all row
                 DataGridView view = _form.GetDgvNormTest;
                 string name = _form.GetDgvNormTest.Rows[e.RowIndex].Cells["Norm"].Value.ToString();
-                int x = e.RowBounds.Left + (IsAdmin ? CommonData.HEADER_WIDTH_ADMIN : CommonData.HEADER_WIDTH_USER);
+                int x = e.RowBounds.Left + CommonData.HEADER_WIDTH_ADMIN;
                 int y = e.RowBounds.Top;
                 int width = 0;
                 foreach (DataGridViewColumn column in view.Columns)
@@ -1288,6 +1291,44 @@ namespace Laboratorium.LabBook.Service
                 Font drawFont = new Font("Arial", font.Size, FontStyle.Bold);
                 Rectangle drawRect = new Rectangle(x, y + 2, width, height);
                 e.Graphics.DrawString(name, drawFont, redBrush, drawRect, drawFormat);
+            }
+        }
+
+        public void DeleteRow(object sender, DataGridViewCellEventArgs e)
+        {
+            var grid = (DataGridView)sender;
+
+            if (e.RowIndex < 0) return;
+            if (grid.Columns.Count == 0 || grid.Rows.Count == 0) return;
+            if (grid.Rows[e.RowIndex].IsNewRow) return;
+
+            bool head = Convert.ToInt64(grid.Rows[e.RowIndex].Cells["TmpId"].Value) == -1;
+            if (!IsAdmin && !IsValidUser && !head)
+            {
+                MessageBox.Show("Nie masz uprawnień do usuwania wierszy.", "Brak uprawnień", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            if (grid[e.ColumnIndex, e.RowIndex] is DataGridViewButtonCell)
+            {
+                long id = Convert.ToInt64(grid.Rows[e.RowIndex].Cells["Id"].Value);
+                long tmpId = Convert.ToInt64(grid.Rows[e.RowIndex].Cells["TmpId"].Value);
+
+                string name = grid.Name;
+                switch (name)
+                {
+                    //case "DgvViscosity":
+                    //    _service.CellContentClickForViscosityButton(id, e);
+                    //    break;
+                    //case "DgvContrast":
+                    //    _service.CellContentClickForContrastButton(id, e);
+                    //    break;
+                    case "DgvNormTest":
+                        _normTestService.Delete(id, tmpId);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -1753,6 +1794,7 @@ namespace Laboratorium.LabBook.Service
             SaveBasicData(permission);
             SaveViscosity();
             SaveContrast();
+            _normTestService.Save();
 
             Modify(RowState.UNCHANGED);
         }

@@ -297,6 +297,12 @@ namespace Laboratorium.LabBook.Forms
             _service.PaintHeaderForNormTest(e);
         }
 
+        private void DgvDeleteButton_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            _service.DeleteRow(sender, e);
+        }
+
         #endregion
+
     }
 }
