@@ -8,6 +8,8 @@ namespace Laboratorium.Commons
         public static int HEADER_WIDTH_USER = 40;
         public static string ALL_DATA_PL = "-- Wszystko --";
         public static string LENETA = "Leneta cz/b";
+        public static int STD_APPLICATOR = -1;
+        public static int NONE_APPLIKATOR = -2;
 
         public static IList<string> Aplikators = new List<string>()
         {

@@ -10,9 +10,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Laboratorium.LabBook.Service
 {
@@ -24,17 +22,17 @@ namespace Laboratorium.LabBook.Service
         private IList<NormDto> _normList;
         private IList<LaboDataNormTestDto> _laboNormTestList;
         public BindingSource LaboNormTestBinding { get; private set; }
-        private readonly IBasicCRUD<LaboDataNormTestDto> _repositoryNormTest;
+        private readonly IBasicCRUD<LaboDataNormTestDto> _repository;
 
         public LabBookNormTestService(SqlConnection connection, LabForm form, IService service)
         {
             _connection = connection;
             _form = form;
             _service = service;
-            _repositoryNormTest = new LabBookNormTestRepository(_connection, _service);
+            _repository = new LabBookNormTestRepository(_connection, _service);
         }
 
-        public bool Modify()
+        public bool IsModified()
         {
             return _laboNormTestList
                 .Where(i => i.GetRowState != RowState.UNCHANGED)
@@ -42,13 +40,13 @@ namespace Laboratorium.LabBook.Service
         }
 
         private LaboDataNormTestDto _current => LaboNormTestBinding != null ? (LaboDataNormTestDto)LaboNormTestBinding.Current : null;
-        private bool _isHead => LaboNormTestBinding != null ? _current.TmpId == -1 : false;
+        private bool _isHead => _current != null ? _current.TmpId == -1 : false;
 
         public void PrepareData()
         {
-            _laboNormTestList = _repositoryNormTest.GetAll();
+            _laboNormTestList = _repository.GetAll();
             LaboNormTestBinding = new BindingSource();
-            LaboNormTestBinding.DataSource = _laboNormTestList;
+            LaboNormTestBinding.DataSource = new List<LaboDataNormTestDto>();
             LaboNormTestBinding.PositionChanged += LaboNormTestBinding_PositionChanged;
 
             PrepareDgvNormTest();
@@ -99,21 +97,7 @@ namespace Laboratorium.LabBook.Service
             view.Columns["LaboId"].Visible = false;
             view.Columns["Position"].Visible = false;
 
-            DataGridViewButtonColumn buttonColumn = new DataGridViewButtonColumn();
-            buttonColumn.Name = "Del";
-            buttonColumn.HeaderText = "Del";
-            buttonColumn.Text = "X";
-            buttonColumn.FlatStyle = FlatStyle.Popup;
-            buttonColumn.DefaultCellStyle.ForeColor = Color.Red;
-            buttonColumn.DefaultCellStyle.BackColor = Color.LightGray;
-            buttonColumn.UseColumnTextForButtonValue = true;
-            buttonColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
-            buttonColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            buttonColumn.Resizable = DataGridViewTriState.False;
-            buttonColumn.Width = 45;
-            buttonColumn.DisplayIndex = 0;
-            buttonColumn.ToolTipText = "Usuń";
-            view.Columns.Add(buttonColumn);
+            view.Columns.Add(CommonFunction.GetDgvDeleteButtonColumn());
 
             view.Columns["DateCreated"].HeaderText = "Start";
             view.Columns["DateCreated"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -197,7 +181,7 @@ namespace Laboratorium.LabBook.Service
                     subItem.Name = "SubMenu_" + subMenu.Id.ToString();
                     subItem.Text = subMenu.NamePl;
                     subItem.Tag = subMenu.Id;
-                    subItem.Click += SubItem_Click;
+                    subItem.Click += AddNormFromMenu;
                     item.DropDownItems.Add(subItem);
                 }
 
@@ -223,7 +207,7 @@ namespace Laboratorium.LabBook.Service
             }
         }
 
-        private void SubItem_Click(object sender, EventArgs e)
+        private void AddNormFromMenu(object sender, EventArgs e)
         {
             ToolStripMenuItem menu = (ToolStripMenuItem)sender;
             LaboDto laboDto = GetCurrentLaboDto();
@@ -231,8 +215,53 @@ namespace Laboratorium.LabBook.Service
             if (menu.Tag == null || laboDto == null)
                 return;
 
-            // get norm (clicked on menu)
-            short id = Convert.ToInt16(menu.Tag);
+            int id = Convert.ToInt16(menu.Tag);
+            AddNew(id);
+
+            SynchronizeData(laboDto.Id);
+            _service.Modify(RowState.ADDED);
+        }
+
+        public void SynchronizeData(int LaboId)
+        {
+            LaboDto laboDto = GetCurrentLaboDto();
+
+            if (laboDto == null)
+                return;
+
+            // get all norm test for current labo
+            List<LaboDataNormTestDto> normList = _laboNormTestList
+                .Where(i => i.LaboId == laboDto.Id)
+                .OrderBy(i => i.Position)
+                .ToList();
+
+            // get all groups from above
+            List<byte> groups = normList
+                .Select(i => i.GroupId)
+                .Distinct()
+                .ToList();
+
+            // add groups as heders (wth LaboId = -1)
+            foreach(byte group in groups)
+            {
+                string name = _normList.Where(i => i.GroupId == group).Select(i => i.Group).Distinct().FirstOrDefault();
+                LaboDataNormTestDto head = new LaboDataNormTestDto(-1, -1, 0, name, "", "", group, _service);
+                normList.Add(head);
+            }
+
+            // order norm test I-by groups, II-by position in groups
+            normList = normList
+                .OrderBy(i => i.GroupId)
+                .ThenBy(i => i.Position)
+                .ToList();
+
+            LaboNormTestBinding.DataSource = normList;
+        }
+
+        public void AddNew(int id)
+        {
+            LaboDto laboDto = GetCurrentLaboDto();
+
             NormDto norm = _normList
                 .Where(i => i.Id == id)
                 .FirstOrDefault();
@@ -276,50 +305,6 @@ namespace Laboratorium.LabBook.Service
                 position++;
                 maxId++;
             }
-
-            SynchronizeData(laboDto.Id);
-            _service.Modify(RowState.ADDED);
-        }
-
-        public void SynchronizeData(int LaboId)
-        {
-            LaboDto laboDto = GetCurrentLaboDto();
-
-            if (laboDto == null)
-                return;
-
-            // get all norm test for current labo
-            List<LaboDataNormTestDto> normList = _laboNormTestList
-                .Where(i => i.LaboId == laboDto.Id)
-                .OrderBy(i => i.Position)
-                .ToList();
-
-            // get all groups from above
-            List<byte> groups = normList
-                .Select(i => i.GroupId)
-                .Distinct()
-                .ToList();
-
-            // add groups as heders (wth LaboId = -1)
-            foreach(byte group in groups)
-            {
-                string name = _normList.Where(i => i.GroupId == group).Select(i => i.Group).Distinct().FirstOrDefault();
-                LaboDataNormTestDto head = new LaboDataNormTestDto(-1, -1, 0, name, "", "", group, _service);
-                normList.Add(head);
-            }
-
-            // order norm test I-by groups, II-by position in groups
-            normList = normList
-                .OrderBy(i => i.GroupId)
-                .ThenBy(i => i.Position)
-                .ToList();
-
-            LaboNormTestBinding.DataSource = normList;
-        }
-
-        public void AddNew(int number)
-        {
-            throw new NotImplementedException();
         }
 
         public bool Delete(long id, long tmpId)
@@ -334,7 +319,7 @@ namespace Laboratorium.LabBook.Service
                     return false;
 
                 _laboNormTestList.Remove(data);
-                _repositoryNormTest.DeleteById(id);
+                _repository.DeleteById(id);
                 LaboDto laboDto = GetCurrentLaboDto();
                 SynchronizeData(laboDto != null ? laboDto.Id : -1);
             }
@@ -368,7 +353,7 @@ namespace Laboratorium.LabBook.Service
 
             foreach (var norm in added)
             {
-                CrudState answer = _repositoryNormTest.Save(norm).CrudState;
+                CrudState answer = _repository.Save(norm).CrudState;
                 if (answer == CrudState.OK)
                     norm.AcceptChanges();
                 else
@@ -385,7 +370,7 @@ namespace Laboratorium.LabBook.Service
 
             foreach (var norm in modified)
             {
-                CrudState answer = _repositoryNormTest.Update(norm).CrudState;
+                CrudState answer = _repository.Update(norm).CrudState;
                 if (answer == CrudState.OK)
                     norm.AcceptChanges();
                 else
@@ -396,5 +381,14 @@ namespace Laboratorium.LabBook.Service
 
             return true;
         }
+
+        public void AcceptAllChanges()
+        {
+            foreach (LaboDataNormTestDto item in _laboNormTestList)
+            {
+                item.AcceptChanges();
+            }
+        }
+
     }
 }

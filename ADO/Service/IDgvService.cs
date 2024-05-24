@@ -1,14 +1,13 @@
-﻿using System.Windows.Forms;
-
-namespace Laboratorium.ADO.Service
+﻿namespace Laboratorium.ADO.Service
 {
     public interface IDgvService
     {
-        bool Modify();
+        bool IsModified();
         void PrepareData();
         bool Save();
         bool Delete(long id, long tmpId);
-        void AddNew(int number);
+        void AddNew(int id);
         void SynchronizeData(int LaboId);
+        void AcceptAllChanges();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Laboratorium.ADO.DTO;
+using Laboratorium.Commons;
 using Laboratorium.LabBook.Service;
 using Laboratorium.Login.Forms;
 using System;
@@ -254,13 +255,13 @@ namespace Laboratorium.LabBook.Forms
         private void ApplicatorInsertToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ToolStripMenuItem menu = (ToolStripMenuItem)sender;
-            int tag = menu.Tag != null ? Convert.ToInt32(menu.Tag) : -1;
-            _service.ApplicatorInsert(tag);
+            int appNr = menu.Tag != null ? Convert.ToInt32(menu.Tag) : CommonData.NONE_APPLIKATOR;
+            _service.ApplicatorInsert(appNr);
         }
 
         private void ApplicatorStdInsertstandardoweToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _service.StandardApplicatorInsert();
+            _service.ApplicatorInsert(CommonData.STD_APPLICATOR);
         }
 
 

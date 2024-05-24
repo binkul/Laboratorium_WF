@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace Laboratorium.Commons
@@ -144,5 +146,24 @@ namespace Laboratorium.Commons
             return input == null ? DBNull.Value : (object)input;
         }
 
+        public static DataGridViewButtonColumn GetDgvDeleteButtonColumn()
+        {
+            DataGridViewButtonColumn buttonColumn = new DataGridViewButtonColumn();
+            buttonColumn.Name = "Del";
+            buttonColumn.HeaderText = "Del";
+            buttonColumn.Text = "X";
+            buttonColumn.FlatStyle = FlatStyle.Popup;
+            buttonColumn.DefaultCellStyle.ForeColor = Color.Red;
+            buttonColumn.DefaultCellStyle.BackColor = Color.LightGray;
+            buttonColumn.UseColumnTextForButtonValue = true;
+            buttonColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
+            buttonColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            buttonColumn.Resizable = DataGridViewTriState.False;
+            buttonColumn.Width = 45;
+            buttonColumn.DisplayIndex = 0;
+            buttonColumn.ToolTipText = "Usuń";
+
+            return buttonColumn;
+        }
     }
 }

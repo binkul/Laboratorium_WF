@@ -105,6 +105,7 @@
     <Compile Include="LabBook\Repository\NormRepository.cs" />
     <Compile Include="LabBook\Repository\ScrubClassRepository.cs" />
     <Compile Include="LabBook\Repository\VocClassRepository.cs" />
+    <Compile Include="LabBook\Service\LabBookContrastService.cs" />
     <Compile Include="LabBook\Service\LabBookNormTestService.cs" />
     <Compile Include="LabBook\Service\LabBookService.cs" />
     <Compile Include="LabBook\Service\LabBookViscosityService.cs" />

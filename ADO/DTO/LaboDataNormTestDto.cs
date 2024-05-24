@@ -15,13 +15,13 @@ namespace Laboratorium.ADO.DTO
         private byte _groupId;
         private RowState _rowState = RowState.ADDED;
         private readonly IService _service;
+        private DateTime _dateCreated = DateTime.Today;
+        private DateTime _dateUpdated;
 
         public int Id { get; set; } = 0;
         public int TmpId { get; set; } = 0;
         public int LaboId { get; set; }
         public int Days { get; private set; } = 0;
-        public DateTime DateCreated { get; set; } = DateTime.Today;
-        public DateTime DateUpdated { get; set; }
         public CrudState CrudState { get; set; } = CrudState.OK;
 
 
@@ -32,7 +32,7 @@ namespace Laboratorium.ADO.DTO
             Id = id;
             TmpId = id;
             LaboId = laboId;
-            DateCreated = dateCreated;
+            _dateCreated = dateCreated;
             _position = position;
             _norm = norm;
             _description = description;
@@ -41,7 +41,7 @@ namespace Laboratorium.ADO.DTO
             _substrate = substrate;
             _comment = comment;
             _groupId = groupId;
-            DateUpdated = dateUpdated;
+            _dateUpdated = dateUpdated;
             _service = service;
         }
 
@@ -59,7 +59,7 @@ namespace Laboratorium.ADO.DTO
             _comment = comment;
             _groupId = groupId;
             _service = service;
-            DateUpdated = dateUpdated;
+            _dateUpdated = dateUpdated;
         }
 
         public LaboDataNormTestDto(int tmpId, int laboId, short position, string norm, string description, string substrate, byte groupId, IService service)
@@ -72,15 +72,46 @@ namespace Laboratorium.ADO.DTO
             _substrate = substrate;
             _groupId = groupId;
             _service = service;
-            DateUpdated = DateTime.Today;
+            _dateUpdated = DateTime.Today;
         }
 
         private void ChangeState(RowState state)
         {
+            _dateUpdated = DateTime.Today;
+            UpdaetRowState(state);
+        }
+
+        private void UpdateDays()
+        {
+            Days = (int)(DateUpdated - DateCreated).TotalDays;
+        }
+
+        private void UpdaetRowState(RowState state)
+        {
+            UpdateDays();
             _rowState = _rowState == RowState.UNCHANGED ? state : _rowState;
-            DateUpdated = DateTime.Today;
             if (_service != null)
                 _service.Modify(_rowState);
+        }
+
+        public DateTime DateCreated
+        {
+            get => _dateCreated;
+            set
+            {
+                _dateCreated = value;
+                UpdaetRowState(RowState.MODIFIED);
+            }
+        }
+
+        public DateTime DateUpdated
+        {
+            get => _dateUpdated;
+            set
+            {
+                _dateUpdated = value;
+                UpdaetRowState(RowState.MODIFIED);
+            }
         }
 
         public short Position
@@ -168,8 +199,6 @@ namespace Laboratorium.ADO.DTO
         public void AcceptChanges()
         {
             _rowState = RowState.UNCHANGED;
-            if (_service != null)
-                _service.Modify(_rowState);
         }
 
     }

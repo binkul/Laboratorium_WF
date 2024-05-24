@@ -5,10 +5,6 @@ namespace Laboratorium.ADO.DTO
 {
     public class LaboDataContrastDto
     {
-        public int Id { get; set; } = 0;
-        public int LaboId { get; set; }
-        public DateTime DateCreated { get; set; }
-
         private bool _isDeleted = false;
         private string _applicator;
         private short _position;
@@ -17,17 +13,24 @@ namespace Laboratorium.ADO.DTO
         private double? _tw;
         private double? _sp;
         private string _comment;
-        public DateTime DateUpdated { get; private set; }
+        private DateTime _dateCreated;
+        private DateTime _dateUpdated;
         private RowState _rowState = RowState.ADDED;
         private readonly IService _service;
+
+        public int Id { get; set; } = 0;
+        public int TmpId { get; set; } = 0;
+        public int LaboId { get; set; }
+        public int Days { get; private set; }
         public CrudState CrudState { get; set; } = CrudState.OK;
 
         public LaboDataContrastDto(int id, int laboId, DateTime dateCreated, bool isDeleted, string applicator, short position, string substrate, double? countrast, 
             double? tw, double? sp, string comment, DateTime dateUpdated, IService service)
         {
             Id = id;
+            TmpId = id;
             LaboId = laboId;
-            DateCreated = dateCreated;
+            _dateCreated = dateCreated;
             _isDeleted = isDeleted;
             _applicator = applicator;
             _position = position;
@@ -36,13 +39,14 @@ namespace Laboratorium.ADO.DTO
             _tw = tw;
             _sp = sp;
             _comment = comment;
-            DateUpdated = dateUpdated;
+            _dateUpdated = dateUpdated;
             _service = service;
         }
 
-        public LaboDataContrastDto(int laboId, bool isDeleted, string applicator, short position, string substrate, double? countrast, 
+        public LaboDataContrastDto(int tmpId, int laboId, bool isDeleted, string applicator, short position, string substrate, double? countrast, 
             double? tw, double? sp, string comment, DateTime dateUpdated, IService service)
         {
+            TmpId = tmpId;
             LaboId = laboId;
             _isDeleted = isDeleted;
             _applicator = applicator;
@@ -52,30 +56,61 @@ namespace Laboratorium.ADO.DTO
             _tw = tw;
             _sp = sp;
             _comment = comment;
-            DateUpdated = dateUpdated;
+            _dateUpdated = dateUpdated;
             _service = service;
         }
 
-        public LaboDataContrastDto(int laboId, DateTime dateCreated, bool isDeleted, string applicator, short position, string substrate, DateTime dateUpdated, IService service)
+        public LaboDataContrastDto(int tmpId, int laboId, DateTime dateCreated, bool isDeleted, string applicator, short position, string substrate, DateTime dateUpdated, IService service)
         {
+            TmpId = tmpId;
             LaboId = laboId;
-            DateCreated = dateCreated;
+            _dateCreated = dateCreated;
             _isDeleted = isDeleted;
             _applicator = applicator;
             _position = position;
             _substrate = substrate;
-            DateUpdated = dateUpdated;
+            _dateUpdated = dateUpdated;
             _service = service;
         }
 
         private void ChangeState(RowState state)
         {
-            _rowState = _rowState == RowState.UNCHANGED ? state : _rowState;
-            DateUpdated = DateTime.Today;
-            if (_service != null)
-                _service.Modify(state);
+            _dateUpdated = DateTime.Today;
+            UpdaetRowState(state);
         }
 
+        private void UpdateDays()
+        {
+            Days = (int)(DateUpdated - DateCreated).TotalDays;
+        }
+
+        private void UpdaetRowState(RowState state)
+        {
+            UpdateDays();
+            _rowState = _rowState == RowState.UNCHANGED ? state : _rowState;
+            if (_service != null)
+                _service.Modify(_rowState);
+        }
+
+        public DateTime DateCreated
+        {
+            get => _dateCreated;
+            set
+            {
+                _dateCreated = value;
+                UpdaetRowState(RowState.MODIFIED);
+            }
+        }
+
+        public DateTime DateUpdated
+        {
+            get => _dateUpdated;
+            set
+            {
+                _dateUpdated = value;
+                UpdaetRowState(RowState.MODIFIED);
+            }
+        }
 
         public bool IsDeleted
         {
@@ -162,8 +197,6 @@ namespace Laboratorium.ADO.DTO
         public void AcceptChanges()
         {
             _rowState = RowState.UNCHANGED;
-            if (_service != null)
-                _service.Modify(RowState.UNCHANGED);
         }
 
     }

@@ -48,6 +48,7 @@ namespace Laboratorium.LabBook.Service
         private readonly LabForm _form;
 
         private readonly IDgvService _normTestService;
+        private readonly IDgvService _contrastService;
 
         private IList<LaboDto> _laboList;
         private BindingSource _laboBinding;
@@ -55,8 +56,8 @@ namespace Laboratorium.LabBook.Service
         private IList<LaboDataViscosityDto> _laboViscosityList;
         private BindingSource _laboViscosityBinding;
         private IList<LaboDataViscosityColDto> _laboViscosityColList;
-        private IList<LaboDataContrastDto> _laboContrastsList;
-        private BindingSource _laboContrastBinding;
+        //private IList<LaboDataContrastDto> _laboContrastsList;
+        //private BindingSource _laboContrastBinding;
         private IList<UserDto> _userList;
         private IList<ProjectDto> _projectList;
         private IList<ContrastClassDto> _contrastClassList;
@@ -82,12 +83,21 @@ namespace Laboratorium.LabBook.Service
             _repositoryProject = new ProjectRepository(_connection);
 
             _normTestService = new LabBookNormTestService(connection, form, this);
+            _contrastService = new LabBookContrastService(connection, form, this);
         }
 
         public void Modify(RowState state)
         {
             if (_form.Init)
+            {
                 return;
+            }
+
+            if (state != RowState.UNCHANGED)
+            {
+                _form.ActivateSave(true);
+                return;
+            }
 
             bool laboModify = _laboList
                 .Where(i => i.GetRowState != RowState.UNCHANGED)
@@ -100,11 +110,12 @@ namespace Laboratorium.LabBook.Service
             bool visModify = _laboViscosityList
                 .Where(i => i.GetRowState != RowState.UNCHANGED)
                 .Any();
-            bool conModify = _laboContrastsList
-                .Where(i => i.GetRowState != RowState.UNCHANGED)
-                .Any();
+            //bool conModify = _laboContrastsList
+            //    .Where(i => i.GetRowState != RowState.UNCHANGED)
+            //    .Any();
 
-            bool normModify = _normTestService.Modify();
+            bool conModify = _contrastService.IsModified();
+            bool normModify = _normTestService.IsModified();
 
             bool result = laboModify | basicModify | visModify | conModify | normModify;
 
@@ -287,10 +298,11 @@ namespace Laboratorium.LabBook.Service
             _laboViscosityBinding.DataSource = _laboViscosityList;
             _laboViscosityColList = _repositoryViscosityCol.GetAll();
 
-            _laboContrastsList = _repositoryContrast.GetAll();
-            _laboContrastBinding = new BindingSource();
-            _laboContrastBinding.DataSource = _laboContrastsList;
+            //_laboContrastsList = _repositoryContrast.GetAll();
+            //_laboContrastBinding = new BindingSource();
+            //_laboContrastBinding.DataSource = _laboContrastsList;
 
+            _contrastService.PrepareData();
             _normTestService.PrepareData();
 
             IBasicCRUD<ContrastClassDto> contrast = new ContrastClassRepository(_connection);
@@ -321,11 +333,11 @@ namespace Laboratorium.LabBook.Service
 
             #endregion
 
-            #region Prepare DgvContrast
+            //#region Prepare DgvContrast
 
-            PrepareDgvContrast();
+            //PrepareDgvContrast();
 
-            #endregion
+            //#endregion
 
             #region Prepare ComboBoxes
 
@@ -710,68 +722,69 @@ namespace Laboratorium.LabBook.Service
 
         }
 
-        private void PrepareDgvContrast()
-        {
-            DataGridView view = _form.GetDgvContrast;
-            view.DataSource = _laboContrastBinding;
-            view.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.RowsDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Regular);
-            view.ColumnHeadersDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Bold);
-            view.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
-            view.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            view.RowHeadersWidth = CommonData.HEADER_WIDTH_ADMIN;
-            view.DefaultCellStyle.ForeColor = Color.Black;
-            view.MultiSelect = false;
-            view.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            view.ReadOnly = false;
-            view.AllowUserToAddRows = false;
-            view.AllowUserToDeleteRows = false;
-            view.AutoGenerateColumns = false;
+        //private void PrepareDgvContrast()
+        //{
+        //    DataGridView view = _form.GetDgvContrast;
+        //    view.DataSource = _laboContrastBinding;
+        //    view.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        //    view.RowsDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Regular);
+        //    view.ColumnHeadersDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Bold);
+        //    view.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+        //    view.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+        //    view.RowHeadersWidth = CommonData.HEADER_WIDTH_ADMIN;
+        //    view.DefaultCellStyle.ForeColor = Color.Black;
+        //    view.MultiSelect = false;
+        //    view.SelectionMode = DataGridViewSelectionMode.CellSelect;
+        //    view.ReadOnly = false;
+        //    view.AllowUserToAddRows = false;
+        //    view.AllowUserToDeleteRows = false;
+        //    view.AutoGenerateColumns = false;
 
-            view.Columns.Remove("GetRowState");
-            view.Columns.Remove("CrudState");
+        //    view.Columns.Remove("GetRowState");
+        //    view.Columns.Remove("CrudState");
+        //    view.Columns.Remove("Days");
+        //    view.Columns.Remove("DateUpdated");
 
-            view.Columns["Id"].Visible = false;
-            view.Columns["LaboId"].Visible = false;
-            view.Columns["IsDeleted"].Visible = false;
-            view.Columns["DateUpdated"].Visible = false;
-            view.Columns["Position"].Visible = false;
+        //    view.Columns["Id"].Visible = false;
+        //    view.Columns["LaboId"].Visible = false;
+        //    view.Columns["IsDeleted"].Visible = false;
+        //    view.Columns["Position"].Visible = false;
 
-            view.Columns["DateCreated"].HeaderText = "Data";
-            view.Columns["DateCreated"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns["DateCreated"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["DateCreated"].DisplayIndex = 0;
+        //    view.Columns["DateCreated"].HeaderText = "Data";
+        //    view.Columns["DateCreated"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        //    view.Columns["DateCreated"].SortMode = DataGridViewColumnSortMode.NotSortable;
+        //    view.Columns["DateCreated"].DisplayIndex = 0;
 
-            view.Columns["Applicator"].HeaderText = "Aplikator";
-            view.Columns["Applicator"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            view.Columns["Applicator"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["Applicator"].DisplayIndex = 1;
+        //    view.Columns["Applicator"].HeaderText = "Aplikator";
+        //    view.Columns["Applicator"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+        //    view.Columns["Applicator"].SortMode = DataGridViewColumnSortMode.NotSortable;
+        //    view.Columns["Applicator"].DisplayIndex = 1;
 
-            view.Columns["Substrate"].HeaderText = "Podłoże";
-            view.Columns["Substrate"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            view.Columns["Substrate"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["Substrate"].DisplayIndex = 2;
+        //    view.Columns["Substrate"].HeaderText = "Podłoże";
+        //    view.Columns["Substrate"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+        //    view.Columns["Substrate"].SortMode = DataGridViewColumnSortMode.NotSortable;
+        //    view.Columns["Substrate"].DisplayIndex = 2;
 
-            view.Columns["Contrast"].HeaderText = "Krycie";
-            view.Columns["Contrast"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns["Contrast"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["Contrast"].DisplayIndex = 3;
+        //    view.Columns["Contrast"].HeaderText = "Krycie";
+        //    view.Columns["Contrast"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        //    view.Columns["Contrast"].SortMode = DataGridViewColumnSortMode.NotSortable;
+        //    view.Columns["Contrast"].DisplayIndex = 3;
 
-            view.Columns["Sp"].HeaderText = "Sp";
-            view.Columns["Sp"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns["Sp"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["Sp"].DisplayIndex = 4;
+        //    view.Columns["Sp"].HeaderText = "Sp";
+        //    view.Columns["Sp"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        //    view.Columns["Sp"].SortMode = DataGridViewColumnSortMode.NotSortable;
+        //    view.Columns["Sp"].DisplayIndex = 4;
 
-            view.Columns["Tw"].HeaderText = "Tw";
-            view.Columns["Tw"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns["Tw"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["Tw"].DisplayIndex = 5;
+        //    view.Columns["Tw"].HeaderText = "Tw";
+        //    view.Columns["Tw"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        //    view.Columns["Tw"].SortMode = DataGridViewColumnSortMode.NotSortable;
+        //    view.Columns["Tw"].DisplayIndex = 5;
 
-            view.Columns["Comments"].HeaderText = "Uwagi";
-            view.Columns["Comments"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            view.Columns["Comments"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["Comments"].DisplayIndex = 6;
-        }
+        //    view.Columns["Comments"].HeaderText = "Uwagi";
+        //    view.Columns["Comments"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+        //    view.Columns["Comments"].SortMode = DataGridViewColumnSortMode.NotSortable;
+        //    view.Columns["Comments"].DisplayIndex = 6;
+        //}
 
         private void PrepareComboBoxes()
         {
@@ -913,8 +926,9 @@ namespace Laboratorium.LabBook.Service
                 _laboViscosityBinding.DataSource = _laboViscosityList;
                 SetViscosityVisbility(CurrentLabBook.ViscosityProfile);
 
-                _laboContrastBinding.DataSource = GetCurrentContrasts();
+                //_laboContrastBinding.DataSource = GetCurrentContrasts();
 
+                _contrastService.SynchronizeData(CurrentLabBook.Id);
                 _normTestService.SynchronizeData(CurrentLabBook.Id);
            }
 
@@ -1004,10 +1018,10 @@ namespace Laboratorium.LabBook.Service
                     .Build();
         }
 
-        private IList<LaboDataContrastDto> GetCurrentContrasts()
-        {
-            return _laboContrastsList.Where(i => i.LaboId == CurrentLabBook.Id).ToList();
-        }
+        //private IList<LaboDataContrastDto> GetCurrentContrasts()
+        //{
+        //    return _laboContrastsList.Where(i => i.LaboId == CurrentLabBook.Id).ToList();
+        //}
 
         #endregion
 
@@ -1320,9 +1334,9 @@ namespace Laboratorium.LabBook.Service
                     //case "DgvViscosity":
                     //    _service.CellContentClickForViscosityButton(id, e);
                     //    break;
-                    //case "DgvContrast":
-                    //    _service.CellContentClickForContrastButton(id, e);
-                    //    break;
+                    case "DgvContrast":
+                        _contrastService.Delete(id, tmpId);
+                        break;
                     case "DgvNormTest":
                         _normTestService.Delete(id, tmpId);
                         break;
@@ -1604,61 +1618,66 @@ namespace Laboratorium.LabBook.Service
             SetViscosityVisbility(CurrentLabBook.ViscosityProfile);
         }
 
-        public void StandardApplicatorInsert()
+        public void ApplicatorInsert(int type)
         {
-            _form.GetDgvContrast.EndEdit();
-            _laboContrastBinding.EndEdit();
-
-            if (CurrentLabBook == null)
-                return;
-            int id = CurrentLabBook.Id;
-
-            List<short> contrasts = _laboContrastsList
-                .Where(i => i.LaboId == id)
-                .OrderBy(i => i.Position)
-                .Select(i => i.Position)
-                .ToList();
-
-            short pos = (short)(contrasts.Count > 0 ? contrasts[contrasts.Count - 1] + 1 : 1);
-
-            for (int i = 0; i < 4; i++)
-            {
-                LaboDataContrastDto contrast = new LaboDataContrastDto(id, DateTime.Today, false, CommonData.AplikatorsStd[i], pos++, CommonData.LENETA, DateTime.Today, this);
-                _laboContrastsList.Add(contrast);
-            }
-            _laboContrastBinding.DataSource = GetCurrentContrasts();
+            _contrastService.AddNew(type);
         }
 
-        public void ApplicatorInsert(int appNr)
-        {
-            if (CurrentLabBook == null)
-                return;
+        //public void StandardApplicatorInsert()
+        //{
+            //_form.GetDgvContrast.EndEdit();
+            //_laboContrastBinding.EndEdit();
 
-            _form.GetDgvContrast.EndEdit();
-            _laboContrastBinding.EndEdit();
+            //if (CurrentLabBook == null)
+            //    return;
+            //int id = CurrentLabBook.Id;
 
-            int id = CurrentLabBook.Id;
-            short position = _laboContrastsList
-                .Where(i => i.LaboId == id)
-                .Select(i => i.Position)
-                .DefaultIfEmpty()
-                .Max();
-            position++;
+            //List<short> contrasts = _laboContrastsList
+            //    .Where(i => i.LaboId == id)
+            //    .OrderBy(i => i.Position)
+            //    .Select(i => i.Position)
+            //    .ToList();
 
-            string applicator;
-            if (appNr == -1)
-            {
-                applicator = CommonData.Aplikators[0];
-            }
-            else
-            {
-                applicator = CommonData.Aplikators[appNr];
-            }
+            //short pos = (short)(contrasts.Count > 0 ? contrasts[contrasts.Count - 1] + 1 : 1);
 
-            LaboDataContrastDto contrast = new LaboDataContrastDto(id, DateTime.Today, false, applicator, position, CommonData.LENETA, DateTime.Today, this);
-            _laboContrastsList.Add(contrast);
-            _laboContrastBinding.DataSource = GetCurrentContrasts();
-        }
+            //for (int i = 0; i < 4; i++)
+            //{
+            //    LaboDataContrastDto contrast = new LaboDataContrastDto(id, DateTime.Today, false, CommonData.AplikatorsStd[i], pos++, CommonData.LENETA, DateTime.Today, this);
+            //    _laboContrastsList.Add(contrast);
+            //}
+            //_laboContrastBinding.DataSource = GetCurrentContrasts();
+        //}
+
+        //public void ApplicatorInsert(int appNr)
+        //{
+        //    if (CurrentLabBook == null)
+        //        return;
+
+        //    _form.GetDgvContrast.EndEdit();
+        //    _laboContrastBinding.EndEdit();
+
+        //    int id = CurrentLabBook.Id;
+        //    short position = _laboContrastsList
+        //        .Where(i => i.LaboId == id)
+        //        .Select(i => i.Position)
+        //        .DefaultIfEmpty()
+        //        .Max();
+        //    position++;
+
+        //    string applicator;
+        //    if (appNr == -1)
+        //    {
+        //        applicator = CommonData.Aplikators[0];
+        //    }
+        //    else
+        //    {
+        //        applicator = CommonData.Aplikators[appNr];
+        //    }
+
+        //    LaboDataContrastDto contrast = new LaboDataContrastDto(id, DateTime.Today, false, applicator, position, CommonData.LENETA, DateTime.Today, this);
+        //    _laboContrastsList.Add(contrast);
+        //    _laboContrastBinding.DataSource = GetCurrentContrasts();
+        //}
 
         #endregion
 
@@ -1793,7 +1812,7 @@ namespace Laboratorium.LabBook.Service
             UpdateLabo(permission);
             SaveBasicData(permission);
             SaveViscosity();
-            SaveContrast();
+            _contrastService.Save();
             _normTestService.Save();
 
             Modify(RowState.UNCHANGED);
@@ -1932,44 +1951,44 @@ namespace Laboratorium.LabBook.Service
             }
         }
 
-        private bool SaveContrast()
-        {
-            #region Save new
+        //private bool SaveContrast()
+        //{
+        //    #region Save new
 
-            var added = _laboContrastsList
-                .Where(i => i.GetRowState == RowState.ADDED)
-                .ToList();
+        //    var added = _laboContrastsList
+        //        .Where(i => i.GetRowState == RowState.ADDED)
+        //        .ToList();
 
-            foreach (var con in added)
-            {
-                CrudState answer = _repositoryContrast.Save(con).CrudState;
-                if (answer == CrudState.OK)
-                    con.AcceptChanges();
-                else
-                    return false;
-            }
+        //    foreach (var con in added)
+        //    {
+        //        CrudState answer = _repositoryContrast.Save(con).CrudState;
+        //        if (answer == CrudState.OK)
+        //            con.AcceptChanges();
+        //        else
+        //            return false;
+        //    }
 
-            #endregion
+        //    #endregion
 
-            #region Update
+        //    #region Update
 
-            var modified = _laboContrastsList
-                .Where(i => i.GetRowState == RowState.MODIFIED)
-                .ToList();
+        //    var modified = _laboContrastsList
+        //        .Where(i => i.GetRowState == RowState.MODIFIED)
+        //        .ToList();
 
-            foreach (var con in modified)
-            {
-                CrudState answer = _repositoryContrast.Update(con).CrudState;
-                if (answer == CrudState.OK)
-                    con.AcceptChanges();
-                else
-                    return false;
-            }
+        //    foreach (var con in modified)
+        //    {
+        //        CrudState answer = _repositoryContrast.Update(con).CrudState;
+        //        if (answer == CrudState.OK)
+        //            con.AcceptChanges();
+        //        else
+        //            return false;
+        //    }
 
-            #endregion
+        //    #endregion
 
-            return true;
-        }
+        //    return true;
+        //}
 
         #endregion
     }
