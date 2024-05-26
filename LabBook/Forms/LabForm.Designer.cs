@@ -277,6 +277,7 @@
             // 
             this.bindingNavigatorPositionItem.AccessibleName = "Pozycja";
             this.bindingNavigatorPositionItem.AutoSize = false;
+            this.bindingNavigatorPositionItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
             this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(49, 27);
             this.bindingNavigatorPositionItem.Text = "0";
@@ -544,7 +545,7 @@
             this.CmbScrubClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbScrubClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbScrubClass.FormattingEnabled = true;
-            this.CmbScrubClass.Location = new System.Drawing.Point(205, 203);
+            this.CmbScrubClass.Location = new System.Drawing.Point(205, 201);
             this.CmbScrubClass.Name = "CmbScrubClass";
             this.CmbScrubClass.Size = new System.Drawing.Size(159, 28);
             this.CmbScrubClass.TabIndex = 3;
@@ -759,7 +760,7 @@
             this.CmbGlossClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbGlossClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbGlossClass.FormattingEnabled = true;
-            this.CmbGlossClass.Location = new System.Drawing.Point(207, 246);
+            this.CmbGlossClass.Location = new System.Drawing.Point(207, 244);
             this.CmbGlossClass.Name = "CmbGlossClass";
             this.CmbGlossClass.Size = new System.Drawing.Size(224, 28);
             this.CmbGlossClass.TabIndex = 10;
@@ -884,7 +885,7 @@
             this.CmbContrastClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbContrastClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbContrastClass.FormattingEnabled = true;
-            this.CmbContrastClass.Location = new System.Drawing.Point(205, 118);
+            this.CmbContrastClass.Location = new System.Drawing.Point(205, 120);
             this.CmbContrastClass.Name = "CmbContrastClass";
             this.CmbContrastClass.Size = new System.Drawing.Size(149, 28);
             this.CmbContrastClass.TabIndex = 5;
@@ -953,7 +954,7 @@
             this.CmbVocClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbVocClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbVocClass.FormattingEnabled = true;
-            this.CmbVocClass.Location = new System.Drawing.Point(205, 83);
+            this.CmbVocClass.Location = new System.Drawing.Point(205, 81);
             this.CmbVocClass.Name = "CmbVocClass";
             this.CmbVocClass.Size = new System.Drawing.Size(298, 28);
             this.CmbVocClass.TabIndex = 12;
@@ -1383,6 +1384,7 @@
             this.DgvContrast.RowTemplate.Height = 24;
             this.DgvContrast.Size = new System.Drawing.Size(1362, 595);
             this.DgvContrast.TabIndex = 0;
+            this.DgvContrast.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvDeleteButton_CellContentClick);
             this.DgvContrast.SizeChanged += new System.EventHandler(this.DgvContrast_SizeChanged);
             // 
             // TbTests
@@ -1920,7 +1922,7 @@
             this.LblDateCreated.Location = new System.Drawing.Point(1134, 99);
             this.LblDateCreated.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblDateCreated.Name = "LblDateCreated";
-            this.LblDateCreated.Size = new System.Drawing.Size(246, 24);
+            this.LblDateCreated.Size = new System.Drawing.Size(241, 22);
             this.LblDateCreated.TabIndex = 7;
             this.LblDateCreated.Text = "Utworzenie: 00-00-0000   ";
             // 
@@ -1933,7 +1935,7 @@
             this.LblDateModified.Location = new System.Drawing.Point(1128, 135);
             this.LblDateModified.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblDateModified.Name = "LblDateModified";
-            this.LblDateModified.Size = new System.Drawing.Size(251, 24);
+            this.LblDateModified.Size = new System.Drawing.Size(247, 22);
             this.LblDateModified.TabIndex = 8;
             this.LblDateModified.Text = "Modyfikacja: 00-00-0000   ";
             // 

@@ -10,7 +10,8 @@ namespace Laboratorium.ADO.SqlDataConstant
             {SqlIndex.LaboBasicIndex, "Delete From Konkurencja.dbo.LaboDataBasic Where id=" },
             {SqlIndex.LaboNormTestIndex, "Delete From Konkurencja.dbo.LaboDataNorm Where id=" },
             {SqlIndex.LaboViscosityIndex, "Delete From Konkurencja.dbo.LaboDataViscosity Where id=" },
-            {SqlIndex.LaboViscosityColIndex, "Delete From Konkurencja.dbo.LaboDataViscosityCol Where labo_id=" }
+            {SqlIndex.LaboViscosityColIndex, "Delete From Konkurencja.dbo.LaboDataViscosityCol Where labo_id=" },
+            {SqlIndex.LaboContrastIndex, "Delete From Konkurencja.dbo.LaboDataContrast Where id=" }
         };
     }
 }

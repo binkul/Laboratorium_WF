@@ -108,6 +108,7 @@
     <Compile Include="LabBook\Service\LabBookContrastService.cs" />
     <Compile Include="LabBook\Service\LabBookNormTestService.cs" />
     <Compile Include="LabBook\Service\LabBookService.cs" />
+    <Compile Include="LabBook\Service\LabBookViscosityColumnService.cs" />
     <Compile Include="LabBook\Service\LabBookViscosityService.cs" />
     <Compile Include="Login\Forms\LoginForm.cs">
       <SubType>Form</SubType>

@@ -132,6 +132,8 @@ namespace Laboratorium.LabBook.Service
                 AddStandardApplicators(laboDto.Id);
             else
                 AddOthersApplicators(laboDto.Id, id);
+
+            _service.Modify(RowState.ADDED);
         }
 
         private void AddStandardApplicators(int laboId)
