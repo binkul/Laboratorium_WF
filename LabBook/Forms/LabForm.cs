@@ -303,6 +303,12 @@ namespace Laboratorium.LabBook.Forms
             _service.DeleteRow(sender, e);
         }
 
+        private void DgvViscosity_UserAddedRow(object sender, DataGridViewRowEventArgs e)
+        {
+            _service.AddNewViscosityRow();
+
+        }
+
         #endregion
 
     }

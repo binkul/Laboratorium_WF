@@ -38,37 +38,39 @@ namespace Laboratorium.LabBook.Repository
                 {
                     while (reader.Read())
                     {
-                        long id = reader.GetInt64(1);
-                        int title = reader.GetInt32(2);
-                        bool toCompare = reader.GetBoolean(3);
-                        double? pH = CommonFunction.DBNullToDoubleConv(reader.GetValue(4));
-                        string temp = CommonFunction.DBNullToStringConv(reader.GetValue(5));
-                        double? brook1 = CommonFunction.DBNullToDoubleConv(reader.GetValue(6));
-                        double? brook5 = CommonFunction.DBNullToDoubleConv(reader.GetValue(7));
-                        double? brook10 = CommonFunction.DBNullToDoubleConv(reader.GetValue(8));
-                        double? brook20 = CommonFunction.DBNullToDoubleConv(reader.GetValue(9));
-                        double? brook30 = CommonFunction.DBNullToDoubleConv(reader.GetValue(10));
-                        double? brook40 = CommonFunction.DBNullToDoubleConv(reader.GetValue(11));
-                        double? brook50 = CommonFunction.DBNullToDoubleConv(reader.GetValue(12));
-                        double? brook60 = CommonFunction.DBNullToDoubleConv(reader.GetValue(13));
-                        double? brook70 = CommonFunction.DBNullToDoubleConv(reader.GetValue(14));
-                        double? brook80 = CommonFunction.DBNullToDoubleConv(reader.GetValue(15));
-                        double? brook90 = CommonFunction.DBNullToDoubleConv(reader.GetValue(16));
-                        double? brook100 = CommonFunction.DBNullToDoubleConv(reader.GetValue(17));
-                        string brookDisc = CommonFunction.DBNullToStringConv(reader.GetValue(18));
-                        string brookComment = CommonFunction.DBNullToStringConv(reader.GetValue(19));
-                        double? brookXvis = CommonFunction.DBNullToDoubleConv(reader.GetValue(20));
-                        string brookXrpm = CommonFunction.DBNullToStringConv(reader.GetValue(21));
-                        string brookXdisc = CommonFunction.DBNullToStringConv(reader.GetValue(22));
-                        double? krebs = CommonFunction.DBNullToDoubleConv(reader.GetValue(23));
-                        string krebsComment = CommonFunction.DBNullToStringConv(reader.GetValue(24));
-                        double? ici = CommonFunction.DBNullToDoubleConv(reader.GetValue(25));
-                        string iciDisc = CommonFunction.DBNullToStringConv(reader.GetValue(26));
-                        string iciComment = CommonFunction.DBNullToStringConv(reader.GetValue(27));
-                        DateTime dateCreated = reader.GetDateTime(2);
-                        DateTime dateUpdated = !reader.GetValue(3).Equals(DBNull.Value) ? reader.GetDateTime(3) : dateCreated;
+                        int id = reader.GetInt32(0);
+                        int laboId = reader.GetInt32(1);
+                        bool toCompare = reader.GetBoolean(2);
+                        double? pH = CommonFunction.DBNullToDoubleConv(reader.GetValue(3));
+                        string temp = CommonFunction.DBNullToStringConv(reader.GetValue(4));
+                        double? brook1 = CommonFunction.DBNullToDoubleConv(reader.GetValue(5));
+                        double? brook5 = CommonFunction.DBNullToDoubleConv(reader.GetValue(6));
+                        double? brook10 = CommonFunction.DBNullToDoubleConv(reader.GetValue(7));
+                        double? brook20 = CommonFunction.DBNullToDoubleConv(reader.GetValue(8));
+                        double? brook30 = CommonFunction.DBNullToDoubleConv(reader.GetValue(9));
+                        double? brook40 = CommonFunction.DBNullToDoubleConv(reader.GetValue(10));
+                        double? brook50 = CommonFunction.DBNullToDoubleConv(reader.GetValue(11));
+                        double? brook60 = CommonFunction.DBNullToDoubleConv(reader.GetValue(12));
+                        double? brook70 = CommonFunction.DBNullToDoubleConv(reader.GetValue(13));
+                        double? brook80 = CommonFunction.DBNullToDoubleConv(reader.GetValue(14));
+                        double? brook90 = CommonFunction.DBNullToDoubleConv(reader.GetValue(15));
+                        double? brook100 = CommonFunction.DBNullToDoubleConv(reader.GetValue(16));
+                        string brookDisc = CommonFunction.DBNullToStringConv(reader.GetValue(17));
+                        string brookComment = CommonFunction.DBNullToStringConv(reader.GetValue(18));
+                        double? brookXvis = CommonFunction.DBNullToDoubleConv(reader.GetValue(19));
+                        string brookXrpm = CommonFunction.DBNullToStringConv(reader.GetValue(20));
+                        string brookXdisc = CommonFunction.DBNullToStringConv(reader.GetValue(21));
+                        double? krebs = CommonFunction.DBNullToDoubleConv(reader.GetValue(22));
+                        string krebsComment = CommonFunction.DBNullToStringConv(reader.GetValue(23));
+                        double? ici = CommonFunction.DBNullToDoubleConv(reader.GetValue(24));
+                        string iciDisc = CommonFunction.DBNullToStringConv(reader.GetValue(25));
+                        string iciComment = CommonFunction.DBNullToStringConv(reader.GetValue(26));
+                        DateTime dateCreated = reader.GetDateTime(27);
+                        DateTime dateUpdated = !reader.GetValue(28).Equals(DBNull.Value) ? reader.GetDateTime(28) : dateCreated;
 
                         LaboDataViscosityDto labo = new LaboDataViscosityDto.Builder()
+                            .Id(id)
+                            .LaboId(laboId)
                             .ToCompare(toCompare)
                             .pH(pH)
                             .Temp(temp)

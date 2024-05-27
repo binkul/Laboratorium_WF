@@ -8,6 +8,7 @@ namespace Laboratorium.ADO.DTO
         #region Fields
 
         public int Id { get; set; }
+        public int TmpId { get; set; }
         public int LaboId { get; set; }
         private bool _toCompare;
         private double? _pH;
@@ -43,11 +44,13 @@ namespace Laboratorium.ADO.DTO
         #endregion
 
         public LaboDataViscosityDto()
-        { }
+        {
+        }
 
         private LaboDataViscosityDto(Builder builder)
         {
             Id = builder._id;
+            TmpId = Id;
             LaboId = builder._laboId;
             _toCompare = builder._toCompare;
             _pH = builder._pH;
