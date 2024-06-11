@@ -58,6 +58,7 @@
     <Compile Include="ADO\DTO\LaboDataViscosityColDto.cs" />
     <Compile Include="ADO\DTO\LaboDataViscosityDto.cs" />
     <Compile Include="ADO\DTO\LaboDto.cs" />
+    <Compile Include="ADO\DTO\MaterialDto.cs" />
     <Compile Include="ADO\DTO\NormDetailDto.cs" />
     <Compile Include="ADO\DTO\NormDto.cs" />
     <Compile Include="ADO\DTO\ProjectDto.cs" />
