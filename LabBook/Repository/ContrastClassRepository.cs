@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Laboratorium.LabBook.Repository
 {
-    public class ContrastClassRepository : BasicCRUD<ContrastClassDto>
+    public class ContrastClassRepository : BasicCRUD<CmbContrastClassDto>
     {
         private static readonly SqlIndex SQL_INDEX = SqlIndex.ContrastClassIndex;
         private static readonly string TABLE_NAME = Table.CONTRAST_CLASS_TABLE;
@@ -18,9 +18,9 @@ namespace Laboratorium.LabBook.Repository
         public ContrastClassRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
         { }
 
-        public override IList<ContrastClassDto> GetAll()
+        public override IList<CmbContrastClassDto> GetAll()
         {
-            List<ContrastClassDto> list = new List<ContrastClassDto>();
+            List<CmbContrastClassDto> list = new List<CmbContrastClassDto>();
 
             try
             {
@@ -36,7 +36,7 @@ namespace Laboratorium.LabBook.Repository
                         string namePl = reader.GetString(1);
                         string nameEn = reader.GetString(2);
 
-                        ContrastClassDto contrast = new ContrastClassDto(id, namePl, nameEn);
+                        CmbContrastClassDto contrast = new CmbContrastClassDto(id, namePl, nameEn);
                         list.Add(contrast);
                     }
                     reader.Close();
@@ -60,12 +60,12 @@ namespace Laboratorium.LabBook.Repository
             return list;
         }
 
-        public override ContrastClassDto Save(ContrastClassDto data)
+        public override CmbContrastClassDto Save(CmbContrastClassDto data)
         {
             throw new NotImplementedException();
         }
 
-        public override ContrastClassDto Update(ContrastClassDto data)
+        public override CmbContrastClassDto Update(CmbContrastClassDto data)
         {
             throw new NotImplementedException();
         }

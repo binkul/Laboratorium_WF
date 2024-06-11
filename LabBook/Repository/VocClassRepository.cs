@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Laboratorium.LabBook.Repository
 {
-    public class VocClassRepository : BasicCRUD<VocClassDto>
+    public class VocClassRepository : BasicCRUD<CmbVocClassDto>
     {
         private static readonly SqlIndex SQL_INDEX = SqlIndex.VocClassIndex;
         private static readonly string TABLE_NAME = Table.VOC_CLASS_TABLE;
@@ -18,9 +18,9 @@ namespace Laboratorium.LabBook.Repository
         public VocClassRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
         { }
 
-        public override IList<VocClassDto> GetAll()
+        public override IList<CmbVocClassDto> GetAll()
         {
-            List<VocClassDto> list = new List<VocClassDto>();
+            List<CmbVocClassDto> list = new List<CmbVocClassDto>();
 
             try
             {
@@ -35,7 +35,7 @@ namespace Laboratorium.LabBook.Repository
                         byte id = reader.GetByte(0);
                         string namePl = reader.GetString(1);
 
-                        VocClassDto contrast = new VocClassDto(id, namePl);
+                        CmbVocClassDto contrast = new CmbVocClassDto(id, namePl);
                         list.Add(contrast);
                     }
                     reader.Close();
@@ -59,12 +59,12 @@ namespace Laboratorium.LabBook.Repository
             return list;
         }
 
-        public override VocClassDto Save(VocClassDto data)
+        public override CmbVocClassDto Save(CmbVocClassDto data)
         {
             throw new NotImplementedException();
         }
 
-        public override VocClassDto Update(VocClassDto data)
+        public override CmbVocClassDto Update(CmbVocClassDto data)
         {
             throw new NotImplementedException();
         }

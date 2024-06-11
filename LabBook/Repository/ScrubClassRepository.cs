@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace Laboratorium.LabBook.Repository
 {
-    internal class ScrubClassRepository : BasicCRUD<ScrubClassDto>
+    internal class ScrubClassRepository : BasicCRUD<CmbScrubClassDto>
     {
         private static readonly SqlIndex SQL_INDEX = SqlIndex.ScrubClassIndex;
         private static readonly string TABLE_NAME = Table.SCRUB_CLASS_TABLE;
@@ -20,9 +20,9 @@ namespace Laboratorium.LabBook.Repository
         public ScrubClassRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
         { }
 
-        public override IList<ScrubClassDto> GetAll()
+        public override IList<CmbScrubClassDto> GetAll()
         {
-            List<ScrubClassDto> list = new List<ScrubClassDto>();
+            List<CmbScrubClassDto> list = new List<CmbScrubClassDto>();
 
             try
             {
@@ -38,7 +38,7 @@ namespace Laboratorium.LabBook.Repository
                         string namePl = reader.GetString(1);
                         string nameEn = reader.GetString(2);
 
-                        ScrubClassDto contrast = new ScrubClassDto(id, namePl, nameEn);
+                        CmbScrubClassDto contrast = new CmbScrubClassDto(id, namePl, nameEn);
                         list.Add(contrast);
                     }
                     reader.Close();
@@ -62,12 +62,12 @@ namespace Laboratorium.LabBook.Repository
             return list;
         }
 
-        public override ScrubClassDto Save(ScrubClassDto data)
+        public override CmbScrubClassDto Save(CmbScrubClassDto data)
         {
             throw new NotImplementedException();
         }
 
-        public override ScrubClassDto Update(ScrubClassDto data)
+        public override CmbScrubClassDto Update(CmbScrubClassDto data)
         {
             throw new NotImplementedException();
         }

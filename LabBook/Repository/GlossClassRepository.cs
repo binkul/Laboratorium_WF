@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Laboratorium.LabBook.Repository
 {
-    public class GlossClassRepository : BasicCRUD<GlossClassDto>
+    public class GlossClassRepository : BasicCRUD<CmbGlossClassDto>
     {
         private static readonly SqlIndex SQL_INDEX = SqlIndex.GlossClassIndex;
         private static readonly string TABLE_NAME = Table.GLOSS_CLASS_TABLE;
@@ -18,9 +18,9 @@ namespace Laboratorium.LabBook.Repository
         public GlossClassRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
         { }
 
-        public override IList<GlossClassDto> GetAll()
+        public override IList<CmbGlossClassDto> GetAll()
         {
-            List<GlossClassDto> list = new List<GlossClassDto>();
+            List<CmbGlossClassDto> list = new List<CmbGlossClassDto>();
 
             try
             {
@@ -36,7 +36,7 @@ namespace Laboratorium.LabBook.Repository
                         string namePl = reader.GetString(1);
                         string nameEn = reader.GetString(2);
 
-                        GlossClassDto contrast = new GlossClassDto(id, namePl, nameEn);
+                        CmbGlossClassDto contrast = new CmbGlossClassDto(id, namePl, nameEn);
                         list.Add(contrast);
                     }
                     reader.Close();
@@ -60,12 +60,12 @@ namespace Laboratorium.LabBook.Repository
             return list;
         }
 
-        public override GlossClassDto Save(GlossClassDto data)
+        public override CmbGlossClassDto Save(CmbGlossClassDto data)
         {
             throw new NotImplementedException();
         }
 
-        public override GlossClassDto Update(GlossClassDto data)
+        public override CmbGlossClassDto Update(CmbGlossClassDto data)
         {
             throw new NotImplementedException();
         }

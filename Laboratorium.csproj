@@ -46,8 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ADO\CrudState.cs" />
-    <Compile Include="ADO\DTO\ContrastClassDto.cs" />
-    <Compile Include="ADO\DTO\GlossClassDto.cs" />
+    <Compile Include="ADO\DTO\CmbClpGHScodeDto.cs" />
+    <Compile Include="ADO\DTO\CmbClpHcodeDto.cs" />
+    <Compile Include="ADO\DTO\CmbClpPcodeDto.cs" />
+    <Compile Include="ADO\DTO\CmbClpSignalDto.cs" />
+    <Compile Include="ADO\DTO\CmbContrastClassDto.cs" />
+    <Compile Include="ADO\DTO\CmbGlossClassDto.cs" />
     <Compile Include="ADO\DTO\LaboDataBasicDto.cs" />
     <Compile Include="ADO\DTO\LaboDataContrastDto.cs" />
     <Compile Include="ADO\DTO\LaboDataNormTestDto.cs" />
@@ -58,10 +62,10 @@
     <Compile Include="ADO\DTO\NormDto.cs" />
     <Compile Include="ADO\DTO\ProjectDto.cs" />
     <Compile Include="ADO\DTO\ProjectSubCategoryDto.cs" />
-    <Compile Include="ADO\DTO\ScrubClassDto.cs" />
+    <Compile Include="ADO\DTO\CmbScrubClassDto.cs" />
     <Compile Include="ADO\DTO\UserDto.cs" />
     <Compile Include="ADO\DTO\ProgramDataDto.cs" />
-    <Compile Include="ADO\DTO\VocClassDto.cs" />
+    <Compile Include="ADO\DTO\CmbVocClassDto.cs" />
     <Compile Include="ADO\Permission.cs" />
     <Compile Include="ADO\Repository\BasicCRUD.cs" />
     <Compile Include="ADO\Repository\ExtendedCRUD.cs" />

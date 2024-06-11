@@ -54,10 +54,10 @@ namespace Laboratorium.LabBook.Service
         private BindingSource _laboBasicBinding;
         private IList<UserDto> _userList;
         private IList<ProjectDto> _projectList;
-        private IList<ContrastClassDto> _contrastClassList;
-        private IList<GlossClassDto> _glossClassList;
-        private IList<ScrubClassDto> _scrubClassList;
-        private IList<VocClassDto> _vocClassList;
+        private IList<CmbContrastClassDto> _contrastClassList;
+        private IList<CmbGlossClassDto> _glossClassList;
+        private IList<CmbScrubClassDto> _scrubClassList;
+        private IList<CmbVocClassDto> _vocClassList;
 
         private IDictionary<string, double> _formData = CommonFunction.LoadWindowsDataAsDictionary(FORM_DATA);
         internal LaboDto CurrentLabBook => _laboBinding != null && _laboBinding.Count > 0 ? (LaboDto)_laboBinding.Current : null;
@@ -290,16 +290,16 @@ namespace Laboratorium.LabBook.Service
             _contrastService.PrepareData();
             _normTestService.PrepareData();
 
-            IBasicCRUD<ContrastClassDto> contrast = new ContrastClassRepository(_connection);
+            IBasicCRUD<CmbContrastClassDto> contrast = new ContrastClassRepository(_connection);
             _contrastClassList = contrast.GetAll();
 
-            IBasicCRUD<GlossClassDto> gloss = new GlossClassRepository(_connection);
+            IBasicCRUD<CmbGlossClassDto> gloss = new GlossClassRepository(_connection);
             _glossClassList = gloss.GetAll();
 
-            IBasicCRUD<ScrubClassDto> scrub = new ScrubClassRepository(_connection);
+            IBasicCRUD<CmbScrubClassDto> scrub = new ScrubClassRepository(_connection);
             _scrubClassList = scrub.GetAll();
 
-            IBasicCRUD<VocClassDto> voc = new VocClassRepository(_connection);
+            IBasicCRUD<CmbVocClassDto> voc = new VocClassRepository(_connection);
             _vocClassList = voc.GetAll();
 
             FillDependece();
@@ -741,7 +741,7 @@ namespace Laboratorium.LabBook.Service
             
             if (_currentLabBookBasic != null)
             {
-                GlossClassDto cmb = (GlossClassDto)_form.GetCmbGlossClass.SelectedItem;
+                CmbGlossClassDto cmb = (CmbGlossClassDto)_form.GetCmbGlossClass.SelectedItem;
                 byte cmbId = cmb.Id;
                 if (cmb != null && (_currentLabBookBasic.GlossClassId != cmbId))
                 {
@@ -758,7 +758,7 @@ namespace Laboratorium.LabBook.Service
 
             if (_currentLabBookBasic != null)
             {
-                ContrastClassDto cmb = (ContrastClassDto)_form.GetCmbContrastClass.SelectedItem;
+                CmbContrastClassDto cmb = (CmbContrastClassDto)_form.GetCmbContrastClass.SelectedItem;
                 byte cmbId = cmb.Id;
                 if (cmb != null && (_currentLabBookBasic.ContrastClassId != cmbId))
                 {
@@ -775,7 +775,7 @@ namespace Laboratorium.LabBook.Service
 
             if (_currentLabBookBasic != null)
             {
-                ScrubClassDto cmb = (ScrubClassDto)_form.GetCmbScrubClass.SelectedItem;
+                CmbScrubClassDto cmb = (CmbScrubClassDto)_form.GetCmbScrubClass.SelectedItem;
                 byte cmbId = cmb.Id;
                 if (cmb != null && (_currentLabBookBasic.ScrubClassId != cmbId))
                 {
@@ -793,7 +793,7 @@ namespace Laboratorium.LabBook.Service
 
             if (_currentLabBookBasic != null)
             {
-                VocClassDto cmb = (VocClassDto)_form.GetCmbVocClass.SelectedItem;
+                CmbVocClassDto cmb = (CmbVocClassDto)_form.GetCmbVocClass.SelectedItem;
                 byte cmbId = cmb.Id;
                 if (cmb != null && (_currentLabBookBasic.VocClassId != cmbId))
                 {

@@ -1,14 +1,16 @@
 ﻿namespace Laboratorium.ADO.DTO
 {
-    public class VocClassDto
+    public class CmbScrubClassDto
     {
         public byte Id { get; }
         public string NamePl { get; }
+        public string NameEn { get; }
 
-        public VocClassDto(byte id, string namePl)
+        public CmbScrubClassDto(byte id, string namePl, string nameEn)
         {
             Id = id;
             NamePl = namePl;
+            NameEn = nameEn;
         }
     }
 }
