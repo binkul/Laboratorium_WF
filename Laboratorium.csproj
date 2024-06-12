@@ -58,6 +58,9 @@
     <Compile Include="ADO\DTO\LaboDataViscosityColDto.cs" />
     <Compile Include="ADO\DTO\LaboDataViscosityDto.cs" />
     <Compile Include="ADO\DTO\LaboDto.cs" />
+    <Compile Include="ADO\DTO\MaterialClpCodeDto.cs" />
+    <Compile Include="ADO\DTO\MaterialClpGhsDto.cs" />
+    <Compile Include="ADO\DTO\MaterialClpSignalDto.cs" />
     <Compile Include="ADO\DTO\MaterialDto.cs" />
     <Compile Include="ADO\DTO\NormDetailDto.cs" />
     <Compile Include="ADO\DTO\NormDto.cs" />
@@ -83,6 +86,8 @@
     <Compile Include="ADO\SqlDataConstant\SqlUpdate.cs" />
     <Compile Include="ADO\SqlIndex.cs" />
     <Compile Include="ADO\Tables\Table.cs" />
+    <Compile Include="ClpData\Repository\CmbClpHcodeRepository.cs" />
+    <Compile Include="ClpData\Repository\CmbClpPcodeRepository.cs" />
     <Compile Include="Commons\CommonData.cs" />
     <Compile Include="Commons\CommonFunction.cs" />
     <Compile Include="Commons\SerializeClass.cs" />
@@ -122,6 +127,14 @@
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Login\Repository\LoginRepository.cs" />
+    <Compile Include="Material\Forms\MaterialForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Material\Forms\MaterialForm.Designer.cs">
+      <DependentUpon>MaterialForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Material\Repository\MaterialRepository.cs" />
+    <Compile Include="Material\Service\MaterialService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Project\Forms\FindProjectForm.cs">
       <SubType>Form</SubType>
@@ -148,6 +161,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Login\Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Material\Forms\MaterialForm.resx">
+      <DependentUpon>MaterialForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Project\Forms\FindProjectForm.resx">
       <DependentUpon>FindProjectForm.cs</DependentUpon>

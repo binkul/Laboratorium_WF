@@ -20,6 +20,11 @@
 
         ProjectIndex,
         ProjectSubCatIndex,
-        ProjectMemberIndex
+        ProjectMemberIndex,
+
+        MaterialIndex,
+
+        ClpHcodeIndex,
+        ClpPcodeIndex
     }
 }

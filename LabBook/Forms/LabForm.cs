@@ -311,5 +311,14 @@ namespace Laboratorium.LabBook.Forms
 
         #endregion
 
+
+        #region Manu -> Windows
+
+        private void MaterialToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _service.OpenMaterialForm();
+        }
+
+        #endregion
     }
 }

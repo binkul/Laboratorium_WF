@@ -5,6 +5,7 @@ using Laboratorium.ADO.Service;
 using Laboratorium.Commons;
 using Laboratorium.LabBook.Forms;
 using Laboratorium.LabBook.Repository;
+using Laboratorium.Material.Forms;
 using Laboratorium.Project.Forms;
 using Laboratorium.Project.Repository;
 using Laboratorium.User.Repository;
@@ -70,9 +71,7 @@ namespace Laboratorium.LabBook.Service
             _form = form;
             _repositoryLabo = new LabBookRepository(_connection, this);
             _repositoryLaboBasic = new LabBookBasicDataRepository(_connection, this);
-            //_repositoryViscosity = new LabBookViscosityRepository(_connection, this);
             _repositoryViscosityCol = new LabBookViscosityColRepository(_connection);
-            //_repositoryContrast = new LabBookContrastRepository(_connection, this);
             _repositoryUser = new UserRepository(_connection);
             _repositoryProject = new ProjectRepository(_connection);
 
@@ -102,9 +101,6 @@ namespace Laboratorium.LabBook.Service
                 .Select(i => i.LaboBasicData)
                 .Where(i => i.GetRowState != RowState.UNCHANGED)
                 .Any();
-            //bool visModify = _laboViscosityList
-            //    .Where(i => i.GetRowState != RowState.UNCHANGED)
-            //    .Any();
 
             bool visModify = _viscosityService.IsModified();
             bool conModify = _contrastService.IsModified();
@@ -137,8 +133,8 @@ namespace Laboratorium.LabBook.Service
         {
             IDictionary<string, double> list = new Dictionary<string, double>();
 
-            list.Add(FORM_TOP, _form.Left);
-            list.Add(FORM_LEFT, _form.Top);
+            list.Add(FORM_TOP, _form.Top);
+            list.Add(FORM_LEFT, _form.Left);
             list.Add(FORM_WIDTH, _form.Width);
             list.Add(FORM_HEIGHT, _form.Height);
 
@@ -527,7 +523,7 @@ namespace Laboratorium.LabBook.Service
         #endregion
 
 
-        #region Current/Binkding/Navigation/DataTable
+        #region Current/Binkding/Navigation
 
         private void LaboBinding_PositionChanged(object sender, EventArgs e)
         {
@@ -1326,6 +1322,14 @@ namespace Laboratorium.LabBook.Service
         public void ApplicatorInsert(int type)
         {
             _contrastService.AddNew(type);
+        }
+
+        public void OpenMaterialForm()
+        {
+            using (MaterialForm form = new MaterialForm(_connection, _user))
+            {
+                form.ShowDialog();
+            }
         }
 
         #endregion

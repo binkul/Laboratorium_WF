@@ -83,5 +83,9 @@
         // table Users
         public static readonly string USER_TABLE = "LaboUsers";
 
+        // Material
+        public static readonly string MATERIAL_TABLE = "Material";
+        public static readonly string CLP_H_CODE_TABLE = "CmbClpHcode";
+        public static readonly string CLP_P_CODE_TABLE = "CmbClpPcode";
     }
 }
