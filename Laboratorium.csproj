@@ -52,6 +52,7 @@
     <Compile Include="ADO\DTO\CmbClpSignalDto.cs" />
     <Compile Include="ADO\DTO\CmbContrastClassDto.cs" />
     <Compile Include="ADO\DTO\CmbGlossClassDto.cs" />
+    <Compile Include="ADO\DTO\CmbUnitDto.cs" />
     <Compile Include="ADO\DTO\LaboDataBasicDto.cs" />
     <Compile Include="ADO\DTO\LaboDataContrastDto.cs" />
     <Compile Include="ADO\DTO\LaboDataNormTestDto.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="Material\Forms\MaterialForm.Designer.cs">
       <DependentUpon>MaterialForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Material\Repository\CmbUnitRepository.cs" />
     <Compile Include="Material\Repository\MaterialRepository.cs" />
     <Compile Include="Material\Service\MaterialService.cs" />
     <Compile Include="Program.cs" />

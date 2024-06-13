@@ -59,10 +59,10 @@ namespace Laboratorium.LabBook.Service
         private IList<CmbGlossClassDto> _glossClassList;
         private IList<CmbScrubClassDto> _scrubClassList;
         private IList<CmbVocClassDto> _vocClassList;
-
         private IDictionary<string, double> _formData = CommonFunction.LoadWindowsDataAsDictionary(FORM_DATA);
         internal LaboDto CurrentLabBook => _laboBinding != null && _laboBinding.Count > 0 ? (LaboDto)_laboBinding.Current : null;
         private LaboDataBasicDto _currentLabBookBasic => _laboBasicBinding != null ? (LaboDataBasicDto)_laboBasicBinding.Current : null;
+  
         
         public LabBookService(SqlConnection connection, UserDto user, LabForm form)
         {
@@ -112,7 +112,9 @@ namespace Laboratorium.LabBook.Service
         }
 
         private bool IsAdmin => CurrentLabBook != null ? _user.Permission.ToLower() == "admin" : false;
+
         private bool IsValidUser => CurrentLabBook != null ? _user.Id == CurrentLabBook.UserId : false;
+
         public IDictionary<string, double> GetFormData => _formData;
 
 

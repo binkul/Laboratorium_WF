@@ -23,6 +23,7 @@
         ProjectMemberIndex,
 
         MaterialIndex,
+        UnitIndex,
 
         ClpHcodeIndex,
         ClpPcodeIndex

@@ -16,6 +16,26 @@ namespace Laboratorium.Material.Forms
         public BindingNavigator GetBindingNavigator => BindingNavigatorMaterial;
         public DataGridView GetDgvMaterial => DgvMaterial;
         public TextBox GetTxtName => TxtName;
+        public TextBox GetTxtIndex => TxtIndex;
+        public TextBox GetTxtDensity => TxtDensity;
+        public TextBox GetTxtSolids => TxtSolids;
+        public TextBox GetTxtAsh => TxtAsh450;
+        public TextBox GetTxtPrice => TxtPrice;
+        public TextBox GetTxtPriceQuantity => TxtPriceQuantity;
+        public TextBox GetTxtTransport => TxtTransport;
+        public TextBox GetTxtQuantity => TxtQuantity;
+        public TextBox GetTxtRemarks => TxtRemarks;
+        public ComboBox GetCmbFunction => CmbFunction;
+        public ComboBox GetCmbSupplier => CmbSupplier;
+        public ComboBox GetCmbVoc => CmbVoc;
+        public ComboBox GetCmbCurrency => CmbCurrency;
+        public ComboBox GetCmbUnit => CmbUnit;
+        public CheckBox GetChbDanger => ChbClp;
+        public CheckBox GetChbActive => ChbActive;
+        public CheckBox GetChbProduction => ChbProduction;
+        public CheckBox GetChbPacking => ChbPacking;
+        public CheckBox GetChbSample => ChbSample;
+        public CheckBox GetChbSemiproduct => ChbSemiproduct;
         public Label GetLblDateCreated => LblDateCreated;
 
 

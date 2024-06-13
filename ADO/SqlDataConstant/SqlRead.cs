@@ -36,6 +36,7 @@ namespace Laboratorium.ADO.SqlDataConstant
                 "hc.date_created from Konkurencja.dbo.CmbClpHcode hc left join Konkurencja.dbo.CmbClpGHScode ghs on hc.ghs_id=ghs.id left join Konkurencja.dbo.CmbClpSignalWord " +
                 "sig on hc.signal_word_id=sig.id Order By ordering" },
             {SqlIndex.ClpPcodeIndex, "Select hc.id, hc.code, hc.[description], hc.ordering, hc.date_created from Konkurencja.dbo.CmbClpPcode hc Order By ordering" },
+            {SqlIndex.UnitIndex, "Select id, name_pl, [description] From Konkurencja.dbo.CmbUnits Order By id" },
         };
 
         public static readonly Dictionary<SqlIndex, string> ReadByName = new Dictionary<SqlIndex, string>

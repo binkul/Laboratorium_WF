@@ -87,27 +87,27 @@ namespace Laboratorium.Material.Forms
             this.CmbUnit = new System.Windows.Forms.ComboBox();
             this.panel4 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.ChbSemiproduct = new System.Windows.Forms.CheckBox();
+            this.ChbSample = new System.Windows.Forms.CheckBox();
+            this.ChbPacking = new System.Windows.Forms.CheckBox();
+            this.ChbActive = new System.Windows.Forms.CheckBox();
+            this.ChbProduction = new System.Windows.Forms.CheckBox();
+            this.label24 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.ChbClp = new System.Windows.Forms.CheckBox();
+            this.TxtRemarks = new System.Windows.Forms.TextBox();
+            this.label25 = new System.Windows.Forms.Label();
             this.TbClp = new System.Windows.Forms.TabPage();
             this.TbComposition = new System.Windows.Forms.TabPage();
             this.BtnAdd = new System.Windows.Forms.Button();
             this.BtnSave = new System.Windows.Forms.Button();
             this.BtnDelete = new System.Windows.Forms.Button();
             this.LblDateCreated = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.ChbClp = new System.Windows.Forms.CheckBox();
-            this.ChbProduction = new System.Windows.Forms.CheckBox();
-            this.ChbActive = new System.Windows.Forms.CheckBox();
-            this.ChbPacking = new System.Windows.Forms.CheckBox();
-            this.ChbSample = new System.Windows.Forms.CheckBox();
-            this.ChbSemiproduct = new System.Windows.Forms.CheckBox();
-            this.TxtRemarks = new System.Windows.Forms.TextBox();
-            this.label25 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.BindingNavigatorMaterial)).BeginInit();
             this.BindingNavigatorMaterial.SuspendLayout();
             this.TbMaterial.SuspendLayout();
@@ -207,6 +207,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.bindingNavigatorPositionItem.AccessibleName = "Pozycja";
             this.bindingNavigatorPositionItem.AutoSize = false;
+            this.bindingNavigatorPositionItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
             this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 27);
             this.bindingNavigatorPositionItem.Text = "0";
@@ -330,7 +331,7 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 21F));
             this.tableLayoutPanel1.Controls.Add(this.panel1, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.panel2, 1, 6);
             this.tableLayoutPanel1.Controls.Add(this.panel3, 4, 1);
@@ -414,9 +415,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel2.SetColumnSpan(this.label2, 2);
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label2.ForeColor = System.Drawing.Color.Blue;
-            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Location = new System.Drawing.Point(3, 1);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(284, 24);
+            this.label2.Size = new System.Drawing.Size(284, 22);
             this.label2.TabIndex = 0;
             this.label2.Text = "Dane podstawowe";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -456,7 +457,7 @@ namespace Laboratorium.Material.Forms
             this.CmbFunction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbFunction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbFunction.FormattingEnabled = true;
-            this.CmbFunction.Location = new System.Drawing.Point(123, 73);
+            this.CmbFunction.Location = new System.Drawing.Point(123, 71);
             this.CmbFunction.Name = "CmbFunction";
             this.CmbFunction.Size = new System.Drawing.Size(164, 28);
             this.CmbFunction.TabIndex = 5;
@@ -466,7 +467,7 @@ namespace Laboratorium.Material.Forms
             this.CmbSupplier.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbSupplier.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbSupplier.FormattingEnabled = true;
-            this.CmbSupplier.Location = new System.Drawing.Point(123, 111);
+            this.CmbSupplier.Location = new System.Drawing.Point(123, 113);
             this.CmbSupplier.Name = "CmbSupplier";
             this.CmbSupplier.Size = new System.Drawing.Size(164, 28);
             this.CmbSupplier.TabIndex = 6;
@@ -532,9 +533,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel3.SetColumnSpan(this.label6, 2);
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label6.ForeColor = System.Drawing.Color.Blue;
-            this.label6.Location = new System.Drawing.Point(3, 0);
+            this.label6.Location = new System.Drawing.Point(3, 1);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(284, 24);
+            this.label6.Size = new System.Drawing.Size(284, 22);
             this.label6.TabIndex = 1;
             this.label6.Text = "Fizykochemia";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -600,7 +601,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.CmbVoc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbVoc.FormattingEnabled = true;
-            this.CmbVoc.Location = new System.Drawing.Point(123, 153);
+            this.CmbVoc.Location = new System.Drawing.Point(123, 151);
             this.CmbVoc.Name = "CmbVoc";
             this.CmbVoc.Size = new System.Drawing.Size(164, 28);
             this.CmbVoc.TabIndex = 9;
@@ -660,9 +661,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel4.SetColumnSpan(this.label11, 2);
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label11.ForeColor = System.Drawing.Color.Blue;
-            this.label11.Location = new System.Drawing.Point(3, 0);
+            this.label11.Location = new System.Drawing.Point(3, 1);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(284, 24);
+            this.label11.Size = new System.Drawing.Size(284, 22);
             this.label11.TabIndex = 1;
             this.label11.Text = "Cennik";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -770,7 +771,7 @@ namespace Laboratorium.Material.Forms
             this.CmbCurrency.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbCurrency.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbCurrency.FormattingEnabled = true;
-            this.CmbCurrency.Location = new System.Drawing.Point(123, 73);
+            this.CmbCurrency.Location = new System.Drawing.Point(123, 71);
             this.CmbCurrency.Name = "CmbCurrency";
             this.CmbCurrency.Size = new System.Drawing.Size(136, 28);
             this.CmbCurrency.TabIndex = 12;
@@ -780,7 +781,7 @@ namespace Laboratorium.Material.Forms
             this.CmbUnit.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbUnit.FormattingEnabled = true;
-            this.CmbUnit.Location = new System.Drawing.Point(123, 112);
+            this.CmbUnit.Location = new System.Drawing.Point(123, 113);
             this.CmbUnit.Name = "CmbUnit";
             this.CmbUnit.Size = new System.Drawing.Size(136, 28);
             this.CmbUnit.TabIndex = 13;
@@ -832,6 +833,67 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel5.Size = new System.Drawing.Size(186, 266);
             this.tableLayoutPanel5.TabIndex = 0;
             // 
+            // ChbSemiproduct
+            // 
+            this.ChbSemiproduct.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.ChbSemiproduct.AutoSize = true;
+            this.ChbSemiproduct.Location = new System.Drawing.Point(153, 237);
+            this.ChbSemiproduct.Name = "ChbSemiproduct";
+            this.ChbSemiproduct.Size = new System.Drawing.Size(18, 17);
+            this.ChbSemiproduct.TabIndex = 14;
+            this.ChbSemiproduct.UseVisualStyleBackColor = true;
+            // 
+            // ChbSample
+            // 
+            this.ChbSample.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.ChbSample.AutoSize = true;
+            this.ChbSample.Location = new System.Drawing.Point(153, 196);
+            this.ChbSample.Name = "ChbSample";
+            this.ChbSample.Size = new System.Drawing.Size(18, 17);
+            this.ChbSample.TabIndex = 13;
+            this.ChbSample.UseVisualStyleBackColor = true;
+            // 
+            // ChbPacking
+            // 
+            this.ChbPacking.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.ChbPacking.AutoSize = true;
+            this.ChbPacking.Location = new System.Drawing.Point(153, 156);
+            this.ChbPacking.Name = "ChbPacking";
+            this.ChbPacking.Size = new System.Drawing.Size(18, 17);
+            this.ChbPacking.TabIndex = 12;
+            this.ChbPacking.UseVisualStyleBackColor = true;
+            // 
+            // ChbActive
+            // 
+            this.ChbActive.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.ChbActive.AutoSize = true;
+            this.ChbActive.Location = new System.Drawing.Point(153, 116);
+            this.ChbActive.Name = "ChbActive";
+            this.ChbActive.Size = new System.Drawing.Size(18, 17);
+            this.ChbActive.TabIndex = 11;
+            this.ChbActive.UseVisualStyleBackColor = true;
+            // 
+            // ChbProduction
+            // 
+            this.ChbProduction.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.ChbProduction.AutoSize = true;
+            this.ChbProduction.Location = new System.Drawing.Point(153, 76);
+            this.ChbProduction.Name = "ChbProduction";
+            this.ChbProduction.Size = new System.Drawing.Size(18, 17);
+            this.ChbProduction.TabIndex = 10;
+            this.ChbProduction.UseVisualStyleBackColor = true;
+            // 
+            // label24
+            // 
+            this.label24.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(3, 235);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(144, 20);
+            this.label24.TabIndex = 8;
+            this.label24.Text = "Półprodukt";
+            this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // label18
             // 
             this.label18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -839,9 +901,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel5.SetColumnSpan(this.label18, 2);
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label18.ForeColor = System.Drawing.Color.Blue;
-            this.label18.Location = new System.Drawing.Point(3, 0);
+            this.label18.Location = new System.Drawing.Point(3, 1);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(180, 24);
+            this.label18.Size = new System.Drawing.Size(180, 22);
             this.label18.TabIndex = 2;
             this.label18.Text = "Zastosowanie";
             this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -856,6 +918,86 @@ namespace Laboratorium.Material.Forms
             this.label19.TabIndex = 3;
             this.label19.Text = "Niebiezpieczny";
             this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label20
+            // 
+            this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(3, 75);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(144, 20);
+            this.label20.TabIndex = 4;
+            this.label20.Text = "Produkcyjny";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label21
+            // 
+            this.label21.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(3, 115);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(144, 20);
+            this.label21.TabIndex = 5;
+            this.label21.Text = "Aktywny";
+            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label22
+            // 
+            this.label22.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(3, 155);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(144, 20);
+            this.label22.TabIndex = 6;
+            this.label22.Text = "Opakowanie";
+            this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label23
+            // 
+            this.label23.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(3, 195);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(144, 20);
+            this.label23.TabIndex = 7;
+            this.label23.Text = "Próbka";
+            this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // ChbClp
+            // 
+            this.ChbClp.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.ChbClp.AutoSize = true;
+            this.ChbClp.Location = new System.Drawing.Point(153, 36);
+            this.ChbClp.Name = "ChbClp";
+            this.ChbClp.Size = new System.Drawing.Size(18, 17);
+            this.ChbClp.TabIndex = 9;
+            this.ChbClp.UseVisualStyleBackColor = true;
+            // 
+            // TxtRemarks
+            // 
+            this.TxtRemarks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.SetColumnSpan(this.TxtRemarks, 8);
+            this.TxtRemarks.Location = new System.Drawing.Point(23, 413);
+            this.TxtRemarks.Multiline = true;
+            this.TxtRemarks.Name = "TxtRemarks";
+            this.TxtRemarks.Size = new System.Drawing.Size(832, 53);
+            this.TxtRemarks.TabIndex = 4;
+            // 
+            // label25
+            // 
+            this.label25.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label25.ForeColor = System.Drawing.Color.Blue;
+            this.label25.Location = new System.Drawing.Point(342, 378);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(144, 22);
+            this.label25.TabIndex = 5;
+            this.label25.Text = "Uwagi";
+            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // TbClp
             // 
@@ -922,150 +1064,9 @@ namespace Laboratorium.Material.Forms
             this.LblDateCreated.Location = new System.Drawing.Point(634, 39);
             this.LblDateCreated.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblDateCreated.Name = "LblDateCreated";
-            this.LblDateCreated.Size = new System.Drawing.Size(246, 24);
+            this.LblDateCreated.Size = new System.Drawing.Size(241, 22);
             this.LblDateCreated.TabIndex = 25;
             this.LblDateCreated.Text = "Utworzenie: 00-00-0000   ";
-            // 
-            // label20
-            // 
-            this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(3, 75);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(144, 20);
-            this.label20.TabIndex = 4;
-            this.label20.Text = "Produkcyjny";
-            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label21
-            // 
-            this.label21.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(3, 115);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(144, 20);
-            this.label21.TabIndex = 5;
-            this.label21.Text = "Aktywny";
-            this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label22
-            // 
-            this.label22.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(3, 155);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(144, 20);
-            this.label22.TabIndex = 6;
-            this.label22.Text = "Opakowanie";
-            this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label23
-            // 
-            this.label23.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(3, 195);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(144, 20);
-            this.label23.TabIndex = 7;
-            this.label23.Text = "Próbka";
-            this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label24
-            // 
-            this.label24.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(3, 235);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(144, 20);
-            this.label24.TabIndex = 8;
-            this.label24.Text = "Półprodukt";
-            this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // ChbClp
-            // 
-            this.ChbClp.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.ChbClp.AutoSize = true;
-            this.ChbClp.Location = new System.Drawing.Point(153, 36);
-            this.ChbClp.Name = "ChbClp";
-            this.ChbClp.Size = new System.Drawing.Size(18, 17);
-            this.ChbClp.TabIndex = 9;
-            this.ChbClp.UseVisualStyleBackColor = true;
-            // 
-            // ChbProduction
-            // 
-            this.ChbProduction.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.ChbProduction.AutoSize = true;
-            this.ChbProduction.Location = new System.Drawing.Point(153, 76);
-            this.ChbProduction.Name = "ChbProduction";
-            this.ChbProduction.Size = new System.Drawing.Size(18, 17);
-            this.ChbProduction.TabIndex = 10;
-            this.ChbProduction.UseVisualStyleBackColor = true;
-            // 
-            // ChbActive
-            // 
-            this.ChbActive.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.ChbActive.AutoSize = true;
-            this.ChbActive.Location = new System.Drawing.Point(153, 116);
-            this.ChbActive.Name = "ChbActive";
-            this.ChbActive.Size = new System.Drawing.Size(18, 17);
-            this.ChbActive.TabIndex = 11;
-            this.ChbActive.UseVisualStyleBackColor = true;
-            // 
-            // ChbPacking
-            // 
-            this.ChbPacking.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.ChbPacking.AutoSize = true;
-            this.ChbPacking.Location = new System.Drawing.Point(153, 156);
-            this.ChbPacking.Name = "ChbPacking";
-            this.ChbPacking.Size = new System.Drawing.Size(18, 17);
-            this.ChbPacking.TabIndex = 12;
-            this.ChbPacking.UseVisualStyleBackColor = true;
-            // 
-            // ChbSample
-            // 
-            this.ChbSample.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.ChbSample.AutoSize = true;
-            this.ChbSample.Location = new System.Drawing.Point(153, 196);
-            this.ChbSample.Name = "ChbSample";
-            this.ChbSample.Size = new System.Drawing.Size(18, 17);
-            this.ChbSample.TabIndex = 13;
-            this.ChbSample.UseVisualStyleBackColor = true;
-            // 
-            // ChbSemiproduct
-            // 
-            this.ChbSemiproduct.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.ChbSemiproduct.AutoSize = true;
-            this.ChbSemiproduct.Location = new System.Drawing.Point(153, 237);
-            this.ChbSemiproduct.Name = "ChbSemiproduct";
-            this.ChbSemiproduct.Size = new System.Drawing.Size(18, 17);
-            this.ChbSemiproduct.TabIndex = 14;
-            this.ChbSemiproduct.UseVisualStyleBackColor = true;
-            // 
-            // TxtRemarks
-            // 
-            this.TxtRemarks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel1.SetColumnSpan(this.TxtRemarks, 8);
-            this.TxtRemarks.Location = new System.Drawing.Point(23, 413);
-            this.TxtRemarks.Multiline = true;
-            this.TxtRemarks.Name = "TxtRemarks";
-            this.TxtRemarks.Size = new System.Drawing.Size(832, 53);
-            this.TxtRemarks.TabIndex = 4;
-            // 
-            // label25
-            // 
-            this.label25.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label25.AutoSize = true;
-            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label25.ForeColor = System.Drawing.Color.Blue;
-            this.label25.Location = new System.Drawing.Point(342, 376);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(144, 24);
-            this.label25.TabIndex = 5;
-            this.label25.Text = "Uwagi";
-            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MaterialForm
             // 

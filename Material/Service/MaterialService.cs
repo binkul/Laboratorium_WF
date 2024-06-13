@@ -1,5 +1,6 @@
 ﻿using Laboratorium.ADO;
 using Laboratorium.ADO.DTO;
+using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.Service;
 using Laboratorium.ClpData.Repository;
 using Laboratorium.Commons;
@@ -15,6 +16,9 @@ namespace Laboratorium.Material.Service
 {
     public class MaterialService : IService
     {
+        private const string ID = "Id";
+        private const string NAME_PL = "NamePl";
+
         private const string FORM_TOP = "Form_Top";
         private const string FORM_LEFT = "Form_Left";
         private const string FORM_WIDTH = "Form_Width";
@@ -22,13 +26,16 @@ namespace Laboratorium.Material.Service
         private const string FORM_DATA = "MaterialForm";
         private const int STD_WIDTH = 100;
 
-        private readonly SqlConnection _connection;
+        private bool _cmbBlock = false;
         private readonly UserDto _user;
         private readonly MaterialForm _form;
-        private readonly CmbClpHcodeRepository _codeHrepository;
-        private readonly CmbClpPcodeRepository _codePrepository;
-        private readonly MaterialRepository _repository;
+        private readonly SqlConnection _connection;
+        private readonly IBasicCRUD<CmbUnitDto> _unitRepository;
+        private readonly IBasicCRUD<CmbClpHcodeDto> _codeHrepository;
+        private readonly IBasicCRUD<CmbClpPcodeDto> _codePrepository;
+        private readonly IExtendedCRUD<MaterialDto> _repository;
         private IList<MaterialDto> _materialList;
+        private IList<CmbUnitDto> _unitList;
         private BindingSource _materialBinding;
         public MaterialDto CurrentMaterial;
 
@@ -42,6 +49,7 @@ namespace Laboratorium.Material.Service
 
             _codeHrepository = new CmbClpHcodeRepository(_connection);
             _codePrepository = new CmbClpPcodeRepository(_connection);
+            _unitRepository = new CmbUnitRepository(_connection);
             _repository = new MaterialRepository(_connection, this);
         }
 
@@ -128,6 +136,9 @@ namespace Laboratorium.Material.Service
 
         #endregion
 
+
+        #region Prepare Data
+
         public void PrepareAllData()
         {
             #region Tables/Views/Bindings
@@ -138,9 +149,12 @@ namespace Laboratorium.Material.Service
             _form.GetBindingNavigator.BindingSource = _materialBinding;
             _materialBinding.PositionChanged += MaterialBinding_PositionChanged;
 
+            _unitList = _unitRepository.GetAll();
+
             #endregion
 
             PreparaeDgvMaterial();
+            PrepareCombBoxes();
             PrepareOtherControls();
 
             MaterialBinding_PositionChanged(null, null);
@@ -240,15 +254,59 @@ namespace Laboratorium.Material.Service
         private void PrepareOtherControls()
         {
             _form.GetTxtName.DataBindings.Clear();
+            _form.GetTxtIndex.DataBindings.Clear();
+            _form.GetTxtDensity.DataBindings.Clear();
+            _form.GetTxtSolids.DataBindings.Clear();
+            _form.GetTxtAsh.DataBindings.Clear();
+            _form.GetTxtPrice.DataBindings.Clear();
+            _form.GetTxtPriceQuantity.DataBindings.Clear();
+            _form.GetTxtTransport.DataBindings.Clear();
+            _form.GetTxtQuantity.DataBindings.Clear();
+            _form.GetTxtRemarks.DataBindings.Clear();
+            _form.GetChbDanger.DataBindings.Clear();
+            _form.GetChbActive.DataBindings.Clear();
+            _form.GetChbPacking.DataBindings.Clear();
+            _form.GetChbProduction.DataBindings.Clear();
+            _form.GetChbSample.DataBindings.Clear();
+            _form.GetChbSemiproduct.DataBindings.Clear();
 
 
             _form.GetTxtName.DataBindings.Add("Text", _materialBinding, "Name");
+            _form.GetTxtIndex.DataBindings.Add("Text", _materialBinding, "Index");
+            _form.GetTxtDensity.DataBindings.Add("Text", _materialBinding, "Density");
+            _form.GetTxtSolids.DataBindings.Add("Text", _materialBinding, "Solids");
+            _form.GetTxtAsh.DataBindings.Add("Text", _materialBinding, "Ash450");
+            _form.GetTxtPrice.DataBindings.Add("Text", _materialBinding, "Price");
+            _form.GetTxtPriceQuantity.DataBindings.Add("Text", _materialBinding, "PricePerQuantity");
+            _form.GetTxtTransport.DataBindings.Add("Text", _materialBinding, "PriceTransport");
+            _form.GetTxtQuantity.DataBindings.Add("Text", _materialBinding, "Quantity");
+            _form.GetTxtRemarks.DataBindings.Add("Text", _materialBinding, "Remarks");
+            _form.GetChbDanger.DataBindings.Add("Checked", _materialBinding, "IsDanger");
+            _form.GetChbActive.DataBindings.Add("Checked", _materialBinding, "IsActive");
+            _form.GetChbPacking.DataBindings.Add("Checked", _materialBinding, "IsPackage");
+            _form.GetChbProduction.DataBindings.Add("Checked", _materialBinding, "IsProduction");
+            _form.GetChbSample.DataBindings.Add("Checked", _materialBinding, "IsObserved");
+            _form.GetChbSemiproduct.DataBindings.Add("Checked", _materialBinding, "IsIntermediate");
         }
+
+        private void PrepareCombBoxes()
+        {
+            _form.GetCmbUnit.DataSource = _unitList;
+            _form.GetCmbUnit.ValueMember = ID;
+            _form.GetCmbUnit.DisplayMember = NAME_PL;
+            _form.GetCmbUnit.SelectedIndexChanged += CmbUnit_SelectedIndexChanged;
+
+        }
+
+        #endregion
+
 
         #region Current/Binkding/Navigation
 
         private void MaterialBinding_PositionChanged(object sender, System.EventArgs e)
         {
+            _cmbBlock = true;
+
             #region Get Current Material
 
             if (_materialBinding == null || _materialBinding.Count == 0)
@@ -278,7 +336,42 @@ namespace Laboratorium.Material.Service
 
             #endregion
 
+            #region Synchronize Combo Gloss Units
 
+            if (CurrentMaterial != null)
+            {
+                _form.GetCmbUnit.SelectedValue = CurrentMaterial.UnitId;
+            }
+            else
+            {
+                _form.GetCmbUnit.SelectedIndex = _form.GetCmbUnit.Items.Count > 0 ? 0 : -1;
+            }
+
+            #endregion
+
+            _cmbBlock = false;
+        }
+
+        #endregion
+
+
+        #region ComboBox Events
+
+        private void CmbUnit_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_cmbBlock)
+                return;
+
+            if (CurrentMaterial != null)
+            {
+                CmbUnitDto cmb = (CmbUnitDto)_form.GetCmbUnit.SelectedItem;
+                byte cmbId = cmb.Id;
+                if (cmb != null && (CurrentMaterial.UnitId != cmbId))
+                {
+                    CurrentMaterial.UnitId = cmbId;
+                    _materialBinding.EndEdit();
+                }
+            }
         }
 
         #endregion
