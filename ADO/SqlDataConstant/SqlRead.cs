@@ -25,9 +25,13 @@ namespace Laboratorium.ADO.SqlDataConstant
             {SqlIndex.UserIndex, "Select id, name, surname, e_mail, [login], permission, identifier, active, date_created From Konkurencja.dbo.LaboUsers" },
             {SqlIndex.ProjectIndex, "Select id, name, comments, is_archive, is_labo, is_auction, local_disc, [date], ovner From Konkurencja.dbo.Project Order By Id" },
             {SqlIndex.ProjectSubCatIndex, "Select id, project_id, name, date_created From Konkurencja.dbo.ProjectSubCategory Order By project_id, name" },
-            {SqlIndex.MaterialIndex, "Select id, name, index_db, supplier_id, function_id, is_intermediate, is_danger, is_production, is_observed, is_active, is_package, price, " +
-                "price_per_quantity, price_transport, quantity, currency_id, unit_id, density, solids, ash_450, VOC, remarks, date_created, date_updated " +
-                "from Konkurencja.dbo.Material Order by id" },
+            {SqlIndex.MaterialIndex, "Select mat.id, name, index_db, supplier_id, function_id, is_intermediate, is_danger, is_production, is_observed, is_active, is_package, price, price_per_quantity, price_transport, quantity, currency_id, " +
+                "unit_id, CASE WHEN mat.currency_id = 1 " +
+                "THEN ('-- / ' + uni.name_pl) " +
+                "ELSE (cur.currency + ' / ' + uni.name_pl) " +
+                "END As price_unit, " +
+                "density, solids, ash_450, VOC, (CAST (VOC as varchar) + '%') As voc_per, remarks, date_created, date_updated From Konkurencja.dbo.Material mat left join Konkurencja.dbo.CmbCurrency cur on mat.currency_id=cur.id " +
+                "left join Konkurencja.dbo.CmbUnits uni on mat.unit_id=uni.id Order by mat.id" },
             {SqlIndex.ClpHcodeIndex, "Select hc.id, hc.[class], hc.code, hc.[description], hc.ordering, hc.ghs_id, ghs.[description], hc.signal_word_id, sig.name_pl, " +
                 "hc.date_created from Konkurencja.dbo.CmbClpHcode hc left join Konkurencja.dbo.CmbClpGHScode ghs on hc.ghs_id=ghs.id left join Konkurencja.dbo.CmbClpSignalWord " +
                 "sig on hc.signal_word_id=sig.id Order By ordering" },

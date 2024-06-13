@@ -177,6 +177,8 @@
             this.Wire250ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Wire300ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NormsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oknaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MaterialToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BtnDelete = new System.Windows.Forms.Button();
             this.BtnSave = new System.Windows.Forms.Button();
             this.LblDateCreated = new System.Windows.Forms.Label();
@@ -187,8 +189,6 @@
             this.BtnAddMany = new System.Windows.Forms.Button();
             this.BtnUp = new System.Windows.Forms.Button();
             this.BtnDown = new System.Windows.Forms.Button();
-            this.oknaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MaterialToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.BindingNavigatorLabo)).BeginInit();
             this.BindingNavigatorLabo.SuspendLayout();
             this.TabLabo.SuspendLayout();
@@ -546,7 +546,7 @@
             this.CmbScrubClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbScrubClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbScrubClass.FormattingEnabled = true;
-            this.CmbScrubClass.Location = new System.Drawing.Point(205, 203);
+            this.CmbScrubClass.Location = new System.Drawing.Point(205, 202);
             this.CmbScrubClass.Name = "CmbScrubClass";
             this.CmbScrubClass.Size = new System.Drawing.Size(159, 28);
             this.CmbScrubClass.TabIndex = 3;
@@ -761,7 +761,7 @@
             this.CmbGlossClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbGlossClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbGlossClass.FormattingEnabled = true;
-            this.CmbGlossClass.Location = new System.Drawing.Point(207, 246);
+            this.CmbGlossClass.Location = new System.Drawing.Point(207, 245);
             this.CmbGlossClass.Name = "CmbGlossClass";
             this.CmbGlossClass.Size = new System.Drawing.Size(224, 28);
             this.CmbGlossClass.TabIndex = 10;
@@ -886,7 +886,7 @@
             this.CmbContrastClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbContrastClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbContrastClass.FormattingEnabled = true;
-            this.CmbContrastClass.Location = new System.Drawing.Point(205, 120);
+            this.CmbContrastClass.Location = new System.Drawing.Point(205, 118);
             this.CmbContrastClass.Name = "CmbContrastClass";
             this.CmbContrastClass.Size = new System.Drawing.Size(149, 28);
             this.CmbContrastClass.TabIndex = 5;
@@ -955,7 +955,7 @@
             this.CmbVocClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbVocClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbVocClass.FormattingEnabled = true;
-            this.CmbVocClass.Location = new System.Drawing.Point(205, 83);
+            this.CmbVocClass.Location = new System.Drawing.Point(205, 82);
             this.CmbVocClass.Name = "CmbVocClass";
             this.CmbVocClass.Size = new System.Drawing.Size(298, 28);
             this.CmbVocClass.TabIndex = 12;
@@ -1635,7 +1635,7 @@
             this.wybraneToolStripMenuItem});
             this.ApplicatorToolStripMenuItem.Enabled = false;
             this.ApplicatorToolStripMenuItem.Name = "ApplicatorToolStripMenuItem";
-            this.ApplicatorToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
+            this.ApplicatorToolStripMenuItem.Size = new System.Drawing.Size(163, 28);
             this.ApplicatorToolStripMenuItem.Text = "Aplikator";
             // 
             // standardoweToolStripMenuItem
@@ -1889,8 +1889,23 @@
             // NormsToolStripMenuItem
             // 
             this.NormsToolStripMenuItem.Name = "NormsToolStripMenuItem";
-            this.NormsToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
+            this.NormsToolStripMenuItem.Size = new System.Drawing.Size(163, 28);
             this.NormsToolStripMenuItem.Text = "Normy";
+            // 
+            // oknaToolStripMenuItem
+            // 
+            this.oknaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MaterialToolStripMenuItem});
+            this.oknaToolStripMenuItem.Name = "oknaToolStripMenuItem";
+            this.oknaToolStripMenuItem.Size = new System.Drawing.Size(65, 27);
+            this.oknaToolStripMenuItem.Text = "Okna";
+            // 
+            // MaterialToolStripMenuItem
+            // 
+            this.MaterialToolStripMenuItem.Name = "MaterialToolStripMenuItem";
+            this.MaterialToolStripMenuItem.Size = new System.Drawing.Size(159, 28);
+            this.MaterialToolStripMenuItem.Text = "Surowce";
+            this.MaterialToolStripMenuItem.Click += new System.EventHandler(this.MaterialToolStripMenuItem_Click);
             // 
             // BtnDelete
             // 
@@ -2009,21 +2024,6 @@
             this.BtnDown.Size = new System.Drawing.Size(50, 50);
             this.BtnDown.TabIndex = 26;
             this.BtnDown.UseVisualStyleBackColor = true;
-            // 
-            // oknaToolStripMenuItem
-            // 
-            this.oknaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MaterialToolStripMenuItem});
-            this.oknaToolStripMenuItem.Name = "oknaToolStripMenuItem";
-            this.oknaToolStripMenuItem.Size = new System.Drawing.Size(65, 27);
-            this.oknaToolStripMenuItem.Text = "Okna";
-            // 
-            // MaterialToolStripMenuItem
-            // 
-            this.MaterialToolStripMenuItem.Name = "MaterialToolStripMenuItem";
-            this.MaterialToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
-            this.MaterialToolStripMenuItem.Text = "Surowce";
-            this.MaterialToolStripMenuItem.Click += new System.EventHandler(this.MaterialToolStripMenuItem_Click);
             // 
             // LabForm
             // 

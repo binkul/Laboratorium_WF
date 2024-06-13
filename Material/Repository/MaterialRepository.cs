@@ -55,16 +55,19 @@ namespace Laboratorium.Material.Repository
                         double? Quantity = CommonFunction.DBNullToDoubleConv(reader.GetValue(14));
                         byte currencyId = reader.GetByte(15);
                         byte unitId = reader.GetByte(16);
-                        double? density = CommonFunction.DBNullToDoubleConv(reader.GetValue(17));
-                        double? solids = CommonFunction.DBNullToDoubleConv(reader.GetValue(18));
-                        double? ash = CommonFunction.DBNullToDoubleConv(reader.GetValue(19));
-                        double? voc = CommonFunction.DBNullToDoubleConv(reader.GetValue(20));
-                        string remarks = CommonFunction.DBNullToStringConv(reader.GetValue(21));
-                        DateTime dateCreated = reader.GetDateTime(22);
-                        DateTime dateUpdated = !reader.GetValue(11).Equals(DBNull.Value) ? reader.GetDateTime(23) : dateCreated;
+                        string priceUnit = CommonFunction.DBNullToStringConv(reader.GetValue(17));
+                        double? density = CommonFunction.DBNullToDoubleConv(reader.GetValue(18));
+                        double? solids = CommonFunction.DBNullToDoubleConv(reader.GetValue(19));
+                        double? ash = CommonFunction.DBNullToDoubleConv(reader.GetValue(20));
+                        double? voc = CommonFunction.DBNullToDoubleConv(reader.GetValue(21));
+                        string vocProc = CommonFunction.DBNullToStringConv(reader.GetValue(22));
+                        string remarks = CommonFunction.DBNullToStringConv(reader.GetValue(23));
+                        DateTime dateCreated = reader.GetDateTime(24);
+                        DateTime dateUpdated = !reader.GetValue(11).Equals(DBNull.Value) ? reader.GetDateTime(25) : dateCreated;
 
                         MaterialDto material = new MaterialDto.Builder()
                             .Id(id)
+                            .Name(name)
                             .Index(index)
                             .SupplierId(suppId)
                             .FunctinoId(functionId)
@@ -80,10 +83,12 @@ namespace Laboratorium.Material.Repository
                             .Quantity(Quantity)
                             .CurrencyId(currencyId)
                             .UnitId(unitId)
+                            .PriceUnit(priceUnit)
                             .Density(density)
                             .Solids(solids)
                             .Ash450(ash)
                             .VOC(voc)
+                            .VocPercent(vocProc)
                             .Remarks(remarks)
                             .DateCreated(dateCreated)
                             .DateUpdated(dateUpdated)

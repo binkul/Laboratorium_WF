@@ -16,6 +16,7 @@ namespace Laboratorium.Material.Forms
         public BindingNavigator GetBindingNavigator => BindingNavigatorMaterial;
         public DataGridView GetDgvMaterial => DgvMaterial;
         public TextBox GetTxtName => TxtName;
+        public Label GetLblDateCreated => LblDateCreated;
 
 
         public MaterialForm(SqlConnection connection, UserDto user)

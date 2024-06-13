@@ -1,8 +1,5 @@
 ﻿using Laboratorium.ADO.Service;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Laboratorium.ADO.DTO
 {
@@ -27,10 +24,12 @@ namespace Laboratorium.ADO.DTO
         private double? _quantity;
         private byte _currencyId;
         private byte _unitId;
+        private string _priceUnit;
         private double? _density;
         private double? _solids;
         private double? _ash450;
         private double? _voc;
+        private string _vocPercent;
         private string _remarks;
         private DateTime _dateCreated = DateTime.Today;
         private DateTime _dateUpdated = DateTime.Today;
@@ -59,10 +58,12 @@ namespace Laboratorium.ADO.DTO
             _quantity = builder._quantity;
             _currencyId = builder._currencyId;
             _unitId = builder._unitId;
+            _priceUnit = builder._priceUnit;
             _density = builder._density;
             _solids = builder._solids;
             _ash450 = builder._ash450;
             _voc = builder._voc;
+            _vocPercent = builder._vocPercent;
             _remarks = builder._remarks;
             _dateCreated = builder._dateCreated;
             _dateUpdated = builder._dateUpdated;
@@ -236,6 +237,15 @@ namespace Laboratorium.ADO.DTO
             }
         }
 
+        public string PriceUnit
+        {
+            get => _priceUnit;
+            set
+            {
+                _priceUnit = value;
+            }
+        }
+
         public double? Density
         {
             get => _density;
@@ -272,6 +282,16 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _voc = value;
+                ChangeState(RowState.MODIFIED);
+            }
+        }
+
+        public string VocPercent
+        {
+            get => _vocPercent;
+            set
+            {
+                _vocPercent = value;
                 ChangeState(RowState.MODIFIED);
             }
         }
@@ -336,10 +356,12 @@ namespace Laboratorium.ADO.DTO
             internal double? _quantity;
             internal byte _currencyId;
             internal byte _unitId;
+            internal string _priceUnit;
             internal double? _density;
             internal double? _solids;
             internal double? _ash450;
             internal double? _voc;
+            internal string _vocPercent;
             internal string _remarks;
             internal DateTime _dateCreated = DateTime.Today;
             internal DateTime _dateUpdated = DateTime.Today;
@@ -436,6 +458,11 @@ namespace Laboratorium.ADO.DTO
                 _unitId = val;
                 return this;
             }
+            public Builder PriceUnit(string val)
+            {
+                _priceUnit = val;
+                return this;
+            }
             public Builder Density(double? val)
             {
                 _density = val;
@@ -454,6 +481,11 @@ namespace Laboratorium.ADO.DTO
             public Builder VOC(double? val)
             {
                 _voc = val;
+                return this;
+            }
+            public Builder VocPercent(string val)
+            {
+                _vocPercent = val;
                 return this;
             }
             public Builder Remarks(string val)
