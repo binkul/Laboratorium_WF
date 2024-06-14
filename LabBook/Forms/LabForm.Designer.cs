@@ -74,7 +74,6 @@
             this.CmbGlossClass = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.TxtContrastComment = new System.Windows.Forms.TextBox();
@@ -453,7 +452,6 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Controls.Add(this.panel2, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.panel1, 3, 1);
-            this.tableLayoutPanel2.Controls.Add(this.panel3);
             this.tableLayoutPanel2.Controls.Add(this.panel4, 0, 7);
             this.tableLayoutPanel2.Controls.Add(this.panel5, 3, 8);
             this.tableLayoutPanel2.Controls.Add(this.panel6, 6, 1);
@@ -546,7 +544,7 @@
             this.CmbScrubClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbScrubClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbScrubClass.FormattingEnabled = true;
-            this.CmbScrubClass.Location = new System.Drawing.Point(205, 202);
+            this.CmbScrubClass.Location = new System.Drawing.Point(205, 203);
             this.CmbScrubClass.Name = "CmbScrubClass";
             this.CmbScrubClass.Size = new System.Drawing.Size(159, 28);
             this.CmbScrubClass.TabIndex = 3;
@@ -761,7 +759,7 @@
             this.CmbGlossClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbGlossClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbGlossClass.FormattingEnabled = true;
-            this.CmbGlossClass.Location = new System.Drawing.Point(207, 245);
+            this.CmbGlossClass.Location = new System.Drawing.Point(207, 246);
             this.CmbGlossClass.Name = "CmbGlossClass";
             this.CmbGlossClass.Size = new System.Drawing.Size(224, 28);
             this.CmbGlossClass.TabIndex = 10;
@@ -790,13 +788,6 @@
             this.label9.TabIndex = 124;
             this.label9.Text = "Połysk";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // panel3
-            // 
-            this.panel3.Location = new System.Drawing.Point(3, 3);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(28, 14);
-            this.panel3.TabIndex = 106;
             // 
             // panel4
             // 
@@ -886,7 +877,7 @@
             this.CmbContrastClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbContrastClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbContrastClass.FormattingEnabled = true;
-            this.CmbContrastClass.Location = new System.Drawing.Point(205, 118);
+            this.CmbContrastClass.Location = new System.Drawing.Point(205, 120);
             this.CmbContrastClass.Name = "CmbContrastClass";
             this.CmbContrastClass.Size = new System.Drawing.Size(149, 28);
             this.CmbContrastClass.TabIndex = 5;
@@ -955,7 +946,7 @@
             this.CmbVocClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbVocClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbVocClass.FormattingEnabled = true;
-            this.CmbVocClass.Location = new System.Drawing.Point(205, 82);
+            this.CmbVocClass.Location = new System.Drawing.Point(205, 83);
             this.CmbVocClass.Name = "CmbVocClass";
             this.CmbVocClass.Size = new System.Drawing.Size(298, 28);
             this.CmbVocClass.TabIndex = 12;
@@ -2158,7 +2149,6 @@
         private System.Windows.Forms.TextBox TxtGloss60;
         private System.Windows.Forms.TextBox TxtGloss20;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.TextBox TxtContrastComment;

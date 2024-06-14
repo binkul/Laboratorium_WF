@@ -51,7 +51,9 @@
     <Compile Include="ADO\DTO\CmbClpPcodeDto.cs" />
     <Compile Include="ADO\DTO\CmbClpSignalDto.cs" />
     <Compile Include="ADO\DTO\CmbContrastClassDto.cs" />
+    <Compile Include="ADO\DTO\CmbCurrencyDto.cs" />
     <Compile Include="ADO\DTO\CmbGlossClassDto.cs" />
+    <Compile Include="ADO\DTO\CmbMaterialFunctionDto.cs" />
     <Compile Include="ADO\DTO\CmbUnitDto.cs" />
     <Compile Include="ADO\DTO\LaboDataBasicDto.cs" />
     <Compile Include="ADO\DTO\LaboDataContrastDto.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="Commons\CommonData.cs" />
     <Compile Include="Commons\CommonFunction.cs" />
     <Compile Include="Commons\SerializeClass.cs" />
+    <Compile Include="Currency\Repository\CmbCurrencyRepository.cs" />
     <Compile Include="LabBook\Forms\AddSeriesLaboForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -134,6 +137,7 @@
     <Compile Include="Material\Forms\MaterialForm.Designer.cs">
       <DependentUpon>MaterialForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Material\Repository\CmbMaterialFunctionRepository.cs" />
     <Compile Include="Material\Repository\CmbUnitRepository.cs" />
     <Compile Include="Material\Repository\MaterialRepository.cs" />
     <Compile Include="Material\Service\MaterialService.cs" />
@@ -220,6 +224,63 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\arrow_up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Butla ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Butla.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Butla1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Czaszka ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Czaszka.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Eksplozja ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Eksplozja.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Meduza ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Meduza.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Plomien nad okregiem ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Plomien nad okregiem.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Plomien ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Plomien.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ryba ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ryba.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Wykrzyknik ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Wykrzyknik.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Zrace ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Zrace.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

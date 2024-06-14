@@ -2,6 +2,9 @@
 using Laboratorium.Material.Service;
 using System;
 using System.Data.SqlClient;
+using System.Drawing;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace Laboratorium.Material.Forms
@@ -25,9 +28,9 @@ namespace Laboratorium.Material.Forms
         public TextBox GetTxtTransport => TxtTransport;
         public TextBox GetTxtQuantity => TxtQuantity;
         public TextBox GetTxtRemarks => TxtRemarks;
+        public TextBox GetTxtVoc => TxtVoc;
         public ComboBox GetCmbFunction => CmbFunction;
         public ComboBox GetCmbSupplier => CmbSupplier;
-        public ComboBox GetCmbVoc => CmbVoc;
         public ComboBox GetCmbCurrency => CmbCurrency;
         public ComboBox GetCmbUnit => CmbUnit;
         public CheckBox GetChbDanger => ChbClp;
@@ -37,7 +40,7 @@ namespace Laboratorium.Material.Forms
         public CheckBox GetChbSample => ChbSample;
         public CheckBox GetChbSemiproduct => ChbSemiproduct;
         public Label GetLblDateCreated => LblDateCreated;
-
+        public PictureBox GetClpImage => PicBox_CLP;
 
         public MaterialForm(SqlConnection connection, UserDto user)
         {
@@ -47,6 +50,13 @@ namespace Laboratorium.Material.Forms
         }
 
         public bool Init => _init;
+
+        public void ActivateSave(bool state)
+        {
+            if (_init)
+                return;
+            BtnSave.Enabled = state;
+        }
 
         private void MaterialForm_Load(object sender, EventArgs e)
         {
@@ -75,6 +85,37 @@ namespace Laboratorium.Material.Forms
         private void BtnAdd_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void TxtDensity_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            TextBox box = (TextBox)sender;
+            string text = box.Text;
+            string separator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+            string wzor = (separator == ".") ? @"^[0-9]*\" + separator + "?[0-9]*$"
+                                             : "^[0-9]*" + separator + "?[0-9]*$";
+            Regex wzorzec = new Regex(wzor);
+
+            if (!wzorzec.IsMatch(text) && text.Length > 0)
+            {
+                MessageBox.Show("Wprowadzona wartość nie jest liczbą '" + text + "'",
+                    "Błąd wartości", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.Cancel = true;
+            }
+        }
+
+        private void TxtDensity_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                e.Handled = true;
+                SendKeys.Send("{Tab}");
+            }
+
+            else
+            {
+                base.OnKeyPress(e);
+            }
         }
     }
 }

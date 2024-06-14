@@ -1,4 +1,5 @@
 ﻿using Laboratorium.ADO.Service;
+using Laboratorium.Material.Service;
 using System;
 
 namespace Laboratorium.ADO.DTO
@@ -73,6 +74,7 @@ namespace Laboratorium.ADO.DTO
         private void ChangeState(RowState state)
         {
             _rowState = _rowState == RowState.UNCHANGED ? state : _rowState;
+            DateUpdated = DateTime.Today;
             if (_service != null)
                 _service.Modify(state);
         }
@@ -223,6 +225,8 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _currencyId = value;
+                MaterialService service = (MaterialService)_service;
+                service.ChangePriceUnit(this);
                 ChangeState(RowState.MODIFIED);
             }
         }
@@ -233,6 +237,8 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _unitId = value;
+                MaterialService service = (MaterialService)_service;
+                service.ChangePriceUnit(this);
                 ChangeState(RowState.MODIFIED);
             }
         }
@@ -282,6 +288,10 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _voc = value;
+                if (value != null)
+                    VocPercent = _voc.ToString() + "%";
+                else
+                    VocPercent = "";
                 ChangeState(RowState.MODIFIED);
             }
         }
@@ -292,7 +302,6 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _vocPercent = value;
-                ChangeState(RowState.MODIFIED);
             }
         }
 
@@ -314,7 +323,6 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _dateUpdated = value;
-                ChangeState(RowState.MODIFIED);
             }
         }
 

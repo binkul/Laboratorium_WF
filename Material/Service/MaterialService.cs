@@ -4,12 +4,14 @@ using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.Service;
 using Laboratorium.ClpData.Repository;
 using Laboratorium.Commons;
+using Laboratorium.Currency.Repository;
 using Laboratorium.Material.Forms;
 using Laboratorium.Material.Repository;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Laboratorium.Material.Service
@@ -18,6 +20,20 @@ namespace Laboratorium.Material.Service
     {
         private const string ID = "Id";
         private const string NAME_PL = "NamePl";
+        private const string CURRENCY = "Currency";
+
+        private readonly IList<Image> _ghsImages = new List<Image>
+        {
+            new Bitmap(Properties.Resources.Eksplozja, new Size(100, 100)),
+            new Bitmap(Properties.Resources.Plomien, new Size(100, 100)),
+            new Bitmap(Properties.Resources.Plomien_nad_okregiem, new Size(100, 100)),
+            new Bitmap(Properties.Resources.Butla, new Size(100, 100)),
+            new Bitmap(Properties.Resources.Zrace, new Size(100, 100)),
+            new Bitmap(Properties.Resources.Czaszka, new Size(100, 100)),
+            new Bitmap(Properties.Resources.Wykrzyknik, new Size(100, 100)),
+            new Bitmap(Properties.Resources.Meduza, new Size(100, 100)),
+            new Bitmap(Properties.Resources.Ryba, new Size(100, 100)),
+        };
 
         private const string FORM_TOP = "Form_Top";
         private const string FORM_LEFT = "Form_Left";
@@ -30,12 +46,13 @@ namespace Laboratorium.Material.Service
         private readonly UserDto _user;
         private readonly MaterialForm _form;
         private readonly SqlConnection _connection;
-        private readonly IBasicCRUD<CmbUnitDto> _unitRepository;
         private readonly IBasicCRUD<CmbClpHcodeDto> _codeHrepository;
         private readonly IBasicCRUD<CmbClpPcodeDto> _codePrepository;
         private readonly IExtendedCRUD<MaterialDto> _repository;
         private IList<MaterialDto> _materialList;
         private IList<CmbUnitDto> _unitList;
+        private IList<CmbCurrencyDto> _currencyList;
+        private IList<CmbMaterialFunctionDto> _functionList;
         private BindingSource _materialBinding;
         public MaterialDto CurrentMaterial;
 
@@ -49,7 +66,6 @@ namespace Laboratorium.Material.Service
 
             _codeHrepository = new CmbClpHcodeRepository(_connection);
             _codePrepository = new CmbClpPcodeRepository(_connection);
-            _unitRepository = new CmbUnitRepository(_connection);
             _repository = new MaterialRepository(_connection, this);
         }
 
@@ -60,7 +76,19 @@ namespace Laboratorium.Material.Service
                 return;
             }
 
+            if (state != RowState.UNCHANGED)
+            {
+                _form.ActivateSave(true);
+                return;
+            }
+
+            bool laboModify = _materialList
+                .Where(i => i.GetRowState != RowState.UNCHANGED)
+                .Any();
+
+            _form.ActivateSave(laboModify);
         }
+
 
         #region Open/Close form 
 
@@ -149,7 +177,14 @@ namespace Laboratorium.Material.Service
             _form.GetBindingNavigator.BindingSource = _materialBinding;
             _materialBinding.PositionChanged += MaterialBinding_PositionChanged;
 
-            _unitList = _unitRepository.GetAll();
+            IBasicCRUD<CmbUnitDto> repoUnit = new CmbUnitRepository(_connection);
+            _unitList = repoUnit.GetAll();
+
+            IBasicCRUD<CmbCurrencyDto> repoCurr = new CmbCurrencyRepository(_connection);
+            _currencyList = repoCurr.GetAll();
+
+            IBasicCRUD<CmbMaterialFunctionDto> repoFunction = new CmbMaterialFunctionRepository(_connection);
+            _functionList = repoFunction.GetAll();
 
             #endregion
 
@@ -158,6 +193,23 @@ namespace Laboratorium.Material.Service
             PrepareOtherControls();
 
             MaterialBinding_PositionChanged(null, null);
+
+
+        //       1       5
+        //   2       4       7
+        //       3       6
+            Bitmap bitmap = new Bitmap(300, 200);
+            Graphics graphics = Graphics.FromImage(bitmap);
+            graphics.DrawImage(_ghsImages[0], new Point(50, 0));
+            graphics.DrawImage(_ghsImages[1], new Point(0, 50));
+            graphics.DrawImage(_ghsImages[2], new Point(100, 50));
+            graphics.DrawImage(_ghsImages[3], new Point(50, 100));
+            graphics.DrawImage(_ghsImages[4], new Point(150, 0));
+            graphics.DrawImage(_ghsImages[5], new Point(150, 100));
+            graphics.DrawImage(_ghsImages[6], new Point(200, 50));
+            _form.GetClpImage.Image = bitmap;
+
+            graphics.Dispose();
         }
 
         private void PreparaeDgvMaterial()
@@ -249,6 +301,11 @@ namespace Laboratorium.Material.Service
             view.Columns["DateUpdated"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             view.Columns["DateUpdated"].Width = _formData.ContainsKey("DateUpdated") ? (int)_formData["DateUpdated"] : STD_WIDTH;
             view.Columns["DateUpdated"].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+            if (view.Rows.Count > 0)
+            {
+                view.CurrentCell = view.Rows[_materialBinding.Position].Cells["Name"];
+            }
         }
 
         private void PrepareOtherControls()
@@ -258,6 +315,7 @@ namespace Laboratorium.Material.Service
             _form.GetTxtDensity.DataBindings.Clear();
             _form.GetTxtSolids.DataBindings.Clear();
             _form.GetTxtAsh.DataBindings.Clear();
+            _form.GetTxtVoc.DataBindings.Clear();
             _form.GetTxtPrice.DataBindings.Clear();
             _form.GetTxtPriceQuantity.DataBindings.Clear();
             _form.GetTxtTransport.DataBindings.Clear();
@@ -270,16 +328,8 @@ namespace Laboratorium.Material.Service
             _form.GetChbSample.DataBindings.Clear();
             _form.GetChbSemiproduct.DataBindings.Clear();
 
-
             _form.GetTxtName.DataBindings.Add("Text", _materialBinding, "Name");
             _form.GetTxtIndex.DataBindings.Add("Text", _materialBinding, "Index");
-            _form.GetTxtDensity.DataBindings.Add("Text", _materialBinding, "Density");
-            _form.GetTxtSolids.DataBindings.Add("Text", _materialBinding, "Solids");
-            _form.GetTxtAsh.DataBindings.Add("Text", _materialBinding, "Ash450");
-            _form.GetTxtPrice.DataBindings.Add("Text", _materialBinding, "Price");
-            _form.GetTxtPriceQuantity.DataBindings.Add("Text", _materialBinding, "PricePerQuantity");
-            _form.GetTxtTransport.DataBindings.Add("Text", _materialBinding, "PriceTransport");
-            _form.GetTxtQuantity.DataBindings.Add("Text", _materialBinding, "Quantity");
             _form.GetTxtRemarks.DataBindings.Add("Text", _materialBinding, "Remarks");
             _form.GetChbDanger.DataBindings.Add("Checked", _materialBinding, "IsDanger");
             _form.GetChbActive.DataBindings.Add("Checked", _materialBinding, "IsActive");
@@ -287,6 +337,33 @@ namespace Laboratorium.Material.Service
             _form.GetChbProduction.DataBindings.Add("Checked", _materialBinding, "IsProduction");
             _form.GetChbSample.DataBindings.Add("Checked", _materialBinding, "IsObserved");
             _form.GetChbSemiproduct.DataBindings.Add("Checked", _materialBinding, "IsIntermediate");
+
+            Binding price = new Binding("Text", _materialBinding, "Price", true);
+            price.Parse += Double_Parse;
+            Binding priceQ = new Binding("Text", _materialBinding, "PricePerQuantity", true);
+            priceQ.Parse += Double_Parse;
+            Binding priceT = new Binding("Text", _materialBinding, "PriceTransport", true);
+            priceT.Parse += Double_Parse;
+            Binding quant = new Binding("Text", _materialBinding, "Quantity", true);
+            quant.Parse += Double_Parse;
+            Binding dens = new Binding("Text", _materialBinding, "Density", true);
+            dens.Parse += Double_Parse;
+            Binding solid = new Binding("Text", _materialBinding, "Solids", true);
+            solid.Parse += Double_Parse;
+            Binding ash = new Binding("Text", _materialBinding, "Ash450", true);
+            ash.Parse += Double_Parse;
+            Binding voc = new Binding("Text", _materialBinding, "VOC", true);
+            voc.Parse += Double_Parse;
+
+            _form.GetTxtPrice.DataBindings.Add(price);
+            _form.GetTxtPriceQuantity.DataBindings.Add(priceQ);
+            _form.GetTxtTransport.DataBindings.Add(priceT);
+            _form.GetTxtQuantity.DataBindings.Add(quant);
+            _form.GetTxtDensity.DataBindings.Add(dens);
+            _form.GetTxtSolids.DataBindings.Add(solid);
+            _form.GetTxtAsh.DataBindings.Add(ash);
+            _form.GetTxtVoc.DataBindings.Add(voc);
+
         }
 
         private void PrepareCombBoxes()
@@ -295,6 +372,16 @@ namespace Laboratorium.Material.Service
             _form.GetCmbUnit.ValueMember = ID;
             _form.GetCmbUnit.DisplayMember = NAME_PL;
             _form.GetCmbUnit.SelectedIndexChanged += CmbUnit_SelectedIndexChanged;
+
+            _form.GetCmbCurrency.DataSource = _currencyList;
+            _form.GetCmbCurrency.ValueMember = ID;
+            _form.GetCmbCurrency.DisplayMember = CURRENCY;
+            _form.GetCmbCurrency.SelectedIndexChanged += CmbCurrency_SelectedIndexChanged;
+
+            _form.GetCmbFunction.DataSource = _functionList;
+            _form.GetCmbFunction.ValueMember = ID;
+            _form.GetCmbFunction.DisplayMember = NAME_PL;
+            _form.GetCmbFunction.SelectedIndexChanged += CmbFunction_SelectedIndexChanged;
 
         }
 
@@ -349,7 +436,56 @@ namespace Laboratorium.Material.Service
 
             #endregion
 
+            #region Synchronize Combo Currency
+
+            if (CurrentMaterial != null)
+            {
+                _form.GetCmbCurrency.SelectedValue = CurrentMaterial.CurrencyId;
+            }
+            else
+            {
+                _form.GetCmbCurrency.SelectedIndex = _form.GetCmbCurrency.Items.Count > 0 ? 0 : -1;
+            }
+
+            #endregion
+
+            #region Synchronize Combo Function
+
+            if (CurrentMaterial != null)
+            {
+                _form.GetCmbFunction.SelectedValue = CurrentMaterial.FunctionId;
+            }
+            else
+            {
+                _form.GetCmbFunction.SelectedIndex = _form.GetCmbFunction.Items.Count > 0 ? 0 : -1;
+            }
+
+            #endregion
+
+
             _cmbBlock = false;
+        }
+
+        public void ChangePriceUnit(MaterialDto material)
+        {
+            string unitName = _unitList
+                .Where(i => i.Id == material.UnitId)
+                .Select(i => i.NamePl)
+                .FirstOrDefault();
+
+            string currName = _currencyList
+                .Where(i => i.Id == material.CurrencyId)
+                .Select(i => i.Currency)
+                .FirstOrDefault();
+
+            if (material.CurrencyId != 1 && !string.IsNullOrEmpty(currName))
+            {
+                material.PriceUnit = currName + " / " + unitName;
+            }
+            else
+            {
+                material.PriceUnit = "-- / " + unitName;
+            }
         }
 
         #endregion
@@ -372,6 +508,51 @@ namespace Laboratorium.Material.Service
                     _materialBinding.EndEdit();
                 }
             }
+        }
+
+        private void CmbCurrency_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_cmbBlock)
+                return;
+
+            if (CurrentMaterial != null)
+            {
+                CmbCurrencyDto cmb = (CmbCurrencyDto)_form.GetCmbCurrency.SelectedItem;
+                byte cmbId = cmb.Id;
+                if (cmb != null && (CurrentMaterial.CurrencyId != cmbId))
+                {
+                    CurrentMaterial.CurrencyId = cmbId;
+                    _materialBinding.EndEdit();
+                }
+            }
+        }
+
+        private void CmbFunction_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_cmbBlock)
+                return;
+
+            if (CurrentMaterial != null)
+            {
+                CmbMaterialFunctionDto cmb = (CmbMaterialFunctionDto)_form.GetCmbFunction.SelectedItem;
+                short cmbId = cmb.Id;
+                if (cmb != null && (CurrentMaterial.FunctionId != cmbId))
+                {
+                    CurrentMaterial.FunctionId = cmbId;
+                    _materialBinding.EndEdit();
+                }
+            }
+        }
+
+        #endregion
+
+
+        #region Parse Double
+
+        private void Double_Parse(object sender, ConvertEventArgs e)
+        {
+            if (e.Value.Equals(""))
+                e.Value = null;
         }
 
         #endregion

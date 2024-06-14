@@ -3,25 +3,26 @@ using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.SqlDataConstant;
 using Laboratorium.ADO.Tables;
-using Laboratorium.Commons;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace Laboratorium.Material.Repository
 {
-    public class CmbUnitRepository : BasicCRUD<CmbUnitDto>
+    public class CmbMaterialFunctionRepository : BasicCRUD<CmbMaterialFunctionDto>
     {
-        private static readonly SqlIndex SQL_INDEX = SqlIndex.UnitIndex;
-        private static readonly string TABLE_NAME = Table.CMB_UNIT_TABLE;
+        private static readonly SqlIndex SQL_INDEX = SqlIndex.MaterialFunctionIndex;
+        private static readonly string TABLE_NAME = Table.CMB_MAT_FUNCTION_TABLE;
 
-        public CmbUnitRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
+        public CmbMaterialFunctionRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
         { }
 
-        public override IList<CmbUnitDto> GetAll()
+        public override IList<CmbMaterialFunctionDto> GetAll()
         {
-            List<CmbUnitDto> list = new List<CmbUnitDto>();
+            List<CmbMaterialFunctionDto> list = new List<CmbMaterialFunctionDto>();
 
             try
             {
@@ -33,12 +34,11 @@ namespace Laboratorium.Material.Repository
                 {
                     while (reader.Read())
                     {
-                        byte id = reader.GetByte(0);
+                        short id = reader.GetInt16(0);
                         string namePl = reader.GetString(1);
-                        string description = CommonFunction.DBNullToStringConv(reader.GetValue(2));
 
-                        CmbUnitDto unit = new CmbUnitDto(id, namePl, description);
-                        list.Add(unit);
+                        CmbMaterialFunctionDto function = new CmbMaterialFunctionDto(id, namePl);
+                        list.Add(function);
                     }
                     reader.Close();
                 }
@@ -61,12 +61,12 @@ namespace Laboratorium.Material.Repository
             return list;
         }
 
-        public override CmbUnitDto Save(CmbUnitDto data)
+        public override CmbMaterialFunctionDto Save(CmbMaterialFunctionDto data)
         {
             throw new NotImplementedException();
         }
 
-        public override CmbUnitDto Update(CmbUnitDto data)
+        public override CmbMaterialFunctionDto Update(CmbMaterialFunctionDto data)
         {
             throw new NotImplementedException();
         }

@@ -3,25 +3,24 @@ using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.SqlDataConstant;
 using Laboratorium.ADO.Tables;
-using Laboratorium.Commons;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
-namespace Laboratorium.Material.Repository
+namespace Laboratorium.Currency.Repository
 {
-    public class CmbUnitRepository : BasicCRUD<CmbUnitDto>
+    public class CmbCurrencyRepository : BasicCRUD<CmbCurrencyDto>
     {
-        private static readonly SqlIndex SQL_INDEX = SqlIndex.UnitIndex;
-        private static readonly string TABLE_NAME = Table.CMB_UNIT_TABLE;
+        private static readonly SqlIndex SQL_INDEX = SqlIndex.CurrencyIndex;
+        private static readonly string TABLE_NAME = Table.CMB_CURRENCY_TABLE;
 
-        public CmbUnitRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
+        public CmbCurrencyRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
         { }
 
-        public override IList<CmbUnitDto> GetAll()
+        public override IList<CmbCurrencyDto> GetAll()
         {
-            List<CmbUnitDto> list = new List<CmbUnitDto>();
+            List<CmbCurrencyDto> list = new List<CmbCurrencyDto>();
 
             try
             {
@@ -34,15 +33,14 @@ namespace Laboratorium.Material.Repository
                     while (reader.Read())
                     {
                         byte id = reader.GetByte(0);
-                        string namePl = reader.GetString(1);
-                        string description = CommonFunction.DBNullToStringConv(reader.GetValue(2));
+                        string name = reader.GetString(1);
+                        double rate = reader.GetDouble(2);
 
-                        CmbUnitDto unit = new CmbUnitDto(id, namePl, description);
-                        list.Add(unit);
+                        CmbCurrencyDto currency = new CmbCurrencyDto(id, name, rate);
+                        list.Add(currency);
                     }
                     reader.Close();
                 }
-
             }
             catch (SqlException ex)
             {
@@ -61,12 +59,12 @@ namespace Laboratorium.Material.Repository
             return list;
         }
 
-        public override CmbUnitDto Save(CmbUnitDto data)
+        public override CmbCurrencyDto Save(CmbCurrencyDto data)
         {
             throw new NotImplementedException();
         }
 
-        public override CmbUnitDto Update(CmbUnitDto data)
+        public override CmbCurrencyDto Update(CmbCurrencyDto data)
         {
             throw new NotImplementedException();
         }

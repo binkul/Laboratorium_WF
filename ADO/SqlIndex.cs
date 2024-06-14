@@ -23,7 +23,9 @@
         ProjectMemberIndex,
 
         MaterialIndex,
+        MaterialFunctionIndex,
         UnitIndex,
+        CurrencyIndex,
 
         ClpHcodeIndex,
         ClpPcodeIndex

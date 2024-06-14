@@ -88,5 +88,7 @@
         public static readonly string CLP_H_CODE_TABLE = "CmbClpHcode";
         public static readonly string CLP_P_CODE_TABLE = "CmbClpPcode";
         public static readonly string CMB_UNIT_TABLE = "CmbUnits";
+        public static readonly string CMB_CURRENCY_TABLE = "CmbCurrency";
+        public static readonly string CMB_MAT_FUNCTION_TABLE = "CmbMaterialFunction";
     }
 }

@@ -32,10 +32,12 @@ namespace Laboratorium.ADO.SqlDataConstant
                 "END As price_unit, " +
                 "density, solids, ash_450, VOC, (CAST (VOC as varchar) + '%') As voc_per, remarks, date_created, date_updated From Konkurencja.dbo.Material mat left join Konkurencja.dbo.CmbCurrency cur on mat.currency_id=cur.id " +
                 "left join Konkurencja.dbo.CmbUnits uni on mat.unit_id=uni.id Order by mat.id" },
+            {SqlIndex.MaterialFunctionIndex, "Select id, name_pl From Konkurencja.dbo.CmbMaterialFunction Order By name_pl" },
             {SqlIndex.ClpHcodeIndex, "Select hc.id, hc.[class], hc.code, hc.[description], hc.ordering, hc.ghs_id, ghs.[description], hc.signal_word_id, sig.name_pl, " +
                 "hc.date_created from Konkurencja.dbo.CmbClpHcode hc left join Konkurencja.dbo.CmbClpGHScode ghs on hc.ghs_id=ghs.id left join Konkurencja.dbo.CmbClpSignalWord " +
                 "sig on hc.signal_word_id=sig.id Order By ordering" },
             {SqlIndex.ClpPcodeIndex, "Select hc.id, hc.code, hc.[description], hc.ordering, hc.date_created from Konkurencja.dbo.CmbClpPcode hc Order By ordering" },
+            {SqlIndex.CurrencyIndex, "Select id, currency, rate from Konkurencja.dbo.CmbCurrency Order By id" },
             {SqlIndex.UnitIndex, "Select id, name_pl, [description] From Konkurencja.dbo.CmbUnits Order By id" },
         };
 
