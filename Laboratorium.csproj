@@ -61,8 +61,9 @@
     <Compile Include="ADO\DTO\LaboDataViscosityColDto.cs" />
     <Compile Include="ADO\DTO\LaboDataViscosityDto.cs" />
     <Compile Include="ADO\DTO\LaboDto.cs" />
-    <Compile Include="ADO\DTO\MaterialClpCodeDto.cs" />
+    <Compile Include="ADO\DTO\MaterialClpHCodeDto.cs" />
     <Compile Include="ADO\DTO\MaterialClpGhsDto.cs" />
+    <Compile Include="ADO\DTO\MaterialClpPCodeDto.cs" />
     <Compile Include="ADO\DTO\MaterialClpSignalDto.cs" />
     <Compile Include="ADO\DTO\MaterialDto.cs" />
     <Compile Include="ADO\DTO\NormDetailDto.cs" />
@@ -138,8 +139,12 @@
       <DependentUpon>MaterialForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Material\Repository\CmbMaterialFunctionRepository.cs" />
+    <Compile Include="Material\Repository\MaterialGHSRepository.cs" />
     <Compile Include="Material\Repository\CmbUnitRepository.cs" />
+    <Compile Include="Material\Repository\MaterialHcodeRepository.cs" />
+    <Compile Include="Material\Repository\MaterialPcodeRepository.cs" />
     <Compile Include="Material\Repository\MaterialRepository.cs" />
+    <Compile Include="Material\Repository\MaterialSignalRepository.cs" />
     <Compile Include="Material\Service\MaterialService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Project\Forms\FindProjectForm.cs">

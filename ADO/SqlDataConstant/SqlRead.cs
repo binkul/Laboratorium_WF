@@ -33,6 +33,13 @@ namespace Laboratorium.ADO.SqlDataConstant
                 "density, solids, ash_450, VOC, (CAST (VOC as varchar) + '%') As voc_per, remarks, date_created, date_updated From Konkurencja.dbo.Material mat left join Konkurencja.dbo.CmbCurrency cur on mat.currency_id=cur.id " +
                 "left join Konkurencja.dbo.CmbUnits uni on mat.unit_id=uni.id Order by mat.id" },
             {SqlIndex.MaterialFunctionIndex, "Select id, name_pl From Konkurencja.dbo.CmbMaterialFunction Order By name_pl" },
+            {SqlIndex.MaterialClpGhsIndex, "Select material_id, code_id, date_created From Konkurencja.dbo.MaterialClpCodeGHS Order By material_id, code_id" },
+            {SqlIndex.MaterialClpHcodeIndex, "Select mat.material_id, mat.code_id, mat.comments, mat.date_created, clp.class, clp.code, clp.[description] from Konkurencja.dbo.MaterialClpCodeH mat left join Konkurencja.dbo.CmbClpHcode " +
+                "clp on mat.code_id=clp.id Order By mat.material_id, clp.ordering" },
+            {SqlIndex.MaterialClpPcodeIndex, "Select mat.material_id, mat.code_id, mat.comments, mat.date_created, clp.code, clp.[description] from Konkurencja.dbo.MaterialClpCodeP mat " +
+                "left join Konkurencja.dbo.CmbClpPcode clp on mat.code_id=clp.id Order By mat.material_id, clp.ordering" },
+            {SqlIndex.MaterialClpSignalIndex, "Select material_id, code_id, date_created, sig.name_pl from Konkurencja.dbo.MaterialClpSignal mat left join Konkurencja.dbo.CmbClpSignalWord sig " +
+                "on mat.code_id=sig.id Order by material_id" },
             {SqlIndex.ClpHcodeIndex, "Select hc.id, hc.[class], hc.code, hc.[description], hc.ordering, hc.ghs_id, ghs.[description], hc.signal_word_id, sig.name_pl, " +
                 "hc.date_created from Konkurencja.dbo.CmbClpHcode hc left join Konkurencja.dbo.CmbClpGHScode ghs on hc.ghs_id=ghs.id left join Konkurencja.dbo.CmbClpSignalWord " +
                 "sig on hc.signal_word_id=sig.id Order By ordering" },

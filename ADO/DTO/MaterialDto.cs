@@ -1,6 +1,7 @@
 ﻿using Laboratorium.ADO.Service;
 using Laboratorium.Material.Service;
 using System;
+using System.Collections.Generic;
 
 namespace Laboratorium.ADO.DTO
 {
@@ -38,6 +39,12 @@ namespace Laboratorium.ADO.DTO
         private IService _service;
         public CrudState CrudState { get; set; } = CrudState.OK;
 
+        public IList<MaterialClpGhsDto> GhsCodeList { get; set; } = new List<MaterialClpGhsDto>();
+        public IList<MaterialClpHCodeDto> PcodeList { get; set; } = new List<MaterialClpHCodeDto>();
+        public IList<MaterialClpHCodeDto> HcodeList { get; set; } = new List<MaterialClpHCodeDto>();
+        public MaterialClpSignalDto SignalWord { get; set; }
+
+
         #endregion
 
         private MaterialDto(Builder builder)
@@ -69,6 +76,7 @@ namespace Laboratorium.ADO.DTO
             _dateCreated = builder._dateCreated;
             _dateUpdated = builder._dateUpdated;
             _service = builder._service;
+            SignalWord = new MaterialClpSignalDto(Id, 1, "-- Brak --", DateTime.Today);
         }
 
         private void ChangeState(RowState state)

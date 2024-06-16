@@ -103,21 +103,12 @@ namespace Laboratorium.Material.Forms
             this.TxtRemarks = new System.Windows.Forms.TextBox();
             this.label25 = new System.Windows.Forms.Label();
             this.TbClp = new System.Windows.Forms.TabPage();
+            this.PicBox_CLP = new System.Windows.Forms.PictureBox();
             this.TbComposition = new System.Windows.Forms.TabPage();
             this.BtnAdd = new System.Windows.Forms.Button();
             this.BtnSave = new System.Windows.Forms.Button();
             this.BtnDelete = new System.Windows.Forms.Button();
             this.LblDateCreated = new System.Windows.Forms.Label();
-            this.PicBox_GHS6 = new System.Windows.Forms.PictureBox();
-            this.PicBox_GHS4 = new System.Windows.Forms.PictureBox();
-            this.PicBox_GHS1 = new System.Windows.Forms.PictureBox();
-            this.PicBox_GHS2 = new System.Windows.Forms.PictureBox();
-            this.PicBox_GHS3 = new System.Windows.Forms.PictureBox();
-            this.PicBox_GHS5 = new System.Windows.Forms.PictureBox();
-            this.PicBox_GHS7 = new System.Windows.Forms.PictureBox();
-            this.PicBox_GHS8 = new System.Windows.Forms.PictureBox();
-            this.PicBox_GHS9 = new System.Windows.Forms.PictureBox();
-            this.PicBox_CLP = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.BindingNavigatorMaterial)).BeginInit();
             this.BindingNavigatorMaterial.SuspendLayout();
             this.TbMaterial.SuspendLayout();
@@ -134,15 +125,6 @@ namespace Laboratorium.Material.Forms
             this.panel4.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.TbClp.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBox_GHS6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBox_GHS4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBox_GHS1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBox_GHS2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBox_GHS3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBox_GHS5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBox_GHS7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBox_GHS8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBox_GHS9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBox_CLP)).BeginInit();
             this.SuspendLayout();
             // 
@@ -228,6 +210,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.bindingNavigatorPositionItem.AccessibleName = "Pozycja";
             this.bindingNavigatorPositionItem.AutoSize = false;
+            this.bindingNavigatorPositionItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
             this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 27);
             this.bindingNavigatorPositionItem.Text = "0";
@@ -435,9 +418,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel2.SetColumnSpan(this.label2, 2);
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label2.ForeColor = System.Drawing.Color.Blue;
-            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Location = new System.Drawing.Point(3, 1);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(284, 24);
+            this.label2.Size = new System.Drawing.Size(284, 22);
             this.label2.TabIndex = 0;
             this.label2.Text = "Dane podstawowe";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -478,7 +461,7 @@ namespace Laboratorium.Material.Forms
             this.CmbFunction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbFunction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbFunction.FormattingEnabled = true;
-            this.CmbFunction.Location = new System.Drawing.Point(123, 73);
+            this.CmbFunction.Location = new System.Drawing.Point(123, 71);
             this.CmbFunction.Name = "CmbFunction";
             this.CmbFunction.Size = new System.Drawing.Size(164, 28);
             this.CmbFunction.TabIndex = 6;
@@ -488,7 +471,7 @@ namespace Laboratorium.Material.Forms
             this.CmbSupplier.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbSupplier.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbSupplier.FormattingEnabled = true;
-            this.CmbSupplier.Location = new System.Drawing.Point(123, 113);
+            this.CmbSupplier.Location = new System.Drawing.Point(123, 111);
             this.CmbSupplier.Name = "CmbSupplier";
             this.CmbSupplier.Size = new System.Drawing.Size(164, 28);
             this.CmbSupplier.TabIndex = 7;
@@ -564,9 +547,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel3.SetColumnSpan(this.label6, 2);
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label6.ForeColor = System.Drawing.Color.Blue;
-            this.label6.Location = new System.Drawing.Point(3, 0);
+            this.label6.Location = new System.Drawing.Point(3, 1);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(284, 24);
+            this.label6.Size = new System.Drawing.Size(284, 22);
             this.label6.TabIndex = 1;
             this.label6.Text = "Fizykochemia";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -689,9 +672,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel4.SetColumnSpan(this.label11, 2);
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label11.ForeColor = System.Drawing.Color.Blue;
-            this.label11.Location = new System.Drawing.Point(3, 0);
+            this.label11.Location = new System.Drawing.Point(3, 1);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(284, 24);
+            this.label11.Size = new System.Drawing.Size(284, 22);
             this.label11.TabIndex = 1;
             this.label11.Text = "Cennik";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -807,7 +790,7 @@ namespace Laboratorium.Material.Forms
             this.CmbCurrency.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbCurrency.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbCurrency.FormattingEnabled = true;
-            this.CmbCurrency.Location = new System.Drawing.Point(123, 73);
+            this.CmbCurrency.Location = new System.Drawing.Point(123, 71);
             this.CmbCurrency.Name = "CmbCurrency";
             this.CmbCurrency.Size = new System.Drawing.Size(136, 28);
             this.CmbCurrency.TabIndex = 13;
@@ -817,7 +800,7 @@ namespace Laboratorium.Material.Forms
             this.CmbUnit.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbUnit.FormattingEnabled = true;
-            this.CmbUnit.Location = new System.Drawing.Point(123, 113);
+            this.CmbUnit.Location = new System.Drawing.Point(123, 111);
             this.CmbUnit.Name = "CmbUnit";
             this.CmbUnit.Size = new System.Drawing.Size(136, 28);
             this.CmbUnit.TabIndex = 14;
@@ -937,9 +920,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel5.SetColumnSpan(this.label18, 2);
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label18.ForeColor = System.Drawing.Color.Blue;
-            this.label18.Location = new System.Drawing.Point(3, 0);
+            this.label18.Location = new System.Drawing.Point(3, 1);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(180, 24);
+            this.label18.Size = new System.Drawing.Size(180, 22);
             this.label18.TabIndex = 2;
             this.label18.Text = "Zastosowanie";
             this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1028,9 +1011,9 @@ namespace Laboratorium.Material.Forms
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label25.ForeColor = System.Drawing.Color.Blue;
-            this.label25.Location = new System.Drawing.Point(342, 376);
+            this.label25.Location = new System.Drawing.Point(342, 378);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(144, 24);
+            this.label25.Size = new System.Drawing.Size(144, 22);
             this.label25.TabIndex = 5;
             this.label25.Text = "Uwagi";
             this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1039,21 +1022,20 @@ namespace Laboratorium.Material.Forms
             // 
             this.TbClp.BackColor = System.Drawing.SystemColors.Control;
             this.TbClp.Controls.Add(this.PicBox_CLP);
-            this.TbClp.Controls.Add(this.PicBox_GHS9);
-            this.TbClp.Controls.Add(this.PicBox_GHS8);
-            this.TbClp.Controls.Add(this.PicBox_GHS7);
-            this.TbClp.Controls.Add(this.PicBox_GHS5);
-            this.TbClp.Controls.Add(this.PicBox_GHS3);
-            this.TbClp.Controls.Add(this.PicBox_GHS2);
-            this.TbClp.Controls.Add(this.PicBox_GHS1);
-            this.TbClp.Controls.Add(this.PicBox_GHS4);
-            this.TbClp.Controls.Add(this.PicBox_GHS6);
             this.TbClp.Location = new System.Drawing.Point(4, 29);
             this.TbClp.Name = "TbClp";
             this.TbClp.Padding = new System.Windows.Forms.Padding(3);
             this.TbClp.Size = new System.Drawing.Size(879, 475);
             this.TbClp.TabIndex = 1;
             this.TbClp.Text = "CLP";
+            // 
+            // PicBox_CLP
+            // 
+            this.PicBox_CLP.Location = new System.Drawing.Point(6, 6);
+            this.PicBox_CLP.Name = "PicBox_CLP";
+            this.PicBox_CLP.Size = new System.Drawing.Size(300, 200);
+            this.PicBox_CLP.TabIndex = 9;
+            this.PicBox_CLP.TabStop = false;
             // 
             // TbComposition
             // 
@@ -1110,116 +1092,9 @@ namespace Laboratorium.Material.Forms
             this.LblDateCreated.Location = new System.Drawing.Point(634, 39);
             this.LblDateCreated.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblDateCreated.Name = "LblDateCreated";
-            this.LblDateCreated.Size = new System.Drawing.Size(246, 24);
+            this.LblDateCreated.Size = new System.Drawing.Size(241, 22);
             this.LblDateCreated.TabIndex = 25;
             this.LblDateCreated.Text = "Utworzenie: 00-00-0000   ";
-            // 
-            // PicBox_GHS6
-            // 
-            this.PicBox_GHS6.Image = global::Laboratorium.Properties.Resources.Czaszka;
-            this.PicBox_GHS6.Location = new System.Drawing.Point(310, 113);
-            this.PicBox_GHS6.Name = "PicBox_GHS6";
-            this.PicBox_GHS6.Size = new System.Drawing.Size(60, 60);
-            this.PicBox_GHS6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicBox_GHS6.TabIndex = 0;
-            this.PicBox_GHS6.TabStop = false;
-            this.PicBox_GHS6.Tag = "6";
-            // 
-            // PicBox_GHS4
-            // 
-            this.PicBox_GHS4.Image = global::Laboratorium.Properties.Resources.Butla;
-            this.PicBox_GHS4.Location = new System.Drawing.Point(190, 113);
-            this.PicBox_GHS4.Name = "PicBox_GHS4";
-            this.PicBox_GHS4.Size = new System.Drawing.Size(60, 60);
-            this.PicBox_GHS4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicBox_GHS4.TabIndex = 1;
-            this.PicBox_GHS4.TabStop = false;
-            this.PicBox_GHS4.Tag = "4";
-            // 
-            // PicBox_GHS1
-            // 
-            this.PicBox_GHS1.Image = global::Laboratorium.Properties.Resources.Eksplozja;
-            this.PicBox_GHS1.Location = new System.Drawing.Point(10, 113);
-            this.PicBox_GHS1.Name = "PicBox_GHS1";
-            this.PicBox_GHS1.Size = new System.Drawing.Size(60, 60);
-            this.PicBox_GHS1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicBox_GHS1.TabIndex = 2;
-            this.PicBox_GHS1.TabStop = false;
-            this.PicBox_GHS1.Tag = "1";
-            // 
-            // PicBox_GHS2
-            // 
-            this.PicBox_GHS2.Image = global::Laboratorium.Properties.Resources.Plomien;
-            this.PicBox_GHS2.Location = new System.Drawing.Point(70, 113);
-            this.PicBox_GHS2.Name = "PicBox_GHS2";
-            this.PicBox_GHS2.Size = new System.Drawing.Size(60, 60);
-            this.PicBox_GHS2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicBox_GHS2.TabIndex = 3;
-            this.PicBox_GHS2.TabStop = false;
-            this.PicBox_GHS2.Tag = "2";
-            // 
-            // PicBox_GHS3
-            // 
-            this.PicBox_GHS3.Image = global::Laboratorium.Properties.Resources.Plomien_nad_okregiem;
-            this.PicBox_GHS3.Location = new System.Drawing.Point(130, 113);
-            this.PicBox_GHS3.Name = "PicBox_GHS3";
-            this.PicBox_GHS3.Size = new System.Drawing.Size(60, 60);
-            this.PicBox_GHS3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicBox_GHS3.TabIndex = 4;
-            this.PicBox_GHS3.TabStop = false;
-            this.PicBox_GHS3.Tag = "3";
-            // 
-            // PicBox_GHS5
-            // 
-            this.PicBox_GHS5.Image = global::Laboratorium.Properties.Resources.Zrace;
-            this.PicBox_GHS5.Location = new System.Drawing.Point(250, 113);
-            this.PicBox_GHS5.Name = "PicBox_GHS5";
-            this.PicBox_GHS5.Size = new System.Drawing.Size(60, 60);
-            this.PicBox_GHS5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicBox_GHS5.TabIndex = 5;
-            this.PicBox_GHS5.TabStop = false;
-            this.PicBox_GHS5.Tag = "5";
-            // 
-            // PicBox_GHS7
-            // 
-            this.PicBox_GHS7.Image = global::Laboratorium.Properties.Resources.Wykrzyknik;
-            this.PicBox_GHS7.Location = new System.Drawing.Point(370, 113);
-            this.PicBox_GHS7.Name = "PicBox_GHS7";
-            this.PicBox_GHS7.Size = new System.Drawing.Size(60, 60);
-            this.PicBox_GHS7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicBox_GHS7.TabIndex = 6;
-            this.PicBox_GHS7.TabStop = false;
-            this.PicBox_GHS7.Tag = "7";
-            // 
-            // PicBox_GHS8
-            // 
-            this.PicBox_GHS8.Image = global::Laboratorium.Properties.Resources.Meduza;
-            this.PicBox_GHS8.Location = new System.Drawing.Point(430, 113);
-            this.PicBox_GHS8.Name = "PicBox_GHS8";
-            this.PicBox_GHS8.Size = new System.Drawing.Size(60, 60);
-            this.PicBox_GHS8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicBox_GHS8.TabIndex = 7;
-            this.PicBox_GHS8.TabStop = false;
-            this.PicBox_GHS8.Tag = "8";
-            // 
-            // PicBox_GHS9
-            // 
-            this.PicBox_GHS9.Image = global::Laboratorium.Properties.Resources.Ryba;
-            this.PicBox_GHS9.Location = new System.Drawing.Point(490, 113);
-            this.PicBox_GHS9.Name = "PicBox_GHS9";
-            this.PicBox_GHS9.Size = new System.Drawing.Size(60, 60);
-            this.PicBox_GHS9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PicBox_GHS9.TabIndex = 8;
-            this.PicBox_GHS9.TabStop = false;
-            this.PicBox_GHS9.Tag = "9";
-            // 
-            // PicBox_CLP
-            // 
-            this.PicBox_CLP.Location = new System.Drawing.Point(14, 216);
-            this.PicBox_CLP.Name = "PicBox_CLP";
-            this.PicBox_CLP.Size = new System.Drawing.Size(300, 200);
-            this.PicBox_CLP.TabIndex = 9;
-            this.PicBox_CLP.TabStop = false;
             // 
             // MaterialForm
             // 
@@ -1261,15 +1136,6 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
             this.TbClp.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PicBox_GHS6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBox_GHS4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBox_GHS1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBox_GHS2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBox_GHS3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBox_GHS5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBox_GHS7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBox_GHS8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBox_GHS9)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicBox_CLP)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1355,15 +1221,6 @@ namespace Laboratorium.Material.Forms
         private System.Windows.Forms.TextBox TxtRemarks;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.TextBox TxtVoc;
-        private System.Windows.Forms.PictureBox PicBox_GHS9;
-        private System.Windows.Forms.PictureBox PicBox_GHS8;
-        private System.Windows.Forms.PictureBox PicBox_GHS7;
-        private System.Windows.Forms.PictureBox PicBox_GHS5;
-        private System.Windows.Forms.PictureBox PicBox_GHS3;
-        private System.Windows.Forms.PictureBox PicBox_GHS2;
-        private System.Windows.Forms.PictureBox PicBox_GHS1;
-        private System.Windows.Forms.PictureBox PicBox_GHS4;
-        private System.Windows.Forms.PictureBox PicBox_GHS6;
         private System.Windows.Forms.PictureBox PicBox_CLP;
     }
 }

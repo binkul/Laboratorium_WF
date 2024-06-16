@@ -34,8 +34,18 @@ namespace Laboratorium.Material.Service
             new Bitmap(Properties.Resources.Meduza, new Size(100, 100)),
             new Bitmap(Properties.Resources.Ryba, new Size(100, 100)),
         };
+        private readonly IList<Point> _ghsPoints = new List<Point>
+        {
+            new Point(50, 0),
+            new Point(0, 50),
+            new Point(100, 50),
+            new Point(50, 100),
+            new Point(150, 0),
+            new Point(150, 100),
+            new Point(200, 50)
+        };
 
-        private const string FORM_TOP = "Form_Top";
+    private const string FORM_TOP = "Form_Top";
         private const string FORM_LEFT = "Form_Left";
         private const string FORM_WIDTH = "Form_Width";
         private const string FORM_HEIGHT = "Form_Height";
@@ -46,8 +56,10 @@ namespace Laboratorium.Material.Service
         private readonly UserDto _user;
         private readonly MaterialForm _form;
         private readonly SqlConnection _connection;
-        private readonly IBasicCRUD<CmbClpHcodeDto> _codeHrepository;
-        private readonly IBasicCRUD<CmbClpPcodeDto> _codePrepository;
+        private readonly IBasicCRUD<MaterialClpGhsDto> _ghsRepository;
+        private readonly IBasicCRUD<MaterialClpHCodeDto> _hCodeRepository;
+        private readonly IBasicCRUD<MaterialClpPCodeDto> _pCodeRepository;
+        private readonly IBasicCRUD<MaterialClpSignalDto> _signalRepository;
         private readonly IExtendedCRUD<MaterialDto> _repository;
         private IList<MaterialDto> _materialList;
         private IList<CmbUnitDto> _unitList;
@@ -64,8 +76,10 @@ namespace Laboratorium.Material.Service
             _user = user;
             _form = form;
 
-            _codeHrepository = new CmbClpHcodeRepository(_connection);
-            _codePrepository = new CmbClpPcodeRepository(_connection);
+            _ghsRepository = new MaterialGHSRepository(_connection);
+            _hCodeRepository = new MaterialHcodeRepository(_connection);
+            _pCodeRepository = new MaterialPcodeRepository(_connection);
+            _signalRepository = new MaterialSignalRepository(_connection);
             _repository = new MaterialRepository(_connection, this);
         }
 
@@ -122,35 +136,6 @@ namespace Laboratorium.Material.Service
                 }
             }
 
-            //string name = _form.GetDgvMaterial.Columns["Name"].Name;
-            //double width = _form.GetDgvMaterial.Columns["Name"].Width;
-            //list.Add(name, width);
-            //name = _form.GetDgvMaterial.Columns["IsActive"].Name;
-            //width = _form.GetDgvMaterial.Columns["IsActive"].Width;
-            //list.Add(name, width);
-            //name = _form.GetDgvMaterial.Columns["IsDanger"].Name;
-            //width = _form.GetDgvMaterial.Columns["IsDanger"].Width;
-            //list.Add(name, width);
-            //name = _form.GetDgvMaterial.Columns["IsActive"].Name;
-            //width = _form.GetDgvMaterial.Columns["IsActive"].Width;
-            //list.Add(name, width);
-            //name = _form.GetDgvMaterial.Columns["IsProduction"].Name;
-            //width = _form.GetDgvMaterial.Columns["IsProduction"].Width;
-            //list.Add(name, width);
-            //name = _form.GetDgvMaterial.Columns["Price"].Name;
-            //width = _form.GetDgvMaterial.Columns["Price"].Width;
-            //list.Add(name, width);
-            //name = _form.GetDgvMaterial.Columns["PriceUnit"].Name;
-            //width = _form.GetDgvMaterial.Columns["PriceUnit"].Width;
-            //list.Add(name, width);
-            //name = _form.GetDgvMaterial.Columns["VocPercent"].Name;
-            //width = _form.GetDgvMaterial.Columns["VocPercent"].Width;
-            //list.Add(name, width);
-            //name = _form.GetDgvMaterial.Columns["DateUpdated"].Name;
-            //width = _form.GetDgvMaterial.Columns["DateUpdated"].Width;
-            //list.Add(name, width);
-
-
             CommonFunction.WriteWindowsData(list, FORM_DATA);
         }
 
@@ -186,30 +171,18 @@ namespace Laboratorium.Material.Service
             IBasicCRUD<CmbMaterialFunctionDto> repoFunction = new CmbMaterialFunctionRepository(_connection);
             _functionList = repoFunction.GetAll();
 
+
             #endregion
 
+            PrepareClp();
             PreparaeDgvMaterial();
             PrepareCombBoxes();
             PrepareOtherControls();
 
+            _form.GetClpImage.Size = new Size(300,299);
+
             MaterialBinding_PositionChanged(null, null);
 
-
-        //       1       5
-        //   2       4       7
-        //       3       6
-            Bitmap bitmap = new Bitmap(300, 200);
-            Graphics graphics = Graphics.FromImage(bitmap);
-            graphics.DrawImage(_ghsImages[0], new Point(50, 0));
-            graphics.DrawImage(_ghsImages[1], new Point(0, 50));
-            graphics.DrawImage(_ghsImages[2], new Point(100, 50));
-            graphics.DrawImage(_ghsImages[3], new Point(50, 100));
-            graphics.DrawImage(_ghsImages[4], new Point(150, 0));
-            graphics.DrawImage(_ghsImages[5], new Point(150, 100));
-            graphics.DrawImage(_ghsImages[6], new Point(200, 50));
-            _form.GetClpImage.Image = bitmap;
-
-            graphics.Dispose();
         }
 
         private void PreparaeDgvMaterial()
@@ -246,6 +219,10 @@ namespace Laboratorium.Material.Service
             view.Columns.Remove("GetRowState");
             view.Columns.Remove("Service");
             view.Columns.Remove("CrudState");
+            view.Columns.Remove("GhsCodeList");
+            view.Columns.Remove("PcodeList");
+            view.Columns.Remove("HcodeList");
+            view.Columns.Remove("SignalWord");
 
             view.Columns["Id"].Visible = false;
             view.Columns["CurrencyId"].Visible = false;
@@ -385,6 +362,39 @@ namespace Laboratorium.Material.Service
 
         }
 
+        private void PrepareClp()
+        {
+            IList<MaterialClpGhsDto> ghsList = _ghsRepository.GetAll();
+            IList<MaterialClpHCodeDto> hList = _hCodeRepository.GetAll();
+            IList<MaterialClpPCodeDto> pList = _pCodeRepository.GetAll();
+            IList<MaterialClpSignalDto> sigList = _signalRepository.GetAll();
+            foreach (var material in _materialList)
+            {
+                if (material.IsDanger)
+                {
+                    var ghs = ghsList
+                        .Where(i => i.MaterialId == material.Id)
+                        .ToList();
+                    material.GhsCodeList = ghs;
+
+                    var h = hList
+                        .Where(i => i.MaterialId == material.Id)
+                        .ToList();
+                    material.HcodeList = h;
+
+                    var p = pList
+                        .Where(i => i.MaterialId == material.Id)
+                        .ToList();
+                    material.HcodeList = h;
+
+                    var sig = sigList
+                        .Where(i => i.MaterialId == material.Id)
+                        .FirstOrDefault();
+                    material.SignalWord = sig ?? new MaterialClpSignalDto(material.Id, 1, "-- Brak --", DateTime.Today);
+                }
+            }
+        }
+
         #endregion
 
 
@@ -399,10 +409,13 @@ namespace Laboratorium.Material.Service
             if (_materialBinding == null || _materialBinding.Count == 0)
             {
                 CurrentMaterial = null;
+                _form.GetClpImage.Image = null;
             }
             else
             {
                 CurrentMaterial = (MaterialDto)_materialBinding.Current;
+                _form.GetClpImage.Image = null;
+                _form.GetClpImage.Image = SetGhsImage();
             }
 
             #endregion
@@ -485,6 +498,34 @@ namespace Laboratorium.Material.Service
             else
             {
                 material.PriceUnit = "-- / " + unitName;
+            }
+        }
+
+        private Bitmap SetGhsImage()
+        {
+            //       1       5
+            //   2       4       7
+            //       3       6
+
+            if (CurrentMaterial.IsDanger)
+            {
+                var ghsList = CurrentMaterial.GhsCodeList;
+                Bitmap bitmap = new Bitmap(300, 200);
+                Graphics graphics = Graphics.FromImage(bitmap);
+
+                int position = 0;
+                foreach (var ghs in ghsList)
+                {
+                    graphics.DrawImage(_ghsImages[ghs.CodeId - 1], _ghsPoints[position]);
+                    position++;
+                }
+                
+                graphics.Dispose();
+                return bitmap;
+            }
+            else
+            {
+                return null;
             }
         }
 

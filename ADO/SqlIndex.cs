@@ -24,6 +24,10 @@
 
         MaterialIndex,
         MaterialFunctionIndex,
+        MaterialClpGhsIndex,
+        MaterialClpPcodeIndex,
+        MaterialClpHcodeIndex,
+        MaterialClpSignalIndex,
         UnitIndex,
         CurrencyIndex,
 
