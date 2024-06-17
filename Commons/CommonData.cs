@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace Laboratorium.Commons
 {
@@ -47,6 +48,30 @@ namespace Laboratorium.Commons
             "Aplikator zwykły 100um",
             "Aplikator zwykły 150um",
             "Aplikator zwykły 240um"
+        };
+
+        public static IList<Image> GhsImages = new List<Image>
+        {
+            new Bitmap(Properties.Resources.Eksplozja, new Size(100, 100)),
+            new Bitmap(Properties.Resources.Plomien, new Size(100, 100)),
+            new Bitmap(Properties.Resources.Plomien_nad_okregiem, new Size(100, 100)),
+            new Bitmap(Properties.Resources.Butla, new Size(100, 100)),
+            new Bitmap(Properties.Resources.Zrace, new Size(100, 100)),
+            new Bitmap(Properties.Resources.Czaszka, new Size(100, 100)),
+            new Bitmap(Properties.Resources.Wykrzyknik, new Size(100, 100)),
+            new Bitmap(Properties.Resources.Meduza, new Size(100, 100)),
+            new Bitmap(Properties.Resources.Ryba, new Size(100, 100)),
+        };
+
+        public static IList<Point> GhsPoints = new List<Point>
+        {
+            new Point(50, 0),
+            new Point(0, 50),
+            new Point(100, 50),
+            new Point(50, 100),
+            new Point(150, 0),
+            new Point(150, 100),
+            new Point(200, 50)
         };
 
     }

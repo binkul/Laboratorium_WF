@@ -38,6 +38,9 @@ namespace Laboratorium.ADO.SqlDataConstant
                 "clp on mat.code_id=clp.id Order By mat.material_id, clp.ordering" },
             {SqlIndex.MaterialClpPcodeIndex, "Select mat.material_id, mat.code_id, mat.comments, mat.date_created, clp.code, clp.[description] from Konkurencja.dbo.MaterialClpCodeP mat " +
                 "left join Konkurencja.dbo.CmbClpPcode clp on mat.code_id=clp.id Order By mat.material_id, clp.ordering" },
+            {SqlIndex.MaterialClpHPcombineIndex, "Select mat.material_id, h.class, h.code, h.[description], h.ordering As ord From Konkurencja.dbo.MaterialClpCodeH mat left join Konkurencja.dbo.CmbClpHcode h " +
+                "on mat.code_id=h.id Union All Select mat.material_id, '' As class, p.code, p.[description], p.ordering As ord From Konkurencja.dbo.MaterialClpCodeP mat left join Konkurencja.dbo.CmbClpPcode p " +
+                "on mat.code_id=p.id Order by material_id, ord" },
             {SqlIndex.MaterialClpSignalIndex, "Select material_id, code_id, date_created, sig.name_pl from Konkurencja.dbo.MaterialClpSignal mat left join Konkurencja.dbo.CmbClpSignalWord sig " +
                 "on mat.code_id=sig.id Order by material_id" },
             {SqlIndex.ClpHcodeIndex, "Select hc.id, hc.[class], hc.code, hc.[description], hc.ordering, hc.ghs_id, ghs.[description], hc.signal_word_id, sig.name_pl, " +

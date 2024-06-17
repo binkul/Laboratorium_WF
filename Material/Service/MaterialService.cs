@@ -2,9 +2,9 @@
 using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.Service;
-using Laboratorium.ClpData.Repository;
 using Laboratorium.Commons;
 using Laboratorium.Currency.Repository;
+using Laboratorium.Material.Dto;
 using Laboratorium.Material.Forms;
 using Laboratorium.Material.Repository;
 using System;
@@ -21,31 +21,9 @@ namespace Laboratorium.Material.Service
         private const string ID = "Id";
         private const string NAME_PL = "NamePl";
         private const string CURRENCY = "Currency";
+        private const string ADMIN = "admin";
 
-        private readonly IList<Image> _ghsImages = new List<Image>
-        {
-            new Bitmap(Properties.Resources.Eksplozja, new Size(100, 100)),
-            new Bitmap(Properties.Resources.Plomien, new Size(100, 100)),
-            new Bitmap(Properties.Resources.Plomien_nad_okregiem, new Size(100, 100)),
-            new Bitmap(Properties.Resources.Butla, new Size(100, 100)),
-            new Bitmap(Properties.Resources.Zrace, new Size(100, 100)),
-            new Bitmap(Properties.Resources.Czaszka, new Size(100, 100)),
-            new Bitmap(Properties.Resources.Wykrzyknik, new Size(100, 100)),
-            new Bitmap(Properties.Resources.Meduza, new Size(100, 100)),
-            new Bitmap(Properties.Resources.Ryba, new Size(100, 100)),
-        };
-        private readonly IList<Point> _ghsPoints = new List<Point>
-        {
-            new Point(50, 0),
-            new Point(0, 50),
-            new Point(100, 50),
-            new Point(50, 100),
-            new Point(150, 0),
-            new Point(150, 100),
-            new Point(200, 50)
-        };
-
-    private const string FORM_TOP = "Form_Top";
+        private const string FORM_TOP = "Form_Top";
         private const string FORM_LEFT = "Form_Left";
         private const string FORM_WIDTH = "Form_Width";
         private const string FORM_HEIGHT = "Form_Height";
@@ -57,15 +35,15 @@ namespace Laboratorium.Material.Service
         private readonly MaterialForm _form;
         private readonly SqlConnection _connection;
         private readonly IBasicCRUD<MaterialClpGhsDto> _ghsRepository;
-        private readonly IBasicCRUD<MaterialClpHCodeDto> _hCodeRepository;
-        private readonly IBasicCRUD<MaterialClpPCodeDto> _pCodeRepository;
         private readonly IBasicCRUD<MaterialClpSignalDto> _signalRepository;
         private readonly IExtendedCRUD<MaterialDto> _repository;
         private IList<MaterialDto> _materialList;
+        private IList<ClpHPcombineDto> _materialClpList;
         private IList<CmbUnitDto> _unitList;
         private IList<CmbCurrencyDto> _currencyList;
         private IList<CmbMaterialFunctionDto> _functionList;
         private BindingSource _materialBinding;
+        private BindingSource _materialClpBinding;
         public MaterialDto CurrentMaterial;
 
         private IDictionary<string, double> _formData = CommonFunction.LoadWindowsDataAsDictionary(FORM_DATA);
@@ -77,8 +55,6 @@ namespace Laboratorium.Material.Service
             _form = form;
 
             _ghsRepository = new MaterialGHSRepository(_connection);
-            _hCodeRepository = new MaterialHcodeRepository(_connection);
-            _pCodeRepository = new MaterialPcodeRepository(_connection);
             _signalRepository = new MaterialSignalRepository(_connection);
             _repository = new MaterialRepository(_connection, this);
         }
@@ -136,6 +112,16 @@ namespace Laboratorium.Material.Service
                 }
             }
 
+            foreach (DataGridViewColumn col in _form.GetDgvClp.Columns)
+            {
+                if (col.Visible)
+                {
+                    string name = col.Name;
+                    double width = col.Width;
+                    list.Add(name, width);
+                }
+            }
+
             CommonFunction.WriteWindowsData(list, FORM_DATA);
         }
 
@@ -162,6 +148,10 @@ namespace Laboratorium.Material.Service
             _form.GetBindingNavigator.BindingSource = _materialBinding;
             _materialBinding.PositionChanged += MaterialBinding_PositionChanged;
 
+            _materialClpList = new List<ClpHPcombineDto>();
+            _materialClpBinding = new BindingSource();
+            _materialClpBinding.DataSource = _materialClpList;
+
             IBasicCRUD<CmbUnitDto> repoUnit = new CmbUnitRepository(_connection);
             _unitList = repoUnit.GetAll();
 
@@ -171,15 +161,15 @@ namespace Laboratorium.Material.Service
             IBasicCRUD<CmbMaterialFunctionDto> repoFunction = new CmbMaterialFunctionRepository(_connection);
             _functionList = repoFunction.GetAll();
 
-
             #endregion
 
             PrepareClp();
             PreparaeDgvMaterial();
+            PrepareDgvClpMaterial();
             PrepareCombBoxes();
             PrepareOtherControls();
 
-            _form.GetClpImage.Size = new Size(300,299);
+            _form.GetPicClpImage.Size = new Size(300,299);
 
             MaterialBinding_PositionChanged(null, null);
 
@@ -220,8 +210,7 @@ namespace Laboratorium.Material.Service
             view.Columns.Remove("Service");
             view.Columns.Remove("CrudState");
             view.Columns.Remove("GhsCodeList");
-            view.Columns.Remove("PcodeList");
-            view.Columns.Remove("HcodeList");
+            view.Columns.Remove("HPcodeList");
             view.Columns.Remove("SignalWord");
 
             view.Columns["Id"].Visible = false;
@@ -283,6 +272,47 @@ namespace Laboratorium.Material.Service
             {
                 view.CurrentCell = view.Rows[_materialBinding.Position].Cells["Name"];
             }
+        }
+
+        private void PrepareDgvClpMaterial()
+        {
+            DataGridView view = _form.GetDgvClp;
+            view.DataSource = _materialClpBinding;
+            view.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.RowsDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Regular);
+            view.ColumnHeadersDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Bold);
+            view.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            view.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            view.RowHeadersVisible = false;
+            view.DefaultCellStyle.ForeColor = Color.Black;
+            view.MultiSelect = false;
+            view.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            view.ReadOnly = true;
+            view.AutoGenerateColumns = false;
+
+            view.Columns.Remove("MaterialId");
+
+            view.Columns["ClassClp"].HeaderText = "Klasa";
+            view.Columns["ClassClp"].DisplayIndex = 0;
+            view.Columns["ClassClp"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns["ClassClp"].Width = _formData.ContainsKey("ClassClp") ? (int)_formData["ClassClp"] : STD_WIDTH;
+            view.Columns["ClassClp"].ReadOnly = true;
+            view.Columns["ClassClp"].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+            view.Columns["CodeClp"].HeaderText = "Kod";
+            view.Columns["CodeClp"].DisplayIndex = 1;
+            view.Columns["CodeClp"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns["CodeClp"].Width = _formData.ContainsKey("CodeClp") ? (int)_formData["CodeClp"] : STD_WIDTH;
+            view.Columns["CodeClp"].ReadOnly = true;
+            view.Columns["CodeClp"].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+            view.Columns["DescriptionClp"].HeaderText = "Opis";
+            view.Columns["DescriptionClp"].DisplayIndex = 2;
+            view.Columns["DescriptionClp"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            view.Columns["DescriptionClp"].Width = _formData.ContainsKey("DescriptionClp") ? (int)_formData["DescriptionClp"] : STD_WIDTH;
+            view.Columns["DescriptionClp"].ReadOnly = true;
+            view.Columns["DescriptionClp"].SortMode = DataGridViewColumnSortMode.NotSortable;
+
         }
 
         private void PrepareOtherControls()
@@ -364,9 +394,9 @@ namespace Laboratorium.Material.Service
 
         private void PrepareClp()
         {
+            IBasicCRUD<ClpHPcombineDto> repo = new ClpHPcombineRepository(_connection);
+            IList<ClpHPcombineDto> clpList = repo.GetAll();
             IList<MaterialClpGhsDto> ghsList = _ghsRepository.GetAll();
-            IList<MaterialClpHCodeDto> hList = _hCodeRepository.GetAll();
-            IList<MaterialClpPCodeDto> pList = _pCodeRepository.GetAll();
             IList<MaterialClpSignalDto> sigList = _signalRepository.GetAll();
             foreach (var material in _materialList)
             {
@@ -377,15 +407,11 @@ namespace Laboratorium.Material.Service
                         .ToList();
                     material.GhsCodeList = ghs;
 
-                    var h = hList
+                    var clp = clpList
                         .Where(i => i.MaterialId == material.Id)
                         .ToList();
-                    material.HcodeList = h;
 
-                    var p = pList
-                        .Where(i => i.MaterialId == material.Id)
-                        .ToList();
-                    material.HcodeList = h;
+                    material.HPcodeList = clp;
 
                     var sig = sigList
                         .Where(i => i.MaterialId == material.Id)
@@ -409,13 +435,10 @@ namespace Laboratorium.Material.Service
             if (_materialBinding == null || _materialBinding.Count == 0)
             {
                 CurrentMaterial = null;
-                _form.GetClpImage.Image = null;
             }
             else
             {
                 CurrentMaterial = (MaterialDto)_materialBinding.Current;
-                _form.GetClpImage.Image = null;
-                _form.GetClpImage.Image = SetGhsImage();
             }
 
             #endregion
@@ -432,6 +455,23 @@ namespace Laboratorium.Material.Service
             else
             {
                 _form.GetLblDateCreated.Text = "Utworzenie: Brak";
+            }
+
+            #endregion
+
+            #region Synchronize CLP controls
+
+            if (CurrentMaterial != null)
+            {
+                SetGhsImage(true);
+                SetSignalWord(true);
+                SynchronizeHPcode(true);
+            }
+            else
+            {
+                SetGhsImage(false);
+                SetSignalWord(false);
+                SynchronizeHPcode(false);
             }
 
             #endregion
@@ -475,6 +515,11 @@ namespace Laboratorium.Material.Service
 
             #endregion
 
+            #region Synchronize others controls
+
+            _form.GetBtnClpEdit.Enabled = CurrentMaterial != null && _user.Permission.ToLower().Equals(ADMIN) && CurrentMaterial.IsDanger;
+
+            #endregion
 
             _cmbBlock = false;
         }
@@ -501,11 +546,15 @@ namespace Laboratorium.Material.Service
             }
         }
 
-        private Bitmap SetGhsImage()
+        private void SetGhsImage(bool danger)
         {
             //       1       5
             //   2       4       7
             //       3       6
+
+            _form.GetPicClpImage.Image = null;
+            if (!danger)
+                return;
 
             if (CurrentMaterial.IsDanger)
             {
@@ -516,16 +565,40 @@ namespace Laboratorium.Material.Service
                 int position = 0;
                 foreach (var ghs in ghsList)
                 {
-                    graphics.DrawImage(_ghsImages[ghs.CodeId - 1], _ghsPoints[position]);
+                    graphics.DrawImage(CommonData.GhsImages[ghs.CodeId - 1], CommonData.GhsPoints[position]);
                     position++;
                 }
                 
                 graphics.Dispose();
-                return bitmap;
+                _form.GetPicClpImage.Image = bitmap;
+            }
+        }
+
+        private void SetSignalWord(bool danger)
+        {
+            if (!danger || CurrentMaterial.SignalWord.CodeId == 1)
+            {
+                _form.GetLblClpSignal.Text = "Nieszkodliwy";
+                _form.GetLblClpSignal.ForeColor = Color.Blue;
             }
             else
             {
-                return null;
+                _form.GetLblClpSignal.Text = CurrentMaterial.SignalWord.NamePl;
+                _form.GetLblClpSignal.ForeColor = Color.Red;
+            }
+        }
+
+        private void SynchronizeHPcode(bool danger)
+        {
+            if (danger)
+            {
+                _materialClpList = CurrentMaterial.HPcodeList;
+                _materialClpBinding.DataSource = _materialClpList;
+            }
+            else
+            {
+                _materialClpList = new List<ClpHPcombineDto>();
+                _materialClpBinding.DataSource = _materialClpList;
             }
         }
 
@@ -594,6 +667,39 @@ namespace Laboratorium.Material.Service
         {
             if (e.Value.Equals(""))
                 e.Value = null;
+        }
+
+        #endregion
+
+
+        #region DataGridView and others events
+
+        public void DgvClpHPdataFormat(DataGridViewCellFormattingEventArgs e)
+        {
+            DataGridView view = _form.GetDgvClp;
+
+            if (view.Columns[e.ColumnIndex].Name == "ClassClp")
+            {
+                e.CellStyle.Font = new Font(e.CellStyle.Font.Name, 10, FontStyle.Bold);
+                e.CellStyle.ForeColor = Color.Red;
+            }
+            else if (view.Columns[e.ColumnIndex].Name == "CodeClp")
+            {
+                e.CellStyle.ForeColor = Color.Blue;
+            }
+            else
+            {
+                e.CellStyle.Font = new Font(e.CellStyle.Font.Name, 8, FontStyle.Regular);
+                e.CellStyle.ForeColor = Color.Black;
+            }
+        }
+
+        public void DangerStateChanged()
+        {
+            if (_form.GetChbDanger.Checked)
+                _form.GetBtnClpEdit.Enabled = CurrentMaterial != null && _user.Permission.ToLower().Equals(ADMIN);
+            else
+                _form.GetBtnClpEdit.Enabled = false;
         }
 
         #endregion

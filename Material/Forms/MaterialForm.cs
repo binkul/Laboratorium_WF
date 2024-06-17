@@ -18,6 +18,7 @@ namespace Laboratorium.Material.Forms
 
         public BindingNavigator GetBindingNavigator => BindingNavigatorMaterial;
         public DataGridView GetDgvMaterial => DgvMaterial;
+        public DataGridView GetDgvClp => DgvClp;
         public TextBox GetTxtName => TxtName;
         public TextBox GetTxtIndex => TxtIndex;
         public TextBox GetTxtDensity => TxtDensity;
@@ -29,6 +30,7 @@ namespace Laboratorium.Material.Forms
         public TextBox GetTxtQuantity => TxtQuantity;
         public TextBox GetTxtRemarks => TxtRemarks;
         public TextBox GetTxtVoc => TxtVoc;
+        public Label GetLblClpSignal => LblClpSignal;
         public ComboBox GetCmbFunction => CmbFunction;
         public ComboBox GetCmbSupplier => CmbSupplier;
         public ComboBox GetCmbCurrency => CmbCurrency;
@@ -40,7 +42,8 @@ namespace Laboratorium.Material.Forms
         public CheckBox GetChbSample => ChbSample;
         public CheckBox GetChbSemiproduct => ChbSemiproduct;
         public Label GetLblDateCreated => LblDateCreated;
-        public PictureBox GetClpImage => PicBox_CLP;
+        public PictureBox GetPicClpImage => PicBox_CLP;
+        public Button GetBtnClpEdit => BtnClpEdit;
 
         public MaterialForm(SqlConnection connection, UserDto user)
         {
@@ -116,6 +119,24 @@ namespace Laboratorium.Material.Forms
             {
                 base.OnKeyPress(e);
             }
+        }
+
+        private void DgvClp_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (Init)
+                return;
+
+            _service.DgvClpHPdataFormat(e);
+        }
+
+        private void BtnClpEdit_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ChbClp_CheckedChanged(object sender, EventArgs e)
+        {
+            _service.DangerStateChanged();
         }
     }
 }

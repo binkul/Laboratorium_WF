@@ -28,6 +28,7 @@
         MaterialClpPcodeIndex,
         MaterialClpHcodeIndex,
         MaterialClpSignalIndex,
+        MaterialClpHPcombineIndex,
         UnitIndex,
         CurrencyIndex,
 

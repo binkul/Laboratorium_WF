@@ -1,4 +1,5 @@
 ﻿using Laboratorium.ADO.Service;
+using Laboratorium.Material.Dto;
 using Laboratorium.Material.Service;
 using System;
 using System.Collections.Generic;
@@ -40,8 +41,7 @@ namespace Laboratorium.ADO.DTO
         public CrudState CrudState { get; set; } = CrudState.OK;
 
         public IList<MaterialClpGhsDto> GhsCodeList { get; set; } = new List<MaterialClpGhsDto>();
-        public IList<MaterialClpHCodeDto> PcodeList { get; set; } = new List<MaterialClpHCodeDto>();
-        public IList<MaterialClpHCodeDto> HcodeList { get; set; } = new List<MaterialClpHCodeDto>();
+        public IList<ClpHPcombineDto> HPcodeList { get; set; } = new List<ClpHPcombineDto>();
         public MaterialClpSignalDto SignalWord { get; set; }
 
 
