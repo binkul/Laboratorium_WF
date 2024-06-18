@@ -169,7 +169,7 @@ namespace Laboratorium.Material.Service
             PrepareCombBoxes();
             PrepareOtherControls();
 
-            _form.GetPicClpImage.Size = new Size(300,299);
+            _form.GetPicClpImage.Size = new Size(300,200);
 
             MaterialBinding_PositionChanged(null, null);
 
@@ -689,7 +689,7 @@ namespace Laboratorium.Material.Service
             }
             else
             {
-                e.CellStyle.Font = new Font(e.CellStyle.Font.Name, 8, FontStyle.Regular);
+                e.CellStyle.Font = new Font(e.CellStyle.Font.Name, 9, FontStyle.Regular);
                 e.CellStyle.ForeColor = Color.Black;
             }
         }

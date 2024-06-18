@@ -103,16 +103,16 @@ namespace Laboratorium.Material.Forms
             this.TxtRemarks = new System.Windows.Forms.TextBox();
             this.label25 = new System.Windows.Forms.Label();
             this.TbClp = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.PicBox_CLP = new System.Windows.Forms.PictureBox();
+            this.LblClpSignal = new System.Windows.Forms.Label();
+            this.DgvClp = new System.Windows.Forms.DataGridView();
+            this.BtnClpEdit = new System.Windows.Forms.Button();
             this.TbComposition = new System.Windows.Forms.TabPage();
             this.BtnAdd = new System.Windows.Forms.Button();
             this.BtnSave = new System.Windows.Forms.Button();
             this.BtnDelete = new System.Windows.Forms.Button();
             this.LblDateCreated = new System.Windows.Forms.Label();
-            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
-            this.LblClpSignal = new System.Windows.Forms.Label();
-            this.DgvClp = new System.Windows.Forms.DataGridView();
-            this.BtnClpEdit = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.BindingNavigatorMaterial)).BeginInit();
             this.BindingNavigatorMaterial.SuspendLayout();
             this.TbMaterial.SuspendLayout();
@@ -129,8 +129,8 @@ namespace Laboratorium.Material.Forms
             this.panel4.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.TbClp.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicBox_CLP)).BeginInit();
             this.tableLayoutPanel6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBox_CLP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvClp)).BeginInit();
             this.SuspendLayout();
             // 
@@ -216,6 +216,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.bindingNavigatorPositionItem.AccessibleName = "Pozycja";
             this.bindingNavigatorPositionItem.AutoSize = false;
+            this.bindingNavigatorPositionItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
             this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 27);
             this.bindingNavigatorPositionItem.Text = "0";
@@ -423,9 +424,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel2.SetColumnSpan(this.label2, 2);
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label2.ForeColor = System.Drawing.Color.Blue;
-            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Location = new System.Drawing.Point(3, 1);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(284, 24);
+            this.label2.Size = new System.Drawing.Size(284, 22);
             this.label2.TabIndex = 0;
             this.label2.Text = "Dane podstawowe";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -466,7 +467,7 @@ namespace Laboratorium.Material.Forms
             this.CmbFunction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbFunction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbFunction.FormattingEnabled = true;
-            this.CmbFunction.Location = new System.Drawing.Point(123, 72);
+            this.CmbFunction.Location = new System.Drawing.Point(123, 73);
             this.CmbFunction.Name = "CmbFunction";
             this.CmbFunction.Size = new System.Drawing.Size(164, 28);
             this.CmbFunction.TabIndex = 6;
@@ -476,7 +477,7 @@ namespace Laboratorium.Material.Forms
             this.CmbSupplier.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbSupplier.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbSupplier.FormattingEnabled = true;
-            this.CmbSupplier.Location = new System.Drawing.Point(123, 113);
+            this.CmbSupplier.Location = new System.Drawing.Point(123, 111);
             this.CmbSupplier.Name = "CmbSupplier";
             this.CmbSupplier.Size = new System.Drawing.Size(164, 28);
             this.CmbSupplier.TabIndex = 7;
@@ -552,9 +553,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel3.SetColumnSpan(this.label6, 2);
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label6.ForeColor = System.Drawing.Color.Blue;
-            this.label6.Location = new System.Drawing.Point(3, 0);
+            this.label6.Location = new System.Drawing.Point(3, 1);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(284, 24);
+            this.label6.Size = new System.Drawing.Size(284, 22);
             this.label6.TabIndex = 1;
             this.label6.Text = "Fizykochemia";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -677,9 +678,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel4.SetColumnSpan(this.label11, 2);
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label11.ForeColor = System.Drawing.Color.Blue;
-            this.label11.Location = new System.Drawing.Point(3, 0);
+            this.label11.Location = new System.Drawing.Point(3, 1);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(284, 24);
+            this.label11.Size = new System.Drawing.Size(284, 22);
             this.label11.TabIndex = 1;
             this.label11.Text = "Cennik";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -795,7 +796,7 @@ namespace Laboratorium.Material.Forms
             this.CmbCurrency.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbCurrency.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbCurrency.FormattingEnabled = true;
-            this.CmbCurrency.Location = new System.Drawing.Point(123, 72);
+            this.CmbCurrency.Location = new System.Drawing.Point(123, 73);
             this.CmbCurrency.Name = "CmbCurrency";
             this.CmbCurrency.Size = new System.Drawing.Size(136, 28);
             this.CmbCurrency.TabIndex = 13;
@@ -805,7 +806,7 @@ namespace Laboratorium.Material.Forms
             this.CmbUnit.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbUnit.FormattingEnabled = true;
-            this.CmbUnit.Location = new System.Drawing.Point(123, 112);
+            this.CmbUnit.Location = new System.Drawing.Point(123, 113);
             this.CmbUnit.Name = "CmbUnit";
             this.CmbUnit.Size = new System.Drawing.Size(136, 28);
             this.CmbUnit.TabIndex = 14;
@@ -925,9 +926,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel5.SetColumnSpan(this.label18, 2);
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label18.ForeColor = System.Drawing.Color.Blue;
-            this.label18.Location = new System.Drawing.Point(3, 0);
+            this.label18.Location = new System.Drawing.Point(3, 1);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(180, 24);
+            this.label18.Size = new System.Drawing.Size(180, 22);
             this.label18.TabIndex = 2;
             this.label18.Text = "Zastosowanie";
             this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1017,9 +1018,9 @@ namespace Laboratorium.Material.Forms
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label25.ForeColor = System.Drawing.Color.Blue;
-            this.label25.Location = new System.Drawing.Point(342, 376);
+            this.label25.Location = new System.Drawing.Point(342, 378);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(144, 24);
+            this.label25.Size = new System.Drawing.Size(144, 22);
             this.label25.TabIndex = 5;
             this.label25.Text = "Uwagi";
             this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1035,6 +1036,27 @@ namespace Laboratorium.Material.Forms
             this.TbClp.TabIndex = 1;
             this.TbClp.Text = "CLP";
             // 
+            // tableLayoutPanel6
+            // 
+            this.tableLayoutPanel6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel6.ColumnCount = 2;
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 350F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel6.Controls.Add(this.PicBox_CLP, 0, 1);
+            this.tableLayoutPanel6.Controls.Add(this.LblClpSignal, 0, 0);
+            this.tableLayoutPanel6.Controls.Add(this.DgvClp, 1, 1);
+            this.tableLayoutPanel6.Controls.Add(this.BtnClpEdit, 1, 2);
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(0, 6);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.tableLayoutPanel6.RowCount = 3;
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(871, 463);
+            this.tableLayoutPanel6.TabIndex = 10;
+            // 
             // PicBox_CLP
             // 
             this.PicBox_CLP.Location = new System.Drawing.Point(3, 53);
@@ -1042,6 +1064,45 @@ namespace Laboratorium.Material.Forms
             this.PicBox_CLP.Size = new System.Drawing.Size(300, 200);
             this.PicBox_CLP.TabIndex = 9;
             this.PicBox_CLP.TabStop = false;
+            // 
+            // LblClpSignal
+            // 
+            this.LblClpSignal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.LblClpSignal.AutoSize = true;
+            this.tableLayoutPanel6.SetColumnSpan(this.LblClpSignal, 2);
+            this.LblClpSignal.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LblClpSignal.ForeColor = System.Drawing.Color.Blue;
+            this.LblClpSignal.Location = new System.Drawing.Point(3, 9);
+            this.LblClpSignal.Name = "LblClpSignal";
+            this.LblClpSignal.Size = new System.Drawing.Size(865, 32);
+            this.LblClpSignal.TabIndex = 10;
+            this.LblClpSignal.Text = "Nieszkodliwy";
+            this.LblClpSignal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // DgvClp
+            // 
+            this.DgvClp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.DgvClp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DgvClp.Location = new System.Drawing.Point(353, 53);
+            this.DgvClp.Name = "DgvClp";
+            this.DgvClp.RowHeadersWidth = 51;
+            this.DgvClp.RowTemplate.Height = 24;
+            this.DgvClp.Size = new System.Drawing.Size(515, 357);
+            this.DgvClp.TabIndex = 11;
+            this.DgvClp.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvClp_CellFormatting);
+            // 
+            // BtnClpEdit
+            // 
+            this.BtnClpEdit.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.BtnClpEdit.Location = new System.Drawing.Point(776, 420);
+            this.BtnClpEdit.Name = "BtnClpEdit";
+            this.BtnClpEdit.Size = new System.Drawing.Size(92, 35);
+            this.BtnClpEdit.TabIndex = 12;
+            this.BtnClpEdit.Text = "Edytuj";
+            this.BtnClpEdit.UseVisualStyleBackColor = true;
+            this.BtnClpEdit.Click += new System.EventHandler(this.BtnClpEdit_Click);
             // 
             // TbComposition
             // 
@@ -1098,69 +1159,9 @@ namespace Laboratorium.Material.Forms
             this.LblDateCreated.Location = new System.Drawing.Point(634, 39);
             this.LblDateCreated.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblDateCreated.Name = "LblDateCreated";
-            this.LblDateCreated.Size = new System.Drawing.Size(246, 24);
+            this.LblDateCreated.Size = new System.Drawing.Size(241, 22);
             this.LblDateCreated.TabIndex = 25;
             this.LblDateCreated.Text = "Utworzenie: 00-00-0000   ";
-            // 
-            // tableLayoutPanel6
-            // 
-            this.tableLayoutPanel6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel6.ColumnCount = 2;
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 350F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel6.Controls.Add(this.PicBox_CLP, 0, 1);
-            this.tableLayoutPanel6.Controls.Add(this.LblClpSignal, 0, 0);
-            this.tableLayoutPanel6.Controls.Add(this.DgvClp, 1, 1);
-            this.tableLayoutPanel6.Controls.Add(this.BtnClpEdit, 1, 2);
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(0, 6);
-            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
-            this.tableLayoutPanel6.RowCount = 3;
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(871, 463);
-            this.tableLayoutPanel6.TabIndex = 10;
-            // 
-            // LblClpSignal
-            // 
-            this.LblClpSignal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.LblClpSignal.AutoSize = true;
-            this.tableLayoutPanel6.SetColumnSpan(this.LblClpSignal, 2);
-            this.LblClpSignal.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblClpSignal.ForeColor = System.Drawing.Color.Blue;
-            this.LblClpSignal.Location = new System.Drawing.Point(3, 9);
-            this.LblClpSignal.Name = "LblClpSignal";
-            this.LblClpSignal.Size = new System.Drawing.Size(865, 32);
-            this.LblClpSignal.TabIndex = 10;
-            this.LblClpSignal.Text = "Nieszkodliwy";
-            this.LblClpSignal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // DgvClp
-            // 
-            this.DgvClp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.DgvClp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DgvClp.Location = new System.Drawing.Point(353, 53);
-            this.DgvClp.Name = "DgvClp";
-            this.DgvClp.RowHeadersWidth = 51;
-            this.DgvClp.RowTemplate.Height = 24;
-            this.DgvClp.Size = new System.Drawing.Size(515, 357);
-            this.DgvClp.TabIndex = 11;
-            this.DgvClp.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvClp_CellFormatting);
-            // 
-            // BtnClpEdit
-            // 
-            this.BtnClpEdit.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.BtnClpEdit.Location = new System.Drawing.Point(776, 420);
-            this.BtnClpEdit.Name = "BtnClpEdit";
-            this.BtnClpEdit.Size = new System.Drawing.Size(92, 35);
-            this.BtnClpEdit.TabIndex = 12;
-            this.BtnClpEdit.Text = "Edytuj";
-            this.BtnClpEdit.UseVisualStyleBackColor = true;
-            this.BtnClpEdit.Click += new System.EventHandler(this.BtnClpEdit_Click);
             // 
             // MaterialForm
             // 
@@ -1202,9 +1203,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
             this.TbClp.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PicBox_CLP)).EndInit();
             this.tableLayoutPanel6.ResumeLayout(false);
             this.tableLayoutPanel6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicBox_CLP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvClp)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
