@@ -30,6 +30,7 @@ namespace Laboratorium.Material.Service
         private const string FORM_DATA = "MaterialForm";
         private const int STD_WIDTH = 100;
 
+        private bool _filterBlock = false;
         private bool _cmbBlock = false;
         private readonly UserDto _user;
         private readonly MaterialForm _form;
@@ -672,6 +673,73 @@ namespace Laboratorium.Material.Service
         #endregion
 
 
+        #region Menu
+
+        public void AddNewMaterial()
+        {
+            string permission = _user.Permission.ToLower();
+            if (!permission.Equals(ADMIN))
+                return;
+
+            MaterialDto material = new MaterialDto.Builder()
+                .Id(0)
+                .Name("")
+                .SupplierId(1)
+                .FunctinoId(1)
+                .IsIntermediate(false)
+                .IsObserved(false)
+                .IsActive(false)
+                .Isdanger(false)
+                .IsPackage(false)
+                .IsProduction(false)
+                .CurrencyId(1)
+                .UnitId(1)
+                .Service(this)
+                .Build();
+
+            CancelFilter(false);
+
+            _materialBinding.Add(material);
+            _materialBinding.EndEdit();
+            _form.GetDgvMaterial.Refresh();
+
+            _materialBinding.Position = _materialBinding.Count - 1;
+
+            Modify(RowState.ADDED);
+        }
+
+        #endregion
+
+
+        #region CRUD
+
+        public void Save()
+        {
+
+            
+        }
+
+        public void Delete()
+        {
+
+        }
+
+        private bool CheckBeforeSave(MaterialDto material)
+        {
+            bool result = true;
+
+            if (string.IsNullOrEmpty(material.Name))
+            {
+                MessageBox.Show("Brak nazwy surowca. Nie mozna zapisac surowca bez nazwy. uzupełnij nazwę.", "Brak nazwy", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return result;
+        }
+
+        #endregion
+
+
         #region DataGridView and others events
 
         public void DgvClpHPdataFormat(DataGridViewCellFormattingEventArgs e)
@@ -700,6 +768,98 @@ namespace Laboratorium.Material.Service
                 _form.GetBtnClpEdit.Enabled = CurrentMaterial != null && _user.Permission.ToLower().Equals(ADMIN);
             else
                 _form.GetBtnClpEdit.Enabled = false;
+        }
+
+        public void ColumnWidthChanged()
+        {
+            DataGridView view = _form.GetDgvMaterial;
+            int left;
+
+            _form.GetBtnFilterCancel.Left = view.Left;
+            _form.GetBtnFilterCancel.Width = view.RowHeadersWidth - 2;
+
+            _form.GetTxtFilterName.Left = view.Left + view.RowHeadersWidth;
+            _form.GetTxtFilterName.Width = view.Columns["Name"].Width;
+
+            left = _form.GetTxtFilterName.Left + _form.GetTxtFilterName.Width 
+                + (view.Columns["IsActive"].Width / 2);
+            _form.GetChbFilterActive.Left = left - (_form.GetChbFilterActive.Width / 2);
+
+            left = _form.GetTxtFilterName.Left + _form.GetTxtFilterName.Width
+                + view.Columns["IsActive"].Width + (view.Columns["IsDanger"].Width / 2);
+            _form.GetChbFilterClp.Left = left - (_form.GetChbFilterClp.Width / 2);
+
+            left = _form.GetTxtFilterName.Left + _form.GetTxtFilterName.Width
+                + view.Columns["IsActive"].Width + view.Columns["IsDanger"].Width + (view.Columns["IsProduction"].Width / 2);
+            _form.GetChbFilterProd.Left = left - (_form.GetChbFilterProd.Width / 2);
+        }
+
+        #endregion
+
+
+        #region Filtration
+
+        public void Filtering()
+        {
+            if (_filterBlock)
+                return;
+
+            string name = _form.GetTxtFilterName.Text;
+            bool isName = !string.IsNullOrEmpty(name);
+            bool isActive = _form.GetChbFilterActive.Checked;
+            bool isDanger = _form.GetChbFilterClp.Checked;
+            bool isProd = _form.GetChbFilterProd.Checked;
+
+            if (IsFilterSet())
+            {
+                SetFilter(_materialList);
+                return;
+            }
+
+            IList<MaterialDto> filtered;
+
+            filtered = _materialList
+                .Where(i => isName ? i.Name.ToLower().Contains(name.ToLower()) : true)
+                .Where(i => isActive ? i.IsActive : true)
+                .Where(i => isDanger ? i.IsDanger : true)
+                .Where(i => isProd ? i.IsProduction : true)
+                .ToList();
+
+            SetFilter(filtered);
+        }
+
+        public void SetFilter(IList<MaterialDto> filter)
+        {
+            _materialBinding.DataSource = filter;
+            _materialBinding.Position = filter.Count > 0 ? 0 : -1;
+        }
+
+        public void CancelFilter(bool GoToFirst)
+        {
+            if (IsFilterSet())
+                return;
+
+            _filterBlock = true;
+            _form.GetTxtFilterName.Text = "";
+            _form.GetChbFilterActive.Checked = false;
+            _form.GetChbFilterClp.Checked = false;
+            _form.GetChbFilterProd.Checked = false;
+
+            _materialBinding.DataSource = _materialList;
+            if (GoToFirst)
+                _materialBinding.Position = 0;
+
+            _filterBlock = false;
+        }
+
+        private bool IsFilterSet()
+        {
+            string name = _form.GetTxtFilterName.Text;
+            bool isActive = _form.GetChbFilterActive.Checked;
+            bool isDanger = _form.GetChbFilterClp.Checked;
+            bool isProd = _form.GetChbFilterProd.Checked;
+
+            return string.IsNullOrEmpty(name) && !isActive && !isDanger && !isProd;
         }
 
         #endregion

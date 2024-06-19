@@ -16,6 +16,8 @@ namespace Laboratorium.Material.Forms
         private UserDto _user;
         private bool _init = true;
 
+        #region Controls Share
+
         public BindingNavigator GetBindingNavigator => BindingNavigatorMaterial;
         public DataGridView GetDgvMaterial => DgvMaterial;
         public DataGridView GetDgvClp => DgvClp;
@@ -30,6 +32,7 @@ namespace Laboratorium.Material.Forms
         public TextBox GetTxtQuantity => TxtQuantity;
         public TextBox GetTxtRemarks => TxtRemarks;
         public TextBox GetTxtVoc => TxtVoc;
+        public TextBox GetTxtFilterName => TxtFilterName;
         public Label GetLblClpSignal => LblClpSignal;
         public ComboBox GetCmbFunction => CmbFunction;
         public ComboBox GetCmbSupplier => CmbSupplier;
@@ -41,9 +44,15 @@ namespace Laboratorium.Material.Forms
         public CheckBox GetChbPacking => ChbPacking;
         public CheckBox GetChbSample => ChbSample;
         public CheckBox GetChbSemiproduct => ChbSemiproduct;
+        public CheckBox GetChbFilterActive => ChbFilterActive;
+        public CheckBox GetChbFilterClp => ChbFilterClp;
+        public CheckBox GetChbFilterProd => ChbFilterProduction;
         public Label GetLblDateCreated => LblDateCreated;
         public PictureBox GetPicClpImage => PicBox_CLP;
         public Button GetBtnClpEdit => BtnClpEdit;
+        public Button GetBtnFilterCancel => BtnFilterCancel;
+
+        #endregion
 
         public MaterialForm(SqlConnection connection, UserDto user)
         {
@@ -51,6 +60,9 @@ namespace Laboratorium.Material.Forms
             _connection = connection;
             _user = user;
         }
+
+
+        #region Form init and load
 
         public bool Init => _init;
 
@@ -75,20 +87,35 @@ namespace Laboratorium.Material.Forms
             _service.FormClose(e);
         }
 
+        #endregion
+
+
+        #region Buttons
+
         private void BtnDelete_Click(object sender, EventArgs e)
         {
-
+            _service.Delete();
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-
+            _service.Save();
         }
 
         private void BtnAdd_Click(object sender, EventArgs e)
         {
+            _service.AddNewMaterial();
+        }
+
+        private void BtnClpEdit_Click(object sender, EventArgs e)
+        {
 
         }
+
+        #endregion
+
+
+        #region Controls validating
 
         private void TxtDensity_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -121,6 +148,11 @@ namespace Laboratorium.Material.Forms
             }
         }
 
+        #endregion
+
+
+        #region DataGridView Events
+
         private void DgvClp_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (Init)
@@ -129,14 +161,42 @@ namespace Laboratorium.Material.Forms
             _service.DgvClpHPdataFormat(e);
         }
 
-        private void BtnClpEdit_Click(object sender, EventArgs e)
+        private void DgvMaterial_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
         {
-
+            _service.ColumnWidthChanged();
         }
+
+        #endregion
+
+
+        #region Controls Events
 
         private void ChbClp_CheckedChanged(object sender, EventArgs e)
         {
             _service.DangerStateChanged();
         }
+
+        #endregion
+
+
+        #region Filtering
+
+        private void TxtFilterName_TextChanged(object sender, EventArgs e)
+        {
+            _service.Filtering();
+        }
+
+        private void ChbFilterActive_CheckedChanged(object sender, EventArgs e)
+        {
+            _service.Filtering();
+        }
+
+        private void BtnFilterCancel_Click(object sender, EventArgs e)
+        {
+            _service.CancelFilter(true);
+        }
+
+        #endregion
+
     }
 }

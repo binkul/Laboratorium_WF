@@ -23,7 +23,11 @@ namespace Laboratorium.ADO.SqlDataConstant
             {SqlIndex.LaboContrastIndex, "Update Konkurencja.dbo.LaboDataContrast Set is_deleted=@is_deleted, applicator_name=@applicator_name, " +
                 "position=@position, substrate=@substrate, contrast=@contrast, tw=@tw, sp=@sp, comments=@comments, date_updated=@date_updated Where id=@id" },
             {SqlIndex.UserIndex, "Update Konkurencja.dbo.LaboUsers Set name=@name, surname=@surname, e_mail=@e_mail, [login]=@login, [password]=@password, permission=@permission, " +
-                "identifier=@identifier, active=@active, date_created=@date_created) Where id=@id" }
+                "identifier=@identifier, active=@active, date_created=@date_created) Where id=@id" },
+            {SqlIndex.MaterialIndex, "Update Konkurencja.dbo.Material Set name=@name, index_db=@index_db, supplier_id=@supplier_id, function_id=@function_id, " +
+                "is_intermediate=@is_intermediate, is_danger=@is_danger, is_production=@is_production, is_observed=@is_observed, is_active=@is_active, " +
+                "is_package=@is_package, price=@price, price_per_quantity=@price_per_quantity, price_transport=@price_transport, quantity=@quantity, " +
+                "currency_id=@currency_id, unit_id=@unit_id, density=@density, solids=@solids, ash_450=@ash_450, VOC=@VOC, remarks=@remarks, date_updated=@date_updated Where id=@id" },
         };
     }
 }

@@ -30,6 +30,11 @@ namespace Laboratorium.ADO.SqlDataConstant
             {SqlIndex.LaboViscosityColIndex, "Insert Into Konkurencja.dbo.LaboDataViscosityCol(labo_id, [type], [columns]) Values(@labo_id, @type, @columns)" },
             {SqlIndex.UserIndex, "Insert Into Konkurencja.dbo.LaboUsers(name, surname, e_mail, login, password, permission, identifier, active, date_created) " +
                  "Output INSERTED.id Values(@name, @surname, @e_mail, @login, @password, @permission, @identifier, @active, @date_created)"},
+            {SqlIndex.MaterialIndex, "Insert Into Konkurencja.dbo.Material(name, index_db, supplier_id, function_id, is_intermediate, is_danger, is_production, is_observed, " +
+                "is_active, is_package, price, price_per_quantity, price_transport, quantity, currency_id, unit_id, density, solids, ash_450, VOC, remarks, date_created, " +
+                "date_updated) Output INSERTED.id Values(@name, @index_db, @supplier_id, @function_id, @is_intermediate, @is_danger, @is_production, @is_observed, @is_active, @is_package, @price, " +
+                "@price_per_quantity, @price_transport, @quantity, @currency_id, @unit_id, @density, @solids, @ash_450, @VOC, @remarks, @date_created, @date_updated)" },
+            {SqlIndex.MaterialClpSignalIndex, "Insert Into Konkurencja.dbo.MaterialClpSignal(material_id, code_id, date_created) Values(@material_id, @code_id, @date_created)" }
         };
     }
 }
