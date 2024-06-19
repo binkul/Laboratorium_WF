@@ -518,7 +518,7 @@ namespace Laboratorium.Material.Service
 
             #region Synchronize others controls
 
-            _form.GetBtnClpEdit.Enabled = CurrentMaterial != null && _user.Permission.ToLower().Equals(ADMIN) && CurrentMaterial.IsDanger;
+            SynchronizeOthersControls();
 
             #endregion
 
@@ -601,6 +601,11 @@ namespace Laboratorium.Material.Service
                 _materialClpList = new List<ClpHPcombineDto>();
                 _materialClpBinding.DataSource = _materialClpList;
             }
+        }
+
+        private void SynchronizeOthersControls()
+        {
+            _form.GetBtnClpEdit.Enabled = CurrentMaterial != null && _user.Permission.ToLower().Equals(ADMIN) && CurrentMaterial.IsDanger && CurrentMaterial.GetRowState != RowState.ADDED;
         }
 
         #endregion
@@ -713,10 +718,76 @@ namespace Laboratorium.Material.Service
 
         #region CRUD
 
-        public void Save()
+        public bool Save()
         {
+            CancelFilter(false);
+            _materialBinding.EndEdit();
+            _form.GetDgvMaterial.EndEdit();
 
-            
+            #region
+
+            var saveList = _materialList
+                .Where(i => i.GetRowState == RowState.ADDED)
+                .ToList();
+
+            foreach(var material in saveList)
+            {
+                if (!CheckBeforeSave(material))
+                {
+                    int position = _materialList.IndexOf(material);
+                    _materialBinding.Position = position;
+                    ShowMeassageError(0);
+                    return false;
+                }
+
+                CrudState saveState = _repository.Save(material).CrudState;
+                if (saveState == CrudState.OK)
+                {
+                    material.SignalWord.MaterialId = material.Id;
+                    _signalRepository.Save(material.SignalWord);
+                    material.AcceptChanges();
+                }
+                else
+                {
+                    ShowMeassageError(1);
+                    return false;
+                }
+            }
+
+            #endregion
+
+            #region
+
+            var updateList = _materialList
+                .Where(i => i.GetRowState == RowState.MODIFIED)
+                .ToList();
+
+            foreach (var material in updateList)
+            {
+                if (!CheckBeforeSave(material))
+                {
+                    int position = _materialList.IndexOf(material);
+                    _materialBinding.Position = position;
+                    ShowMeassageError(0);
+                    return false;
+                }
+
+                CrudState saveState = _repository.Update(material).CrudState;
+                if (saveState == CrudState.OK)
+                {
+                    material.AcceptChanges();
+                }
+                else
+                {
+                    ShowMeassageError(1);
+                    return false;
+                }
+            }
+
+            #endregion
+
+            Modify(RowState.UNCHANGED);
+            return true;
         }
 
         public void Delete()
@@ -726,15 +797,23 @@ namespace Laboratorium.Material.Service
 
         private bool CheckBeforeSave(MaterialDto material)
         {
-            bool result = true;
+            return !string.IsNullOrEmpty(material.Name);
+        }
 
-            if (string.IsNullOrEmpty(material.Name))
+        private void ShowMeassageError(int nr)
+        {
+            switch(nr)
             {
-                MessageBox.Show("Brak nazwy surowca. Nie mozna zapisac surowca bez nazwy. uzupełnij nazwę.", "Brak nazwy", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                case 0:
+                    MessageBox.Show("Brak nazwy surowca. Nie mozna zapisac surowca bez nazwy. Uzupełnij nazwę.", "Brak nazwy", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case 1:
+                    MessageBox.Show("Błąd w czasie zapisu. Sprawdź wszystkie wypełnione pozycje.", "Błąd zapisu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                default:
+                    break;
             }
 
-            return result;
         }
 
         #endregion
@@ -792,6 +871,14 @@ namespace Laboratorium.Material.Service
             left = _form.GetTxtFilterName.Left + _form.GetTxtFilterName.Width
                 + view.Columns["IsActive"].Width + view.Columns["IsDanger"].Width + (view.Columns["IsProduction"].Width / 2);
             _form.GetChbFilterProd.Left = left - (_form.GetChbFilterProd.Width / 2);
+        }
+
+        public void CellvalueChanged(DataGridViewCellEventArgs e)
+        {
+            if (_form.GetDgvMaterial.Columns[e.ColumnIndex].Name.Equals("IsDanger"))
+            {
+                SynchronizeOthersControls();
+            }
         }
 
         #endregion

@@ -121,12 +121,113 @@ namespace Laboratorium.Material.Repository
 
         public override MaterialDto Save(MaterialDto data)
         {
-            throw new NotImplementedException();
+            MaterialDto item = data;
+
+            try
+            {
+                SqlCommand command = new SqlCommand();
+                command.Connection = _connection;
+                command.CommandText = SqlSave.Save[_sqlIndex];
+                command.Parameters.AddWithValue("@name", item.Name);
+                command.Parameters.AddWithValue("@index_db", CommonFunction.NullStringToDBNullConv(item.Index));
+                command.Parameters.AddWithValue("@supplier_id", item.SupplierId);
+                command.Parameters.AddWithValue("@function_id", item.FunctionId);
+                command.Parameters.AddWithValue("@is_intermediate", item.IsIntermediate);
+                command.Parameters.AddWithValue("@is_danger", item.IsDanger);
+                command.Parameters.AddWithValue("@is_production", item.IsProduction);
+                command.Parameters.AddWithValue("@is_observed", item.IsObserved);
+                command.Parameters.AddWithValue("@is_active", item.IsActive);
+                command.Parameters.AddWithValue("@is_package", item.IsPackage);
+                command.Parameters.AddWithValue("@price", CommonFunction.NullDoubleToDBNullConv(item.Price));
+                command.Parameters.AddWithValue("@price_per_quantity", CommonFunction.NullDoubleToDBNullConv(item.PricePerQuantity));
+                command.Parameters.AddWithValue("@price_transport", CommonFunction.NullDoubleToDBNullConv(item.PriceTransport));
+                command.Parameters.AddWithValue("@quantity", CommonFunction.NullDoubleToDBNullConv(item.Quantity));
+                command.Parameters.AddWithValue("@currency_id", item.CurrencyId);
+                command.Parameters.AddWithValue("@unit_id", item.UnitId);
+                command.Parameters.AddWithValue("@density", CommonFunction.NullDoubleToDBNullConv(item.Density));
+                command.Parameters.AddWithValue("@solids", CommonFunction.NullDoubleToDBNullConv(item.Solids));
+                command.Parameters.AddWithValue("@ash_450", CommonFunction.NullDoubleToDBNullConv(item.Ash450));
+                command.Parameters.AddWithValue("@VOC", CommonFunction.NullDoubleToDBNullConv(item.VOC));
+                command.Parameters.AddWithValue("@remarks", CommonFunction.NullStringToDBNullConv(item.Remarks));
+                command.Parameters.AddWithValue("@date_created", item.DateCreated);
+                command.Parameters.AddWithValue("@date_updated", item.DateUpdated);
+                OpenConnection();
+                short id = Convert.ToInt16(command.ExecuteScalar());
+                item.Id = id;
+                item.CrudState = CrudState.OK;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu Save " + _tableName,
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "': '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return item;
         }
 
         public override MaterialDto Update(MaterialDto data)
         {
-            throw new NotImplementedException();
+            MaterialDto item = data;
+
+            try
+            {
+                SqlCommand command = new SqlCommand();
+                command.Connection = _connection;
+                command.CommandText = SqlUpdate.Update[_sqlIndex];
+                command.Parameters.AddWithValue("@name", item.Name);
+                command.Parameters.AddWithValue("@index_db", CommonFunction.NullStringToDBNullConv(item.Index));
+                command.Parameters.AddWithValue("@supplier_id", item.SupplierId);
+                command.Parameters.AddWithValue("@function_id", item.FunctionId);
+                command.Parameters.AddWithValue("@is_intermediate", item.IsIntermediate);
+                command.Parameters.AddWithValue("@is_danger", item.IsDanger);
+                command.Parameters.AddWithValue("@is_production", item.IsProduction);
+                command.Parameters.AddWithValue("@is_observed", item.IsObserved);
+                command.Parameters.AddWithValue("@is_active", item.IsActive);
+                command.Parameters.AddWithValue("@is_package", item.IsPackage);
+                command.Parameters.AddWithValue("@price", CommonFunction.NullDoubleToDBNullConv(item.Price));
+                command.Parameters.AddWithValue("@price_per_quantity", CommonFunction.NullDoubleToDBNullConv(item.PricePerQuantity));
+                command.Parameters.AddWithValue("@price_transport", CommonFunction.NullDoubleToDBNullConv(item.PriceTransport));
+                command.Parameters.AddWithValue("@quantity", CommonFunction.NullDoubleToDBNullConv(item.Quantity));
+                command.Parameters.AddWithValue("@currency_id", item.CurrencyId);
+                command.Parameters.AddWithValue("@unit_id", item.UnitId);
+                command.Parameters.AddWithValue("@density", CommonFunction.NullDoubleToDBNullConv(item.Density));
+                command.Parameters.AddWithValue("@solids", CommonFunction.NullDoubleToDBNullConv(item.Solids));
+                command.Parameters.AddWithValue("@ash_450", CommonFunction.NullDoubleToDBNullConv(item.Ash450));
+                command.Parameters.AddWithValue("@VOC", CommonFunction.NullDoubleToDBNullConv(item.VOC));
+                command.Parameters.AddWithValue("@remarks", CommonFunction.NullStringToDBNullConv(item.Remarks));
+                command.Parameters.AddWithValue("@date_updated", item.DateUpdated);
+                command.Parameters.AddWithValue("@id", item.Id);
+                OpenConnection();
+                command.ExecuteNonQuery();
+                item.CrudState = CrudState.OK;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu Update " + _tableName,
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "': '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return item;
         }
 
         public override void UpdateRow(DataRow row)

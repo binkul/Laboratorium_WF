@@ -198,5 +198,9 @@ namespace Laboratorium.Material.Forms
 
         #endregion
 
+        private void DgvMaterial_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            _service.CellvalueChanged(e);
+        }
     }
 }
