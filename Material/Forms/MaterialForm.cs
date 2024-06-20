@@ -48,9 +48,12 @@ namespace Laboratorium.Material.Forms
         public CheckBox GetChbFilterClp => ChbFilterClp;
         public CheckBox GetChbFilterProd => ChbFilterProduction;
         public Label GetLblDateCreated => LblDateCreated;
+        public ToolStripLabel GetMessageLabel => ToolStripLblMessage;
         public PictureBox GetPicClpImage => PicBox_CLP;
         public Button GetBtnClpEdit => BtnClpEdit;
         public Button GetBtnFilterCancel => BtnFilterCancel;
+        public Button GetBtnDelete => BtnDelete;
+        public ToolStripButton GetBtnNavigatorDelete => BindingNavigatorDeleteItem;
 
         #endregion
 
@@ -109,7 +112,17 @@ namespace Laboratorium.Material.Forms
 
         private void BtnClpEdit_Click(object sender, EventArgs e)
         {
+            _service.OpenCLP();
+        }
 
+        private void bindingNavigatorAddNewItem_Click(object sender, EventArgs e)
+        {
+            _service.AddNewMaterial();
+        }
+
+        private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e)
+        {
+            _service.Delete();
         }
 
         #endregion
@@ -166,6 +179,11 @@ namespace Laboratorium.Material.Forms
             _service.ColumnWidthChanged();
         }
 
+        private void DgvMaterial_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            _service.CellvalueChanged(e);
+        }
+
         #endregion
 
 
@@ -198,9 +216,6 @@ namespace Laboratorium.Material.Forms
 
         #endregion
 
-        private void DgvMaterial_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            _service.CellvalueChanged(e);
-        }
+
     }
 }

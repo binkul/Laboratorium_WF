@@ -36,6 +36,8 @@ namespace Laboratorium.Material.Service
         private readonly MaterialForm _form;
         private readonly SqlConnection _connection;
         private readonly IBasicCRUD<MaterialClpGhsDto> _ghsRepository;
+        private readonly IBasicCRUD<MaterialClpPCodeDto> _pCodeRepository;
+        private readonly IBasicCRUD<MaterialClpHCodeDto> _hCodeRepository;
         private readonly IBasicCRUD<MaterialClpSignalDto> _signalRepository;
         private readonly IExtendedCRUD<MaterialDto> _repository;
         private IList<MaterialDto> _materialList;
@@ -56,6 +58,8 @@ namespace Laboratorium.Material.Service
             _form = form;
 
             _ghsRepository = new MaterialGHSRepository(_connection);
+            _pCodeRepository = new MaterialPcodeRepository(_connection);
+            _hCodeRepository = new MaterialHcodeRepository(_connection);
             _signalRepository = new MaterialSignalRepository(_connection);
             _repository = new MaterialRepository(_connection, this);
         }
@@ -134,6 +138,16 @@ namespace Laboratorium.Material.Service
             _form.Height = _formData.ContainsKey(FORM_HEIGHT) ? (int)_formData[FORM_HEIGHT] : _form.Height;
         }
 
+        public void ShowMessage(string message, bool frontColor = true)
+        {
+            _form.GetMessageLabel.Text = message;
+
+            if (frontColor)
+                _form.GetMessageLabel.ForeColor = Color.Blue;
+            else
+                _form.GetMessageLabel.ForeColor = Color.Red;
+        }
+
         #endregion
 
 
@@ -174,6 +188,7 @@ namespace Laboratorium.Material.Service
 
             MaterialBinding_PositionChanged(null, null);
 
+            ShowMessage("Załadowano");
         }
 
         private void PreparaeDgvMaterial()
@@ -606,6 +621,8 @@ namespace Laboratorium.Material.Service
         private void SynchronizeOthersControls()
         {
             _form.GetBtnClpEdit.Enabled = CurrentMaterial != null && _user.Permission.ToLower().Equals(ADMIN) && CurrentMaterial.IsDanger && CurrentMaterial.GetRowState != RowState.ADDED;
+            _form.GetBtnDelete.Enabled = CurrentMaterial != null && _user.Permission.ToLower().Equals(ADMIN);
+            _form.GetBtnNavigatorDelete.Enabled = _form.GetBtnDelete.Enabled;
         }
 
         #endregion
@@ -716,6 +733,22 @@ namespace Laboratorium.Material.Service
         #endregion
 
 
+        #region CLP and Composition open
+
+        public void OpenCLP()
+        {
+            if (CurrentMaterial == null)
+                return;
+
+            using (MaterialClpForm form = new MaterialClpForm(_connection, CurrentMaterial))
+            {
+                form.ShowDialog();
+            }
+        }
+
+        #endregion
+
+
         #region CRUD
 
         public bool Save()
@@ -787,12 +820,48 @@ namespace Laboratorium.Material.Service
             #endregion
 
             Modify(RowState.UNCHANGED);
+            ShowMessage("Zapisano");
+
             return true;
         }
 
         public void Delete()
         {
+            if (CurrentMaterial == null)
+                return;
 
+            if (MessageBox.Show("Czy usunać surowiec '" + CurrentMaterial.Name + "' z bazy danych? usunięcie jest nieodwracalne!", 
+                "Usuwanie", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                RemoveMaterial(CurrentMaterial);
+            }
+        }
+
+        private bool RemoveMaterial(MaterialDto material)
+        {
+            _materialBinding.EndEdit();
+            _form.GetDgvMaterial.EndEdit();
+            
+            if (material.Id > 0)
+            {
+                _materialBinding.RemoveCurrent();
+                //bool a1 = _repository.DeleteById(material.Id);
+                //bool a2 = _signalRepository.DeleteById(material.Id);
+                //bool a3 = _ghsRepository.DeleteById(material.Id);
+                //bool a4 = _pCodeRepository.DeleteById(material.Id);
+                //bool a5 = _hCodeRepository.DeleteById(material.Id);
+
+                //if (a1 && a2 && a3 && a4 && a5)
+                //    ShowMessage("Usunięto");
+                //else
+                //    ShowMessage("Błąd usuwania", false);
+            }
+            else
+            {
+                _materialBinding.RemoveCurrent();
+            }
+
+            return true;
         }
 
         private bool CheckBeforeSave(MaterialDto material)
@@ -813,7 +882,7 @@ namespace Laboratorium.Material.Service
                 default:
                     break;
             }
-
+            ShowMessage("Błąd zapisu", false);
         }
 
         #endregion
@@ -900,6 +969,7 @@ namespace Laboratorium.Material.Service
             if (IsFilterSet())
             {
                 SetFilter(_materialList);
+                ShowMessage("Filtracja wyłączona");
                 return;
             }
 
@@ -919,6 +989,7 @@ namespace Laboratorium.Material.Service
         {
             _materialBinding.DataSource = filter;
             _materialBinding.Position = filter.Count > 0 ? 0 : -1;
+            ShowMessage("Filtracja włączona");
         }
 
         public void CancelFilter(bool GoToFirst)
@@ -937,6 +1008,8 @@ namespace Laboratorium.Material.Service
                 _materialBinding.Position = 0;
 
             _filterBlock = false;
+
+            ShowMessage("Filtrowanie wyłączone");
         }
 
         private bool IsFilterSet()

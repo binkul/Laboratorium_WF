@@ -133,6 +133,12 @@
     </Compile>
     <Compile Include="Login\Repository\LoginRepository.cs" />
     <Compile Include="Material\Dto\ClpHPcombineDto.cs" />
+    <Compile Include="Material\Forms\MaterialClpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Material\Forms\MaterialClpForm.Designer.cs">
+      <DependentUpon>MaterialClpForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Material\Forms\MaterialForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -147,6 +153,7 @@
     <Compile Include="Material\Repository\MaterialPcodeRepository.cs" />
     <Compile Include="Material\Repository\MaterialRepository.cs" />
     <Compile Include="Material\Repository\MaterialSignalRepository.cs" />
+    <Compile Include="Material\Service\MaterialClpService.cs" />
     <Compile Include="Material\Service\MaterialService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Project\Forms\FindProjectForm.cs">
@@ -174,6 +181,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Login\Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Material\Forms\MaterialClpForm.resx">
+      <DependentUpon>MaterialClpForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Material\Forms\MaterialForm.resx">
       <DependentUpon>MaterialForm.cs</DependentUpon>

@@ -34,7 +34,7 @@ namespace Laboratorium.Material.Forms
             this.BindingNavigatorMaterial = new System.Windows.Forms.BindingNavigator(this.components);
             this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
-            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
+            this.BindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
@@ -118,6 +118,7 @@ namespace Laboratorium.Material.Forms
             this.BtnSave = new System.Windows.Forms.Button();
             this.BtnDelete = new System.Windows.Forms.Button();
             this.LblDateCreated = new System.Windows.Forms.Label();
+            this.ToolStripLblMessage = new System.Windows.Forms.ToolStripLabel();
             ((System.ComponentModel.ISupportInitialize)(this.BindingNavigatorMaterial)).BeginInit();
             this.BindingNavigatorMaterial.SuspendLayout();
             this.TbMaterial.SuspendLayout();
@@ -141,9 +142,9 @@ namespace Laboratorium.Material.Forms
             // 
             // BindingNavigatorMaterial
             // 
-            this.BindingNavigatorMaterial.AddNewItem = this.bindingNavigatorAddNewItem;
+            this.BindingNavigatorMaterial.AddNewItem = null;
             this.BindingNavigatorMaterial.CountItem = this.bindingNavigatorCountItem;
-            this.BindingNavigatorMaterial.DeleteItem = this.bindingNavigatorDeleteItem;
+            this.BindingNavigatorMaterial.DeleteItem = null;
             this.BindingNavigatorMaterial.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.BindingNavigatorMaterial.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.BindingNavigatorMaterial.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -157,7 +158,8 @@ namespace Laboratorium.Material.Forms
             this.bindingNavigatorMoveLastItem,
             this.bindingNavigatorSeparator2,
             this.bindingNavigatorAddNewItem,
-            this.bindingNavigatorDeleteItem});
+            this.BindingNavigatorDeleteItem,
+            this.ToolStripLblMessage});
             this.BindingNavigatorMaterial.Location = new System.Drawing.Point(0, 625);
             this.BindingNavigatorMaterial.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
             this.BindingNavigatorMaterial.MoveLastItem = this.bindingNavigatorMoveLastItem;
@@ -177,6 +179,7 @@ namespace Laboratorium.Material.Forms
             this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
             this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(29, 24);
             this.bindingNavigatorAddNewItem.Text = "Dodaj nowy";
+            this.bindingNavigatorAddNewItem.Click += new System.EventHandler(this.bindingNavigatorAddNewItem_Click);
             // 
             // bindingNavigatorCountItem
             // 
@@ -185,14 +188,15 @@ namespace Laboratorium.Material.Forms
             this.bindingNavigatorCountItem.Text = "z {0}";
             this.bindingNavigatorCountItem.ToolTipText = "Suma elementów";
             // 
-            // bindingNavigatorDeleteItem
+            // BindingNavigatorDeleteItem
             // 
-            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
-            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
-            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(29, 24);
-            this.bindingNavigatorDeleteItem.Text = "Usuń";
+            this.BindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("BindingNavigatorDeleteItem.Image")));
+            this.BindingNavigatorDeleteItem.Name = "BindingNavigatorDeleteItem";
+            this.BindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
+            this.BindingNavigatorDeleteItem.Size = new System.Drawing.Size(29, 24);
+            this.BindingNavigatorDeleteItem.Text = "Usuń";
+            this.BindingNavigatorDeleteItem.Click += new System.EventHandler(this.bindingNavigatorDeleteItem_Click);
             // 
             // bindingNavigatorMoveFirstItem
             // 
@@ -485,9 +489,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel2.SetColumnSpan(this.label2, 2);
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label2.ForeColor = System.Drawing.Color.Blue;
-            this.label2.Location = new System.Drawing.Point(3, 1);
+            this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(259, 22);
+            this.label2.Size = new System.Drawing.Size(259, 24);
             this.label2.TabIndex = 0;
             this.label2.Text = "Dane podstawowe";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -528,7 +532,7 @@ namespace Laboratorium.Material.Forms
             this.CmbFunction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbFunction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbFunction.FormattingEnabled = true;
-            this.CmbFunction.Location = new System.Drawing.Point(123, 73);
+            this.CmbFunction.Location = new System.Drawing.Point(123, 72);
             this.CmbFunction.Name = "CmbFunction";
             this.CmbFunction.Size = new System.Drawing.Size(139, 28);
             this.CmbFunction.TabIndex = 6;
@@ -538,7 +542,7 @@ namespace Laboratorium.Material.Forms
             this.CmbSupplier.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbSupplier.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbSupplier.FormattingEnabled = true;
-            this.CmbSupplier.Location = new System.Drawing.Point(123, 111);
+            this.CmbSupplier.Location = new System.Drawing.Point(123, 113);
             this.CmbSupplier.Name = "CmbSupplier";
             this.CmbSupplier.Size = new System.Drawing.Size(139, 28);
             this.CmbSupplier.TabIndex = 7;
@@ -614,9 +618,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel3.SetColumnSpan(this.label6, 2);
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label6.ForeColor = System.Drawing.Color.Blue;
-            this.label6.Location = new System.Drawing.Point(3, 1);
+            this.label6.Location = new System.Drawing.Point(3, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(259, 22);
+            this.label6.Size = new System.Drawing.Size(259, 24);
             this.label6.TabIndex = 1;
             this.label6.Text = "Fizykochemia";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -739,9 +743,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel4.SetColumnSpan(this.label11, 2);
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label11.ForeColor = System.Drawing.Color.Blue;
-            this.label11.Location = new System.Drawing.Point(3, 1);
+            this.label11.Location = new System.Drawing.Point(3, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(259, 22);
+            this.label11.Size = new System.Drawing.Size(259, 24);
             this.label11.TabIndex = 1;
             this.label11.Text = "Cennik";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -857,7 +861,7 @@ namespace Laboratorium.Material.Forms
             this.CmbCurrency.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbCurrency.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbCurrency.FormattingEnabled = true;
-            this.CmbCurrency.Location = new System.Drawing.Point(123, 73);
+            this.CmbCurrency.Location = new System.Drawing.Point(123, 72);
             this.CmbCurrency.Name = "CmbCurrency";
             this.CmbCurrency.Size = new System.Drawing.Size(136, 28);
             this.CmbCurrency.TabIndex = 13;
@@ -867,7 +871,7 @@ namespace Laboratorium.Material.Forms
             this.CmbUnit.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbUnit.FormattingEnabled = true;
-            this.CmbUnit.Location = new System.Drawing.Point(123, 113);
+            this.CmbUnit.Location = new System.Drawing.Point(123, 112);
             this.CmbUnit.Name = "CmbUnit";
             this.CmbUnit.Size = new System.Drawing.Size(136, 28);
             this.CmbUnit.TabIndex = 14;
@@ -987,9 +991,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel5.SetColumnSpan(this.label18, 2);
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label18.ForeColor = System.Drawing.Color.Blue;
-            this.label18.Location = new System.Drawing.Point(3, 1);
+            this.label18.Location = new System.Drawing.Point(3, 0);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(230, 22);
+            this.label18.Size = new System.Drawing.Size(230, 24);
             this.label18.TabIndex = 2;
             this.label18.Text = "Zastosowanie";
             this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1079,9 +1083,9 @@ namespace Laboratorium.Material.Forms
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label25.ForeColor = System.Drawing.Color.Blue;
-            this.label25.Location = new System.Drawing.Point(317, 378);
+            this.label25.Location = new System.Drawing.Point(317, 376);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(144, 22);
+            this.label25.Size = new System.Drawing.Size(144, 24);
             this.label25.TabIndex = 5;
             this.label25.Text = "Uwagi";
             this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1220,9 +1224,15 @@ namespace Laboratorium.Material.Forms
             this.LblDateCreated.Location = new System.Drawing.Point(634, 39);
             this.LblDateCreated.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblDateCreated.Name = "LblDateCreated";
-            this.LblDateCreated.Size = new System.Drawing.Size(241, 22);
+            this.LblDateCreated.Size = new System.Drawing.Size(246, 24);
             this.LblDateCreated.TabIndex = 25;
             this.LblDateCreated.Text = "Utworzenie: 00-00-0000   ";
+            // 
+            // ToolStripLblMessage
+            // 
+            this.ToolStripLblMessage.Name = "ToolStripLblMessage";
+            this.ToolStripLblMessage.Size = new System.Drawing.Size(111, 24);
+            this.ToolStripLblMessage.Text = "toolStripLabel1";
             // 
             // MaterialForm
             // 
@@ -1279,7 +1289,7 @@ namespace Laboratorium.Material.Forms
         private System.Windows.Forms.BindingNavigator BindingNavigatorMaterial;
         private System.Windows.Forms.ToolStripButton bindingNavigatorAddNewItem;
         private System.Windows.Forms.ToolStripLabel bindingNavigatorCountItem;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorDeleteItem;
+        private System.Windows.Forms.ToolStripButton BindingNavigatorDeleteItem;
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveFirstItem;
         private System.Windows.Forms.ToolStripButton bindingNavigatorMovePreviousItem;
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator;
@@ -1363,5 +1373,6 @@ namespace Laboratorium.Material.Forms
         private System.Windows.Forms.CheckBox ChbFilterProduction;
         private System.Windows.Forms.CheckBox ChbFilterActive;
         private System.Windows.Forms.Button BtnFilterCancel;
+        private System.Windows.Forms.ToolStripLabel ToolStripLblMessage;
     }
 }
