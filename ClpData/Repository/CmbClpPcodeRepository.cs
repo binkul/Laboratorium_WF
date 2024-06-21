@@ -12,7 +12,7 @@ namespace Laboratorium.ClpData.Repository
 {
     public class CmbClpPcodeRepository : BasicCRUD<CmbClpPcodeDto>
     {
-        private static readonly SqlIndex SQL_INDEX = SqlIndex.ClpPcodeIndex;
+        private static readonly SqlIndex SQL_INDEX = SqlIndex.CmbClpPcodeIndex;
         private static readonly string TABLE_NAME = Table.CLP_P_CODE_TABLE;
 
         public CmbClpPcodeRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)

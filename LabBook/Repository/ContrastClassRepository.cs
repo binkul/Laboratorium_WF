@@ -12,7 +12,7 @@ namespace Laboratorium.LabBook.Repository
 {
     public class ContrastClassRepository : BasicCRUD<CmbContrastClassDto>
     {
-        private static readonly SqlIndex SQL_INDEX = SqlIndex.ContrastClassIndex;
+        private static readonly SqlIndex SQL_INDEX = SqlIndex.CmbContrastClassIndex;
         private static readonly string TABLE_NAME = Table.CONTRAST_CLASS_TABLE;
 
         public ContrastClassRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)

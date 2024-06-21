@@ -10,10 +10,10 @@
         LaboViscosityColIndex,
         UserIndex,
 
-        ContrastClassIndex,
-        GlossClassIndex,
-        ScrubClassIndex,
-        VocClassIndex,
+        CmbContrastClassIndex,
+        CmbGlossClassIndex,
+        CmbScrubClassIndex,
+        CmbVocClassIndex,
 
         NormIndex,
         NormDetailIndex,
@@ -29,10 +29,12 @@
         MaterialClpHcodeIndex,
         MaterialClpSignalIndex,
         MaterialClpHPcombineIndex,
-        UnitIndex,
-        CurrencyIndex,
 
-        ClpHcodeIndex,
-        ClpPcodeIndex
+        CmbUnitIndex,
+        CmbCurrencyIndex,
+
+        CmbClpHcodeIndex,
+        CmbClpPcodeIndex,
+        CmbClpSignalIndex
     }
 }

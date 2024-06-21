@@ -740,6 +740,12 @@ namespace Laboratorium.Material.Service
             if (CurrentMaterial == null)
                 return;
 
+            if (CurrentMaterial.GetRowState != RowState.UNCHANGED)
+            {
+                MessageBox.Show("Należy zapisać zmiany przed otwarciem edycją CLP.", "zapisz zmiany", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             using (MaterialClpForm form = new MaterialClpForm(_connection, CurrentMaterial))
             {
                 form.ShowDialog();
@@ -845,16 +851,16 @@ namespace Laboratorium.Material.Service
             if (material.Id > 0)
             {
                 _materialBinding.RemoveCurrent();
-                //bool a1 = _repository.DeleteById(material.Id);
-                //bool a2 = _signalRepository.DeleteById(material.Id);
-                //bool a3 = _ghsRepository.DeleteById(material.Id);
-                //bool a4 = _pCodeRepository.DeleteById(material.Id);
-                //bool a5 = _hCodeRepository.DeleteById(material.Id);
+                bool a1 = _repository.DeleteById(material.Id);
+                bool a2 = _signalRepository.DeleteById(material.Id);
+                bool a3 = _ghsRepository.DeleteById(material.Id);
+                bool a4 = _pCodeRepository.DeleteById(material.Id);
+                bool a5 = _hCodeRepository.DeleteById(material.Id);
 
-                //if (a1 && a2 && a3 && a4 && a5)
-                //    ShowMessage("Usunięto");
-                //else
-                //    ShowMessage("Błąd usuwania", false);
+                if (a1 && a2 && a3 && a4 && a5)
+                    ShowMessage("Usunięto");
+                else
+                    ShowMessage("Błąd usuwania", false);
             }
             else
             {
@@ -989,6 +995,7 @@ namespace Laboratorium.Material.Service
         {
             _materialBinding.DataSource = filter;
             _materialBinding.Position = filter.Count > 0 ? 0 : -1;
+            MaterialBinding_PositionChanged(null, null);
             ShowMessage("Filtracja włączona");
         }
 

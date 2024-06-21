@@ -12,7 +12,7 @@ namespace Laboratorium.LabBook.Repository
 {
     internal class ScrubClassRepository : BasicCRUD<CmbScrubClassDto>
     {
-        private static readonly SqlIndex SQL_INDEX = SqlIndex.ScrubClassIndex;
+        private static readonly SqlIndex SQL_INDEX = SqlIndex.CmbScrubClassIndex;
         private static readonly string TABLE_NAME = Table.SCRUB_CLASS_TABLE;
 
         public ScrubClassRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)

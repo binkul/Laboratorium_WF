@@ -91,7 +91,8 @@ namespace Laboratorium.Material.Forms
             this.PicGHS_04.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicGHS_04.TabIndex = 0;
             this.PicGHS_04.TabStop = false;
-            this.PicGHS_04.Tag = "GHS 4";
+            this.PicGHS_04.Tag = "103";
+            this.PicGHS_04.Click += new System.EventHandler(this.PicGHS_Click);
             // 
             // PicGHS_Ok_04
             // 
@@ -103,7 +104,9 @@ namespace Laboratorium.Material.Forms
             this.PicGHS_Ok_04.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicGHS_Ok_04.TabIndex = 1;
             this.PicGHS_Ok_04.TabStop = false;
-            this.PicGHS_Ok_04.Tag = "GHS OK 4";
+            this.PicGHS_Ok_04.Tag = "3";
+            this.PicGHS_Ok_04.Visible = false;
+            this.PicGHS_Ok_04.Click += new System.EventHandler(this.PicGHS_Ok_Click);
             // 
             // PicGHS_01
             // 
@@ -115,7 +118,8 @@ namespace Laboratorium.Material.Forms
             this.PicGHS_01.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicGHS_01.TabIndex = 2;
             this.PicGHS_01.TabStop = false;
-            this.PicGHS_01.Tag = "GHS 1";
+            this.PicGHS_01.Tag = "100";
+            this.PicGHS_01.Click += new System.EventHandler(this.PicGHS_Click);
             // 
             // PicGHS_Ok_01
             // 
@@ -127,7 +131,9 @@ namespace Laboratorium.Material.Forms
             this.PicGHS_Ok_01.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicGHS_Ok_01.TabIndex = 3;
             this.PicGHS_Ok_01.TabStop = false;
-            this.PicGHS_Ok_01.Tag = "GHS OK 1";
+            this.PicGHS_Ok_01.Tag = "0";
+            this.PicGHS_Ok_01.Visible = false;
+            this.PicGHS_Ok_01.Click += new System.EventHandler(this.PicGHS_Ok_Click);
             // 
             // PicGHS_Ok_02
             // 
@@ -139,7 +145,9 @@ namespace Laboratorium.Material.Forms
             this.PicGHS_Ok_02.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicGHS_Ok_02.TabIndex = 5;
             this.PicGHS_Ok_02.TabStop = false;
-            this.PicGHS_Ok_02.Tag = "GHS OK 2";
+            this.PicGHS_Ok_02.Tag = "1";
+            this.PicGHS_Ok_02.Visible = false;
+            this.PicGHS_Ok_02.Click += new System.EventHandler(this.PicGHS_Ok_Click);
             // 
             // PicGHS_02
             // 
@@ -151,7 +159,8 @@ namespace Laboratorium.Material.Forms
             this.PicGHS_02.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicGHS_02.TabIndex = 4;
             this.PicGHS_02.TabStop = false;
-            this.PicGHS_02.Tag = "GHS 2";
+            this.PicGHS_02.Tag = "101";
+            this.PicGHS_02.Click += new System.EventHandler(this.PicGHS_Click);
             // 
             // PicGHS_Ok_03
             // 
@@ -163,7 +172,9 @@ namespace Laboratorium.Material.Forms
             this.PicGHS_Ok_03.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicGHS_Ok_03.TabIndex = 7;
             this.PicGHS_Ok_03.TabStop = false;
-            this.PicGHS_Ok_03.Tag = "GHS OK 3";
+            this.PicGHS_Ok_03.Tag = "2";
+            this.PicGHS_Ok_03.Visible = false;
+            this.PicGHS_Ok_03.Click += new System.EventHandler(this.PicGHS_Ok_Click);
             // 
             // PicGHS_03
             // 
@@ -175,7 +186,8 @@ namespace Laboratorium.Material.Forms
             this.PicGHS_03.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicGHS_03.TabIndex = 6;
             this.PicGHS_03.TabStop = false;
-            this.PicGHS_03.Tag = "GHS 3";
+            this.PicGHS_03.Tag = "102";
+            this.PicGHS_03.Click += new System.EventHandler(this.PicGHS_Click);
             // 
             // PicGHS_Ok_05
             // 
@@ -187,7 +199,9 @@ namespace Laboratorium.Material.Forms
             this.PicGHS_Ok_05.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicGHS_Ok_05.TabIndex = 9;
             this.PicGHS_Ok_05.TabStop = false;
-            this.PicGHS_Ok_05.Tag = "GHS OK 5";
+            this.PicGHS_Ok_05.Tag = "4";
+            this.PicGHS_Ok_05.Visible = false;
+            this.PicGHS_Ok_05.Click += new System.EventHandler(this.PicGHS_Ok_Click);
             // 
             // PicGHS_05
             // 
@@ -199,7 +213,8 @@ namespace Laboratorium.Material.Forms
             this.PicGHS_05.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicGHS_05.TabIndex = 8;
             this.PicGHS_05.TabStop = false;
-            this.PicGHS_05.Tag = "GHS 5";
+            this.PicGHS_05.Tag = "104";
+            this.PicGHS_05.Click += new System.EventHandler(this.PicGHS_Click);
             // 
             // PicGHS_Ok_06
             // 
@@ -211,7 +226,9 @@ namespace Laboratorium.Material.Forms
             this.PicGHS_Ok_06.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicGHS_Ok_06.TabIndex = 11;
             this.PicGHS_Ok_06.TabStop = false;
-            this.PicGHS_Ok_06.Tag = "GHS OK 6";
+            this.PicGHS_Ok_06.Tag = "5";
+            this.PicGHS_Ok_06.Visible = false;
+            this.PicGHS_Ok_06.Click += new System.EventHandler(this.PicGHS_Ok_Click);
             // 
             // PicGHS_06
             // 
@@ -223,7 +240,8 @@ namespace Laboratorium.Material.Forms
             this.PicGHS_06.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicGHS_06.TabIndex = 10;
             this.PicGHS_06.TabStop = false;
-            this.PicGHS_06.Tag = "GHS 6";
+            this.PicGHS_06.Tag = "105";
+            this.PicGHS_06.Click += new System.EventHandler(this.PicGHS_Click);
             // 
             // PicGHS_Ok_07
             // 
@@ -235,7 +253,9 @@ namespace Laboratorium.Material.Forms
             this.PicGHS_Ok_07.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicGHS_Ok_07.TabIndex = 13;
             this.PicGHS_Ok_07.TabStop = false;
-            this.PicGHS_Ok_07.Tag = "GHS OK 7";
+            this.PicGHS_Ok_07.Tag = "6";
+            this.PicGHS_Ok_07.Visible = false;
+            this.PicGHS_Ok_07.Click += new System.EventHandler(this.PicGHS_Ok_Click);
             // 
             // PicGHS_07
             // 
@@ -247,7 +267,8 @@ namespace Laboratorium.Material.Forms
             this.PicGHS_07.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicGHS_07.TabIndex = 12;
             this.PicGHS_07.TabStop = false;
-            this.PicGHS_07.Tag = "GHS 7";
+            this.PicGHS_07.Tag = "106";
+            this.PicGHS_07.Click += new System.EventHandler(this.PicGHS_Click);
             // 
             // PicGHS_Ok_08
             // 
@@ -259,7 +280,9 @@ namespace Laboratorium.Material.Forms
             this.PicGHS_Ok_08.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicGHS_Ok_08.TabIndex = 15;
             this.PicGHS_Ok_08.TabStop = false;
-            this.PicGHS_Ok_08.Tag = "GHS OK 8";
+            this.PicGHS_Ok_08.Tag = "7";
+            this.PicGHS_Ok_08.Visible = false;
+            this.PicGHS_Ok_08.Click += new System.EventHandler(this.PicGHS_Ok_Click);
             // 
             // PicGHS_08
             // 
@@ -271,7 +294,8 @@ namespace Laboratorium.Material.Forms
             this.PicGHS_08.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicGHS_08.TabIndex = 14;
             this.PicGHS_08.TabStop = false;
-            this.PicGHS_08.Tag = "GHS 8";
+            this.PicGHS_08.Tag = "107";
+            this.PicGHS_08.Click += new System.EventHandler(this.PicGHS_Click);
             // 
             // PicGHS_Ok_09
             // 
@@ -283,7 +307,9 @@ namespace Laboratorium.Material.Forms
             this.PicGHS_Ok_09.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicGHS_Ok_09.TabIndex = 17;
             this.PicGHS_Ok_09.TabStop = false;
-            this.PicGHS_Ok_09.Tag = "GHS OK 9";
+            this.PicGHS_Ok_09.Tag = "8";
+            this.PicGHS_Ok_09.Visible = false;
+            this.PicGHS_Ok_09.Click += new System.EventHandler(this.PicGHS_Ok_Click);
             // 
             // PicGHS_09
             // 
@@ -295,11 +321,13 @@ namespace Laboratorium.Material.Forms
             this.PicGHS_09.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PicGHS_09.TabIndex = 16;
             this.PicGHS_09.TabStop = false;
-            this.PicGHS_09.Tag = "GHS 9";
+            this.PicGHS_09.Tag = "108";
+            this.PicGHS_09.Click += new System.EventHandler(this.PicGHS_Click);
             // 
             // CmbSignalWord
             // 
             this.CmbSignalWord.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.CmbSignalWord.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbSignalWord.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.CmbSignalWord.ForeColor = System.Drawing.Color.Blue;
             this.CmbSignalWord.FormattingEnabled = true;
@@ -470,6 +498,8 @@ namespace Laboratorium.Material.Forms
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MaterialClpForm";
             this.Text = "Dane CLP";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MaterialClpForm_FormClosing);
+            this.Load += new System.EventHandler(this.MaterialClpForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.PicGHS_04)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicGHS_Ok_04)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicGHS_01)).EndInit();

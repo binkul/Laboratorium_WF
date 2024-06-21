@@ -12,7 +12,7 @@ namespace Laboratorium.LabBook.Repository
 {
     public class GlossClassRepository : BasicCRUD<CmbGlossClassDto>
     {
-        private static readonly SqlIndex SQL_INDEX = SqlIndex.GlossClassIndex;
+        private static readonly SqlIndex SQL_INDEX = SqlIndex.CmbGlossClassIndex;
         private static readonly string TABLE_NAME = Table.GLOSS_CLASS_TABLE;
 
         public GlossClassRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)

@@ -60,6 +60,49 @@ namespace Laboratorium.Material.Repository
             return list;
         }
 
+        public override IList<MaterialClpGhsDto> GetAllByLaboId(int materialId)
+        {
+            List<MaterialClpGhsDto> list = new List<MaterialClpGhsDto>();
+
+            try
+            {
+                string query = SqlRead.ReadByName[_sqlIndex].Replace("XXXX", materialId.ToString());
+                SqlCommand command = new SqlCommand(query, _connection);
+                _connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        int matId = reader.GetInt32(0);
+                        byte codeId = reader.GetByte(1);
+                        DateTime dateCreated = reader.GetDateTime(2);
+
+                        MaterialClpGhsDto ghs = new MaterialClpGhsDto(matId, codeId, dateCreated);
+                        list.Add(ghs);
+                    }
+                    reader.Close();
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu GetAll " + _tableName,
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "': '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return list;
+        }
+
         public override MaterialClpGhsDto Save(MaterialClpGhsDto data)
         {
             throw new NotImplementedException();

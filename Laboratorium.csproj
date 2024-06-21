@@ -92,6 +92,7 @@
     <Compile Include="ADO\Tables\Table.cs" />
     <Compile Include="ClpData\Repository\CmbClpHcodeRepository.cs" />
     <Compile Include="ClpData\Repository\CmbClpPcodeRepository.cs" />
+    <Compile Include="ClpData\Repository\CmbClpSignalRepository.cs" />
     <Compile Include="Commons\CommonData.cs" />
     <Compile Include="Commons\CommonFunction.cs" />
     <Compile Include="Commons\SerializeClass.cs" />

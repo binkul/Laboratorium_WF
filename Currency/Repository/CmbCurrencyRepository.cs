@@ -12,7 +12,7 @@ namespace Laboratorium.Currency.Repository
 {
     public class CmbCurrencyRepository : BasicCRUD<CmbCurrencyDto>
     {
-        private static readonly SqlIndex SQL_INDEX = SqlIndex.CurrencyIndex;
+        private static readonly SqlIndex SQL_INDEX = SqlIndex.CmbCurrencyIndex;
         private static readonly string TABLE_NAME = Table.CMB_CURRENCY_TABLE;
 
         public CmbCurrencyRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)

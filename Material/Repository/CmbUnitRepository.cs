@@ -13,7 +13,7 @@ namespace Laboratorium.Material.Repository
 {
     public class CmbUnitRepository : BasicCRUD<CmbUnitDto>
     {
-        private static readonly SqlIndex SQL_INDEX = SqlIndex.UnitIndex;
+        private static readonly SqlIndex SQL_INDEX = SqlIndex.CmbUnitIndex;
         private static readonly string TABLE_NAME = Table.CMB_UNIT_TABLE;
 
         public CmbUnitRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)

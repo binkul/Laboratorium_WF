@@ -3,24 +3,25 @@ using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.SqlDataConstant;
 using Laboratorium.ADO.Tables;
+using Laboratorium.Commons;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
-namespace Laboratorium.LabBook.Repository
+namespace Laboratorium.ClpData.Repository
 {
-    public class VocClassRepository : BasicCRUD<CmbVocClassDto>
+    public class CmbClpSignalRepository : BasicCRUD<CmbClpSignalDto>
     {
-        private static readonly SqlIndex SQL_INDEX = SqlIndex.CmbVocClassIndex;
-        private static readonly string TABLE_NAME = Table.VOC_CLASS_TABLE;
+        private static readonly SqlIndex SQL_INDEX = SqlIndex.CmbClpSignalIndex;
+        private static readonly string TABLE_NAME = Table.CLP_SIGNAL_CODE_TABLE;
 
-        public VocClassRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
+        public CmbClpSignalRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
         { }
 
-        public override IList<CmbVocClassDto> GetAll()
+        public override IList<CmbClpSignalDto> GetAll()
         {
-            List<CmbVocClassDto> list = new List<CmbVocClassDto>();
+            List<CmbClpSignalDto> list = new List<CmbClpSignalDto>();
 
             try
             {
@@ -33,10 +34,11 @@ namespace Laboratorium.LabBook.Repository
                     while (reader.Read())
                     {
                         byte id = reader.GetByte(0);
-                        string namePl = reader.GetString(1);
+                        string namePl = CommonFunction.DBNullToStringConv(reader.GetValue(1));
+                        string nameEn = CommonFunction.DBNullToStringConv(reader.GetValue(2));
 
-                        CmbVocClassDto contrast = new CmbVocClassDto(id, namePl);
-                        list.Add(contrast);
+                        CmbClpSignalDto signal = new CmbClpSignalDto(id, namePl, nameEn);
+                        list.Add(signal);
                     }
                     reader.Close();
                 }
@@ -59,12 +61,12 @@ namespace Laboratorium.LabBook.Repository
             return list;
         }
 
-        public override CmbVocClassDto Save(CmbVocClassDto data)
+        public override CmbClpSignalDto Save(CmbClpSignalDto data)
         {
             throw new NotImplementedException();
         }
 
-        public override CmbVocClassDto Update(CmbVocClassDto data)
+        public override CmbClpSignalDto Update(CmbClpSignalDto data)
         {
             throw new NotImplementedException();
         }
