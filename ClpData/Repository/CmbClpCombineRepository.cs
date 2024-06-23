@@ -3,6 +3,7 @@ using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.SqlDataConstant;
 using Laboratorium.ADO.Tables;
+using Laboratorium.Commons;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -10,17 +11,17 @@ using System.Windows.Forms;
 
 namespace Laboratorium.ClpData.Repository
 {
-    public class CmbClpHcodeRepository : BasicCRUD<CmbClpHcodeDto>
+    public class CmbClpCombineRepository : BasicCRUD<CmbClpCombineDto>
     {
-        private static readonly SqlIndex SQL_INDEX = SqlIndex.CmbClpHcodeIndex;
-        private static readonly string TABLE_NAME = Table.CLP_H_CODE_TABLE;
+        private static readonly SqlIndex SQL_INDEX = SqlIndex.CmbClpCombineCodeIndex;
+        private static readonly string TABLE_NAME = Table.CLP_HP_CODE_TABLE;
 
-        public CmbClpHcodeRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
+        public CmbClpCombineRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
         { }
 
-        public override IList<CmbClpHcodeDto> GetAll()
+        public override IList<CmbClpCombineDto> GetAll()
         {
-            List<CmbClpHcodeDto> list = new List<CmbClpHcodeDto>();
+            List<CmbClpCombineDto> list = new List<CmbClpCombineDto>();
 
             try
             {
@@ -32,19 +33,15 @@ namespace Laboratorium.ClpData.Repository
                 {
                     while (reader.Read())
                     {
-                        byte id = reader.GetByte(0);
-                        string classClp = reader.GetString(1);
-                        string code = reader.GetString(2);
-                        string description = reader.GetString(3);
-                        int ordering = reader.GetInt32(4);
-                        byte ghsId = reader.GetByte(5);
-                        string ghsDesc = reader.GetString(6);
-                        byte sigId = reader.GetByte(7);
-                        string sigDesc = reader.GetString(8);
-                        DateTime date = reader.GetDateTime(9);
+                        short id = reader.GetInt16(0);
+                        string className = CommonFunction.DBNullToStringConv(reader.GetValue(1));
+                        string code = CommonFunction.DBNullToStringConv(reader.GetValue(2));
+                        string desc = CommonFunction.DBNullToStringConv(reader.GetValue(3));
+                        int ord = reader.GetInt32(4);
+                        string signal = CommonFunction.DBNullToStringConv(reader.GetValue(5));
 
-                        CmbClpHcodeDto codeType = new CmbClpHcodeDto(id, classClp, code, description, ordering, ghsId, ghsDesc, sigId, sigDesc, date);
-                        list.Add(codeType);
+                        CmbClpCombineDto combineCode = new CmbClpCombineDto(id, className, code, desc, ord, signal);
+                        list.Add(combineCode);
                     }
                     reader.Close();
                 }
@@ -67,12 +64,12 @@ namespace Laboratorium.ClpData.Repository
             return list;
         }
 
-        public override CmbClpHcodeDto Save(CmbClpHcodeDto data)
+        public override CmbClpCombineDto Save(CmbClpCombineDto data)
         {
             throw new NotImplementedException();
         }
 
-        public override CmbClpHcodeDto Update(CmbClpHcodeDto data)
+        public override CmbClpCombineDto Update(CmbClpCombineDto data)
         {
             throw new NotImplementedException();
         }

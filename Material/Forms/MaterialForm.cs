@@ -83,6 +83,13 @@ namespace Laboratorium.Material.Forms
             _service.LoadFormData();
 
             _init = false;
+
+            //BtnAdd.Size = new Size(50, 50);
+            //BtnAdd.Location = new Point(4, 13);
+            //BtnDelete.Size = new Size(50, 50);
+            //BtnDelete.Location = new Point(65, 13);
+            //BtnSave.Size = new Size(50, 50);
+            //BtnSave.Location = new Point(120, 13);
         }
 
         private void MaterialForm_FormClosing(object sender, FormClosingEventArgs e)

@@ -47,6 +47,12 @@ namespace Laboratorium.ADO.SqlDataConstant
                 "hc.date_created from Konkurencja.dbo.CmbClpHcode hc left join Konkurencja.dbo.CmbClpGHScode ghs on hc.ghs_id=ghs.id left join Konkurencja.dbo.CmbClpSignalWord " +
                 "sig on hc.signal_word_id=sig.id Order By ordering" },
             {SqlIndex.CmbClpPcodeIndex, "Select hc.id, hc.code, hc.[description], hc.ordering, hc.date_created from Konkurencja.dbo.CmbClpPcode hc Order By ordering" },
+            {SqlIndex.CmbClpCombineCodeIndex, "Select cod.id, ISNULL(cod.class, '') as class, cod.code, cod.[description], cod.ordering, " +
+                "CASE When cod.signal_word_id = 1 " +
+                "THEN '' " +
+                "ELSE sig.name_pl " +
+                "END as signal From Konkurencja.dbo.CmbClpHcode cod Left Join Konkurencja.dbo.CmbClpSignalWord sig on cod.signal_word_id=sig.id " +
+                "Union All Select id, '' as class, code, [description], ordering, null as signal From Konkurencja.dbo.CmbClpPcode\r\nOrder By ordering" },
             {SqlIndex.CmbClpSignalIndex, "Select id, name_pl, name_en From Konkurencja.dbo.CmbClpSignalWord Order By id" },           
             {SqlIndex.CmbCurrencyIndex, "Select id, currency, rate from Konkurencja.dbo.CmbCurrency Order By id" },
             {SqlIndex.CmbUnitIndex, "Select id, name_pl, [description] From Konkurencja.dbo.CmbUnits Order By id" },

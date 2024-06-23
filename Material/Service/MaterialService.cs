@@ -229,7 +229,7 @@ namespace Laboratorium.Material.Service
             view.Columns.Remove("HPcodeList");
             view.Columns.Remove("SignalWord");
 
-            view.Columns["Id"].Visible = false;
+            view.Columns[ID].Visible = false;
             view.Columns["CurrencyId"].Visible = false;
 
             view.Columns["Name"].HeaderText = "Surowiec";
@@ -298,7 +298,6 @@ namespace Laboratorium.Material.Service
             view.RowsDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Regular);
             view.ColumnHeadersDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Bold);
             view.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
-            view.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             view.RowHeadersVisible = false;
             view.DefaultCellStyle.ForeColor = Color.Black;
             view.MultiSelect = false;

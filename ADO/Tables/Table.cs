@@ -97,6 +97,7 @@
         // Clp data
         public static readonly string CLP_H_CODE_TABLE = "CmbClpHcode";
         public static readonly string CLP_P_CODE_TABLE = "CmbClpPcode";
+        public static readonly string CLP_HP_CODE_TABLE = "CmbClpHcode and CmbClpPcode";
         public static readonly string CLP_SIGNAL_CODE_TABLE = "CmbClpSignalWord";
     }
 }

@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ADO\CrudState.cs" />
+    <Compile Include="ADO\DTO\CmbClpCombineDto.cs" />
     <Compile Include="ADO\DTO\CmbClpGHScodeDto.cs" />
     <Compile Include="ADO\DTO\CmbClpHcodeDto.cs" />
     <Compile Include="ADO\DTO\CmbClpPcodeDto.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="ADO\SqlDataConstant\SqlUpdate.cs" />
     <Compile Include="ADO\SqlIndex.cs" />
     <Compile Include="ADO\Tables\Table.cs" />
+    <Compile Include="ClpData\Repository\CmbClpCombineRepository.cs" />
     <Compile Include="ClpData\Repository\CmbClpHcodeRepository.cs" />
     <Compile Include="ClpData\Repository\CmbClpPcodeRepository.cs" />
     <Compile Include="ClpData\Repository\CmbClpSignalRepository.cs" />

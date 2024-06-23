@@ -33,13 +33,13 @@ namespace Laboratorium.ClpData.Repository
                     while (reader.Read())
                     {
                         byte id = reader.GetByte(0);
-                        string code = reader.GetString(2);
-                        string description = reader.GetString(3);
-                        int ordering = reader.GetInt32(4);
-                        DateTime date = reader.GetDateTime(5);
+                        string code = reader.GetString(1);
+                        string description = reader.GetString(2);
+                        int ordering = reader.GetInt32(3);
+                        DateTime date = reader.GetDateTime(4);
 
-                        CmbClpPcodeDto contrast = new CmbClpPcodeDto(id, code, description, ordering, date);
-                        list.Add(contrast);
+                        CmbClpPcodeDto codeType = new CmbClpPcodeDto(id, code, description, ordering, date);
+                        list.Add(codeType);
                     }
                     reader.Close();
                 }

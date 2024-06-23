@@ -32,9 +32,7 @@ namespace Laboratorium.Material.Forms
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MaterialForm));
             this.BindingNavigatorMaterial = new System.Windows.Forms.BindingNavigator(this.components);
-            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
-            this.BindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
@@ -43,6 +41,9 @@ namespace Laboratorium.Material.Forms
             this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
+            this.BindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
+            this.ToolStripLblMessage = new System.Windows.Forms.ToolStripLabel();
             this.TxtName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.TbMaterial = new System.Windows.Forms.TabControl();
@@ -118,7 +119,6 @@ namespace Laboratorium.Material.Forms
             this.BtnSave = new System.Windows.Forms.Button();
             this.BtnDelete = new System.Windows.Forms.Button();
             this.LblDateCreated = new System.Windows.Forms.Label();
-            this.ToolStripLblMessage = new System.Windows.Forms.ToolStripLabel();
             ((System.ComponentModel.ISupportInitialize)(this.BindingNavigatorMaterial)).BeginInit();
             this.BindingNavigatorMaterial.SuspendLayout();
             this.TbMaterial.SuspendLayout();
@@ -171,32 +171,12 @@ namespace Laboratorium.Material.Forms
             this.BindingNavigatorMaterial.TabIndex = 0;
             this.BindingNavigatorMaterial.Text = "bindingNavigator1";
             // 
-            // bindingNavigatorAddNewItem
-            // 
-            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
-            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
-            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(29, 24);
-            this.bindingNavigatorAddNewItem.Text = "Dodaj nowy";
-            this.bindingNavigatorAddNewItem.Click += new System.EventHandler(this.bindingNavigatorAddNewItem_Click);
-            // 
             // bindingNavigatorCountItem
             // 
             this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
             this.bindingNavigatorCountItem.Size = new System.Drawing.Size(38, 24);
             this.bindingNavigatorCountItem.Text = "z {0}";
             this.bindingNavigatorCountItem.ToolTipText = "Suma elementów";
-            // 
-            // BindingNavigatorDeleteItem
-            // 
-            this.BindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.BindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("BindingNavigatorDeleteItem.Image")));
-            this.BindingNavigatorDeleteItem.Name = "BindingNavigatorDeleteItem";
-            this.BindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-            this.BindingNavigatorDeleteItem.Size = new System.Drawing.Size(29, 24);
-            this.BindingNavigatorDeleteItem.Text = "Usuń";
-            this.BindingNavigatorDeleteItem.Click += new System.EventHandler(this.bindingNavigatorDeleteItem_Click);
             // 
             // bindingNavigatorMoveFirstItem
             // 
@@ -225,6 +205,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.bindingNavigatorPositionItem.AccessibleName = "Pozycja";
             this.bindingNavigatorPositionItem.AutoSize = false;
+            this.bindingNavigatorPositionItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
             this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 27);
             this.bindingNavigatorPositionItem.Text = "0";
@@ -258,24 +239,50 @@ namespace Laboratorium.Material.Forms
             this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
             this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 27);
             // 
+            // bindingNavigatorAddNewItem
+            // 
+            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
+            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
+            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(29, 24);
+            this.bindingNavigatorAddNewItem.Text = "Dodaj nowy";
+            this.bindingNavigatorAddNewItem.Click += new System.EventHandler(this.bindingNavigatorAddNewItem_Click);
+            // 
+            // BindingNavigatorDeleteItem
+            // 
+            this.BindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("BindingNavigatorDeleteItem.Image")));
+            this.BindingNavigatorDeleteItem.Name = "BindingNavigatorDeleteItem";
+            this.BindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
+            this.BindingNavigatorDeleteItem.Size = new System.Drawing.Size(29, 24);
+            this.BindingNavigatorDeleteItem.Text = "Usuń";
+            this.BindingNavigatorDeleteItem.Click += new System.EventHandler(this.bindingNavigatorDeleteItem_Click);
+            // 
+            // ToolStripLblMessage
+            // 
+            this.ToolStripLblMessage.Name = "ToolStripLblMessage";
+            this.ToolStripLblMessage.Size = new System.Drawing.Size(111, 24);
+            this.ToolStripLblMessage.Text = "toolStripLabel1";
+            // 
             // TxtName
             // 
             this.TxtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TxtName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TxtName.Location = new System.Drawing.Point(88, 81);
+            this.TxtName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.TxtName.Location = new System.Drawing.Point(109, 91);
             this.TxtName.Name = "TxtName";
-            this.TxtName.Size = new System.Drawing.Size(787, 27);
+            this.TxtName.Size = new System.Drawing.Size(766, 30);
             this.TxtName.TabIndex = 1;
             this.TxtName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDensity_KeyPress);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(12, 87);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label1.Location = new System.Drawing.Point(2, 94);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 20);
+            this.label1.Size = new System.Drawing.Size(77, 25);
             this.label1.TabIndex = 2;
             this.label1.Text = "Nazwa";
             // 
@@ -288,11 +295,11 @@ namespace Laboratorium.Material.Forms
             this.TbMaterial.Controls.Add(this.TbData);
             this.TbMaterial.Controls.Add(this.TbClp);
             this.TbMaterial.Controls.Add(this.TbComposition);
-            this.TbMaterial.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TbMaterial.Location = new System.Drawing.Point(0, 114);
+            this.TbMaterial.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.TbMaterial.Location = new System.Drawing.Point(0, 138);
             this.TbMaterial.Name = "TbMaterial";
             this.TbMaterial.SelectedIndex = 0;
-            this.TbMaterial.Size = new System.Drawing.Size(887, 508);
+            this.TbMaterial.Size = new System.Drawing.Size(887, 484);
             this.TbMaterial.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.TbMaterial.TabIndex = 8;
             // 
@@ -307,10 +314,10 @@ namespace Laboratorium.Material.Forms
             this.TbMain.Controls.Add(this.DgvMaterial);
             this.TbMain.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.TbMain.ForeColor = System.Drawing.Color.Red;
-            this.TbMain.Location = new System.Drawing.Point(4, 29);
+            this.TbMain.Location = new System.Drawing.Point(4, 34);
             this.TbMain.Name = "TbMain";
             this.TbMain.Padding = new System.Windows.Forms.Padding(3);
-            this.TbMain.Size = new System.Drawing.Size(879, 475);
+            this.TbMain.Size = new System.Drawing.Size(879, 446);
             this.TbMain.TabIndex = 0;
             this.TbMain.Text = "Surowce";
             // 
@@ -356,9 +363,10 @@ namespace Laboratorium.Material.Forms
             // 
             // TxtFilterName
             // 
+            this.TxtFilterName.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.TxtFilterName.Location = new System.Drawing.Point(72, 13);
             this.TxtFilterName.Name = "TxtFilterName";
-            this.TxtFilterName.Size = new System.Drawing.Size(208, 27);
+            this.TxtFilterName.Size = new System.Drawing.Size(208, 30);
             this.TxtFilterName.TabIndex = 2;
             this.TxtFilterName.TextChanged += new System.EventHandler(this.TxtFilterName_TextChanged);
             // 
@@ -375,7 +383,7 @@ namespace Laboratorium.Material.Forms
             this.DgvMaterial.Name = "DgvMaterial";
             this.DgvMaterial.RowHeadersWidth = 51;
             this.DgvMaterial.RowTemplate.Height = 24;
-            this.DgvMaterial.Size = new System.Drawing.Size(873, 423);
+            this.DgvMaterial.Size = new System.Drawing.Size(873, 397);
             this.DgvMaterial.TabIndex = 3;
             this.DgvMaterial.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvMaterial_CellValueChanged);
             this.DgvMaterial.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.DgvMaterial_ColumnWidthChanged);
@@ -475,9 +483,9 @@ namespace Laboratorium.Material.Forms
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 75);
+            this.label4.Location = new System.Drawing.Point(3, 72);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(114, 20);
+            this.label4.Size = new System.Drawing.Size(114, 25);
             this.label4.TabIndex = 101;
             this.label4.Text = "Funkcja";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -489,9 +497,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel2.SetColumnSpan(this.label2, 2);
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label2.ForeColor = System.Drawing.Color.Blue;
-            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Location = new System.Drawing.Point(3, 1);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(259, 24);
+            this.label2.Size = new System.Drawing.Size(259, 22);
             this.label2.TabIndex = 0;
             this.label2.Text = "Dane podstawowe";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -500,9 +508,9 @@ namespace Laboratorium.Material.Forms
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 35);
+            this.label3.Location = new System.Drawing.Point(3, 32);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(114, 20);
+            this.label3.Size = new System.Drawing.Size(114, 25);
             this.label3.TabIndex = 100;
             this.label3.Text = "Indeks";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -510,9 +518,9 @@ namespace Laboratorium.Material.Forms
             // TxtIndex
             // 
             this.TxtIndex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.TxtIndex.Location = new System.Drawing.Point(123, 31);
+            this.TxtIndex.Location = new System.Drawing.Point(123, 30);
             this.TxtIndex.Name = "TxtIndex";
-            this.TxtIndex.Size = new System.Drawing.Size(139, 27);
+            this.TxtIndex.Size = new System.Drawing.Size(139, 30);
             this.TxtIndex.TabIndex = 5;
             this.TxtIndex.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDensity_KeyPress);
             // 
@@ -520,9 +528,9 @@ namespace Laboratorium.Material.Forms
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 115);
+            this.label5.Location = new System.Drawing.Point(3, 113);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(114, 20);
+            this.label5.Size = new System.Drawing.Size(114, 25);
             this.label5.TabIndex = 102;
             this.label5.Text = "Dostawca";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -532,9 +540,9 @@ namespace Laboratorium.Material.Forms
             this.CmbFunction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbFunction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbFunction.FormattingEnabled = true;
-            this.CmbFunction.Location = new System.Drawing.Point(123, 72);
+            this.CmbFunction.Location = new System.Drawing.Point(123, 73);
             this.CmbFunction.Name = "CmbFunction";
-            this.CmbFunction.Size = new System.Drawing.Size(139, 28);
+            this.CmbFunction.Size = new System.Drawing.Size(139, 33);
             this.CmbFunction.TabIndex = 6;
             // 
             // CmbSupplier
@@ -542,9 +550,9 @@ namespace Laboratorium.Material.Forms
             this.CmbSupplier.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbSupplier.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbSupplier.FormattingEnabled = true;
-            this.CmbSupplier.Location = new System.Drawing.Point(123, 113);
+            this.CmbSupplier.Location = new System.Drawing.Point(123, 111);
             this.CmbSupplier.Name = "CmbSupplier";
-            this.CmbSupplier.Size = new System.Drawing.Size(139, 28);
+            this.CmbSupplier.Size = new System.Drawing.Size(139, 33);
             this.CmbSupplier.TabIndex = 7;
             // 
             // panel2
@@ -593,9 +601,9 @@ namespace Laboratorium.Material.Forms
             // TxtVoc
             // 
             this.TxtVoc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.TxtVoc.Location = new System.Drawing.Point(123, 152);
+            this.TxtVoc.Location = new System.Drawing.Point(123, 150);
             this.TxtVoc.Name = "TxtVoc";
-            this.TxtVoc.Size = new System.Drawing.Size(139, 27);
+            this.TxtVoc.Size = new System.Drawing.Size(139, 30);
             this.TxtVoc.TabIndex = 11;
             this.TxtVoc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDensity_KeyPress);
             this.TxtVoc.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDensity_Validating);
@@ -604,9 +612,9 @@ namespace Laboratorium.Material.Forms
             // 
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(3, 155);
+            this.label10.Location = new System.Drawing.Point(3, 153);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(114, 20);
+            this.label10.Size = new System.Drawing.Size(114, 25);
             this.label10.TabIndex = 106;
             this.label10.Text = "VOC";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -618,9 +626,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel3.SetColumnSpan(this.label6, 2);
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label6.ForeColor = System.Drawing.Color.Blue;
-            this.label6.Location = new System.Drawing.Point(3, 0);
+            this.label6.Location = new System.Drawing.Point(3, 1);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(259, 24);
+            this.label6.Size = new System.Drawing.Size(259, 22);
             this.label6.TabIndex = 1;
             this.label6.Text = "Fizykochemia";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -629,9 +637,9 @@ namespace Laboratorium.Material.Forms
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 35);
+            this.label7.Location = new System.Drawing.Point(3, 32);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(114, 20);
+            this.label7.Size = new System.Drawing.Size(114, 25);
             this.label7.TabIndex = 103;
             this.label7.Text = "Gęstość";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -640,9 +648,9 @@ namespace Laboratorium.Material.Forms
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(3, 75);
+            this.label8.Location = new System.Drawing.Point(3, 72);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(114, 20);
+            this.label8.Size = new System.Drawing.Size(114, 25);
             this.label8.TabIndex = 104;
             this.label8.Text = "Cz. stałe";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -651,9 +659,9 @@ namespace Laboratorium.Material.Forms
             // 
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(3, 115);
+            this.label9.Location = new System.Drawing.Point(3, 112);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(114, 20);
+            this.label9.Size = new System.Drawing.Size(114, 25);
             this.label9.TabIndex = 105;
             this.label9.Text = "Popiól 450";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -661,9 +669,9 @@ namespace Laboratorium.Material.Forms
             // TxtDensity
             // 
             this.TxtDensity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.TxtDensity.Location = new System.Drawing.Point(123, 31);
+            this.TxtDensity.Location = new System.Drawing.Point(123, 30);
             this.TxtDensity.Name = "TxtDensity";
-            this.TxtDensity.Size = new System.Drawing.Size(139, 27);
+            this.TxtDensity.Size = new System.Drawing.Size(139, 30);
             this.TxtDensity.TabIndex = 8;
             this.TxtDensity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDensity_KeyPress);
             this.TxtDensity.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDensity_Validating);
@@ -671,9 +679,9 @@ namespace Laboratorium.Material.Forms
             // TxtSolids
             // 
             this.TxtSolids.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.TxtSolids.Location = new System.Drawing.Point(123, 71);
+            this.TxtSolids.Location = new System.Drawing.Point(123, 70);
             this.TxtSolids.Name = "TxtSolids";
-            this.TxtSolids.Size = new System.Drawing.Size(139, 27);
+            this.TxtSolids.Size = new System.Drawing.Size(139, 30);
             this.TxtSolids.TabIndex = 9;
             this.TxtSolids.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDensity_KeyPress);
             this.TxtSolids.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDensity_Validating);
@@ -681,9 +689,9 @@ namespace Laboratorium.Material.Forms
             // TxtAsh450
             // 
             this.TxtAsh450.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.TxtAsh450.Location = new System.Drawing.Point(123, 111);
+            this.TxtAsh450.Location = new System.Drawing.Point(123, 110);
             this.TxtAsh450.Name = "TxtAsh450";
-            this.TxtAsh450.Size = new System.Drawing.Size(139, 27);
+            this.TxtAsh450.Size = new System.Drawing.Size(139, 30);
             this.TxtAsh450.TabIndex = 10;
             this.TxtAsh450.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDensity_KeyPress);
             this.TxtAsh450.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDensity_Validating);
@@ -743,9 +751,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel4.SetColumnSpan(this.label11, 2);
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label11.ForeColor = System.Drawing.Color.Blue;
-            this.label11.Location = new System.Drawing.Point(3, 0);
+            this.label11.Location = new System.Drawing.Point(3, 1);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(259, 24);
+            this.label11.Size = new System.Drawing.Size(259, 22);
             this.label11.TabIndex = 1;
             this.label11.Text = "Cennik";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -754,9 +762,9 @@ namespace Laboratorium.Material.Forms
             // 
             this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(3, 35);
+            this.label12.Location = new System.Drawing.Point(3, 32);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(114, 20);
+            this.label12.Size = new System.Drawing.Size(114, 25);
             this.label12.TabIndex = 107;
             this.label12.Text = "Cena";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -765,9 +773,9 @@ namespace Laboratorium.Material.Forms
             // 
             this.label15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(3, 235);
+            this.label15.Location = new System.Drawing.Point(3, 232);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(114, 20);
+            this.label15.Size = new System.Drawing.Size(114, 25);
             this.label15.TabIndex = 112;
             this.label15.Text = "Ilość";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -776,9 +784,9 @@ namespace Laboratorium.Material.Forms
             // 
             this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(3, 195);
+            this.label14.Location = new System.Drawing.Point(3, 192);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(114, 20);
+            this.label14.Size = new System.Drawing.Size(114, 25);
             this.label14.TabIndex = 111;
             this.label14.Text = "Transport";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -787,9 +795,9 @@ namespace Laboratorium.Material.Forms
             // 
             this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(3, 155);
+            this.label13.Location = new System.Drawing.Point(3, 145);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(114, 20);
+            this.label13.Size = new System.Drawing.Size(114, 40);
             this.label13.TabIndex = 110;
             this.label13.Text = "Cena/ilość";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -798,9 +806,9 @@ namespace Laboratorium.Material.Forms
             // 
             this.label16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(3, 75);
+            this.label16.Location = new System.Drawing.Point(3, 72);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(114, 20);
+            this.label16.Size = new System.Drawing.Size(114, 25);
             this.label16.TabIndex = 108;
             this.label16.Text = "Waluta";
             this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -809,9 +817,9 @@ namespace Laboratorium.Material.Forms
             // 
             this.label17.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(3, 115);
+            this.label17.Location = new System.Drawing.Point(3, 112);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(114, 20);
+            this.label17.Size = new System.Drawing.Size(114, 25);
             this.label17.TabIndex = 109;
             this.label17.Text = "Jednostka";
             this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -819,9 +827,9 @@ namespace Laboratorium.Material.Forms
             // TxtPrice
             // 
             this.TxtPrice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.TxtPrice.Location = new System.Drawing.Point(123, 31);
+            this.TxtPrice.Location = new System.Drawing.Point(123, 30);
             this.TxtPrice.Name = "TxtPrice";
-            this.TxtPrice.Size = new System.Drawing.Size(139, 27);
+            this.TxtPrice.Size = new System.Drawing.Size(139, 30);
             this.TxtPrice.TabIndex = 12;
             this.TxtPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDensity_KeyPress);
             this.TxtPrice.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDensity_Validating);
@@ -829,9 +837,9 @@ namespace Laboratorium.Material.Forms
             // TxtPriceQuantity
             // 
             this.TxtPriceQuantity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.TxtPriceQuantity.Location = new System.Drawing.Point(123, 151);
+            this.TxtPriceQuantity.Location = new System.Drawing.Point(123, 150);
             this.TxtPriceQuantity.Name = "TxtPriceQuantity";
-            this.TxtPriceQuantity.Size = new System.Drawing.Size(139, 27);
+            this.TxtPriceQuantity.Size = new System.Drawing.Size(139, 30);
             this.TxtPriceQuantity.TabIndex = 15;
             this.TxtPriceQuantity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDensity_KeyPress);
             this.TxtPriceQuantity.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDensity_Validating);
@@ -839,9 +847,9 @@ namespace Laboratorium.Material.Forms
             // TxtTransport
             // 
             this.TxtTransport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.TxtTransport.Location = new System.Drawing.Point(123, 191);
+            this.TxtTransport.Location = new System.Drawing.Point(123, 190);
             this.TxtTransport.Name = "TxtTransport";
-            this.TxtTransport.Size = new System.Drawing.Size(139, 27);
+            this.TxtTransport.Size = new System.Drawing.Size(139, 30);
             this.TxtTransport.TabIndex = 16;
             this.TxtTransport.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDensity_KeyPress);
             this.TxtTransport.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDensity_Validating);
@@ -849,9 +857,9 @@ namespace Laboratorium.Material.Forms
             // TxtQuantity
             // 
             this.TxtQuantity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.TxtQuantity.Location = new System.Drawing.Point(123, 231);
+            this.TxtQuantity.Location = new System.Drawing.Point(123, 230);
             this.TxtQuantity.Name = "TxtQuantity";
-            this.TxtQuantity.Size = new System.Drawing.Size(139, 27);
+            this.TxtQuantity.Size = new System.Drawing.Size(139, 30);
             this.TxtQuantity.TabIndex = 17;
             this.TxtQuantity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDensity_KeyPress);
             this.TxtQuantity.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDensity_Validating);
@@ -861,9 +869,9 @@ namespace Laboratorium.Material.Forms
             this.CmbCurrency.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbCurrency.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbCurrency.FormattingEnabled = true;
-            this.CmbCurrency.Location = new System.Drawing.Point(123, 72);
+            this.CmbCurrency.Location = new System.Drawing.Point(123, 73);
             this.CmbCurrency.Name = "CmbCurrency";
-            this.CmbCurrency.Size = new System.Drawing.Size(136, 28);
+            this.CmbCurrency.Size = new System.Drawing.Size(136, 33);
             this.CmbCurrency.TabIndex = 13;
             // 
             // CmbUnit
@@ -871,9 +879,9 @@ namespace Laboratorium.Material.Forms
             this.CmbUnit.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbUnit.FormattingEnabled = true;
-            this.CmbUnit.Location = new System.Drawing.Point(123, 112);
+            this.CmbUnit.Location = new System.Drawing.Point(123, 113);
             this.CmbUnit.Name = "CmbUnit";
-            this.CmbUnit.Size = new System.Drawing.Size(136, 28);
+            this.CmbUnit.Size = new System.Drawing.Size(136, 33);
             this.CmbUnit.TabIndex = 14;
             // 
             // panel4
@@ -977,9 +985,9 @@ namespace Laboratorium.Material.Forms
             // 
             this.label24.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(3, 235);
+            this.label24.Location = new System.Drawing.Point(3, 233);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(194, 20);
+            this.label24.Size = new System.Drawing.Size(194, 25);
             this.label24.TabIndex = 118;
             this.label24.Text = "Półprodukt";
             this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -991,9 +999,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel5.SetColumnSpan(this.label18, 2);
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label18.ForeColor = System.Drawing.Color.Blue;
-            this.label18.Location = new System.Drawing.Point(3, 0);
+            this.label18.Location = new System.Drawing.Point(3, 1);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(230, 24);
+            this.label18.Size = new System.Drawing.Size(230, 22);
             this.label18.TabIndex = 2;
             this.label18.Text = "Zastosowanie";
             this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1002,9 +1010,9 @@ namespace Laboratorium.Material.Forms
             // 
             this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(3, 35);
+            this.label19.Location = new System.Drawing.Point(3, 32);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(194, 20);
+            this.label19.Size = new System.Drawing.Size(194, 25);
             this.label19.TabIndex = 113;
             this.label19.Text = "Niebiezpieczny";
             this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1013,9 +1021,9 @@ namespace Laboratorium.Material.Forms
             // 
             this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(3, 75);
+            this.label20.Location = new System.Drawing.Point(3, 72);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(194, 20);
+            this.label20.Size = new System.Drawing.Size(194, 25);
             this.label20.TabIndex = 114;
             this.label20.Text = "Produkcyjny";
             this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1024,9 +1032,9 @@ namespace Laboratorium.Material.Forms
             // 
             this.label21.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(3, 115);
+            this.label21.Location = new System.Drawing.Point(3, 112);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(194, 20);
+            this.label21.Size = new System.Drawing.Size(194, 25);
             this.label21.TabIndex = 115;
             this.label21.Text = "Aktywny";
             this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1035,9 +1043,9 @@ namespace Laboratorium.Material.Forms
             // 
             this.label22.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(3, 155);
+            this.label22.Location = new System.Drawing.Point(3, 152);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(194, 20);
+            this.label22.Size = new System.Drawing.Size(194, 25);
             this.label22.TabIndex = 116;
             this.label22.Text = "Opakowanie";
             this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1046,9 +1054,9 @@ namespace Laboratorium.Material.Forms
             // 
             this.label23.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(3, 195);
+            this.label23.Location = new System.Drawing.Point(3, 192);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(194, 20);
+            this.label23.Size = new System.Drawing.Size(194, 25);
             this.label23.TabIndex = 117;
             this.label23.Text = "Próbka";
             this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1083,9 +1091,9 @@ namespace Laboratorium.Material.Forms
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label25.ForeColor = System.Drawing.Color.Blue;
-            this.label25.Location = new System.Drawing.Point(317, 376);
+            this.label25.Location = new System.Drawing.Point(317, 378);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(144, 24);
+            this.label25.Size = new System.Drawing.Size(144, 22);
             this.label25.TabIndex = 5;
             this.label25.Text = "Uwagi";
             this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1094,10 +1102,10 @@ namespace Laboratorium.Material.Forms
             // 
             this.TbClp.BackColor = System.Drawing.SystemColors.Control;
             this.TbClp.Controls.Add(this.tableLayoutPanel6);
-            this.TbClp.Location = new System.Drawing.Point(4, 29);
+            this.TbClp.Location = new System.Drawing.Point(4, 34);
             this.TbClp.Name = "TbClp";
             this.TbClp.Padding = new System.Windows.Forms.Padding(3);
-            this.TbClp.Size = new System.Drawing.Size(879, 475);
+            this.TbClp.Size = new System.Drawing.Size(879, 446);
             this.TbClp.TabIndex = 1;
             this.TbClp.Text = "CLP";
             // 
@@ -1107,7 +1115,7 @@ namespace Laboratorium.Material.Forms
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel6.ColumnCount = 2;
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 350F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 320F));
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel6.Controls.Add(this.PicBox_CLP, 0, 1);
             this.tableLayoutPanel6.Controls.Add(this.LblClpSignal, 0, 0);
@@ -1119,7 +1127,7 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(871, 463);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(871, 434);
             this.tableLayoutPanel6.TabIndex = 10;
             // 
             // PicBox_CLP
@@ -1150,18 +1158,18 @@ namespace Laboratorium.Material.Forms
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DgvClp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DgvClp.Location = new System.Drawing.Point(353, 53);
+            this.DgvClp.Location = new System.Drawing.Point(323, 53);
             this.DgvClp.Name = "DgvClp";
             this.DgvClp.RowHeadersWidth = 51;
             this.DgvClp.RowTemplate.Height = 24;
-            this.DgvClp.Size = new System.Drawing.Size(515, 357);
+            this.DgvClp.Size = new System.Drawing.Size(545, 328);
             this.DgvClp.TabIndex = 11;
             this.DgvClp.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvClp_CellFormatting);
             // 
             // BtnClpEdit
             // 
             this.BtnClpEdit.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.BtnClpEdit.Location = new System.Drawing.Point(776, 420);
+            this.BtnClpEdit.Location = new System.Drawing.Point(776, 391);
             this.BtnClpEdit.Name = "BtnClpEdit";
             this.BtnClpEdit.Size = new System.Drawing.Size(92, 35);
             this.BtnClpEdit.TabIndex = 12;
@@ -1185,7 +1193,7 @@ namespace Laboratorium.Material.Forms
             this.BtnAdd.Location = new System.Drawing.Point(4, 13);
             this.BtnAdd.Margin = new System.Windows.Forms.Padding(4);
             this.BtnAdd.Name = "BtnAdd";
-            this.BtnAdd.Size = new System.Drawing.Size(50, 50);
+            this.BtnAdd.Size = new System.Drawing.Size(60, 60);
             this.BtnAdd.TabIndex = 21;
             this.BtnAdd.UseVisualStyleBackColor = true;
             this.BtnAdd.Click += new System.EventHandler(this.BtnAdd_Click);
@@ -1195,10 +1203,10 @@ namespace Laboratorium.Material.Forms
             this.BtnSave.BackgroundImage = global::Laboratorium.Properties.Resources.Save;
             this.BtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnSave.Enabled = false;
-            this.BtnSave.Location = new System.Drawing.Point(134, 13);
+            this.BtnSave.Location = new System.Drawing.Point(144, 13);
             this.BtnSave.Margin = new System.Windows.Forms.Padding(4);
             this.BtnSave.Name = "BtnSave";
-            this.BtnSave.Size = new System.Drawing.Size(50, 50);
+            this.BtnSave.Size = new System.Drawing.Size(60, 60);
             this.BtnSave.TabIndex = 24;
             this.BtnSave.UseVisualStyleBackColor = true;
             this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
@@ -1207,10 +1215,10 @@ namespace Laboratorium.Material.Forms
             // 
             this.BtnDelete.BackgroundImage = global::Laboratorium.Properties.Resources.delete;
             this.BtnDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BtnDelete.Location = new System.Drawing.Point(76, 13);
+            this.BtnDelete.Location = new System.Drawing.Point(80, 13);
             this.BtnDelete.Margin = new System.Windows.Forms.Padding(4);
             this.BtnDelete.Name = "BtnDelete";
-            this.BtnDelete.Size = new System.Drawing.Size(50, 50);
+            this.BtnDelete.Size = new System.Drawing.Size(60, 60);
             this.BtnDelete.TabIndex = 23;
             this.BtnDelete.UseVisualStyleBackColor = true;
             this.BtnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
@@ -1219,25 +1227,18 @@ namespace Laboratorium.Material.Forms
             // 
             this.LblDateCreated.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.LblDateCreated.AutoSize = true;
-            this.LblDateCreated.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LblDateCreated.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.LblDateCreated.ForeColor = System.Drawing.Color.Blue;
-            this.LblDateCreated.Location = new System.Drawing.Point(634, 39);
+            this.LblDateCreated.Location = new System.Drawing.Point(613, 48);
             this.LblDateCreated.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblDateCreated.Name = "LblDateCreated";
-            this.LblDateCreated.Size = new System.Drawing.Size(246, 24);
+            this.LblDateCreated.Size = new System.Drawing.Size(262, 25);
             this.LblDateCreated.TabIndex = 25;
             this.LblDateCreated.Text = "Utworzenie: 00-00-0000   ";
             // 
-            // ToolStripLblMessage
-            // 
-            this.ToolStripLblMessage.Name = "ToolStripLblMessage";
-            this.ToolStripLblMessage.Size = new System.Drawing.Size(111, 24);
-            this.ToolStripLblMessage.Text = "toolStripLabel1";
-            // 
             // MaterialForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(887, 652);
             this.Controls.Add(this.LblDateCreated);
             this.Controls.Add(this.BtnSave);

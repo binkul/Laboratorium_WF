@@ -51,12 +51,12 @@ namespace Laboratorium.Material.Forms
             this.CmbSignalWord = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.BtnSave = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.ClpLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.BtnAddOne = new System.Windows.Forms.Button();
-            this.ButtonAddAll = new System.Windows.Forms.Button();
+            this.BtnAddAll = new System.Windows.Forms.Button();
             this.BtnRemoveOne = new System.Windows.Forms.Button();
             this.BtnRemoveAll = new System.Windows.Forms.Button();
-            this.DgvClp = new System.Windows.Forms.DataGridView();
+            this.DgvSourceClp = new System.Windows.Forms.DataGridView();
             this.DgvMaterial = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.PicGHS_04)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicGHS_Ok_04)).BeginInit();
@@ -76,8 +76,8 @@ namespace Laboratorium.Material.Forms
             ((System.ComponentModel.ISupportInitialize)(this.PicGHS_08)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicGHS_Ok_09)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicGHS_09)).BeginInit();
-            this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DgvClp)).BeginInit();
+            this.ClpLayoutPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DgvSourceClp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvMaterial)).BeginInit();
             this.SuspendLayout();
             // 
@@ -328,23 +328,23 @@ namespace Laboratorium.Material.Forms
             // 
             this.CmbSignalWord.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.CmbSignalWord.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CmbSignalWord.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.CmbSignalWord.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.CmbSignalWord.ForeColor = System.Drawing.Color.Blue;
             this.CmbSignalWord.FormattingEnabled = true;
-            this.CmbSignalWord.Location = new System.Drawing.Point(373, 39);
+            this.CmbSignalWord.Location = new System.Drawing.Point(476, 28);
             this.CmbSignalWord.Name = "CmbSignalWord";
-            this.CmbSignalWord.Size = new System.Drawing.Size(269, 33);
+            this.CmbSignalWord.Size = new System.Drawing.Size(342, 39);
             this.CmbSignalWord.TabIndex = 18;
             // 
             // label1
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(145, 42);
+            this.label1.Location = new System.Drawing.Point(169, 31);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(205, 25);
+            this.label1.Size = new System.Drawing.Size(285, 32);
             this.label1.TabIndex = 19;
             this.label1.Text = "Hasło ostrzegawcze";
             // 
@@ -353,77 +353,77 @@ namespace Laboratorium.Material.Forms
             this.BtnSave.BackgroundImage = global::Laboratorium.Properties.Resources.Save;
             this.BtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnSave.Enabled = false;
-            this.BtnSave.Location = new System.Drawing.Point(12, 14);
+            this.BtnSave.Location = new System.Drawing.Point(12, 17);
             this.BtnSave.Margin = new System.Windows.Forms.Padding(4);
             this.BtnSave.Name = "BtnSave";
-            this.BtnSave.Size = new System.Drawing.Size(50, 50);
+            this.BtnSave.Size = new System.Drawing.Size(60, 60);
             this.BtnSave.TabIndex = 25;
             this.BtnSave.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel1
+            // ClpLayoutPanel
             // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.ClpLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel1.ColumnCount = 7;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-            this.tableLayoutPanel1.Controls.Add(this.BtnAddOne, 3, 1);
-            this.tableLayoutPanel1.Controls.Add(this.ButtonAddAll, 3, 2);
-            this.tableLayoutPanel1.Controls.Add(this.BtnRemoveOne, 3, 4);
-            this.tableLayoutPanel1.Controls.Add(this.BtnRemoveAll, 3, 5);
-            this.tableLayoutPanel1.Controls.Add(this.DgvClp, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.DgvMaterial, 5, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 221);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 7;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(971, 381);
-            this.tableLayoutPanel1.TabIndex = 26;
+            this.ClpLayoutPanel.ColumnCount = 7;
+            this.ClpLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+            this.ClpLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.ClpLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+            this.ClpLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.ClpLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+            this.ClpLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.ClpLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 11F));
+            this.ClpLayoutPanel.Controls.Add(this.BtnAddOne, 3, 1);
+            this.ClpLayoutPanel.Controls.Add(this.BtnAddAll, 3, 2);
+            this.ClpLayoutPanel.Controls.Add(this.BtnRemoveOne, 3, 4);
+            this.ClpLayoutPanel.Controls.Add(this.BtnRemoveAll, 3, 5);
+            this.ClpLayoutPanel.Controls.Add(this.DgvSourceClp, 1, 0);
+            this.ClpLayoutPanel.Controls.Add(this.DgvMaterial, 5, 0);
+            this.ClpLayoutPanel.Location = new System.Drawing.Point(3, 198);
+            this.ClpLayoutPanel.Name = "ClpLayoutPanel";
+            this.ClpLayoutPanel.RowCount = 7;
+            this.ClpLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.ClpLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.ClpLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.ClpLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.ClpLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.ClpLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.ClpLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.ClpLayoutPanel.Size = new System.Drawing.Size(971, 509);
+            this.ClpLayoutPanel.TabIndex = 26;
             // 
             // BtnAddOne
             // 
             this.BtnAddOne.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnAddOne.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.BtnAddOne.ForeColor = System.Drawing.Color.Blue;
-            this.BtnAddOne.Location = new System.Drawing.Point(370, 105);
+            this.BtnAddOne.Location = new System.Drawing.Point(365, 167);
             this.BtnAddOne.Name = "BtnAddOne";
-            this.BtnAddOne.Size = new System.Drawing.Size(60, 30);
+            this.BtnAddOne.Size = new System.Drawing.Size(70, 34);
             this.BtnAddOne.TabIndex = 0;
             this.BtnAddOne.Text = ">";
             this.BtnAddOne.UseVisualStyleBackColor = true;
             // 
-            // ButtonAddAll
+            // BtnAddAll
             // 
-            this.ButtonAddAll.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.ButtonAddAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.ButtonAddAll.ForeColor = System.Drawing.Color.Blue;
-            this.ButtonAddAll.Location = new System.Drawing.Point(370, 145);
-            this.ButtonAddAll.Name = "ButtonAddAll";
-            this.ButtonAddAll.Size = new System.Drawing.Size(60, 30);
-            this.ButtonAddAll.TabIndex = 1;
-            this.ButtonAddAll.Text = ">>";
-            this.ButtonAddAll.UseVisualStyleBackColor = true;
+            this.BtnAddAll.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.BtnAddAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.BtnAddAll.ForeColor = System.Drawing.Color.Blue;
+            this.BtnAddAll.Location = new System.Drawing.Point(365, 207);
+            this.BtnAddAll.Name = "BtnAddAll";
+            this.BtnAddAll.Size = new System.Drawing.Size(70, 34);
+            this.BtnAddAll.TabIndex = 1;
+            this.BtnAddAll.Text = ">>";
+            this.BtnAddAll.UseVisualStyleBackColor = true;
             // 
             // BtnRemoveOne
             // 
             this.BtnRemoveOne.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnRemoveOne.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.BtnRemoveOne.ForeColor = System.Drawing.Color.Blue;
-            this.BtnRemoveOne.Location = new System.Drawing.Point(370, 205);
+            this.BtnRemoveOne.Location = new System.Drawing.Point(365, 267);
             this.BtnRemoveOne.Name = "BtnRemoveOne";
-            this.BtnRemoveOne.Size = new System.Drawing.Size(60, 30);
+            this.BtnRemoveOne.Size = new System.Drawing.Size(70, 34);
             this.BtnRemoveOne.TabIndex = 2;
             this.BtnRemoveOne.Text = "<";
             this.BtnRemoveOne.UseVisualStyleBackColor = true;
@@ -433,26 +433,28 @@ namespace Laboratorium.Material.Forms
             this.BtnRemoveAll.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnRemoveAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.BtnRemoveAll.ForeColor = System.Drawing.Color.Blue;
-            this.BtnRemoveAll.Location = new System.Drawing.Point(370, 245);
+            this.BtnRemoveAll.Location = new System.Drawing.Point(365, 307);
             this.BtnRemoveAll.Name = "BtnRemoveAll";
-            this.BtnRemoveAll.Size = new System.Drawing.Size(60, 30);
+            this.BtnRemoveAll.Size = new System.Drawing.Size(70, 34);
             this.BtnRemoveAll.TabIndex = 3;
             this.BtnRemoveAll.Text = "<<";
             this.BtnRemoveAll.UseVisualStyleBackColor = true;
             // 
-            // DgvClp
+            // DgvSourceClp
             // 
-            this.DgvClp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.DgvSourceClp.AllowUserToAddRows = false;
+            this.DgvSourceClp.AllowUserToDeleteRows = false;
+            this.DgvSourceClp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.DgvClp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DgvClp.Location = new System.Drawing.Point(13, 3);
-            this.DgvClp.Name = "DgvClp";
-            this.DgvClp.RowHeadersWidth = 51;
-            this.tableLayoutPanel1.SetRowSpan(this.DgvClp, 7);
-            this.DgvClp.RowTemplate.Height = 24;
-            this.DgvClp.Size = new System.Drawing.Size(334, 375);
-            this.DgvClp.TabIndex = 4;
+            this.DgvSourceClp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DgvSourceClp.Location = new System.Drawing.Point(13, 3);
+            this.DgvSourceClp.Name = "DgvSourceClp";
+            this.DgvSourceClp.RowHeadersWidth = 51;
+            this.ClpLayoutPanel.SetRowSpan(this.DgvSourceClp, 7);
+            this.DgvSourceClp.RowTemplate.Height = 24;
+            this.DgvSourceClp.Size = new System.Drawing.Size(334, 503);
+            this.DgvSourceClp.TabIndex = 4;
             // 
             // DgvMaterial
             // 
@@ -463,17 +465,16 @@ namespace Laboratorium.Material.Forms
             this.DgvMaterial.Location = new System.Drawing.Point(453, 3);
             this.DgvMaterial.Name = "DgvMaterial";
             this.DgvMaterial.RowHeadersWidth = 51;
-            this.tableLayoutPanel1.SetRowSpan(this.DgvMaterial, 7);
+            this.ClpLayoutPanel.SetRowSpan(this.DgvMaterial, 7);
             this.DgvMaterial.RowTemplate.Height = 24;
-            this.DgvMaterial.Size = new System.Drawing.Size(504, 375);
+            this.DgvMaterial.Size = new System.Drawing.Size(504, 503);
             this.DgvMaterial.TabIndex = 5;
             // 
             // MaterialClpForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(975, 607);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(975, 719);
+            this.Controls.Add(this.ClpLayoutPanel);
             this.Controls.Add(this.BtnSave);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.CmbSignalWord);
@@ -518,8 +519,8 @@ namespace Laboratorium.Material.Forms
             ((System.ComponentModel.ISupportInitialize)(this.PicGHS_08)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicGHS_Ok_09)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicGHS_09)).EndInit();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.DgvClp)).EndInit();
+            this.ClpLayoutPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.DgvSourceClp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvMaterial)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -549,12 +550,12 @@ namespace Laboratorium.Material.Forms
         private System.Windows.Forms.ComboBox CmbSignalWord;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button BtnSave;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel ClpLayoutPanel;
         private System.Windows.Forms.Button BtnAddOne;
-        private System.Windows.Forms.Button ButtonAddAll;
+        private System.Windows.Forms.Button BtnAddAll;
         private System.Windows.Forms.Button BtnRemoveOne;
         private System.Windows.Forms.Button BtnRemoveAll;
-        private System.Windows.Forms.DataGridView DgvClp;
+        private System.Windows.Forms.DataGridView DgvSourceClp;
         private System.Windows.Forms.DataGridView DgvMaterial;
     }
 }

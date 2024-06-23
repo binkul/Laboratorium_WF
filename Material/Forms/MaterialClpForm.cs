@@ -3,6 +3,7 @@ using Laboratorium.Material.Service;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Laboratorium.Material.Forms
@@ -13,7 +14,7 @@ namespace Laboratorium.Material.Forms
         public readonly List<PictureBox> GhsList;
         public readonly List<PictureBox> GhsOkList;
         public ComboBox GetCmbSignal => CmbSignalWord;
-        public DataGridView GetDgvClp => DgvClp;
+        public DataGridView GetDgvSourceClp => DgvSourceClp;
         public DataGridView GetDgvMaterialClp => DgvMaterial;
 
         public MaterialClpForm(SqlConnection connection, MaterialDto material)
@@ -28,6 +29,23 @@ namespace Laboratorium.Material.Forms
         {
             _service.PrepareAllData();
             _service.LoadFormData();
+
+            //int width = Width;
+            //int x = ((width - (9 * 105)) / 2) - 5;
+            //for (int i = 0; i < 9; i++)
+            //{
+            //    GhsList[i].Size = new Size(100, 100);
+            //    GhsList[i].Location = new Point(x, 75);
+            //    GhsOkList[i].Size = new Size(100, 100);
+            //    GhsOkList[i].Location = new Point(x, 75);
+            //    x += 105;
+            //}
+            //BtnAddOne.Size = new Size(70, 40);
+            //BtnAddAll.Size = new Size(70, 40);
+            //BtnRemoveAll.Size = new Size(70, 40);
+            //BtnRemoveOne.Size = new Size(70, 40);
+
+            //BtnSave.Size = new System.Drawing.Size(50, 50);
         }
 
         private void MaterialClpForm_FormClosing(object sender, FormClosingEventArgs e)
