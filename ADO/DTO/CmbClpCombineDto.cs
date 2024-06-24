@@ -8,8 +8,9 @@
         public string Descritption { get; set; }
         public int Ordering { get; set; }
         public string SignalWord { get; set; }
+        public bool Type { get; set; }
 
-        public CmbClpCombineDto(short id, string className, string code, string descritption, int ordering, string signalWord)
+        public CmbClpCombineDto(short id, string className, string code, string descritption, int ordering, string signalWord, bool type)
         {
             Id = id;
             ClassName = className;
@@ -17,6 +18,7 @@
             Descritption = descritption;
             Ordering = ordering;
             SignalWord = signalWord;
+            Type = type;
         }
     }
 }

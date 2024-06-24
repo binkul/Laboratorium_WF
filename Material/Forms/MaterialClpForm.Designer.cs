@@ -57,7 +57,7 @@ namespace Laboratorium.Material.Forms
             this.BtnRemoveOne = new System.Windows.Forms.Button();
             this.BtnRemoveAll = new System.Windows.Forms.Button();
             this.DgvSourceClp = new System.Windows.Forms.DataGridView();
-            this.DgvMaterial = new System.Windows.Forms.DataGridView();
+            this.DgvMaterialClp = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.PicGHS_04)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicGHS_Ok_04)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicGHS_01)).BeginInit();
@@ -78,7 +78,7 @@ namespace Laboratorium.Material.Forms
             ((System.ComponentModel.ISupportInitialize)(this.PicGHS_09)).BeginInit();
             this.ClpLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvSourceClp)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DgvMaterial)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DgvMaterialClp)).BeginInit();
             this.SuspendLayout();
             // 
             // PicGHS_04
@@ -344,7 +344,7 @@ namespace Laboratorium.Material.Forms
             this.label1.ForeColor = System.Drawing.Color.Red;
             this.label1.Location = new System.Drawing.Point(169, 31);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(285, 32);
+            this.label1.Size = new System.Drawing.Size(286, 32);
             this.label1.TabIndex = 19;
             this.label1.Text = "Hasło ostrzegawcze";
             // 
@@ -359,6 +359,7 @@ namespace Laboratorium.Material.Forms
             this.BtnSave.Size = new System.Drawing.Size(60, 60);
             this.BtnSave.TabIndex = 25;
             this.BtnSave.UseVisualStyleBackColor = true;
+            this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
             // ClpLayoutPanel
             // 
@@ -378,7 +379,7 @@ namespace Laboratorium.Material.Forms
             this.ClpLayoutPanel.Controls.Add(this.BtnRemoveOne, 3, 4);
             this.ClpLayoutPanel.Controls.Add(this.BtnRemoveAll, 3, 5);
             this.ClpLayoutPanel.Controls.Add(this.DgvSourceClp, 1, 0);
-            this.ClpLayoutPanel.Controls.Add(this.DgvMaterial, 5, 0);
+            this.ClpLayoutPanel.Controls.Add(this.DgvMaterialClp, 5, 0);
             this.ClpLayoutPanel.Location = new System.Drawing.Point(3, 198);
             this.ClpLayoutPanel.Name = "ClpLayoutPanel";
             this.ClpLayoutPanel.RowCount = 7;
@@ -403,6 +404,7 @@ namespace Laboratorium.Material.Forms
             this.BtnAddOne.TabIndex = 0;
             this.BtnAddOne.Text = ">";
             this.BtnAddOne.UseVisualStyleBackColor = true;
+            this.BtnAddOne.Click += new System.EventHandler(this.BtnAddOne_Click);
             // 
             // BtnAddAll
             // 
@@ -415,6 +417,7 @@ namespace Laboratorium.Material.Forms
             this.BtnAddAll.TabIndex = 1;
             this.BtnAddAll.Text = ">>";
             this.BtnAddAll.UseVisualStyleBackColor = true;
+            this.BtnAddAll.Click += new System.EventHandler(this.BtnAddAll_Click);
             // 
             // BtnRemoveOne
             // 
@@ -427,6 +430,7 @@ namespace Laboratorium.Material.Forms
             this.BtnRemoveOne.TabIndex = 2;
             this.BtnRemoveOne.Text = "<";
             this.BtnRemoveOne.UseVisualStyleBackColor = true;
+            this.BtnRemoveOne.Click += new System.EventHandler(this.BtnRemoveOne_Click);
             // 
             // BtnRemoveAll
             // 
@@ -439,6 +443,7 @@ namespace Laboratorium.Material.Forms
             this.BtnRemoveAll.TabIndex = 3;
             this.BtnRemoveAll.Text = "<<";
             this.BtnRemoveAll.UseVisualStyleBackColor = true;
+            this.BtnRemoveAll.Click += new System.EventHandler(this.BtnRemoveAll_Click);
             // 
             // DgvSourceClp
             // 
@@ -455,20 +460,22 @@ namespace Laboratorium.Material.Forms
             this.DgvSourceClp.RowTemplate.Height = 24;
             this.DgvSourceClp.Size = new System.Drawing.Size(334, 503);
             this.DgvSourceClp.TabIndex = 4;
+            this.DgvSourceClp.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvSourceClp_CellFormatting);
             // 
-            // DgvMaterial
+            // DgvMaterialClp
             // 
-            this.DgvMaterial.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.DgvMaterialClp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.DgvMaterial.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DgvMaterial.Location = new System.Drawing.Point(453, 3);
-            this.DgvMaterial.Name = "DgvMaterial";
-            this.DgvMaterial.RowHeadersWidth = 51;
-            this.ClpLayoutPanel.SetRowSpan(this.DgvMaterial, 7);
-            this.DgvMaterial.RowTemplate.Height = 24;
-            this.DgvMaterial.Size = new System.Drawing.Size(504, 503);
-            this.DgvMaterial.TabIndex = 5;
+            this.DgvMaterialClp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DgvMaterialClp.Location = new System.Drawing.Point(453, 3);
+            this.DgvMaterialClp.Name = "DgvMaterialClp";
+            this.DgvMaterialClp.RowHeadersWidth = 51;
+            this.ClpLayoutPanel.SetRowSpan(this.DgvMaterialClp, 7);
+            this.DgvMaterialClp.RowTemplate.Height = 24;
+            this.DgvMaterialClp.Size = new System.Drawing.Size(504, 503);
+            this.DgvMaterialClp.TabIndex = 5;
+            this.DgvMaterialClp.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvMaterialClp_CellFormatting);
             // 
             // MaterialClpForm
             // 
@@ -521,7 +528,7 @@ namespace Laboratorium.Material.Forms
             ((System.ComponentModel.ISupportInitialize)(this.PicGHS_09)).EndInit();
             this.ClpLayoutPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DgvSourceClp)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DgvMaterial)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DgvMaterialClp)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -556,6 +563,6 @@ namespace Laboratorium.Material.Forms
         private System.Windows.Forms.Button BtnRemoveOne;
         private System.Windows.Forms.Button BtnRemoveAll;
         private System.Windows.Forms.DataGridView DgvSourceClp;
-        private System.Windows.Forms.DataGridView DgvMaterial;
+        private System.Windows.Forms.DataGridView DgvMaterialClp;
     }
 }

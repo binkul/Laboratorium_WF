@@ -306,6 +306,7 @@ namespace Laboratorium.Material.Service
             view.AutoGenerateColumns = false;
 
             view.Columns.Remove("MaterialId");
+            view.Columns.Remove("Ordering");
 
             view.Columns["ClassClp"].HeaderText = "Klasa";
             view.Columns["ClassClp"].DisplayIndex = 0;

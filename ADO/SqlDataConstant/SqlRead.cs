@@ -51,8 +51,8 @@ namespace Laboratorium.ADO.SqlDataConstant
                 "CASE When cod.signal_word_id = 1 " +
                 "THEN '' " +
                 "ELSE sig.name_pl " +
-                "END as signal From Konkurencja.dbo.CmbClpHcode cod Left Join Konkurencja.dbo.CmbClpSignalWord sig on cod.signal_word_id=sig.id " +
-                "Union All Select id, '' as class, code, [description], ordering, null as signal From Konkurencja.dbo.CmbClpPcode\r\nOrder By ordering" },
+                "END as signal, 1 as Type From Konkurencja.dbo.CmbClpHcode cod Left Join Konkurencja.dbo.CmbClpSignalWord sig on cod.signal_word_id=sig.id " +
+                "Union All Select id, '' as class, code, [description], ordering, null as signal, 0 as Type From Konkurencja.dbo.CmbClpPcode\r\nOrder By ordering" },
             {SqlIndex.CmbClpSignalIndex, "Select id, name_pl, name_en From Konkurencja.dbo.CmbClpSignalWord Order By id" },           
             {SqlIndex.CmbCurrencyIndex, "Select id, currency, rate from Konkurencja.dbo.CmbCurrency Order By id" },
             {SqlIndex.CmbUnitIndex, "Select id, name_pl, [description] From Konkurencja.dbo.CmbUnits Order By id" },
@@ -74,6 +74,11 @@ namespace Laboratorium.ADO.SqlDataConstant
             {SqlIndex.MaterialClpSignalIndex, "Select mat.material_id, mat.code_id, mat.date_created, sig.name_pl from Konkurencja.dbo.MaterialClpSignal mat left join " +
                 "Konkurencja.dbo.CmbClpSignalWord sig on mat.code_id=sig.id Where material_id=" },
             {SqlIndex.MaterialClpGhsIndex, "Select material_id, code_id, date_created from Konkurencja.dbo.MaterialClpCodeGHS Where material_id=XXXX Order By code_id" },
+            {SqlIndex.MaterialClpHPcombineIndex, "Select math.material_id, math.code_id, codh.code, ISNULL(codh.class, '') as class, codh.[description], codh.ordering as ord, 1 as [type] From Konkurencja.dbo.MaterialClpCodeH math " +
+                "Left Join Konkurencja.dbo.CmbClpHcode codh on math.code_id=codh.id Where math.material_id=XXXX " +
+                "UNION ALL " +
+                "Select matp.material_id, matp.code_id, codp.code, '' as class, codp.[description], codp.ordering as ord, 0 as [type] From Konkurencja.dbo.MaterialClpCodeP matp " +
+                "Left Join Konkurencja.dbo.CmbClpPcode codp on matp.code_id=codp.id Where matp.material_id=XXXX Order by ord" },
         };
     }
 }

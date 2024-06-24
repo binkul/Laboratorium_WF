@@ -39,8 +39,9 @@ namespace Laboratorium.ClpData.Repository
                         string desc = CommonFunction.DBNullToStringConv(reader.GetValue(3));
                         int ord = reader.GetInt32(4);
                         string signal = CommonFunction.DBNullToStringConv(reader.GetValue(5));
+                        bool type = Convert.ToBoolean(reader.GetValue(6));
 
-                        CmbClpCombineDto combineCode = new CmbClpCombineDto(id, className, code, desc, ord, signal);
+                        CmbClpCombineDto combineCode = new CmbClpCombineDto(id, className, code, desc, ord, signal, type);
                         list.Add(combineCode);
                     }
                     reader.Close();

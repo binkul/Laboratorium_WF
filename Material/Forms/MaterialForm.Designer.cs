@@ -205,7 +205,6 @@ namespace Laboratorium.Material.Forms
             // 
             this.bindingNavigatorPositionItem.AccessibleName = "Pozycja";
             this.bindingNavigatorPositionItem.AutoSize = false;
-            this.bindingNavigatorPositionItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
             this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 27);
             this.bindingNavigatorPositionItem.Text = "0";
@@ -392,9 +391,9 @@ namespace Laboratorium.Material.Forms
             // 
             this.TbData.BackColor = System.Drawing.SystemColors.Control;
             this.TbData.Controls.Add(this.tableLayoutPanel1);
-            this.TbData.Location = new System.Drawing.Point(4, 29);
+            this.TbData.Location = new System.Drawing.Point(4, 34);
             this.TbData.Name = "TbData";
-            this.TbData.Size = new System.Drawing.Size(879, 475);
+            this.TbData.Size = new System.Drawing.Size(879, 446);
             this.TbData.TabIndex = 3;
             this.TbData.Text = "Dane";
             // 
@@ -436,7 +435,7 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(879, 469);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(879, 440);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // panel1
@@ -497,9 +496,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel2.SetColumnSpan(this.label2, 2);
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label2.ForeColor = System.Drawing.Color.Blue;
-            this.label2.Location = new System.Drawing.Point(3, 1);
+            this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(259, 22);
+            this.label2.Size = new System.Drawing.Size(259, 24);
             this.label2.TabIndex = 0;
             this.label2.Text = "Dane podstawowe";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -540,7 +539,7 @@ namespace Laboratorium.Material.Forms
             this.CmbFunction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbFunction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbFunction.FormattingEnabled = true;
-            this.CmbFunction.Location = new System.Drawing.Point(123, 73);
+            this.CmbFunction.Location = new System.Drawing.Point(123, 72);
             this.CmbFunction.Name = "CmbFunction";
             this.CmbFunction.Size = new System.Drawing.Size(139, 33);
             this.CmbFunction.TabIndex = 6;
@@ -550,7 +549,7 @@ namespace Laboratorium.Material.Forms
             this.CmbSupplier.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbSupplier.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbSupplier.FormattingEnabled = true;
-            this.CmbSupplier.Location = new System.Drawing.Point(123, 111);
+            this.CmbSupplier.Location = new System.Drawing.Point(123, 113);
             this.CmbSupplier.Name = "CmbSupplier";
             this.CmbSupplier.Size = new System.Drawing.Size(139, 33);
             this.CmbSupplier.TabIndex = 7;
@@ -626,9 +625,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel3.SetColumnSpan(this.label6, 2);
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label6.ForeColor = System.Drawing.Color.Blue;
-            this.label6.Location = new System.Drawing.Point(3, 1);
+            this.label6.Location = new System.Drawing.Point(3, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(259, 22);
+            this.label6.Size = new System.Drawing.Size(259, 24);
             this.label6.TabIndex = 1;
             this.label6.Text = "Fizykochemia";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -751,9 +750,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel4.SetColumnSpan(this.label11, 2);
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label11.ForeColor = System.Drawing.Color.Blue;
-            this.label11.Location = new System.Drawing.Point(3, 1);
+            this.label11.Location = new System.Drawing.Point(3, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(259, 22);
+            this.label11.Size = new System.Drawing.Size(259, 24);
             this.label11.TabIndex = 1;
             this.label11.Text = "Cennik";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -869,7 +868,7 @@ namespace Laboratorium.Material.Forms
             this.CmbCurrency.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbCurrency.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbCurrency.FormattingEnabled = true;
-            this.CmbCurrency.Location = new System.Drawing.Point(123, 73);
+            this.CmbCurrency.Location = new System.Drawing.Point(123, 72);
             this.CmbCurrency.Name = "CmbCurrency";
             this.CmbCurrency.Size = new System.Drawing.Size(136, 33);
             this.CmbCurrency.TabIndex = 13;
@@ -879,7 +878,7 @@ namespace Laboratorium.Material.Forms
             this.CmbUnit.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbUnit.FormattingEnabled = true;
-            this.CmbUnit.Location = new System.Drawing.Point(123, 113);
+            this.CmbUnit.Location = new System.Drawing.Point(123, 112);
             this.CmbUnit.Name = "CmbUnit";
             this.CmbUnit.Size = new System.Drawing.Size(136, 33);
             this.CmbUnit.TabIndex = 14;
@@ -999,9 +998,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel5.SetColumnSpan(this.label18, 2);
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label18.ForeColor = System.Drawing.Color.Blue;
-            this.label18.Location = new System.Drawing.Point(3, 1);
+            this.label18.Location = new System.Drawing.Point(3, 0);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(230, 22);
+            this.label18.Size = new System.Drawing.Size(230, 24);
             this.label18.TabIndex = 2;
             this.label18.Text = "Zastosowanie";
             this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1081,7 +1080,7 @@ namespace Laboratorium.Material.Forms
             this.TxtRemarks.Location = new System.Drawing.Point(23, 413);
             this.TxtRemarks.Multiline = true;
             this.TxtRemarks.Name = "TxtRemarks";
-            this.TxtRemarks.Size = new System.Drawing.Size(832, 53);
+            this.TxtRemarks.Size = new System.Drawing.Size(832, 24);
             this.TxtRemarks.TabIndex = 24;
             // 
             // label25
@@ -1091,9 +1090,9 @@ namespace Laboratorium.Material.Forms
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label25.ForeColor = System.Drawing.Color.Blue;
-            this.label25.Location = new System.Drawing.Point(317, 378);
+            this.label25.Location = new System.Drawing.Point(317, 376);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(144, 22);
+            this.label25.Size = new System.Drawing.Size(144, 24);
             this.label25.TabIndex = 5;
             this.label25.Text = "Uwagi";
             this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1157,6 +1156,7 @@ namespace Laboratorium.Material.Forms
             this.DgvClp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.DgvClp.BackgroundColor = System.Drawing.SystemColors.Control;
             this.DgvClp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DgvClp.Location = new System.Drawing.Point(323, 53);
             this.DgvClp.Name = "DgvClp";
@@ -1180,9 +1180,9 @@ namespace Laboratorium.Material.Forms
             // TbComposition
             // 
             this.TbComposition.BackColor = System.Drawing.SystemColors.Control;
-            this.TbComposition.Location = new System.Drawing.Point(4, 29);
+            this.TbComposition.Location = new System.Drawing.Point(4, 34);
             this.TbComposition.Name = "TbComposition";
-            this.TbComposition.Size = new System.Drawing.Size(879, 475);
+            this.TbComposition.Size = new System.Drawing.Size(879, 446);
             this.TbComposition.TabIndex = 2;
             this.TbComposition.Text = "Skład";
             // 

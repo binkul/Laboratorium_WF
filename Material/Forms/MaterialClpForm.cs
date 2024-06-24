@@ -3,7 +3,6 @@ using Laboratorium.Material.Service;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace Laboratorium.Material.Forms
@@ -11,11 +10,12 @@ namespace Laboratorium.Material.Forms
     public partial class MaterialClpForm : Form
     {
         private readonly MaterialClpService _service;
+        private bool _init = true;
         public readonly List<PictureBox> GhsList;
         public readonly List<PictureBox> GhsOkList;
         public ComboBox GetCmbSignal => CmbSignalWord;
         public DataGridView GetDgvSourceClp => DgvSourceClp;
-        public DataGridView GetDgvMaterialClp => DgvMaterial;
+        public DataGridView GetDgvMaterialClp => DgvMaterialClp;
 
         public MaterialClpForm(SqlConnection connection, MaterialDto material)
         {
@@ -25,27 +25,16 @@ namespace Laboratorium.Material.Forms
             GhsOkList = new List<PictureBox>() { PicGHS_Ok_01, PicGHS_Ok_02, PicGHS_Ok_03, PicGHS_Ok_04, PicGHS_Ok_05, PicGHS_Ok_06, PicGHS_Ok_07, PicGHS_Ok_08, PicGHS_Ok_09 };
         }
 
+        public void EnableSave(bool status)
+        {
+            BtnSave.Enabled = status;
+        }
+
         private void MaterialClpForm_Load(object sender, EventArgs e)
         {
             _service.PrepareAllData();
             _service.LoadFormData();
-
-            //int width = Width;
-            //int x = ((width - (9 * 105)) / 2) - 5;
-            //for (int i = 0; i < 9; i++)
-            //{
-            //    GhsList[i].Size = new Size(100, 100);
-            //    GhsList[i].Location = new Point(x, 75);
-            //    GhsOkList[i].Size = new Size(100, 100);
-            //    GhsOkList[i].Location = new Point(x, 75);
-            //    x += 105;
-            //}
-            //BtnAddOne.Size = new Size(70, 40);
-            //BtnAddAll.Size = new Size(70, 40);
-            //BtnRemoveAll.Size = new Size(70, 40);
-            //BtnRemoveOne.Size = new Size(70, 40);
-
-            //BtnSave.Size = new System.Drawing.Size(50, 50);
+            _init = false;
         }
 
         private void MaterialClpForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -82,5 +71,45 @@ namespace Laboratorium.Material.Forms
             _service.GHScodeChanged = true;
         }
 
+        private void DgvSourceClp_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (_init)
+                return;
+
+            _service.DgvSourceClpFormat(e);
+        }
+
+        private void DgvMaterialClp_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (_init)
+                return;
+
+            _service.DgvMaterialClpFormat(e);
+        }
+
+        private void BtnAddOne_Click(object sender, EventArgs e)
+        {
+            _service.AddOne();
+        }
+
+        private void BtnAddAll_Click(object sender, EventArgs e)
+        {
+            _service.AddAll();
+        }
+
+        private void BtnRemoveOne_Click(object sender, EventArgs e)
+        {
+            _service.RemoveOne();
+        }
+
+        private void BtnRemoveAll_Click(object sender, EventArgs e)
+        {
+            _service.RemoveAll();
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            _service.Save();
+        }
     }
 }
