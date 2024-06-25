@@ -205,6 +205,7 @@ namespace Laboratorium.Material.Service
             view.SelectionMode = DataGridViewSelectionMode.CellSelect;
             view.ReadOnly = false;
             view.AutoGenerateColumns = false;
+            view.AllowUserToResizeRows = false;
 
             view.Columns.Remove("Index");
             view.Columns.Remove("SupplierId");
@@ -304,6 +305,7 @@ namespace Laboratorium.Material.Service
             view.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             view.ReadOnly = true;
             view.AutoGenerateColumns = false;
+            view.AllowUserToResizeRows = false;
 
             view.Columns.Remove("MaterialId");
             view.Columns.Remove("Ordering");
@@ -608,6 +610,7 @@ namespace Laboratorium.Material.Service
         {
             if (danger)
             {
+                _materialClpBinding.DataSource = new List<ClpHPcombineDto>();
                 _materialClpList = CurrentMaterial.HPcodeList;
                 _materialClpBinding.DataSource = _materialClpList;
             }
@@ -749,6 +752,15 @@ namespace Laboratorium.Material.Service
             using (MaterialClpForm form = new MaterialClpForm(_connection, CurrentMaterial))
             {
                 form.ShowDialog();
+                if (form.GetBtnOk)
+                {
+                    CurrentMaterial.SignalWord = form.GetNewMaterialSignalWord;
+                    CurrentMaterial.GhsCodeList = form.GetNewMaterialGhsList;
+                    CurrentMaterial.HPcodeList = form.GetNewMaterialClpList;
+                    SetGhsImage(true);
+                    SetSignalWord(true);
+                    SynchronizeHPcode(true);
+                }
             }
         }
 
@@ -907,11 +919,23 @@ namespace Laboratorium.Material.Service
             }
             else if (view.Columns[e.ColumnIndex].Name == "CodeClp")
             {
-                e.CellStyle.ForeColor = Color.Blue;
+                e.CellStyle.Font = new Font(e.CellStyle.Font.Name, 9, FontStyle.Bold);
+                if (e.Value.ToString().Contains("EUH"))
+                {
+                    e.CellStyle.ForeColor = Color.DarkGreen;
+                }
+                else if (e.Value.ToString().Contains("P"))
+                {
+                    e.CellStyle.ForeColor = Color.Magenta;
+                }
+                else
+                {
+                    e.CellStyle.ForeColor = Color.Blue;
+                }
             }
             else
             {
-                e.CellStyle.Font = new Font(e.CellStyle.Font.Name, 9, FontStyle.Regular);
+                e.CellStyle.Font = new Font(e.CellStyle.Font.Name, 8, FontStyle.Regular);
                 e.CellStyle.ForeColor = Color.Black;
             }
         }

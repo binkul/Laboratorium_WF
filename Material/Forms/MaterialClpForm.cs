@@ -1,4 +1,5 @@
 ﻿using Laboratorium.ADO.DTO;
+using Laboratorium.Material.Dto;
 using Laboratorium.Material.Service;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,10 @@ namespace Laboratorium.Material.Forms
         public ComboBox GetCmbSignal => CmbSignalWord;
         public DataGridView GetDgvSourceClp => DgvSourceClp;
         public DataGridView GetDgvMaterialClp => DgvMaterialClp;
+        public bool GetBtnOk => _service.BtnOk;
+        public MaterialClpSignalDto GetNewMaterialSignalWord => _service.MaterialSignalWord;
+        public IList<MaterialClpGhsDto> GetNewMaterialGhsList => _service.MaterialGhsList;
+        public IList<ClpHPcombineDto> GetNewMaterialClpList => _service.MaterialClpList;
 
         public MaterialClpForm(SqlConnection connection, MaterialDto material)
         {

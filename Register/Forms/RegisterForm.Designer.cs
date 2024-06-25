@@ -102,7 +102,7 @@
             this.LblRepeatPassword.ForeColor = System.Drawing.SystemColors.Window;
             this.LblRepeatPassword.Location = new System.Drawing.Point(13, 541);
             this.LblRepeatPassword.Name = "LblRepeatPassword";
-            this.LblRepeatPassword.Size = new System.Drawing.Size(168, 32);
+            this.LblRepeatPassword.Size = new System.Drawing.Size(167, 32);
             this.LblRepeatPassword.TabIndex = 12;
             this.LblRepeatPassword.Text = "Powtórz hasło";
             // 
@@ -123,7 +123,7 @@
             this.LblPassword.ForeColor = System.Drawing.SystemColors.Window;
             this.LblPassword.Location = new System.Drawing.Point(15, 451);
             this.LblPassword.Name = "LblPassword";
-            this.LblPassword.Size = new System.Drawing.Size(77, 32);
+            this.LblPassword.Size = new System.Drawing.Size(76, 32);
             this.LblPassword.TabIndex = 10;
             this.LblPassword.Text = "Hasło";
             // 
@@ -143,7 +143,7 @@
             this.LblLogin.ForeColor = System.Drawing.SystemColors.Window;
             this.LblLogin.Location = new System.Drawing.Point(15, 361);
             this.LblLogin.Name = "LblLogin";
-            this.LblLogin.Size = new System.Drawing.Size(75, 32);
+            this.LblLogin.Size = new System.Drawing.Size(74, 32);
             this.LblLogin.TabIndex = 8;
             this.LblLogin.Text = "Login";
             // 
@@ -163,7 +163,7 @@
             this.LblEmail.ForeColor = System.Drawing.SystemColors.Window;
             this.LblEmail.Location = new System.Drawing.Point(15, 271);
             this.LblEmail.Name = "LblEmail";
-            this.LblEmail.Size = new System.Drawing.Size(84, 32);
+            this.LblEmail.Size = new System.Drawing.Size(83, 32);
             this.LblEmail.TabIndex = 7;
             this.LblEmail.Text = "e-mail";
             // 
@@ -183,7 +183,7 @@
             this.LblNazwisko.ForeColor = System.Drawing.SystemColors.Window;
             this.LblNazwisko.Location = new System.Drawing.Point(15, 181);
             this.LblNazwisko.Name = "LblNazwisko";
-            this.LblNazwisko.Size = new System.Drawing.Size(118, 32);
+            this.LblNazwisko.Size = new System.Drawing.Size(117, 32);
             this.LblNazwisko.TabIndex = 5;
             this.LblNazwisko.Text = "Nazwisko";
             // 
@@ -203,7 +203,7 @@
             this.LblImie.ForeColor = System.Drawing.SystemColors.Window;
             this.LblImie.Location = new System.Drawing.Point(15, 91);
             this.LblImie.Name = "LblImie";
-            this.LblImie.Size = new System.Drawing.Size(62, 32);
+            this.LblImie.Size = new System.Drawing.Size(61, 32);
             this.LblImie.TabIndex = 2;
             this.LblImie.Text = "Imie";
             // 
@@ -221,8 +221,7 @@
             // 
             // RegisterForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(197)))), ((int)(((byte)(130)))));
             this.ClientSize = new System.Drawing.Size(491, 770);
             this.Controls.Add(this.PanelBlack);

@@ -334,7 +334,7 @@ namespace Laboratorium.Material.Forms
             this.CmbSignalWord.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.CmbSignalWord.ForeColor = System.Drawing.Color.Blue;
             this.CmbSignalWord.FormattingEnabled = true;
-            this.CmbSignalWord.Location = new System.Drawing.Point(518, 33);
+            this.CmbSignalWord.Location = new System.Drawing.Point(427, 33);
             this.CmbSignalWord.Name = "CmbSignalWord";
             this.CmbSignalWord.Size = new System.Drawing.Size(342, 33);
             this.CmbSignalWord.TabIndex = 18;
@@ -345,9 +345,9 @@ namespace Laboratorium.Material.Forms
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(263, 35);
+            this.label1.Location = new System.Drawing.Point(175, 35);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(249, 29);
+            this.label1.Size = new System.Drawing.Size(246, 29);
             this.label1.TabIndex = 19;
             this.label1.Text = "Hasło ostrzegawcze";
             // 
@@ -501,8 +501,8 @@ namespace Laboratorium.Material.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.tableLayoutPanel1.Controls.Add(this.BtnSave, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.CmbSignalWord, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.LblName, 1, 0);
@@ -512,7 +512,6 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(971, 70);
             this.tableLayoutPanel1.TabIndex = 27;
             // 

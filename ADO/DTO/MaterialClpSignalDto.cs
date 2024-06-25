@@ -8,6 +8,8 @@ namespace Laboratorium.ADO.DTO
         public byte CodeId { get; set; }
         public string NamePl { get; set; }
         public DateTime DateCreated { get; set; } = DateTime.Today;
+        public CrudState CrudState { get; set; } = CrudState.OK;
+
 
         public MaterialClpSignalDto(int materialId, byte codeId, string namePl, DateTime dateCreated)
         {

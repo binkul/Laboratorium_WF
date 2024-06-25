@@ -47,6 +47,7 @@ namespace Laboratorium.Material.Service
         private bool _gHScodeChanged = false;
         public bool _codeChanged = false;
 
+        public bool BtnOk = false; 
         public MaterialClpSignalDto MaterialSignalWord;
         public IList<MaterialClpGhsDto> MaterialGhsList;
         public IList<ClpHPcombineDto> MaterialClpList;
@@ -128,6 +129,7 @@ namespace Laboratorium.Material.Service
             if (!e.Cancel)
             {
                 SaveFormData();
+                BtnOk = true;
             }
         }
 
@@ -227,6 +229,7 @@ namespace Laboratorium.Material.Service
             view.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             view.ReadOnly = true;
             view.AutoGenerateColumns = false;
+            view.AllowUserToResizeRows = false;
 
             
             view.Columns.Remove("Descritption");
@@ -274,6 +277,7 @@ namespace Laboratorium.Material.Service
             view.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             view.ReadOnly = true;
             view.AutoGenerateColumns = false;
+            view.AllowUserToResizeRows = false;
 
             view.Columns.Remove("MaterialId");
             view.Columns.Remove("Ordering");
@@ -493,40 +497,47 @@ namespace Laboratorium.Material.Service
 
         public bool Save()
         {
-            bool result = true;
+            bool resultClp = true;
+            bool resultGhs = true;
+            bool resultSig = true;
 
             if (_material == null)
-                return result;
+                return true;
 
             if (SignalWordChanged)
             {
-                SaveSignalWord();
+                resultSig = SaveSignalWord();
+                
             }
 
             if (GHScodeChanged)
             {
-                SaveGhs();
+                resultGhs = SaveGhs();
             }
 
             if (CodeChanged)
             {
-                result = SaveClp();
+                resultClp = SaveClp();
             }
+
+            return resultClp | resultGhs | resultSig;
+        }
+
+        private bool SaveSignalWord()
+        {
+            bool result;
+
+            _materialSignalRepository.DeleteById(_material.Id);
+            MaterialClpSignalDto newSignal = new MaterialClpSignalDto(_material.Id, SignalWordId, _form.GetCmbSignal.Text, DateTime.Today);
+            result = _materialSignalRepository.Save(newSignal).CrudState == CrudState.OK;
+
+            MaterialSignalWord = newSignal;
+            SignalWordChanged = false;
 
             return result;
         }
 
-        private void SaveSignalWord()
-        {
-            _materialSignalRepository.DeleteById(_material.Id);
-            MaterialClpSignalDto newSignal = new MaterialClpSignalDto(_material.Id, SignalWordId, _form.GetCmbSignal.Text, DateTime.Today);
-            _materialSignalRepository.Save(newSignal);
-
-            MaterialSignalWord = newSignal;
-            SignalWordChanged = false;
-        }
-
-        private void SaveGhs()
+        private bool SaveGhs()
         {
             _materialGhsRepository.DeleteById(_material.Id);
             MaterialGhsList.Clear();
@@ -537,12 +548,15 @@ namespace Laboratorium.Material.Service
                     byte id = Convert.ToByte(pic.Tag);
                     id++;
                     MaterialClpGhsDto newGhs = new MaterialClpGhsDto(_material.Id, id, DateTime.Today);
-                    _materialGhsRepository.Save(newGhs);
+                    if (_materialGhsRepository.Save(newGhs).CrudState == CrudState.ERROR)
+                        return false;
 
                     MaterialGhsList.Add(newGhs);
                 }
             }
+
             GHScodeChanged = false;
+            return true;
         }
 
         private bool SaveClp()

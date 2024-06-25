@@ -117,7 +117,7 @@
             this.LblPassword.ForeColor = System.Drawing.SystemColors.Window;
             this.LblPassword.Location = new System.Drawing.Point(15, 181);
             this.LblPassword.Name = "LblPassword";
-            this.LblPassword.Size = new System.Drawing.Size(77, 32);
+            this.LblPassword.Size = new System.Drawing.Size(76, 32);
             this.LblPassword.TabIndex = 2;
             this.LblPassword.Text = "Hasło";
             // 
@@ -138,15 +138,15 @@
             this.LblLogin.ForeColor = System.Drawing.SystemColors.Window;
             this.LblLogin.Location = new System.Drawing.Point(15, 91);
             this.LblLogin.Name = "LblLogin";
-            this.LblLogin.Size = new System.Drawing.Size(75, 32);
+            this.LblLogin.Size = new System.Drawing.Size(74, 32);
             this.LblLogin.TabIndex = 1;
             this.LblLogin.Text = "Login";
             // 
             // LoginForm
             // 
             this.AcceptButton = this.BtnSubmit;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(197)))), ((int)(((byte)(130)))));
             this.ClientSize = new System.Drawing.Size(491, 498);
             this.Controls.Add(this.PanelBlack);
@@ -154,7 +154,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "LoginForms";
+            this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Logowanie";
             this.Load += new System.EventHandler(this.LoginForm_Load);
