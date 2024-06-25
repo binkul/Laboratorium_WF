@@ -34,7 +34,10 @@ namespace Laboratorium.ADO.SqlDataConstant
                 "is_active, is_package, price, price_per_quantity, price_transport, quantity, currency_id, unit_id, density, solids, ash_450, VOC, remarks, date_created, " +
                 "date_updated) Output INSERTED.id Values(@name, @index_db, @supplier_id, @function_id, @is_intermediate, @is_danger, @is_production, @is_observed, @is_active, @is_package, @price, " +
                 "@price_per_quantity, @price_transport, @quantity, @currency_id, @unit_id, @density, @solids, @ash_450, @VOC, @remarks, @date_created, @date_updated)" },
-            {SqlIndex.MaterialClpSignalIndex, "Insert Into Konkurencja.dbo.MaterialClpSignal(material_id, code_id, date_created) Values(@material_id, @code_id, @date_created)" }
+            {SqlIndex.MaterialClpSignalIndex, "Insert Into Konkurencja.dbo.MaterialClpSignal(material_id, code_id, date_created) Values(@material_id, @code_id, @date_created)" },
+            {SqlIndex.MaterialClpGhsIndex, "Insert Into Konkurencja.dbo.MaterialClpCodeGHS(material_id, code_id, date_created) Values(@material_id, @code_id, @date_created)" },
+            {SqlIndex.MaterialClpHcodeIndex, "Insert Into Konkurencja.dbo.MaterialClpCodeH(material_id, code_id, comments, date_created) Values (@material_id, @code_id, @comments, @date_created)" },
+            {SqlIndex.MaterialClpPcodeIndex, "Insert Into Konkurencja.dbo.MaterialClpCodeP(material_id, code_id, comments, date_created) Values (@material_id, @code_id, @comments, @date_created)" },
         };
     }
 }

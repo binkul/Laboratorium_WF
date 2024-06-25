@@ -11,6 +11,8 @@ namespace Laboratorium.ADO.DTO
         public string DescriptionClp { get; set; }
         public string Comment { get; set; }
         public DateTime DateCreated { get; set; } = DateTime.Today;
+        public CrudState CrudState { get; set; } = CrudState.OK;
+
 
         public MaterialClpHCodeDto(int materialId, short codeId, string classClp, string codeClp, string descriptionClp, string comment, DateTime dateCreated)
         {

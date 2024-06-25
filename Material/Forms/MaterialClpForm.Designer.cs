@@ -58,6 +58,8 @@ namespace Laboratorium.Material.Forms
             this.BtnRemoveAll = new System.Windows.Forms.Button();
             this.DgvSourceClp = new System.Windows.Forms.DataGridView();
             this.DgvMaterialClp = new System.Windows.Forms.DataGridView();
+            this.LblName = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.PicGHS_04)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicGHS_Ok_04)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicGHS_01)).BeginInit();
@@ -79,13 +81,14 @@ namespace Laboratorium.Material.Forms
             this.ClpLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvSourceClp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvMaterialClp)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // PicGHS_04
             // 
             this.PicGHS_04.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.PicGHS_04.Image = global::Laboratorium.Properties.Resources.Butla;
-            this.PicGHS_04.Location = new System.Drawing.Point(330, 92);
+            this.PicGHS_04.Location = new System.Drawing.Point(332, 91);
             this.PicGHS_04.Name = "PicGHS_04";
             this.PicGHS_04.Size = new System.Drawing.Size(100, 100);
             this.PicGHS_04.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -98,7 +101,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.PicGHS_Ok_04.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.PicGHS_Ok_04.Image = global::Laboratorium.Properties.Resources.Butla_ok;
-            this.PicGHS_Ok_04.Location = new System.Drawing.Point(330, 92);
+            this.PicGHS_Ok_04.Location = new System.Drawing.Point(332, 91);
             this.PicGHS_Ok_04.Name = "PicGHS_Ok_04";
             this.PicGHS_Ok_04.Size = new System.Drawing.Size(100, 100);
             this.PicGHS_Ok_04.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -112,7 +115,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.PicGHS_01.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.PicGHS_01.Image = global::Laboratorium.Properties.Resources.Eksplozja;
-            this.PicGHS_01.Location = new System.Drawing.Point(12, 92);
+            this.PicGHS_01.Location = new System.Drawing.Point(14, 91);
             this.PicGHS_01.Name = "PicGHS_01";
             this.PicGHS_01.Size = new System.Drawing.Size(100, 100);
             this.PicGHS_01.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -125,7 +128,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.PicGHS_Ok_01.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.PicGHS_Ok_01.Image = global::Laboratorium.Properties.Resources.Eksplozja_ok;
-            this.PicGHS_Ok_01.Location = new System.Drawing.Point(12, 92);
+            this.PicGHS_Ok_01.Location = new System.Drawing.Point(14, 91);
             this.PicGHS_Ok_01.Name = "PicGHS_Ok_01";
             this.PicGHS_Ok_01.Size = new System.Drawing.Size(100, 100);
             this.PicGHS_Ok_01.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -139,7 +142,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.PicGHS_Ok_02.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.PicGHS_Ok_02.Image = global::Laboratorium.Properties.Resources.Plomien_ok;
-            this.PicGHS_Ok_02.Location = new System.Drawing.Point(118, 92);
+            this.PicGHS_Ok_02.Location = new System.Drawing.Point(120, 91);
             this.PicGHS_Ok_02.Name = "PicGHS_Ok_02";
             this.PicGHS_Ok_02.Size = new System.Drawing.Size(100, 100);
             this.PicGHS_Ok_02.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -153,7 +156,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.PicGHS_02.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.PicGHS_02.Image = global::Laboratorium.Properties.Resources.Plomien;
-            this.PicGHS_02.Location = new System.Drawing.Point(118, 92);
+            this.PicGHS_02.Location = new System.Drawing.Point(120, 91);
             this.PicGHS_02.Name = "PicGHS_02";
             this.PicGHS_02.Size = new System.Drawing.Size(100, 100);
             this.PicGHS_02.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -166,7 +169,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.PicGHS_Ok_03.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.PicGHS_Ok_03.Image = global::Laboratorium.Properties.Resources.Plomien_nad_okregiem_ok;
-            this.PicGHS_Ok_03.Location = new System.Drawing.Point(224, 92);
+            this.PicGHS_Ok_03.Location = new System.Drawing.Point(226, 91);
             this.PicGHS_Ok_03.Name = "PicGHS_Ok_03";
             this.PicGHS_Ok_03.Size = new System.Drawing.Size(100, 100);
             this.PicGHS_Ok_03.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -180,7 +183,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.PicGHS_03.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.PicGHS_03.Image = global::Laboratorium.Properties.Resources.Plomien_nad_okregiem;
-            this.PicGHS_03.Location = new System.Drawing.Point(224, 92);
+            this.PicGHS_03.Location = new System.Drawing.Point(226, 91);
             this.PicGHS_03.Name = "PicGHS_03";
             this.PicGHS_03.Size = new System.Drawing.Size(100, 100);
             this.PicGHS_03.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -193,7 +196,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.PicGHS_Ok_05.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.PicGHS_Ok_05.Image = global::Laboratorium.Properties.Resources.Zrace_ok;
-            this.PicGHS_Ok_05.Location = new System.Drawing.Point(436, 92);
+            this.PicGHS_Ok_05.Location = new System.Drawing.Point(438, 91);
             this.PicGHS_Ok_05.Name = "PicGHS_Ok_05";
             this.PicGHS_Ok_05.Size = new System.Drawing.Size(100, 100);
             this.PicGHS_Ok_05.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -207,7 +210,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.PicGHS_05.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.PicGHS_05.Image = global::Laboratorium.Properties.Resources.Zrace;
-            this.PicGHS_05.Location = new System.Drawing.Point(436, 92);
+            this.PicGHS_05.Location = new System.Drawing.Point(438, 91);
             this.PicGHS_05.Name = "PicGHS_05";
             this.PicGHS_05.Size = new System.Drawing.Size(100, 100);
             this.PicGHS_05.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -220,7 +223,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.PicGHS_Ok_06.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.PicGHS_Ok_06.Image = global::Laboratorium.Properties.Resources.Czaszka_ok;
-            this.PicGHS_Ok_06.Location = new System.Drawing.Point(542, 92);
+            this.PicGHS_Ok_06.Location = new System.Drawing.Point(544, 91);
             this.PicGHS_Ok_06.Name = "PicGHS_Ok_06";
             this.PicGHS_Ok_06.Size = new System.Drawing.Size(100, 100);
             this.PicGHS_Ok_06.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -234,7 +237,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.PicGHS_06.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.PicGHS_06.Image = global::Laboratorium.Properties.Resources.Czaszka;
-            this.PicGHS_06.Location = new System.Drawing.Point(542, 92);
+            this.PicGHS_06.Location = new System.Drawing.Point(544, 91);
             this.PicGHS_06.Name = "PicGHS_06";
             this.PicGHS_06.Size = new System.Drawing.Size(100, 100);
             this.PicGHS_06.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -247,7 +250,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.PicGHS_Ok_07.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.PicGHS_Ok_07.Image = global::Laboratorium.Properties.Resources.Wykrzyknik_ok;
-            this.PicGHS_Ok_07.Location = new System.Drawing.Point(648, 92);
+            this.PicGHS_Ok_07.Location = new System.Drawing.Point(650, 91);
             this.PicGHS_Ok_07.Name = "PicGHS_Ok_07";
             this.PicGHS_Ok_07.Size = new System.Drawing.Size(100, 100);
             this.PicGHS_Ok_07.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -261,7 +264,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.PicGHS_07.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.PicGHS_07.Image = global::Laboratorium.Properties.Resources.Wykrzyknik;
-            this.PicGHS_07.Location = new System.Drawing.Point(648, 92);
+            this.PicGHS_07.Location = new System.Drawing.Point(650, 91);
             this.PicGHS_07.Name = "PicGHS_07";
             this.PicGHS_07.Size = new System.Drawing.Size(100, 100);
             this.PicGHS_07.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -274,7 +277,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.PicGHS_Ok_08.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.PicGHS_Ok_08.Image = global::Laboratorium.Properties.Resources.Meduza_ok;
-            this.PicGHS_Ok_08.Location = new System.Drawing.Point(754, 92);
+            this.PicGHS_Ok_08.Location = new System.Drawing.Point(756, 91);
             this.PicGHS_Ok_08.Name = "PicGHS_Ok_08";
             this.PicGHS_Ok_08.Size = new System.Drawing.Size(100, 100);
             this.PicGHS_Ok_08.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -288,7 +291,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.PicGHS_08.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.PicGHS_08.Image = global::Laboratorium.Properties.Resources.Meduza;
-            this.PicGHS_08.Location = new System.Drawing.Point(754, 92);
+            this.PicGHS_08.Location = new System.Drawing.Point(756, 91);
             this.PicGHS_08.Name = "PicGHS_08";
             this.PicGHS_08.Size = new System.Drawing.Size(100, 100);
             this.PicGHS_08.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -301,7 +304,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.PicGHS_Ok_09.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.PicGHS_Ok_09.Image = global::Laboratorium.Properties.Resources.Ryba_ok;
-            this.PicGHS_Ok_09.Location = new System.Drawing.Point(860, 92);
+            this.PicGHS_Ok_09.Location = new System.Drawing.Point(862, 91);
             this.PicGHS_Ok_09.Name = "PicGHS_Ok_09";
             this.PicGHS_Ok_09.Size = new System.Drawing.Size(100, 100);
             this.PicGHS_Ok_09.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -315,7 +318,7 @@ namespace Laboratorium.Material.Forms
             // 
             this.PicGHS_09.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.PicGHS_09.Image = global::Laboratorium.Properties.Resources.Ryba;
-            this.PicGHS_09.Location = new System.Drawing.Point(860, 92);
+            this.PicGHS_09.Location = new System.Drawing.Point(862, 91);
             this.PicGHS_09.Name = "PicGHS_09";
             this.PicGHS_09.Size = new System.Drawing.Size(100, 100);
             this.PicGHS_09.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -326,25 +329,25 @@ namespace Laboratorium.Material.Forms
             // 
             // CmbSignalWord
             // 
-            this.CmbSignalWord.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.CmbSignalWord.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbSignalWord.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CmbSignalWord.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.CmbSignalWord.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.CmbSignalWord.ForeColor = System.Drawing.Color.Blue;
             this.CmbSignalWord.FormattingEnabled = true;
-            this.CmbSignalWord.Location = new System.Drawing.Point(476, 28);
+            this.CmbSignalWord.Location = new System.Drawing.Point(518, 33);
             this.CmbSignalWord.Name = "CmbSignalWord";
-            this.CmbSignalWord.Size = new System.Drawing.Size(342, 39);
+            this.CmbSignalWord.Size = new System.Drawing.Size(342, 33);
             this.CmbSignalWord.TabIndex = 18;
             // 
             // label1
             // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(169, 31);
+            this.label1.Location = new System.Drawing.Point(263, 35);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(286, 32);
+            this.label1.Size = new System.Drawing.Size(249, 29);
             this.label1.TabIndex = 19;
             this.label1.Text = "Hasło ostrzegawcze";
             // 
@@ -353,10 +356,11 @@ namespace Laboratorium.Material.Forms
             this.BtnSave.BackgroundImage = global::Laboratorium.Properties.Resources.Save;
             this.BtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnSave.Enabled = false;
-            this.BtnSave.Location = new System.Drawing.Point(12, 17);
+            this.BtnSave.Location = new System.Drawing.Point(4, 4);
             this.BtnSave.Margin = new System.Windows.Forms.Padding(4);
             this.BtnSave.Name = "BtnSave";
-            this.BtnSave.Size = new System.Drawing.Size(60, 60);
+            this.tableLayoutPanel1.SetRowSpan(this.BtnSave, 2);
+            this.BtnSave.Size = new System.Drawing.Size(50, 50);
             this.BtnSave.TabIndex = 25;
             this.BtnSave.UseVisualStyleBackColor = true;
             this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
@@ -380,7 +384,7 @@ namespace Laboratorium.Material.Forms
             this.ClpLayoutPanel.Controls.Add(this.BtnRemoveAll, 3, 5);
             this.ClpLayoutPanel.Controls.Add(this.DgvSourceClp, 1, 0);
             this.ClpLayoutPanel.Controls.Add(this.DgvMaterialClp, 5, 0);
-            this.ClpLayoutPanel.Location = new System.Drawing.Point(3, 198);
+            this.ClpLayoutPanel.Location = new System.Drawing.Point(3, 197);
             this.ClpLayoutPanel.Name = "ClpLayoutPanel";
             this.ClpLayoutPanel.RowCount = 7;
             this.ClpLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -390,7 +394,7 @@ namespace Laboratorium.Material.Forms
             this.ClpLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.ClpLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.ClpLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.ClpLayoutPanel.Size = new System.Drawing.Size(971, 509);
+            this.ClpLayoutPanel.Size = new System.Drawing.Size(971, 518);
             this.ClpLayoutPanel.TabIndex = 26;
             // 
             // BtnAddOne
@@ -398,7 +402,7 @@ namespace Laboratorium.Material.Forms
             this.BtnAddOne.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnAddOne.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.BtnAddOne.ForeColor = System.Drawing.Color.Blue;
-            this.BtnAddOne.Location = new System.Drawing.Point(365, 167);
+            this.BtnAddOne.Location = new System.Drawing.Point(365, 172);
             this.BtnAddOne.Name = "BtnAddOne";
             this.BtnAddOne.Size = new System.Drawing.Size(70, 34);
             this.BtnAddOne.TabIndex = 0;
@@ -411,7 +415,7 @@ namespace Laboratorium.Material.Forms
             this.BtnAddAll.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnAddAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.BtnAddAll.ForeColor = System.Drawing.Color.Blue;
-            this.BtnAddAll.Location = new System.Drawing.Point(365, 207);
+            this.BtnAddAll.Location = new System.Drawing.Point(365, 212);
             this.BtnAddAll.Name = "BtnAddAll";
             this.BtnAddAll.Size = new System.Drawing.Size(70, 34);
             this.BtnAddAll.TabIndex = 1;
@@ -424,7 +428,7 @@ namespace Laboratorium.Material.Forms
             this.BtnRemoveOne.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnRemoveOne.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.BtnRemoveOne.ForeColor = System.Drawing.Color.Blue;
-            this.BtnRemoveOne.Location = new System.Drawing.Point(365, 267);
+            this.BtnRemoveOne.Location = new System.Drawing.Point(365, 272);
             this.BtnRemoveOne.Name = "BtnRemoveOne";
             this.BtnRemoveOne.Size = new System.Drawing.Size(70, 34);
             this.BtnRemoveOne.TabIndex = 2;
@@ -437,7 +441,7 @@ namespace Laboratorium.Material.Forms
             this.BtnRemoveAll.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnRemoveAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.BtnRemoveAll.ForeColor = System.Drawing.Color.Blue;
-            this.BtnRemoveAll.Location = new System.Drawing.Point(365, 307);
+            this.BtnRemoveAll.Location = new System.Drawing.Point(365, 312);
             this.BtnRemoveAll.Name = "BtnRemoveAll";
             this.BtnRemoveAll.Size = new System.Drawing.Size(70, 34);
             this.BtnRemoveAll.TabIndex = 3;
@@ -458,7 +462,7 @@ namespace Laboratorium.Material.Forms
             this.DgvSourceClp.RowHeadersWidth = 51;
             this.ClpLayoutPanel.SetRowSpan(this.DgvSourceClp, 7);
             this.DgvSourceClp.RowTemplate.Height = 24;
-            this.DgvSourceClp.Size = new System.Drawing.Size(334, 503);
+            this.DgvSourceClp.Size = new System.Drawing.Size(334, 512);
             this.DgvSourceClp.TabIndex = 4;
             this.DgvSourceClp.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvSourceClp_CellFormatting);
             // 
@@ -473,18 +477,51 @@ namespace Laboratorium.Material.Forms
             this.DgvMaterialClp.RowHeadersWidth = 51;
             this.ClpLayoutPanel.SetRowSpan(this.DgvMaterialClp, 7);
             this.DgvMaterialClp.RowTemplate.Height = 24;
-            this.DgvMaterialClp.Size = new System.Drawing.Size(504, 503);
+            this.DgvMaterialClp.Size = new System.Drawing.Size(504, 512);
             this.DgvMaterialClp.TabIndex = 5;
             this.DgvMaterialClp.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvMaterialClp_CellFormatting);
+            // 
+            // LblName
+            // 
+            this.LblName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.LblName.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.LblName, 2);
+            this.LblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LblName.ForeColor = System.Drawing.Color.Blue;
+            this.LblName.Location = new System.Drawing.Point(63, 2);
+            this.LblName.Name = "LblName";
+            this.LblName.Size = new System.Drawing.Size(905, 25);
+            this.LblName.TabIndex = 20;
+            this.LblName.Text = "Nazwa";
+            this.LblName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.BtnSave, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.CmbSignalWord, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.LblName, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 1, 1);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 15);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(971, 70);
+            this.tableLayoutPanel1.TabIndex = 27;
             // 
             // MaterialClpForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(975, 719);
+            this.ClientSize = new System.Drawing.Size(975, 727);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.ClpLayoutPanel);
-            this.Controls.Add(this.BtnSave);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.CmbSignalWord);
             this.Controls.Add(this.PicGHS_09);
             this.Controls.Add(this.PicGHS_08);
             this.Controls.Add(this.PicGHS_07);
@@ -529,8 +566,9 @@ namespace Laboratorium.Material.Forms
             this.ClpLayoutPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DgvSourceClp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvMaterialClp)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -564,5 +602,7 @@ namespace Laboratorium.Material.Forms
         private System.Windows.Forms.Button BtnRemoveAll;
         private System.Windows.Forms.DataGridView DgvSourceClp;
         private System.Windows.Forms.DataGridView DgvMaterialClp;
+        private System.Windows.Forms.Label LblName;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }

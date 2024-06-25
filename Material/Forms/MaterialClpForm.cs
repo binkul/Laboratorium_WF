@@ -23,6 +23,7 @@ namespace Laboratorium.Material.Forms
             _service = new MaterialClpService(connection, material, this);
             GhsList = new List<PictureBox>() { PicGHS_01, PicGHS_02, PicGHS_03, PicGHS_04, PicGHS_05, PicGHS_06, PicGHS_07, PicGHS_08, PicGHS_09 };
             GhsOkList = new List<PictureBox>() { PicGHS_Ok_01, PicGHS_Ok_02, PicGHS_Ok_03, PicGHS_Ok_04, PicGHS_Ok_05, PicGHS_Ok_06, PicGHS_Ok_07, PicGHS_Ok_08, PicGHS_Ok_09 };
+            LblName.Text = material.Name;
         }
 
         public void EnableSave(bool status)

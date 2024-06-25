@@ -66,7 +66,38 @@ namespace Laboratorium.Material.Repository
 
         public override MaterialClpPCodeDto Save(MaterialClpPCodeDto data)
         {
-            throw new NotImplementedException();
+            MaterialClpPCodeDto item = data;
+
+            try
+            {
+                SqlCommand command = new SqlCommand();
+                command.Connection = _connection;
+                command.CommandText = SqlSave.Save[_sqlIndex];
+                command.Parameters.AddWithValue("@material_id", item.MaterialId);
+                command.Parameters.AddWithValue("@code_id", item.CodeId);
+                command.Parameters.AddWithValue("@comments", CommonFunction.NullStringToDBNullConv(item.Comment));
+                command.Parameters.AddWithValue("@date_created", item.DateCreated);
+                OpenConnection();
+                command.ExecuteNonQuery();
+                item.CrudState = CrudState.OK;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu Save " + _tableName,
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "': '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return item;
         }
 
         public override MaterialClpPCodeDto Update(MaterialClpPCodeDto data)

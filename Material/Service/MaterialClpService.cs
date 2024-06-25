@@ -1,10 +1,12 @@
-﻿using Laboratorium.ADO.DTO;
+﻿using Laboratorium.ADO;
+using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
 using Laboratorium.ClpData.Repository;
 using Laboratorium.Commons;
 using Laboratorium.Material.Dto;
 using Laboratorium.Material.Forms;
 using Laboratorium.Material.Repository;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -35,15 +37,19 @@ namespace Laboratorium.Material.Service
 
         private IList<CmbClpSignalDto> _cmbSignalList;
         private IList<CmbClpCombineDto> _cmbCodeList;
-        private IList<MaterialClpGhsDto> _ghsList;
-        private IList<ClpHPcombineDto> _codeList;
+        private IList<MaterialClpGhsDto> _codeGhsList;
+        private IList<ClpHPcombineDto> _codeHPlist;
         private BindingSource _sourceBinding;
-        private BindingSource _codeBinding;
+        private BindingSource _materialBinding;
 
         public byte SignalWordId { get; set; } = 0;
         private bool _signalWordChanged = false;
         private bool _gHScodeChanged = false;
         public bool _codeChanged = false;
+
+        public MaterialClpSignalDto MaterialSignalWord;
+        public IList<MaterialClpGhsDto> MaterialGhsList;
+        public IList<ClpHPcombineDto> MaterialClpList;
 
         public MaterialClpService(SqlConnection connection, MaterialDto material, MaterialClpForm form)
         {
@@ -54,6 +60,10 @@ namespace Laboratorium.Material.Service
             _materialHcodeRepository = new MaterialHcodeRepository(_connection);
             _materialPcodeRepository = new MaterialPcodeRepository(_connection);
             _materialSignalRepository = new MaterialSignalRepository(_connection);
+
+            MaterialSignalWord = material.SignalWord;
+            MaterialGhsList = material.GhsCodeList;
+            MaterialClpList = material.HPcodeList;
         }
 
         #region Change status to save button
@@ -93,6 +103,8 @@ namespace Laboratorium.Material.Service
             _form.EnableSave(SignalWordChanged | GHScodeChanged | CodeChanged);
         }
 
+        private bool Status => SignalWordChanged | GHScodeChanged | CodeChanged;
+
         #endregion
 
 
@@ -100,7 +112,17 @@ namespace Laboratorium.Material.Service
 
         public void FormClose(FormClosingEventArgs e)
         {
+            if (Status)
+            {
+                DialogResult result = MessageBox.Show("Wprowadzono zmiany tabelach CLP. Czy zapisać je?", "Zapis zmian", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
+                if (result == DialogResult.Yes)
+                {
+                    e.Cancel = !Save();
+                }
+                else if (result == DialogResult.Cancel)
+                    e.Cancel = true;
+            }
 
 
             if (!e.Cancel)
@@ -161,7 +183,7 @@ namespace Laboratorium.Material.Service
             IBasicCRUD<CmbClpSignalDto> signalRepo = new CmbClpSignalRepository(_connection);
             _cmbSignalList = signalRepo.GetAll();
 
-            _ghsList = _materialGhsRepository.GetAllByLaboId(_material.Id);
+            _codeGhsList = _materialGhsRepository.GetAllByLaboId(_material.Id);
 
             IBasicCRUD<CmbClpCombineDto> cmbCodeRepo = new CmbClpCombineRepository(_connection);
             _cmbCodeList = cmbCodeRepo.GetAll();
@@ -169,9 +191,9 @@ namespace Laboratorium.Material.Service
             _sourceBinding.DataSource = _cmbCodeList;
 
             IBasicCRUD<ClpHPcombineDto> codeRepo = new ClpHPcombineRepository(_connection);
-            _codeList = codeRepo.GetAllByLaboId(_material.Id);
-            _codeBinding = new BindingSource();
-            _codeBinding.DataSource = _codeList;
+            _codeHPlist = codeRepo.GetAllByLaboId(_material.Id);
+            _materialBinding = new BindingSource();
+            _materialBinding.DataSource = _codeHPlist;
             
             #endregion
 
@@ -241,7 +263,7 @@ namespace Laboratorium.Material.Service
         private void PrepareDgvMaterialClp()
         {
             DataGridView view = _form.GetDgvMaterialClp;
-            view.DataSource = _codeBinding;
+            view.DataSource = _materialBinding;
             view.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             view.RowsDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 9, FontStyle.Regular);
             view.ColumnHeadersDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Bold);
@@ -293,7 +315,7 @@ namespace Laboratorium.Material.Service
             {
                 pic.Visible = false;
             }
-            foreach (var ghs in _ghsList)
+            foreach (var ghs in _codeGhsList)
             {
                 _form.GhsList[ghs.CodeId - 1].Visible = false;
                 _form.GhsOkList[ghs.CodeId - 1].Visible = true;
@@ -313,15 +335,15 @@ namespace Laboratorium.Material.Service
                 return;
 
             CmbClpCombineDto current = (CmbClpCombineDto)_sourceBinding.Current;
-            bool exist = _codeList.Any(i => i.CodeId == current.Id && i.Type == current.Type);
+            bool exist = _codeHPlist.Any(i => i.CodeId == current.Id && i.Type == current.Type);
             
             if (exist)
                 return;
 
             ClpHPcombineDto newItem = new ClpHPcombineDto(_material.Id, current.ClassName, current.Id, current.Code, current.Descritption, current.Ordering, current.Type);
-            _codeList.Add(newItem);
-            _codeList = _codeList.OrderBy(i => i.Ordering).ToList();
-            _codeBinding.DataSource = _codeList;
+            _codeHPlist.Add(newItem);
+            _codeHPlist = _codeHPlist.OrderBy(i => i.Ordering).ToList();
+            _materialBinding.DataSource = _codeHPlist;
 
             CodeChanged = true;
         }
@@ -336,36 +358,36 @@ namespace Laboratorium.Material.Service
             {
                 CmbClpCombineDto current = (CmbClpCombineDto)_sourceBinding[i];
                 ClpHPcombineDto newItem = new ClpHPcombineDto(_material.Id, current.ClassName, current.Id, current.Code, current.Descritption, current.Ordering, current.Type);
-                _codeList.Add(newItem);
+                _codeHPlist.Add(newItem);
             }
-            _codeList = _codeList.OrderBy(i => i.Ordering).ToList();
-            _codeBinding.DataSource = _codeList;
+            _codeHPlist = _codeHPlist.OrderBy(i => i.Ordering).ToList();
+            _materialBinding.DataSource = _codeHPlist;
 
             CodeChanged = true;
         }
 
         public void RemoveOne()
         {
-            if (_codeBinding.Count == 0 || _codeBinding.Current == null)
+            if (_materialBinding.Count == 0 || _materialBinding.Current == null)
                 return;
-            _codeBinding.EndEdit();
+            _materialBinding.EndEdit();
 
-            ClpHPcombineDto code = (ClpHPcombineDto)_codeBinding.Current;
-            _codeBinding.Remove(code);
+            ClpHPcombineDto code = (ClpHPcombineDto)_materialBinding.Current;
+            _materialBinding.Remove(code);
 
             CodeChanged = true;
         }
 
         public void RemoveAll()
         {
-            if (_codeBinding.Count == 0)
+            if (_materialBinding.Count == 0)
                 return;
-            _codeBinding.EndEdit();
+            _materialBinding.EndEdit();
 
             do
             {
-                _codeBinding.RemoveAt(0);
-            } while (_codeBinding.Count > 0);
+                _materialBinding.RemoveAt(0);
+            } while (_materialBinding.Count > 0);
 
             CodeChanged = true;
         }
@@ -446,6 +468,8 @@ namespace Laboratorium.Material.Service
 
         private void SignalWord_SelectedIndexChanged(object sender, System.EventArgs e)
         {
+            CmbClpSignalDto signal = (CmbClpSignalDto)_form.GetCmbSignal.SelectedItem;
+            SignalWordId = signal.Id;
             SignalWordChanged = true;
         }
 
@@ -467,9 +491,85 @@ namespace Laboratorium.Material.Service
 
         #region CRUD
 
-        public void Save()
+        public bool Save()
         {
+            bool result = true;
 
+            if (_material == null)
+                return result;
+
+            if (SignalWordChanged)
+            {
+                SaveSignalWord();
+            }
+
+            if (GHScodeChanged)
+            {
+                SaveGhs();
+            }
+
+            if (CodeChanged)
+            {
+                result = SaveClp();
+            }
+
+            return result;
+        }
+
+        private void SaveSignalWord()
+        {
+            _materialSignalRepository.DeleteById(_material.Id);
+            MaterialClpSignalDto newSignal = new MaterialClpSignalDto(_material.Id, SignalWordId, _form.GetCmbSignal.Text, DateTime.Today);
+            _materialSignalRepository.Save(newSignal);
+
+            MaterialSignalWord = newSignal;
+            SignalWordChanged = false;
+        }
+
+        private void SaveGhs()
+        {
+            _materialGhsRepository.DeleteById(_material.Id);
+            MaterialGhsList.Clear();
+            foreach (PictureBox pic in _form.GhsOkList)
+            {
+                if (pic.Visible)
+                {
+                    byte id = Convert.ToByte(pic.Tag);
+                    id++;
+                    MaterialClpGhsDto newGhs = new MaterialClpGhsDto(_material.Id, id, DateTime.Today);
+                    _materialGhsRepository.Save(newGhs);
+
+                    MaterialGhsList.Add(newGhs);
+                }
+            }
+            GHScodeChanged = false;
+        }
+
+        private bool SaveClp()
+        {
+            _materialHcodeRepository.DeleteById(_material.Id);
+            _materialPcodeRepository.DeleteById(_material.Id);
+            MaterialClpList.Clear();
+
+            foreach (ClpHPcombineDto clp in _codeHPlist)
+            {
+                if(clp.Type)
+                {
+                    MaterialClpHCodeDto newHcode = new MaterialClpHCodeDto(_material.Id, clp.CodeId, clp.ClassClp, clp.CodeClp, clp.DescriptionClp, "", DateTime.Today);
+                    if (_materialHcodeRepository.Save(newHcode).CrudState == CrudState.ERROR)
+                        return false;
+                }
+                else
+                {
+                    MaterialClpPCodeDto newPcode = new MaterialClpPCodeDto(_material.Id, clp.CodeId, clp.CodeClp, clp.DescriptionClp, "", DateTime.Today);
+                    if (_materialPcodeRepository.Save(newPcode).CrudState == CrudState.ERROR)
+                        return false;
+                }
+                MaterialClpList.Add(clp);
+            }
+            CodeChanged = false;
+
+            return true;
         }
 
         #endregion
