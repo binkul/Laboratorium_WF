@@ -1,6 +1,7 @@
 ﻿using Laboratorium.ADO;
 using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
+using Laboratorium.ADO.Service;
 using Laboratorium.ClpData.Repository;
 using Laboratorium.Commons;
 using Laboratorium.Material.Dto;
@@ -15,14 +16,28 @@ using System.Windows.Forms;
 
 namespace Laboratorium.Material.Service
 {
-    public class MaterialClpService
+    public class MaterialClpService : LoadService
     {
+        #region DTO-s fields for DGV column
+
         private const string ID = "Id";
         private const string NAME_PL = "NamePl";
-        private const string FORM_TOP = "Form_Top";
-        private const string FORM_LEFT = "Form_Left";
-        private const string FORM_WIDTH = "Form_Width";
-        private const string FORM_HEIGHT = "Form_Height";
+        private const string MATERIAL_ID = "MaterialId";
+        private const string DESCRIPTION = "Descritption";
+        private const string DESCRIPTION_CLP = "DescriptionClp";
+        private const string ORDERING = "Ordering";
+        private const string TYPE = "Type";
+        private const string CODE = "Code";
+        private const string CODE_ID = "CodeId";
+        private const string CODE_CLP = "CodeClp";
+        private const string CLASS = "ClassName";
+        private const string CLASS_CLP = "ClassClp";
+        private const string SIGNAL = "SignalWord";
+
+        #endregion
+
+        private readonly IList<string> _dgvSourceFields = new List<string> { CODE, CLASS, SIGNAL };
+        private readonly IList<string> _dgvMaterialFields = new List<string> { CLASS_CLP, CODE_CLP, DESCRIPTION_CLP };
         private const string FORM_DATA = "MaterialClpForm";
         private const int STD_WIDTH = 100;
 
@@ -33,7 +48,6 @@ namespace Laboratorium.Material.Service
         private readonly IBasicCRUD<MaterialClpHCodeDto> _materialHcodeRepository;
         private readonly IBasicCRUD<MaterialClpPCodeDto> _materialPcodeRepository;
         private readonly IBasicCRUD<MaterialClpSignalDto> _materialSignalRepository;
-        private IDictionary<string, double> _formData = CommonFunction.LoadWindowsDataAsDictionary(FORM_DATA);
 
         private IList<CmbClpSignalDto> _cmbSignalList;
         private IList<CmbClpCombineDto> _cmbCodeList;
@@ -45,14 +59,15 @@ namespace Laboratorium.Material.Service
         public byte SignalWordId { get; set; } = 0;
         private bool _signalWordChanged = false;
         private bool _gHScodeChanged = false;
-        public bool _codeChanged = false;
+        private bool _codeChanged = false;
 
         public bool BtnOk = false; 
         public MaterialClpSignalDto MaterialSignalWord;
         public IList<MaterialClpGhsDto> MaterialGhsList;
         public IList<ClpHPcombineDto> MaterialClpList;
 
-        public MaterialClpService(SqlConnection connection, MaterialDto material, MaterialClpForm form)
+        public MaterialClpService(SqlConnection connection, MaterialDto material, MaterialClpForm form) 
+            : base(FORM_DATA, form)
         {
             _connection = connection;
             _material = material;
@@ -66,6 +81,7 @@ namespace Laboratorium.Material.Service
             MaterialGhsList = material.GhsCodeList;
             MaterialClpList = material.HPcodeList;
         }
+
 
         #region Change status to save button
 
@@ -104,81 +120,24 @@ namespace Laboratorium.Material.Service
             _form.EnableSave(SignalWordChanged | GHScodeChanged | CodeChanged);
         }
 
-        private bool Status => SignalWordChanged | GHScodeChanged | CodeChanged;
-
-        #endregion
-
-
-        #region Open/Close form 
-
-        public void FormClose(FormClosingEventArgs e)
-        {
-            if (Status)
-            {
-                DialogResult result = MessageBox.Show("Wprowadzono zmiany tabelach CLP. Czy zapisać je?", "Zapis zmian", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
-                {
-                    e.Cancel = !Save();
-                }
-                else if (result == DialogResult.Cancel)
-                    e.Cancel = true;
-            }
-
-
-            if (!e.Cancel)
-            {
-                SaveFormData();
-                BtnOk = true;
-            }
-        }
-
-        private void SaveFormData()
-        {
-            IDictionary<string, double> list = new Dictionary<string, double>();
-
-            list.Add(FORM_TOP, _form.Top);
-            list.Add(FORM_LEFT, _form.Left);
-            list.Add(FORM_WIDTH, _form.Width);
-            list.Add(FORM_HEIGHT, _form.Height);
-
-            foreach (DataGridViewColumn col in _form.GetDgvSourceClp.Columns)
-            {
-                if (col.Visible)
-                {
-                    string name = col.Name;
-                    double width = col.Width;
-                    list.Add(name, width);
-                }
-            }
-
-            foreach (DataGridViewColumn col in _form.GetDgvMaterialClp.Columns)
-            {
-                if (col.Visible)
-                {
-                    string name = col.Name;
-                    double width = col.Width;
-                    list.Add(name, width);
-                }
-            }
-
-            CommonFunction.WriteWindowsData(list, FORM_DATA);
-        }
-
-        public void LoadFormData()
-        {
-            _form.Top = _formData.ContainsKey(FORM_TOP) ? (int)_formData[FORM_TOP] : _form.Top;
-            _form.Left = _formData.ContainsKey(FORM_LEFT) ? (int)_formData[FORM_LEFT] : _form.Left;
-            _form.Width = _formData.ContainsKey(FORM_WIDTH) ? (int)_formData[FORM_WIDTH] : _form.Width;
-            _form.Height = _formData.ContainsKey(FORM_HEIGHT) ? (int)_formData[FORM_HEIGHT] : _form.Height;
-        }
+        protected override bool Status => SignalWordChanged | GHScodeChanged | CodeChanged;
 
         #endregion
 
 
         #region Prepare data
 
-        public void PrepareAllData()
+        protected override void PrepareColumns()
+        {
+            MaterialClpForm form = (MaterialClpForm)_baseForm;
+            _fields = new Dictionary<DataGridView, IList<string>>
+            {
+                { form.GetDgvSourceClp,  _dgvSourceFields},
+                { form.GetDgvMaterialClp, _dgvMaterialFields }
+            };
+        }
+
+        public override void PrepareAllData()
         {
             #region Tables/Views/Bindings
 
@@ -230,35 +189,34 @@ namespace Laboratorium.Material.Service
             view.ReadOnly = true;
             view.AutoGenerateColumns = false;
             view.AllowUserToResizeRows = false;
-
             
-            view.Columns.Remove("Descritption");
-            view.Columns.Remove("Ordering");
-            view.Columns.Remove("Type");
+            view.Columns.Remove(DESCRIPTION);
+            view.Columns.Remove(ORDERING);
+            view.Columns.Remove(TYPE);
 
             view.Columns[ID].Visible = false;
 
-            view.Columns["Code"].HeaderText = "Kod";
-            view.Columns["Code"].DisplayIndex = 0;
-            view.Columns["Code"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns["Code"].Width = _formData.ContainsKey("Code") ? (int)_formData["Code"] : STD_WIDTH;
-            view.Columns["Code"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns[CODE].HeaderText = "Kod";
+            view.Columns[CODE].DisplayIndex = 0;
+            view.Columns[CODE].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[CODE].Width = _formData.ContainsKey(CODE) ? (int)_formData[CODE] : STD_WIDTH;
+            view.Columns[CODE].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            view.Columns["ClassName"].HeaderText = "Klasa";
-            view.Columns["ClassName"].DisplayIndex = 1;
-            view.Columns["ClassName"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns["ClassName"].Width = _formData.ContainsKey("ClassName") ? (int)_formData["ClassName"] : STD_WIDTH;
-            view.Columns["ClassName"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns[CLASS].HeaderText = "Klasa";
+            view.Columns[CLASS].DisplayIndex = 1;
+            view.Columns[CLASS].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[CLASS].Width = _formData.ContainsKey(CLASS) ? (int)_formData[CLASS] : STD_WIDTH;
+            view.Columns[CLASS].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            view.Columns["SignalWord"].HeaderText = "Hasło";
-            view.Columns["SignalWord"].DisplayIndex = 2;
-            view.Columns["SignalWord"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns["SignalWord"].Width = _formData.ContainsKey("SignalWord") ? (int)_formData["SignalWord"] : STD_WIDTH;
-            view.Columns["SignalWord"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns[SIGNAL].HeaderText = "Hasło";
+            view.Columns[SIGNAL].DisplayIndex = 2;
+            view.Columns[SIGNAL].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[SIGNAL].Width = _formData.ContainsKey(SIGNAL) ? (int)_formData[SIGNAL] : STD_WIDTH;
+            view.Columns[SIGNAL].SortMode = DataGridViewColumnSortMode.NotSortable;
 
             if (view.Rows.Count > 0)
             {
-                view.CurrentCell = view.Rows[_sourceBinding.Position].Cells["Code"];
+                view.CurrentCell = view.Rows[_sourceBinding.Position].Cells[CODE];
             }
 
         }
@@ -279,33 +237,33 @@ namespace Laboratorium.Material.Service
             view.AutoGenerateColumns = false;
             view.AllowUserToResizeRows = false;
 
-            view.Columns.Remove("MaterialId");
-            view.Columns.Remove("Ordering");
-            view.Columns.Remove("Type");
+            view.Columns.Remove(MATERIAL_ID);
+            view.Columns.Remove(ORDERING);
+            view.Columns.Remove(TYPE);
 
-            view.Columns["CodeId"].Visible = false;
+            view.Columns[CODE_ID].Visible = false;
 
-            view.Columns["ClassClp"].HeaderText = "Klasa";
-            view.Columns["ClassClp"].DisplayIndex = 0;
-            view.Columns["ClassClp"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns["ClassClp"].Width = _formData.ContainsKey("ClassClp") ? (int)_formData["ClassClp"] : STD_WIDTH;
-            view.Columns["ClassClp"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns[CLASS_CLP].HeaderText = "Klasa";
+            view.Columns[CLASS_CLP].DisplayIndex = 0;
+            view.Columns[CLASS_CLP].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[CLASS_CLP].Width = _formData.ContainsKey(CLASS_CLP) ? (int)_formData[CLASS_CLP] : STD_WIDTH;
+            view.Columns[CLASS_CLP].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            view.Columns["CodeClp"].HeaderText = "Kod";
-            view.Columns["CodeClp"].DisplayIndex = 1;
-            view.Columns["CodeClp"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns["CodeClp"].Width = _formData.ContainsKey("CodeClp") ? (int)_formData["CodeClp"] : STD_WIDTH;
-            view.Columns["CodeClp"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns[CODE_CLP].HeaderText = "Kod";
+            view.Columns[CODE_CLP].DisplayIndex = 1;
+            view.Columns[CODE_CLP].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[CODE_CLP].Width = _formData.ContainsKey(CODE_CLP) ? (int)_formData[CODE_CLP] : STD_WIDTH;
+            view.Columns[CODE_CLP].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            view.Columns["DescriptionClp"].HeaderText = "Opis";
-            view.Columns["DescriptionClp"].DisplayIndex = 2;
-            view.Columns["DescriptionClp"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            view.Columns["DescriptionClp"].Width = _formData.ContainsKey("DescriptionClp") ? (int)_formData["DescriptionClp"] : STD_WIDTH;
-            view.Columns["DescriptionClp"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns[DESCRIPTION_CLP].HeaderText = "Opis";
+            view.Columns[DESCRIPTION_CLP].DisplayIndex = 2;
+            view.Columns[DESCRIPTION_CLP].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            view.Columns[DESCRIPTION_CLP].Width = _formData.ContainsKey(DESCRIPTION_CLP) ? (int)_formData[DESCRIPTION_CLP] : STD_WIDTH;
+            view.Columns[DESCRIPTION_CLP].SortMode = DataGridViewColumnSortMode.NotSortable;
 
             if (view.Rows.Count > 0)
             {
-                view.CurrentCell = view.Rows[_sourceBinding.Position].Cells["ClassClp"];
+                view.CurrentCell = view.Rows[_sourceBinding.Position].Cells[CLASS_CLP];
             }
         }
 
@@ -495,7 +453,7 @@ namespace Laboratorium.Material.Service
 
         #region CRUD
 
-        public bool Save()
+        public override bool Save()
         {
             bool resultClp = true;
             bool resultGhs = true;
@@ -520,7 +478,9 @@ namespace Laboratorium.Material.Service
                 resultClp = SaveClp();
             }
 
-            return resultClp | resultGhs | resultSig;
+            BtnOk = resultClp | resultGhs | resultSig;
+
+            return BtnOk;
         }
 
         private bool SaveSignalWord()
