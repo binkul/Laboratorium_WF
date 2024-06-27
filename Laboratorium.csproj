@@ -100,7 +100,14 @@
     <Compile Include="Commons\CommonData.cs" />
     <Compile Include="Commons\CommonFunction.cs" />
     <Compile Include="Commons\SerializeClass.cs" />
+    <Compile Include="Currency\Forms\CurrencyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Currency\Forms\CurrencyForm.Designer.cs">
+      <DependentUpon>CurrencyForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Currency\Repository\CmbCurrencyRepository.cs" />
+    <Compile Include="Currency\Service\CurrencyService.cs" />
     <Compile Include="LabBook\Forms\AddSeriesLaboForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -183,6 +190,9 @@
     </Compile>
     <Compile Include="Security\Encrypt.cs" />
     <Compile Include="User\Repository\UserRepository.cs" />
+    <EmbeddedResource Include="Currency\Forms\CurrencyForm.resx">
+      <DependentUpon>CurrencyForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LabBook\Forms\AddSeriesLaboForm.resx">
       <DependentUpon>AddSeriesLaboForm.cs</DependentUpon>
     </EmbeddedResource>

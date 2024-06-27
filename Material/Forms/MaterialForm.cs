@@ -53,6 +53,7 @@ namespace Laboratorium.Material.Forms
         public Button GetBtnClpEdit => BtnClpEdit;
         public Button GetBtnFilterCancel => BtnFilterCancel;
         public Button GetBtnDelete => BtnDelete;
+        public Button GetBtnClp => BtnClp;
         public ToolStripButton GetBtnNavigatorDelete => BindingNavigatorDeleteItem;
 
         #endregion
@@ -83,13 +84,6 @@ namespace Laboratorium.Material.Forms
             _service.LoadFormData();
 
             _init = false;
-
-            //BtnAdd.Size = new Size(50, 50);
-            //BtnAdd.Location = new Point(4, 13);
-            //BtnDelete.Size = new Size(50, 50);
-            //BtnDelete.Location = new Point(65, 13);
-            //BtnSave.Size = new Size(50, 50);
-            //BtnSave.Location = new Point(120, 13);
         }
 
         private void MaterialForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -130,6 +124,11 @@ namespace Laboratorium.Material.Forms
         private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e)
         {
             _service.Delete();
+        }
+
+        private void BtnCurrency_Click(object sender, EventArgs e)
+        {
+            _service.OpenCurrency();
         }
 
         #endregion
@@ -221,8 +220,8 @@ namespace Laboratorium.Material.Forms
             _service.CancelFilter(true);
         }
 
-        #endregion
 
+        #endregion
 
     }
 }

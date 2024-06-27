@@ -28,6 +28,7 @@ namespace Laboratorium.ADO.SqlDataConstant
                 "is_intermediate=@is_intermediate, is_danger=@is_danger, is_production=@is_production, is_observed=@is_observed, is_active=@is_active, " +
                 "is_package=@is_package, price=@price, price_per_quantity=@price_per_quantity, price_transport=@price_transport, quantity=@quantity, " +
                 "currency_id=@currency_id, unit_id=@unit_id, density=@density, solids=@solids, ash_450=@ash_450, VOC=@VOC, remarks=@remarks, date_updated=@date_updated Where id=@id" },
+            {SqlIndex.CmbCurrencyIndex, "Update Konkurencja.dbo.CmbCurrency Set name=@name, currency=@currency, rate=@rate Where id=@id" },
         };
     }
 }

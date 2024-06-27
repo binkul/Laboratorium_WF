@@ -3,6 +3,7 @@ using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.Service;
 using Laboratorium.Commons;
+using Laboratorium.Currency.Forms;
 using Laboratorium.Currency.Repository;
 using Laboratorium.Material.Dto;
 using Laboratorium.Material.Forms;
@@ -16,17 +17,57 @@ using System.Windows.Forms;
 
 namespace Laboratorium.Material.Service
 {
-    public class MaterialService : IService
+    public class MaterialService : LoadService, IService
     {
+        #region DTO-s fields for DGV column
+
         private const string ID = "Id";
         private const string NAME_PL = "NamePl";
+        private const string INDEX = "Index";
+        private const string SUPPLIER_ID = "SupplierId";
+        private const string FUNCTION_ID = "FunctionId";
+        private const string CURRENCY_ID = "CurrencyId";
+        private const string MATERIAL_ID = "MaterialId";
+        private const string UNIT_ID = "UnitId";
+        private const string CODE_ID = "CodeId";
+        private const string TYPE = "Type";
+        private const string IS_INTER = "IsIntermediate";
+        private const string IS_OBSERVED = "IsObserved";
+        private const string IS_PACKAGE = "IsPackage";
+        private const string IS_ACTIVE = "IsActive";
+        private const string IS_DANGER = "IsDanger";
+        private const string IS_PRODUCTION = "IsProduction";
+        private const string NAME = "Name";
+        private const string PRICE = "Price";
+        private const string QUANTITY = "Quantity";
+        private const string PRICE_UNIT = "PriceUnit";
+        private const string PRICE_QUANTITY = "PricePerQuantity";
+        private const string PRICE_TRANSPORT = "PriceTransport";
+        private const string VOC_PROC = "VocPercent";
+        private const string DATE_UPDATE = "DateUpdated";
+        private const string DATE_CREATE = "DateCreated";
         private const string CURRENCY = "Currency";
-        private const string ADMIN = "admin";
+        private const string DENSITY = "Density";
+        private const string SOLIDS = "Solids";
+        private const string ASH = "Ash450";
+        private const string VOC = "VOC";
+        private const string REMARKS = "Remarks";
+        private const string ROW_STATE = "GetRowState";
+        private const string SERVICE = "Service";
+        private const string CRUD_STATE = "CrudState";
+        private const string GHS_LIST = "GhsCodeList";
+        private const string HP_LIST = "HPcodeList";
+        private const string SIGNAL_WORD = "SignalWord";
+        private const string ORDERING = "Ordering";
+        private const string CLASS_CLP = "ClassClp";
+        private const string CODE_CLP = "CodeClp";
+        private const string DESCRIPTION_CLP = "DescriptionClp";
 
-        private const string FORM_TOP = "Form_Top";
-        private const string FORM_LEFT = "Form_Left";
-        private const string FORM_WIDTH = "Form_Width";
-        private const string FORM_HEIGHT = "Form_Height";
+        #endregion
+
+        private const string ADMIN = "admin";
+        private readonly IList<string> _dgvMaterialFields = new List<string> { NAME, IS_ACTIVE, IS_DANGER, IS_PRODUCTION, PRICE, PRICE_UNIT, VOC_PROC, DATE_UPDATE };
+        private readonly IList<string> _dgvClpFields = new List<string> { CLASS_CLP, CODE_CLP, DESCRIPTION_CLP };
         private const string FORM_DATA = "MaterialForm";
         private const int STD_WIDTH = 100;
 
@@ -49,9 +90,8 @@ namespace Laboratorium.Material.Service
         private BindingSource _materialClpBinding;
         public MaterialDto CurrentMaterial;
 
-        private IDictionary<string, double> _formData = CommonFunction.LoadWindowsDataAsDictionary(FORM_DATA);
-
         public MaterialService(SqlConnection connection, UserDto user, MaterialForm form)
+            : base(FORM_DATA, form)
         {
             _connection = connection;
             _user = user;
@@ -64,96 +104,41 @@ namespace Laboratorium.Material.Service
             _repository = new MaterialRepository(_connection, this);
         }
 
+
+        #region Modification markers
+
         public void Modify(RowState state)
         {
             if (_form.Init)
-            {
                 return;
-            }
 
             if (state != RowState.UNCHANGED)
             {
                 _form.ActivateSave(true);
                 return;
             }
-
-            bool laboModify = _materialList
-                .Where(i => i.GetRowState != RowState.UNCHANGED)
-                .Any();
-
-            _form.ActivateSave(laboModify);
-        }
-
-
-        #region Open/Close form 
-
-        public void FormClose(FormClosingEventArgs e)
-        {
-
-
-
-            if (!e.Cancel)
-            {
-                SaveFormData();
-            }
-        }
-
-        private void SaveFormData()
-        {
-            IDictionary<string, double> list = new Dictionary<string, double>();
-
-            list.Add(FORM_TOP, _form.Top);
-            list.Add(FORM_LEFT, _form.Left);
-            list.Add(FORM_WIDTH, _form.Width);
-            list.Add(FORM_HEIGHT, _form.Height);
-
-            foreach (DataGridViewColumn col in _form.GetDgvMaterial.Columns)
-            {
-                if (col.Visible)
-                {
-                    string name = col.Name;
-                    double width = col.Width;
-                    list.Add(name, width);
-                }
-            }
-
-            foreach (DataGridViewColumn col in _form.GetDgvClp.Columns)
-            {
-                if (col.Visible)
-                {
-                    string name = col.Name;
-                    double width = col.Width;
-                    list.Add(name, width);
-                }
-            }
-
-            CommonFunction.WriteWindowsData(list, FORM_DATA);
-        }
-
-        public void LoadFormData()
-        {
-            _form.Top = _formData.ContainsKey(FORM_TOP) ? (int)_formData[FORM_TOP] : _form.Top;
-            _form.Left = _formData.ContainsKey(FORM_LEFT) ? (int)_formData[FORM_LEFT] : _form.Left;
-            _form.Width = _formData.ContainsKey(FORM_WIDTH) ? (int)_formData[FORM_WIDTH] : _form.Width;
-            _form.Height = _formData.ContainsKey(FORM_HEIGHT) ? (int)_formData[FORM_HEIGHT] : _form.Height;
-        }
-
-        public void ShowMessage(string message, bool frontColor = true)
-        {
-            _form.GetMessageLabel.Text = message;
-
-            if (frontColor)
-                _form.GetMessageLabel.ForeColor = Color.Blue;
             else
-                _form.GetMessageLabel.ForeColor = Color.Red;
+                _form.ActivateSave(Status);
         }
+
+        protected override bool Status => _materialList.Where(i => i.GetRowState != RowState.UNCHANGED).Any();
 
         #endregion
 
 
         #region Prepare Data
 
-        public void PrepareAllData()
+        protected override void PrepareColumns()
+        {
+            MaterialForm form = (MaterialForm)_baseForm;
+            _fields = new Dictionary<DataGridView, IList<string>>
+            {
+                { form.GetDgvMaterial,  _dgvMaterialFields},
+                { form.GetDgvClp, _dgvClpFields }
+            };
+        }
+
+        public override void PrepareAllData()
         {
             #region Tables/Views/Bindings
 
@@ -207,87 +192,87 @@ namespace Laboratorium.Material.Service
             view.AutoGenerateColumns = false;
             view.AllowUserToResizeRows = false;
 
-            view.Columns.Remove("Index");
-            view.Columns.Remove("SupplierId");
-            view.Columns.Remove("FunctionId");
-            view.Columns.Remove("IsIntermediate");
-            view.Columns.Remove("IsObserved");
-            view.Columns.Remove("IsPackage");
-            view.Columns.Remove("PricePerQuantity");
-            view.Columns.Remove("PriceTransport");
-            view.Columns.Remove("Quantity");
-            view.Columns.Remove("UnitId");
-            view.Columns.Remove("Density");
-            view.Columns.Remove("Solids");
-            view.Columns.Remove("Ash450");
-            view.Columns.Remove("VOC");
-            view.Columns.Remove("Remarks");
-            view.Columns.Remove("DateCreated");
-            view.Columns.Remove("GetRowState");
-            view.Columns.Remove("Service");
-            view.Columns.Remove("CrudState");
-            view.Columns.Remove("GhsCodeList");
-            view.Columns.Remove("HPcodeList");
-            view.Columns.Remove("SignalWord");
+            view.Columns.Remove(INDEX);
+            view.Columns.Remove(SUPPLIER_ID);
+            view.Columns.Remove(FUNCTION_ID);
+            view.Columns.Remove(IS_INTER);
+            view.Columns.Remove(IS_OBSERVED);
+            view.Columns.Remove(IS_PACKAGE);
+            view.Columns.Remove(PRICE_QUANTITY);
+            view.Columns.Remove(PRICE_TRANSPORT);
+            view.Columns.Remove(QUANTITY);
+            view.Columns.Remove(UNIT_ID);
+            view.Columns.Remove(DENSITY);
+            view.Columns.Remove(SOLIDS);
+            view.Columns.Remove(ASH);
+            view.Columns.Remove(VOC);
+            view.Columns.Remove(REMARKS);
+            view.Columns.Remove(DATE_CREATE);
+            view.Columns.Remove(ROW_STATE);
+            view.Columns.Remove(SERVICE);
+            view.Columns.Remove(CRUD_STATE);
+            view.Columns.Remove(GHS_LIST);
+            view.Columns.Remove(HP_LIST);
+            view.Columns.Remove(SIGNAL_WORD);
 
             view.Columns[ID].Visible = false;
-            view.Columns["CurrencyId"].Visible = false;
+            view.Columns[CURRENCY_ID].Visible = false;
 
-            view.Columns["Name"].HeaderText = "Surowiec";
-            view.Columns["Name"].DisplayIndex = 0;
-            view.Columns["Name"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            view.Columns["Name"].Width = _formData.ContainsKey("Name") ? (int)_formData["Name"] : STD_WIDTH;
-            view.Columns["Name"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns[NAME].HeaderText = "Surowiec";
+            view.Columns[NAME].DisplayIndex = 0;
+            view.Columns[NAME].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            view.Columns[NAME].Width = _formData.ContainsKey(NAME) ? (int)_formData[NAME] : STD_WIDTH;
+            view.Columns[NAME].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            view.Columns["IsActive"].HeaderText = "Aktywny";
-            view.Columns["IsActive"].DisplayIndex = 1;
-            view.Columns["IsActive"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns["IsActive"].Width = _formData.ContainsKey("IsActive") ? (int)_formData["IsActive"] : STD_WIDTH;
-            view.Columns["IsActive"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns[IS_ACTIVE].HeaderText = "Aktywny";
+            view.Columns[IS_ACTIVE].DisplayIndex = 1;
+            view.Columns[IS_ACTIVE].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[IS_ACTIVE].Width = _formData.ContainsKey(IS_ACTIVE) ? (int)_formData[IS_ACTIVE] : STD_WIDTH;
+            view.Columns[IS_ACTIVE].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            view.Columns["IsDanger"].HeaderText = "CLP";
-            view.Columns["IsDanger"].DisplayIndex = 2;
-            view.Columns["IsDanger"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns["IsDanger"].Width = _formData.ContainsKey("IsDanger") ? (int)_formData["IsDanger"] : STD_WIDTH;
-            view.Columns["IsDanger"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns[IS_DANGER].HeaderText = "CLP";
+            view.Columns[IS_DANGER].DisplayIndex = 2;
+            view.Columns[IS_DANGER].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[IS_DANGER].Width = _formData.ContainsKey(IS_DANGER) ? (int)_formData[IS_DANGER] : STD_WIDTH;
+            view.Columns[IS_DANGER].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            view.Columns["IsProduction"].HeaderText = "Prod.";
-            view.Columns["IsProduction"].DisplayIndex = 3;
-            view.Columns["IsProduction"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns["IsProduction"].Width = _formData.ContainsKey("IsProduction") ? (int)_formData["IsProduction"] : STD_WIDTH;
-            view.Columns["IsProduction"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns[IS_PRODUCTION].HeaderText = "Prod.";
+            view.Columns[IS_PRODUCTION].DisplayIndex = 3;
+            view.Columns[IS_PRODUCTION].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[IS_PRODUCTION].Width = _formData.ContainsKey(IS_PRODUCTION) ? (int)_formData[IS_PRODUCTION] : STD_WIDTH;
+            view.Columns[IS_PRODUCTION].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            view.Columns["Price"].HeaderText = "Cena";
-            view.Columns["Price"].DisplayIndex = 4;
-            view.Columns["Price"].ReadOnly = true;
-            view.Columns["Price"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns["Price"].Width = _formData.ContainsKey("Price") ? (int)_formData["Price"] : STD_WIDTH;
-            view.Columns["Price"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns[PRICE].HeaderText = "Cena";
+            view.Columns[PRICE].DisplayIndex = 4;
+            view.Columns[PRICE].ReadOnly = true;
+            view.Columns[PRICE].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[PRICE].Width = _formData.ContainsKey(PRICE) ? (int)_formData[PRICE] : STD_WIDTH;
+            view.Columns[PRICE].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            view.Columns["PriceUnit"].HeaderText = "Waluta";
-            view.Columns["PriceUnit"].DisplayIndex = 5;
-            view.Columns["PriceUnit"].ReadOnly = true;
-            view.Columns["PriceUnit"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns["PriceUnit"].Width = _formData.ContainsKey("PriceUnit") ? (int)_formData["PriceUnit"] : STD_WIDTH;
-            view.Columns["PriceUnit"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns[PRICE_UNIT].HeaderText = "Waluta";
+            view.Columns[PRICE_UNIT].DisplayIndex = 5;
+            view.Columns[PRICE_UNIT].ReadOnly = true;
+            view.Columns[PRICE_UNIT].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[PRICE_UNIT].Width = _formData.ContainsKey(PRICE_UNIT) ? (int)_formData[PRICE_UNIT] : STD_WIDTH;
+            view.Columns[PRICE_UNIT].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            view.Columns["VocPercent"].HeaderText = "VOC";
-            view.Columns["VocPercent"].DisplayIndex = 6;
-            view.Columns["VocPercent"].ReadOnly = true;
-            view.Columns["VocPercent"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns["VocPercent"].Width = _formData.ContainsKey("VocPercent") ? (int)_formData["VocPercent"] : STD_WIDTH;
-            view.Columns["VocPercent"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns[VOC_PROC].HeaderText = "VOC";
+            view.Columns[VOC_PROC].DisplayIndex = 6;
+            view.Columns[VOC_PROC].ReadOnly = true;
+            view.Columns[VOC_PROC].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[VOC_PROC].Width = _formData.ContainsKey(VOC_PROC) ? (int)_formData[VOC_PROC] : STD_WIDTH;
+            view.Columns[VOC_PROC].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            view.Columns["DateUpdated"].HeaderText = "Data zmian";
-            view.Columns["DateUpdated"].DisplayIndex = 7;
-            view.Columns["DateUpdated"].ReadOnly = true;
-            view.Columns["DateUpdated"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns["DateUpdated"].Width = _formData.ContainsKey("DateUpdated") ? (int)_formData["DateUpdated"] : STD_WIDTH;
-            view.Columns["DateUpdated"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns[DATE_UPDATE].HeaderText = "Data zmian";
+            view.Columns[DATE_UPDATE].DisplayIndex = 7;
+            view.Columns[DATE_UPDATE].ReadOnly = true;
+            view.Columns[DATE_UPDATE].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[DATE_UPDATE].Width = _formData.ContainsKey(DATE_UPDATE) ? (int)_formData[DATE_UPDATE] : STD_WIDTH;
+            view.Columns[DATE_UPDATE].SortMode = DataGridViewColumnSortMode.NotSortable;
 
             if (view.Rows.Count > 0)
             {
-                view.CurrentCell = view.Rows[_materialBinding.Position].Cells["Name"];
+                view.CurrentCell = view.Rows[_materialBinding.Position].Cells[NAME];
             }
         }
 
@@ -307,29 +292,31 @@ namespace Laboratorium.Material.Service
             view.AutoGenerateColumns = false;
             view.AllowUserToResizeRows = false;
 
-            view.Columns.Remove("MaterialId");
-            view.Columns.Remove("Ordering");
+            view.Columns.Remove(MATERIAL_ID);
+            view.Columns.Remove(ORDERING);
+            view.Columns.Remove(CODE_ID);
+            view.Columns.Remove(TYPE);
 
-            view.Columns["ClassClp"].HeaderText = "Klasa";
-            view.Columns["ClassClp"].DisplayIndex = 0;
-            view.Columns["ClassClp"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns["ClassClp"].Width = _formData.ContainsKey("ClassClp") ? (int)_formData["ClassClp"] : STD_WIDTH;
-            view.Columns["ClassClp"].ReadOnly = true;
-            view.Columns["ClassClp"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns[CLASS_CLP].HeaderText = "Klasa";
+            view.Columns[CLASS_CLP].DisplayIndex = 0;
+            view.Columns[CLASS_CLP].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[CLASS_CLP].Width = _formData.ContainsKey(CLASS_CLP) ? (int)_formData[CLASS_CLP] : STD_WIDTH;
+            view.Columns[CLASS_CLP].ReadOnly = true;
+            view.Columns[CLASS_CLP].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            view.Columns["CodeClp"].HeaderText = "Kod";
-            view.Columns["CodeClp"].DisplayIndex = 1;
-            view.Columns["CodeClp"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns["CodeClp"].Width = _formData.ContainsKey("CodeClp") ? (int)_formData["CodeClp"] : STD_WIDTH;
-            view.Columns["CodeClp"].ReadOnly = true;
-            view.Columns["CodeClp"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns[CODE_CLP].HeaderText = "Kod";
+            view.Columns[CODE_CLP].DisplayIndex = 1;
+            view.Columns[CODE_CLP].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[CODE_CLP].Width = _formData.ContainsKey(CODE_CLP) ? (int)_formData[CODE_CLP] : STD_WIDTH;
+            view.Columns[CODE_CLP].ReadOnly = true;
+            view.Columns[CODE_CLP].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            view.Columns["DescriptionClp"].HeaderText = "Opis";
-            view.Columns["DescriptionClp"].DisplayIndex = 2;
-            view.Columns["DescriptionClp"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            view.Columns["DescriptionClp"].Width = _formData.ContainsKey("DescriptionClp") ? (int)_formData["DescriptionClp"] : STD_WIDTH;
-            view.Columns["DescriptionClp"].ReadOnly = true;
-            view.Columns["DescriptionClp"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            view.Columns[DESCRIPTION_CLP].HeaderText = "Opis";
+            view.Columns[DESCRIPTION_CLP].DisplayIndex = 2;
+            view.Columns[DESCRIPTION_CLP].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            view.Columns[DESCRIPTION_CLP].Width = _formData.ContainsKey(DESCRIPTION_CLP) ? (int)_formData[DESCRIPTION_CLP] : STD_WIDTH;
+            view.Columns[DESCRIPTION_CLP].ReadOnly = true;
+            view.Columns[DESCRIPTION_CLP].SortMode = DataGridViewColumnSortMode.NotSortable;
 
         }
 
@@ -353,31 +340,31 @@ namespace Laboratorium.Material.Service
             _form.GetChbSample.DataBindings.Clear();
             _form.GetChbSemiproduct.DataBindings.Clear();
 
-            _form.GetTxtName.DataBindings.Add("Text", _materialBinding, "Name");
-            _form.GetTxtIndex.DataBindings.Add("Text", _materialBinding, "Index");
-            _form.GetTxtRemarks.DataBindings.Add("Text", _materialBinding, "Remarks");
-            _form.GetChbDanger.DataBindings.Add("Checked", _materialBinding, "IsDanger");
-            _form.GetChbActive.DataBindings.Add("Checked", _materialBinding, "IsActive");
-            _form.GetChbPacking.DataBindings.Add("Checked", _materialBinding, "IsPackage");
-            _form.GetChbProduction.DataBindings.Add("Checked", _materialBinding, "IsProduction");
-            _form.GetChbSample.DataBindings.Add("Checked", _materialBinding, "IsObserved");
-            _form.GetChbSemiproduct.DataBindings.Add("Checked", _materialBinding, "IsIntermediate");
+            _form.GetTxtName.DataBindings.Add("Text", _materialBinding, NAME);
+            _form.GetTxtIndex.DataBindings.Add("Text", _materialBinding, INDEX);
+            _form.GetTxtRemarks.DataBindings.Add("Text", _materialBinding, REMARKS);
+            _form.GetChbDanger.DataBindings.Add("Checked", _materialBinding, IS_DANGER);
+            _form.GetChbActive.DataBindings.Add("Checked", _materialBinding, IS_ACTIVE);
+            _form.GetChbPacking.DataBindings.Add("Checked", _materialBinding, IS_PACKAGE);
+            _form.GetChbProduction.DataBindings.Add("Checked", _materialBinding, IS_PRODUCTION);
+            _form.GetChbSample.DataBindings.Add("Checked", _materialBinding, IS_OBSERVED);
+            _form.GetChbSemiproduct.DataBindings.Add("Checked", _materialBinding, IS_INTER);
 
-            Binding price = new Binding("Text", _materialBinding, "Price", true);
+            Binding price = new Binding("Text", _materialBinding, PRICE, true);
             price.Parse += Double_Parse;
-            Binding priceQ = new Binding("Text", _materialBinding, "PricePerQuantity", true);
+            Binding priceQ = new Binding("Text", _materialBinding, PRICE_QUANTITY, true);
             priceQ.Parse += Double_Parse;
-            Binding priceT = new Binding("Text", _materialBinding, "PriceTransport", true);
+            Binding priceT = new Binding("Text", _materialBinding, PRICE_TRANSPORT, true);
             priceT.Parse += Double_Parse;
-            Binding quant = new Binding("Text", _materialBinding, "Quantity", true);
+            Binding quant = new Binding("Text", _materialBinding, QUANTITY, true);
             quant.Parse += Double_Parse;
-            Binding dens = new Binding("Text", _materialBinding, "Density", true);
+            Binding dens = new Binding("Text", _materialBinding, DENSITY, true);
             dens.Parse += Double_Parse;
-            Binding solid = new Binding("Text", _materialBinding, "Solids", true);
+            Binding solid = new Binding("Text", _materialBinding, SOLIDS, true);
             solid.Parse += Double_Parse;
-            Binding ash = new Binding("Text", _materialBinding, "Ash450", true);
+            Binding ash = new Binding("Text", _materialBinding, ASH, true);
             ash.Parse += Double_Parse;
-            Binding voc = new Binding("Text", _materialBinding, "VOC", true);
+            Binding voc = new Binding("Text", _materialBinding, VOC, true);
             voc.Parse += Double_Parse;
 
             _form.GetTxtPrice.DataBindings.Add(price);
@@ -628,6 +615,16 @@ namespace Laboratorium.Material.Service
             _form.GetBtnNavigatorDelete.Enabled = _form.GetBtnDelete.Enabled;
         }
 
+        public void ShowMessage(string message, bool frontColor = true)
+        {
+            _form.GetMessageLabel.Text = message;
+
+            if (frontColor)
+                _form.GetMessageLabel.ForeColor = Color.Blue;
+            else
+                _form.GetMessageLabel.ForeColor = Color.Red;
+        }
+
         #endregion
 
 
@@ -736,7 +733,7 @@ namespace Laboratorium.Material.Service
         #endregion
 
 
-        #region CLP and Composition open
+        #region Open buttons
 
         public void OpenCLP()
         {
@@ -764,12 +761,20 @@ namespace Laboratorium.Material.Service
             }
         }
 
+        public void OpenCurrency()
+        {
+            using (CurrencyForm form = new CurrencyForm(_connection))
+            {
+                form.ShowDialog();
+            }
+        }
+
         #endregion
 
 
         #region CRUD
 
-        public bool Save()
+        public override bool Save()
         {
             CancelFilter(false);
             _materialBinding.EndEdit();
@@ -912,12 +917,12 @@ namespace Laboratorium.Material.Service
         {
             DataGridView view = _form.GetDgvClp;
 
-            if (view.Columns[e.ColumnIndex].Name == "ClassClp")
+            if (view.Columns[e.ColumnIndex].Name == CLASS_CLP)
             {
                 e.CellStyle.Font = new Font(e.CellStyle.Font.Name, 10, FontStyle.Bold);
                 e.CellStyle.ForeColor = Color.Red;
             }
-            else if (view.Columns[e.ColumnIndex].Name == "CodeClp")
+            else if (view.Columns[e.ColumnIndex].Name == CODE_CLP)
             {
                 e.CellStyle.Font = new Font(e.CellStyle.Font.Name, 9, FontStyle.Bold);
                 if (e.Value.ToString().Contains("EUH"))
@@ -942,10 +947,13 @@ namespace Laboratorium.Material.Service
 
         public void DangerStateChanged()
         {
+            bool enabled = false;
+
             if (_form.GetChbDanger.Checked)
-                _form.GetBtnClpEdit.Enabled = CurrentMaterial != null && _user.Permission.ToLower().Equals(ADMIN);
-            else
-                _form.GetBtnClpEdit.Enabled = false;
+                enabled = CurrentMaterial != null && _user.Permission.ToLower().Equals(ADMIN);
+
+            _form.GetBtnClpEdit.Enabled = enabled;
+            _form.GetBtnClp.Enabled = enabled;
         }
 
         public void ColumnWidthChanged()
@@ -957,24 +965,24 @@ namespace Laboratorium.Material.Service
             _form.GetBtnFilterCancel.Width = view.RowHeadersWidth - 2;
 
             _form.GetTxtFilterName.Left = view.Left + view.RowHeadersWidth;
-            _form.GetTxtFilterName.Width = view.Columns["Name"].Width;
+            _form.GetTxtFilterName.Width = view.Columns[NAME].Width;
 
             left = _form.GetTxtFilterName.Left + _form.GetTxtFilterName.Width 
-                + (view.Columns["IsActive"].Width / 2);
+                + (view.Columns[IS_ACTIVE].Width / 2);
             _form.GetChbFilterActive.Left = left - (_form.GetChbFilterActive.Width / 2);
 
             left = _form.GetTxtFilterName.Left + _form.GetTxtFilterName.Width
-                + view.Columns["IsActive"].Width + (view.Columns["IsDanger"].Width / 2);
+                + view.Columns[IS_ACTIVE].Width + (view.Columns[IS_DANGER].Width / 2);
             _form.GetChbFilterClp.Left = left - (_form.GetChbFilterClp.Width / 2);
 
             left = _form.GetTxtFilterName.Left + _form.GetTxtFilterName.Width
-                + view.Columns["IsActive"].Width + view.Columns["IsDanger"].Width + (view.Columns["IsProduction"].Width / 2);
+                + view.Columns[IS_ACTIVE].Width + view.Columns[IS_DANGER].Width + (view.Columns[IS_PRODUCTION].Width / 2);
             _form.GetChbFilterProd.Left = left - (_form.GetChbFilterProd.Width / 2);
         }
 
         public void CellvalueChanged(DataGridViewCellEventArgs e)
         {
-            if (_form.GetDgvMaterial.Columns[e.ColumnIndex].Name.Equals("IsDanger"))
+            if (_form.GetDgvMaterial.Columns[e.ColumnIndex].Name.Equals(IS_DANGER))
             {
                 SynchronizeOthersControls();
             }

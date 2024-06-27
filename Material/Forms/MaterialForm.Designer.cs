@@ -1249,6 +1249,7 @@ namespace Laboratorium.Material.Forms
             this.BtnCurrency.Size = new System.Drawing.Size(50, 50);
             this.BtnCurrency.TabIndex = 26;
             this.BtnCurrency.UseVisualStyleBackColor = true;
+            this.BtnCurrency.Click += new System.EventHandler(this.BtnCurrency_Click);
             // 
             // BtnClp
             // 

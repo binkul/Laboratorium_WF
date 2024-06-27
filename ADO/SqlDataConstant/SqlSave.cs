@@ -38,6 +38,7 @@ namespace Laboratorium.ADO.SqlDataConstant
             {SqlIndex.MaterialClpGhsIndex, "Insert Into Konkurencja.dbo.MaterialClpCodeGHS(material_id, code_id, date_created) Values(@material_id, @code_id, @date_created)" },
             {SqlIndex.MaterialClpHcodeIndex, "Insert Into Konkurencja.dbo.MaterialClpCodeH(material_id, code_id, comments, date_created) Values (@material_id, @code_id, @comments, @date_created)" },
             {SqlIndex.MaterialClpPcodeIndex, "Insert Into Konkurencja.dbo.MaterialClpCodeP(material_id, code_id, comments, date_created) Values (@material_id, @code_id, @comments, @date_created)" },
+            {SqlIndex.CmbCurrencyIndex, "Insert Into Konkurencja.dbo.CmbCurrency(name, currency, rate) Output INSERTED.id Values (@name, @currency, @rate)" },
         };
     }
 }

@@ -3,6 +3,7 @@ using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.SqlDataConstant;
 using Laboratorium.ADO.Tables;
+using Laboratorium.Commons;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -33,10 +34,12 @@ namespace Laboratorium.Currency.Repository
                     while (reader.Read())
                     {
                         byte id = reader.GetByte(0);
-                        string name = reader.GetString(1);
-                        double rate = reader.GetDouble(2);
+                        string name = CommonFunction.DBNullToStringConv(reader.GetValue(1));
+                        string curency = reader.GetString(2);
+                        double rate = reader.GetDouble(3);
 
-                        CmbCurrencyDto currency = new CmbCurrencyDto(id, name, rate);
+                        CmbCurrencyDto currency = new CmbCurrencyDto(id, name, curency, rate);
+                        currency.AcceptChanges();
                         list.Add(currency);
                     }
                     reader.Close();
@@ -61,12 +64,68 @@ namespace Laboratorium.Currency.Repository
 
         public override CmbCurrencyDto Save(CmbCurrencyDto data)
         {
-            throw new NotImplementedException();
+            CmbCurrencyDto item = data;
+
+            try
+            {
+                SqlCommand command = new SqlCommand();
+                command.Connection = _connection;
+                command.CommandText = SqlSave.Save[_sqlIndex];
+                command.Parameters.AddWithValue("@name", CommonFunction.NullStringToDBNullConv(item.Name));
+                command.Parameters.AddWithValue("@currency", item.Currency);
+                command.Parameters.AddWithValue("@rate", item.Rate);
+                OpenConnection();
+                byte id = Convert.ToByte(command.ExecuteScalar());
+                item.Id = id;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu Save " + _tableName,
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "': '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return item;
         }
 
         public override CmbCurrencyDto Update(CmbCurrencyDto data)
         {
-            throw new NotImplementedException();
+            CmbCurrencyDto item = data;
+
+            try
+            {
+                SqlCommand command = new SqlCommand();
+                command.Connection = _connection;
+                command.CommandText = SqlSave.Save[_sqlIndex];
+                command.Parameters.AddWithValue("@name", CommonFunction.NullStringToDBNullConv(item.Name));
+                command.Parameters.AddWithValue("@currency", item.Currency);
+                command.Parameters.AddWithValue("@rate", item.Rate);
+                command.Parameters.AddWithValue("@id", item.Id);
+                OpenConnection();
+                command.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu Update " + _tableName,
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "': '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return item;
         }
     }
 }

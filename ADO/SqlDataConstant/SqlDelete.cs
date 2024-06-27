@@ -16,7 +16,8 @@ namespace Laboratorium.ADO.SqlDataConstant
             {SqlIndex.MaterialClpGhsIndex, "Delete From Konkurencja.dbo.MaterialClpCodeGHS Where material_id=" },
             {SqlIndex.MaterialClpHcodeIndex, "Delete From Konkurencja.dbo.MaterialClpCodeH Where material_id=" },
             {SqlIndex.MaterialClpPcodeIndex, "Delete From Konkurencja.dbo.MaterialClpCodeP Where material_id=" },
-            {SqlIndex.MaterialClpSignalIndex, "Delete From Konkurencja.dbo.MaterialClpSignal Where material_id=" }
+            {SqlIndex.MaterialClpSignalIndex, "Delete From Konkurencja.dbo.MaterialClpSignal Where material_id=" },
+            {SqlIndex.CmbCurrencyIndex, "Delete From Konkurencja.dbo.CmbCurrency Where id=" }
         };
     }
 }
