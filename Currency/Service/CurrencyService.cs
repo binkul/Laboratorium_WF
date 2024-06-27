@@ -88,13 +88,13 @@ namespace Laboratorium.Currency.Service
 
             view.Columns[CURRENCY].HeaderText = "Waluta";
             view.Columns[CURRENCY].DisplayIndex = 1;
-            view.Columns[CURRENCY].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            view.Columns[CURRENCY].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             view.Columns[CURRENCY].Width = _formData.ContainsKey(CURRENCY) ? (int)_formData[CURRENCY] : STD_WIDTH;
             view.Columns[CURRENCY].SortMode = DataGridViewColumnSortMode.NotSortable;
 
             view.Columns[RATE].HeaderText = "Kurs";
             view.Columns[RATE].DisplayIndex = 2;
-            view.Columns[RATE].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            view.Columns[RATE].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             view.Columns[RATE].Width = _formData.ContainsKey(RATE) ? (int)_formData[RATE] : STD_WIDTH;
             view.Columns[RATE].SortMode = DataGridViewColumnSortMode.NotSortable;
 
@@ -118,6 +118,7 @@ namespace Laboratorium.Currency.Service
                 if (CheckBeforeSave(item))
                 {
                     _repository.Save(item);
+                    item.AcceptChanges();
                 }
                 else
                 {
@@ -136,6 +137,7 @@ namespace Laboratorium.Currency.Service
                 if (CheckBeforeSave(item))
                 {
                     _repository.Update(item);
+                    item.AcceptChanges();
                 }
                 else
                 {
@@ -145,6 +147,7 @@ namespace Laboratorium.Currency.Service
                 }
             }
 
+            _form.ActivateSave(false);
             return true;
         }
 
@@ -152,13 +155,13 @@ namespace Laboratorium.Currency.Service
         {
             if (string.IsNullOrEmpty(currency.Currency))
             {
-                MessageBox.Show("Nie podano symbolu waluty. Nie można zapisac waluty bez symbolu", "Brak symbolu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Nie podano symbolu waluty. Nie można zapisać waluty bez symbolu", "Brak symbolu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
             if (currency.Rate < 0)
             {
-                MessageBox.Show("Kurs waluty nie może być ujemny. Podaj prawidłowy kurs waluty.", "Brak kursu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Kurs waluty nie może być ujemny. Podaj prawidłowy kurs waluty.", "Brak przelicznika", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
@@ -170,13 +173,18 @@ namespace Laboratorium.Currency.Service
             if (_currencyBinding.Current == null)
                 return;
 
-
+            CmbCurrencyDto current = (CmbCurrencyDto)_currencyBinding.Current;
+            if (MessageBox.Show("Czy usunąć walutę: '" + current.Currency + "' kraj '" + current.Name + "' z bazy danych?", "Usuwanie", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes )
+            {
+                _repository.DeleteById(current.Id);
+                _currencyBinding.RemoveCurrent();
+            }
         }
 
         public void AddNew(DataGridViewRowEventArgs e)
         {
             e.Row.Cells[RATE].Value = 1;
-            e.Row.Cells[ID].Value = 0;
+            e.Row.Cells[ID].Value = _currencyList.Count > 0 ? _currencyList.Max(i => i.Id) + 1 : 1;
         }
     }
 }

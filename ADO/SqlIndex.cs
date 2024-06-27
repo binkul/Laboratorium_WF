@@ -23,7 +23,7 @@
         ProjectMemberIndex,
 
         MaterialIndex,
-        MaterialFunctionIndex,
+        CmbMaterialFunctionIndex,
         MaterialClpGhsIndex,
         MaterialClpPcodeIndex,
         MaterialClpHcodeIndex,

@@ -131,6 +131,16 @@ namespace Laboratorium.Material.Forms
             _service.OpenCurrency();
         }
 
+        private void BtnClp_Click(object sender, EventArgs e)
+        {
+            _service.OpenCLP();
+        }
+
+        private void BtnFunction_Click(object sender, EventArgs e)
+        {
+            _service.OpenFunction();
+        }
+
         #endregion
 
 

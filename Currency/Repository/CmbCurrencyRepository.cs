@@ -71,12 +71,12 @@ namespace Laboratorium.Currency.Repository
                 SqlCommand command = new SqlCommand();
                 command.Connection = _connection;
                 command.CommandText = SqlSave.Save[_sqlIndex];
+                command.Parameters.AddWithValue("@id", item.Id);
                 command.Parameters.AddWithValue("@name", CommonFunction.NullStringToDBNullConv(item.Name));
                 command.Parameters.AddWithValue("@currency", item.Currency);
                 command.Parameters.AddWithValue("@rate", item.Rate);
                 OpenConnection();
-                byte id = Convert.ToByte(command.ExecuteScalar());
-                item.Id = id;
+                command.ExecuteNonQuery();
             }
             catch (SqlException ex)
             {
@@ -103,7 +103,7 @@ namespace Laboratorium.Currency.Repository
             {
                 SqlCommand command = new SqlCommand();
                 command.Connection = _connection;
-                command.CommandText = SqlSave.Save[_sqlIndex];
+                command.CommandText = SqlUpdate.Update[_sqlIndex];
                 command.Parameters.AddWithValue("@name", CommonFunction.NullStringToDBNullConv(item.Name));
                 command.Parameters.AddWithValue("@currency", item.Currency);
                 command.Parameters.AddWithValue("@rate", item.Rate);

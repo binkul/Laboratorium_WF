@@ -6,6 +6,8 @@ namespace Laboratorium.ADO.SqlDataConstant
     {
         public static readonly Dictionary<SqlIndex, string> Delete = new Dictionary<SqlIndex, string>
         {
+            {SqlIndex.CmbCurrencyIndex, "Delete From Konkurencja.dbo.CmbCurrency Where id=" },
+            {SqlIndex.CmbMaterialFunctionIndex, "Delete From Konkurencja.dbo.CmbMaterialFunction Where id=" },
             {SqlIndex.LaboIndex, ""},
             {SqlIndex.LaboBasicIndex, "Delete From Konkurencja.dbo.LaboDataBasic Where id=" },
             {SqlIndex.LaboNormTestIndex, "Delete From Konkurencja.dbo.LaboDataNorm Where id=" },
@@ -17,7 +19,6 @@ namespace Laboratorium.ADO.SqlDataConstant
             {SqlIndex.MaterialClpHcodeIndex, "Delete From Konkurencja.dbo.MaterialClpCodeH Where material_id=" },
             {SqlIndex.MaterialClpPcodeIndex, "Delete From Konkurencja.dbo.MaterialClpCodeP Where material_id=" },
             {SqlIndex.MaterialClpSignalIndex, "Delete From Konkurencja.dbo.MaterialClpSignal Where material_id=" },
-            {SqlIndex.CmbCurrencyIndex, "Delete From Konkurencja.dbo.CmbCurrency Where id=" }
         };
     }
 }

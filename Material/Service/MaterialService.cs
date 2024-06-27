@@ -769,6 +769,14 @@ namespace Laboratorium.Material.Service
             }
         }
 
+        public void OpenFunction()
+        {
+            using (MaterialFunctionForm form = new MaterialFunctionForm(_connection))
+            {
+                form.ShowDialog();
+            }
+        }
+
         #endregion
 
 

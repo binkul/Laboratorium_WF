@@ -157,6 +157,12 @@
     <Compile Include="Material\Forms\MaterialForm.Designer.cs">
       <DependentUpon>MaterialForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Material\Forms\MaterialFunctionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Material\Forms\MaterialFunctionForm.Designer.cs">
+      <DependentUpon>MaterialFunctionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Material\Repository\ClpHPcombineRepository.cs" />
     <Compile Include="Material\Repository\CmbMaterialFunctionRepository.cs" />
     <Compile Include="Material\Repository\MaterialGHSRepository.cs" />
@@ -166,6 +172,7 @@
     <Compile Include="Material\Repository\MaterialRepository.cs" />
     <Compile Include="Material\Repository\MaterialSignalRepository.cs" />
     <Compile Include="Material\Service\MaterialClpService.cs" />
+    <Compile Include="Material\Service\MaterialFunctionService.cs" />
     <Compile Include="Material\Service\MaterialService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Project\Forms\FindProjectForm.cs">
@@ -207,6 +214,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Material\Forms\MaterialForm.resx">
       <DependentUpon>MaterialForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Material\Forms\MaterialFunctionForm.resx">
+      <DependentUpon>MaterialFunctionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Project\Forms\FindProjectForm.resx">
       <DependentUpon>FindProjectForm.cs</DependentUpon>

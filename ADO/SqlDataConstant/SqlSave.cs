@@ -6,6 +6,8 @@ namespace Laboratorium.ADO.SqlDataConstant
     {
         public static readonly Dictionary<SqlIndex, string> Save = new Dictionary<SqlIndex, string>
         {
+            {SqlIndex.CmbCurrencyIndex, "Insert Into Konkurencja.dbo.CmbCurrency(id, name, currency, rate) Values (@id, @name, @currency, @rate)" },
+            {SqlIndex.CmbMaterialFunctionIndex, "Insert Into Konkurencja.dbo.CmbMaterialFunction(id, name_pl) Values (@id, @name_pl)" },
             {SqlIndex.LaboIndex, "Insert Into Konkurencja.dbo.DoswTytul(Numer_d, Data, Tytuł, Cel, UwagiWnioski, Observation, Gestosc, " +
                 "IsDeleted, DateUpdated, UserId, ProjectId) Values(@Numer_d, @Data, @Tytul, @Cel, @UwagiWnioski, @Observation, @Gestosc, " +
                 "@IsDeleted, @DateUpdated, @UserId, @ProjectId)" },
@@ -38,7 +40,6 @@ namespace Laboratorium.ADO.SqlDataConstant
             {SqlIndex.MaterialClpGhsIndex, "Insert Into Konkurencja.dbo.MaterialClpCodeGHS(material_id, code_id, date_created) Values(@material_id, @code_id, @date_created)" },
             {SqlIndex.MaterialClpHcodeIndex, "Insert Into Konkurencja.dbo.MaterialClpCodeH(material_id, code_id, comments, date_created) Values (@material_id, @code_id, @comments, @date_created)" },
             {SqlIndex.MaterialClpPcodeIndex, "Insert Into Konkurencja.dbo.MaterialClpCodeP(material_id, code_id, comments, date_created) Values (@material_id, @code_id, @comments, @date_created)" },
-            {SqlIndex.CmbCurrencyIndex, "Insert Into Konkurencja.dbo.CmbCurrency(name, currency, rate) Output INSERTED.id Values (@name, @currency, @rate)" },
         };
     }
 }
