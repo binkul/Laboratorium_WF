@@ -66,6 +66,8 @@
     <Compile Include="ADO\DTO\MaterialClpGhsDto.cs" />
     <Compile Include="ADO\DTO\MaterialClpPCodeDto.cs" />
     <Compile Include="ADO\DTO\MaterialClpSignalDto.cs" />
+    <Compile Include="ADO\DTO\MaterialCompositionDto.cs" />
+    <Compile Include="ADO\DTO\MaterialCompoundDto.cs" />
     <Compile Include="ADO\DTO\MaterialDto.cs" />
     <Compile Include="ADO\DTO\NormDetailDto.cs" />
     <Compile Include="ADO\DTO\NormDto.cs" />
@@ -151,6 +153,12 @@
     <Compile Include="Material\Forms\MaterialClpForm.Designer.cs">
       <DependentUpon>MaterialClpForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Material\Forms\MaterialCompositionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Material\Forms\MaterialCompositionForm.Designer.cs">
+      <DependentUpon>MaterialCompositionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Material\Forms\MaterialForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,6 +173,8 @@
     </Compile>
     <Compile Include="Material\Repository\ClpHPcombineRepository.cs" />
     <Compile Include="Material\Repository\CmbMaterialFunctionRepository.cs" />
+    <Compile Include="Material\Repository\MaterialCompositionRepository.cs" />
+    <Compile Include="Material\Repository\MaterialCompoundRepository.cs" />
     <Compile Include="Material\Repository\MaterialGHSRepository.cs" />
     <Compile Include="Material\Repository\CmbUnitRepository.cs" />
     <Compile Include="Material\Repository\MaterialHcodeRepository.cs" />
@@ -172,6 +182,7 @@
     <Compile Include="Material\Repository\MaterialRepository.cs" />
     <Compile Include="Material\Repository\MaterialSignalRepository.cs" />
     <Compile Include="Material\Service\MaterialClpService.cs" />
+    <Compile Include="Material\Service\MaterialCompositionService.cs" />
     <Compile Include="Material\Service\MaterialFunctionService.cs" />
     <Compile Include="Material\Service\MaterialService.cs" />
     <Compile Include="Program.cs" />
@@ -211,6 +222,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Material\Forms\MaterialClpForm.resx">
       <DependentUpon>MaterialClpForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Material\Forms\MaterialCompositionForm.resx">
+      <DependentUpon>MaterialCompositionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Material\Forms\MaterialForm.resx">
       <DependentUpon>MaterialForm.cs</DependentUpon>

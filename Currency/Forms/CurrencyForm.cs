@@ -54,12 +54,12 @@ namespace Laboratorium.Currency.Forms
 
         private void DgvCurrency_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
-            MessageBox.Show("Nieprawidłowa wartość dla kursu waluty. Wprowadzona wartość musi być liczbą.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show("Nieprawidłowa wartość dla kursu waluty. Wprowadzona wartość musi być liczbą dodatnią niezerową.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        private void DgvCurrency_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
+        private void BtnAddNew_Click(object sender, EventArgs e)
         {
-            _service.AddNew(e);
+            _service.AddNew();
         }
     }
 }

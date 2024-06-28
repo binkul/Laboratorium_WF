@@ -123,6 +123,7 @@ namespace Laboratorium.Material.Forms
             this.BtnClp = new System.Windows.Forms.Button();
             this.BtnCompositiom = new System.Windows.Forms.Button();
             this.BtnFunction = new System.Windows.Forms.Button();
+            this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.BindingNavigatorMaterial)).BeginInit();
             this.BindingNavigatorMaterial.SuspendLayout();
             this.TbMaterial.SuspendLayout();
@@ -142,6 +143,7 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBox_CLP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvClp)).BeginInit();
+            this.tableLayoutPanel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // BindingNavigatorMaterial
@@ -209,7 +211,6 @@ namespace Laboratorium.Material.Forms
             // 
             this.bindingNavigatorPositionItem.AccessibleName = "Pozycja";
             this.bindingNavigatorPositionItem.AutoSize = false;
-            this.bindingNavigatorPositionItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
             this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 27);
             this.bindingNavigatorPositionItem.Text = "0";
@@ -271,39 +272,44 @@ namespace Laboratorium.Material.Forms
             // 
             // TxtName
             // 
-            this.TxtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TxtName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel7.SetColumnSpan(this.TxtName, 7);
             this.TxtName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TxtName.Location = new System.Drawing.Point(109, 85);
+            this.TxtName.Location = new System.Drawing.Point(128, 70);
             this.TxtName.Name = "TxtName";
-            this.TxtName.Size = new System.Drawing.Size(766, 30);
+            this.TxtName.Size = new System.Drawing.Size(745, 30);
             this.TxtName.TabIndex = 1;
             this.TxtName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDensity_KeyPress);
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
+            this.tableLayoutPanel7.SetColumnSpan(this.label1, 3);
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(2, 88);
+            this.label1.Location = new System.Drawing.Point(3, 72);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 25);
+            this.label1.Size = new System.Drawing.Size(119, 25);
             this.label1.TabIndex = 2;
             this.label1.Text = "Nazwa";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // TbMaterial
             // 
             this.TbMaterial.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel7.SetColumnSpan(this.TbMaterial, 10);
             this.TbMaterial.Controls.Add(this.TbMain);
             this.TbMaterial.Controls.Add(this.TbData);
             this.TbMaterial.Controls.Add(this.TbClp);
             this.TbMaterial.Controls.Add(this.TbComposition);
             this.TbMaterial.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TbMaterial.Location = new System.Drawing.Point(0, 138);
+            this.TbMaterial.Location = new System.Drawing.Point(0, 110);
+            this.TbMaterial.Margin = new System.Windows.Forms.Padding(0);
             this.TbMaterial.Name = "TbMaterial";
             this.TbMaterial.SelectedIndex = 0;
-            this.TbMaterial.Size = new System.Drawing.Size(887, 484);
+            this.TbMaterial.Size = new System.Drawing.Size(876, 500);
             this.TbMaterial.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.TbMaterial.TabIndex = 8;
             // 
@@ -321,7 +327,7 @@ namespace Laboratorium.Material.Forms
             this.TbMain.Location = new System.Drawing.Point(4, 29);
             this.TbMain.Name = "TbMain";
             this.TbMain.Padding = new System.Windows.Forms.Padding(3);
-            this.TbMain.Size = new System.Drawing.Size(879, 451);
+            this.TbMain.Size = new System.Drawing.Size(868, 467);
             this.TbMain.TabIndex = 0;
             this.TbMain.Text = "Surowce";
             // 
@@ -387,7 +393,7 @@ namespace Laboratorium.Material.Forms
             this.DgvMaterial.Name = "DgvMaterial";
             this.DgvMaterial.RowHeadersWidth = 51;
             this.DgvMaterial.RowTemplate.Height = 24;
-            this.DgvMaterial.Size = new System.Drawing.Size(873, 402);
+            this.DgvMaterial.Size = new System.Drawing.Size(862, 418);
             this.DgvMaterial.TabIndex = 3;
             this.DgvMaterial.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvMaterial_CellValueChanged);
             this.DgvMaterial.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.DgvMaterial_ColumnWidthChanged);
@@ -398,7 +404,7 @@ namespace Laboratorium.Material.Forms
             this.TbData.Controls.Add(this.tableLayoutPanel1);
             this.TbData.Location = new System.Drawing.Point(4, 29);
             this.TbData.Name = "TbData";
-            this.TbData.Size = new System.Drawing.Size(879, 451);
+            this.TbData.Size = new System.Drawing.Size(868, 467);
             this.TbData.TabIndex = 3;
             this.TbData.Text = "Dane";
             // 
@@ -440,7 +446,7 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(879, 445);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(868, 461);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // panel1
@@ -455,7 +461,7 @@ namespace Laboratorium.Material.Forms
             this.panel1.Location = new System.Drawing.Point(23, 18);
             this.panel1.Name = "panel1";
             this.tableLayoutPanel1.SetRowSpan(this.panel1, 4);
-            this.panel1.Size = new System.Drawing.Size(273, 154);
+            this.panel1.Size = new System.Drawing.Size(267, 154);
             this.panel1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -480,7 +486,7 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(265, 146);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(259, 146);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // label4
@@ -501,9 +507,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel2.SetColumnSpan(this.label2, 2);
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label2.ForeColor = System.Drawing.Color.Blue;
-            this.label2.Location = new System.Drawing.Point(3, 1);
+            this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(259, 22);
+            this.label2.Size = new System.Drawing.Size(253, 24);
             this.label2.TabIndex = 0;
             this.label2.Text = "Dane podstawowe";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -524,7 +530,7 @@ namespace Laboratorium.Material.Forms
             this.TxtIndex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtIndex.Location = new System.Drawing.Point(123, 31);
             this.TxtIndex.Name = "TxtIndex";
-            this.TxtIndex.Size = new System.Drawing.Size(139, 27);
+            this.TxtIndex.Size = new System.Drawing.Size(133, 27);
             this.TxtIndex.TabIndex = 5;
             this.TxtIndex.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDensity_KeyPress);
             // 
@@ -544,9 +550,9 @@ namespace Laboratorium.Material.Forms
             this.CmbFunction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbFunction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbFunction.FormattingEnabled = true;
-            this.CmbFunction.Location = new System.Drawing.Point(123, 71);
+            this.CmbFunction.Location = new System.Drawing.Point(123, 73);
             this.CmbFunction.Name = "CmbFunction";
-            this.CmbFunction.Size = new System.Drawing.Size(139, 28);
+            this.CmbFunction.Size = new System.Drawing.Size(133, 28);
             this.CmbFunction.TabIndex = 6;
             // 
             // CmbSupplier
@@ -556,7 +562,7 @@ namespace Laboratorium.Material.Forms
             this.CmbSupplier.FormattingEnabled = true;
             this.CmbSupplier.Location = new System.Drawing.Point(123, 113);
             this.CmbSupplier.Name = "CmbSupplier";
-            this.CmbSupplier.Size = new System.Drawing.Size(139, 28);
+            this.CmbSupplier.Size = new System.Drawing.Size(133, 28);
             this.CmbSupplier.TabIndex = 7;
             // 
             // panel2
@@ -571,7 +577,7 @@ namespace Laboratorium.Material.Forms
             this.panel2.Location = new System.Drawing.Point(23, 203);
             this.panel2.Name = "panel2";
             this.tableLayoutPanel1.SetRowSpan(this.panel2, 5);
-            this.panel2.Size = new System.Drawing.Size(273, 194);
+            this.panel2.Size = new System.Drawing.Size(267, 194);
             this.panel2.TabIndex = 1;
             // 
             // tableLayoutPanel3
@@ -599,7 +605,7 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(265, 186);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(259, 186);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // TxtVoc
@@ -607,7 +613,7 @@ namespace Laboratorium.Material.Forms
             this.TxtVoc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtVoc.Location = new System.Drawing.Point(123, 152);
             this.TxtVoc.Name = "TxtVoc";
-            this.TxtVoc.Size = new System.Drawing.Size(139, 27);
+            this.TxtVoc.Size = new System.Drawing.Size(133, 27);
             this.TxtVoc.TabIndex = 11;
             this.TxtVoc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDensity_KeyPress);
             this.TxtVoc.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDensity_Validating);
@@ -630,9 +636,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel3.SetColumnSpan(this.label6, 2);
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label6.ForeColor = System.Drawing.Color.Blue;
-            this.label6.Location = new System.Drawing.Point(3, 1);
+            this.label6.Location = new System.Drawing.Point(3, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(259, 22);
+            this.label6.Size = new System.Drawing.Size(253, 24);
             this.label6.TabIndex = 1;
             this.label6.Text = "Fizykochemia";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -675,7 +681,7 @@ namespace Laboratorium.Material.Forms
             this.TxtDensity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtDensity.Location = new System.Drawing.Point(123, 31);
             this.TxtDensity.Name = "TxtDensity";
-            this.TxtDensity.Size = new System.Drawing.Size(139, 27);
+            this.TxtDensity.Size = new System.Drawing.Size(133, 27);
             this.TxtDensity.TabIndex = 8;
             this.TxtDensity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDensity_KeyPress);
             this.TxtDensity.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDensity_Validating);
@@ -685,7 +691,7 @@ namespace Laboratorium.Material.Forms
             this.TxtSolids.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtSolids.Location = new System.Drawing.Point(123, 71);
             this.TxtSolids.Name = "TxtSolids";
-            this.TxtSolids.Size = new System.Drawing.Size(139, 27);
+            this.TxtSolids.Size = new System.Drawing.Size(133, 27);
             this.TxtSolids.TabIndex = 9;
             this.TxtSolids.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDensity_KeyPress);
             this.TxtSolids.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDensity_Validating);
@@ -695,7 +701,7 @@ namespace Laboratorium.Material.Forms
             this.TxtAsh450.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtAsh450.Location = new System.Drawing.Point(123, 111);
             this.TxtAsh450.Name = "TxtAsh450";
-            this.TxtAsh450.Size = new System.Drawing.Size(139, 27);
+            this.TxtAsh450.Size = new System.Drawing.Size(133, 27);
             this.TxtAsh450.TabIndex = 10;
             this.TxtAsh450.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDensity_KeyPress);
             this.TxtAsh450.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDensity_Validating);
@@ -708,10 +714,10 @@ namespace Laboratorium.Material.Forms
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tableLayoutPanel1.SetColumnSpan(this.panel3, 2);
             this.panel3.Controls.Add(this.tableLayoutPanel4);
-            this.panel3.Location = new System.Drawing.Point(317, 18);
+            this.panel3.Location = new System.Drawing.Point(311, 18);
             this.panel3.Name = "panel3";
             this.tableLayoutPanel1.SetRowSpan(this.panel3, 8);
-            this.panel3.Size = new System.Drawing.Size(273, 276);
+            this.panel3.Size = new System.Drawing.Size(267, 276);
             this.panel3.TabIndex = 2;
             // 
             // tableLayoutPanel4
@@ -745,7 +751,7 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(265, 265);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(259, 265);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
             // label11
@@ -755,9 +761,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel4.SetColumnSpan(this.label11, 2);
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label11.ForeColor = System.Drawing.Color.Blue;
-            this.label11.Location = new System.Drawing.Point(3, 1);
+            this.label11.Location = new System.Drawing.Point(3, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(259, 22);
+            this.label11.Size = new System.Drawing.Size(253, 24);
             this.label11.TabIndex = 1;
             this.label11.Text = "Cennik";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -833,7 +839,7 @@ namespace Laboratorium.Material.Forms
             this.TxtPrice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtPrice.Location = new System.Drawing.Point(123, 31);
             this.TxtPrice.Name = "TxtPrice";
-            this.TxtPrice.Size = new System.Drawing.Size(139, 27);
+            this.TxtPrice.Size = new System.Drawing.Size(133, 27);
             this.TxtPrice.TabIndex = 12;
             this.TxtPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDensity_KeyPress);
             this.TxtPrice.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDensity_Validating);
@@ -843,7 +849,7 @@ namespace Laboratorium.Material.Forms
             this.TxtPriceQuantity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtPriceQuantity.Location = new System.Drawing.Point(123, 151);
             this.TxtPriceQuantity.Name = "TxtPriceQuantity";
-            this.TxtPriceQuantity.Size = new System.Drawing.Size(139, 27);
+            this.TxtPriceQuantity.Size = new System.Drawing.Size(133, 27);
             this.TxtPriceQuantity.TabIndex = 15;
             this.TxtPriceQuantity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDensity_KeyPress);
             this.TxtPriceQuantity.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDensity_Validating);
@@ -853,7 +859,7 @@ namespace Laboratorium.Material.Forms
             this.TxtTransport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtTransport.Location = new System.Drawing.Point(123, 191);
             this.TxtTransport.Name = "TxtTransport";
-            this.TxtTransport.Size = new System.Drawing.Size(139, 27);
+            this.TxtTransport.Size = new System.Drawing.Size(133, 27);
             this.TxtTransport.TabIndex = 16;
             this.TxtTransport.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDensity_KeyPress);
             this.TxtTransport.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDensity_Validating);
@@ -863,7 +869,7 @@ namespace Laboratorium.Material.Forms
             this.TxtQuantity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtQuantity.Location = new System.Drawing.Point(123, 231);
             this.TxtQuantity.Name = "TxtQuantity";
-            this.TxtQuantity.Size = new System.Drawing.Size(139, 27);
+            this.TxtQuantity.Size = new System.Drawing.Size(133, 27);
             this.TxtQuantity.TabIndex = 17;
             this.TxtQuantity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDensity_KeyPress);
             this.TxtQuantity.Validating += new System.ComponentModel.CancelEventHandler(this.TxtDensity_Validating);
@@ -873,9 +879,9 @@ namespace Laboratorium.Material.Forms
             this.CmbCurrency.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbCurrency.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbCurrency.FormattingEnabled = true;
-            this.CmbCurrency.Location = new System.Drawing.Point(123, 71);
+            this.CmbCurrency.Location = new System.Drawing.Point(123, 73);
             this.CmbCurrency.Name = "CmbCurrency";
-            this.CmbCurrency.Size = new System.Drawing.Size(136, 28);
+            this.CmbCurrency.Size = new System.Drawing.Size(133, 28);
             this.CmbCurrency.TabIndex = 13;
             // 
             // CmbUnit
@@ -883,9 +889,9 @@ namespace Laboratorium.Material.Forms
             this.CmbUnit.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbUnit.FormattingEnabled = true;
-            this.CmbUnit.Location = new System.Drawing.Point(123, 111);
+            this.CmbUnit.Location = new System.Drawing.Point(123, 113);
             this.CmbUnit.Name = "CmbUnit";
-            this.CmbUnit.Size = new System.Drawing.Size(136, 28);
+            this.CmbUnit.Size = new System.Drawing.Size(133, 28);
             this.CmbUnit.TabIndex = 14;
             // 
             // panel4
@@ -896,7 +902,7 @@ namespace Laboratorium.Material.Forms
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tableLayoutPanel1.SetColumnSpan(this.panel4, 2);
             this.panel4.Controls.Add(this.tableLayoutPanel5);
-            this.panel4.Location = new System.Drawing.Point(611, 18);
+            this.panel4.Location = new System.Drawing.Point(599, 18);
             this.panel4.Name = "panel4";
             this.tableLayoutPanel1.SetRowSpan(this.panel4, 8);
             this.panel4.Size = new System.Drawing.Size(244, 276);
@@ -1003,9 +1009,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel5.SetColumnSpan(this.label18, 2);
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label18.ForeColor = System.Drawing.Color.Blue;
-            this.label18.Location = new System.Drawing.Point(3, 1);
+            this.label18.Location = new System.Drawing.Point(3, 0);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(230, 22);
+            this.label18.Size = new System.Drawing.Size(230, 24);
             this.label18.TabIndex = 2;
             this.label18.Text = "Zastosowanie";
             this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1085,7 +1091,7 @@ namespace Laboratorium.Material.Forms
             this.TxtRemarks.Location = new System.Drawing.Point(23, 413);
             this.TxtRemarks.Multiline = true;
             this.TxtRemarks.Name = "TxtRemarks";
-            this.TxtRemarks.Size = new System.Drawing.Size(832, 29);
+            this.TxtRemarks.Size = new System.Drawing.Size(820, 45);
             this.TxtRemarks.TabIndex = 24;
             // 
             // label25
@@ -1095,9 +1101,9 @@ namespace Laboratorium.Material.Forms
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label25.ForeColor = System.Drawing.Color.Blue;
-            this.label25.Location = new System.Drawing.Point(317, 378);
+            this.label25.Location = new System.Drawing.Point(311, 376);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(144, 22);
+            this.label25.Size = new System.Drawing.Size(144, 24);
             this.label25.TabIndex = 5;
             this.label25.Text = "Uwagi";
             this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1109,7 +1115,7 @@ namespace Laboratorium.Material.Forms
             this.TbClp.Location = new System.Drawing.Point(4, 29);
             this.TbClp.Name = "TbClp";
             this.TbClp.Padding = new System.Windows.Forms.Padding(3);
-            this.TbClp.Size = new System.Drawing.Size(879, 451);
+            this.TbClp.Size = new System.Drawing.Size(868, 467);
             this.TbClp.TabIndex = 1;
             this.TbClp.Text = "CLP";
             // 
@@ -1131,7 +1137,7 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(871, 439);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(860, 455);
             this.tableLayoutPanel6.TabIndex = 10;
             // 
             // PicBox_CLP
@@ -1151,7 +1157,7 @@ namespace Laboratorium.Material.Forms
             this.LblClpSignal.ForeColor = System.Drawing.Color.Blue;
             this.LblClpSignal.Location = new System.Drawing.Point(3, 9);
             this.LblClpSignal.Name = "LblClpSignal";
-            this.LblClpSignal.Size = new System.Drawing.Size(865, 32);
+            this.LblClpSignal.Size = new System.Drawing.Size(854, 32);
             this.LblClpSignal.TabIndex = 10;
             this.LblClpSignal.Text = "Nieszkodliwy";
             this.LblClpSignal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1167,14 +1173,14 @@ namespace Laboratorium.Material.Forms
             this.DgvClp.Name = "DgvClp";
             this.DgvClp.RowHeadersWidth = 51;
             this.DgvClp.RowTemplate.Height = 24;
-            this.DgvClp.Size = new System.Drawing.Size(545, 333);
+            this.DgvClp.Size = new System.Drawing.Size(534, 349);
             this.DgvClp.TabIndex = 11;
             this.DgvClp.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvClp_CellFormatting);
             // 
             // BtnClpEdit
             // 
             this.BtnClpEdit.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.BtnClpEdit.Location = new System.Drawing.Point(776, 396);
+            this.BtnClpEdit.Location = new System.Drawing.Point(765, 412);
             this.BtnClpEdit.Name = "BtnClpEdit";
             this.BtnClpEdit.Size = new System.Drawing.Size(92, 35);
             this.BtnClpEdit.TabIndex = 12;
@@ -1187,15 +1193,16 @@ namespace Laboratorium.Material.Forms
             this.TbComposition.BackColor = System.Drawing.SystemColors.Control;
             this.TbComposition.Location = new System.Drawing.Point(4, 29);
             this.TbComposition.Name = "TbComposition";
-            this.TbComposition.Size = new System.Drawing.Size(879, 451);
+            this.TbComposition.Size = new System.Drawing.Size(868, 467);
             this.TbComposition.TabIndex = 2;
             this.TbComposition.Text = "Skład";
             // 
             // BtnAdd
             // 
+            this.BtnAdd.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnAdd.BackgroundImage = global::Laboratorium.Properties.Resources._new;
             this.BtnAdd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BtnAdd.Location = new System.Drawing.Point(4, 13);
+            this.BtnAdd.Location = new System.Drawing.Point(5, 5);
             this.BtnAdd.Margin = new System.Windows.Forms.Padding(4);
             this.BtnAdd.Name = "BtnAdd";
             this.BtnAdd.Size = new System.Drawing.Size(50, 50);
@@ -1205,10 +1212,11 @@ namespace Laboratorium.Material.Forms
             // 
             // BtnSave
             // 
+            this.BtnSave.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnSave.BackgroundImage = global::Laboratorium.Properties.Resources.Save;
             this.BtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnSave.Enabled = false;
-            this.BtnSave.Location = new System.Drawing.Point(138, 13);
+            this.BtnSave.Location = new System.Drawing.Point(130, 5);
             this.BtnSave.Margin = new System.Windows.Forms.Padding(4);
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(50, 50);
@@ -1218,9 +1226,10 @@ namespace Laboratorium.Material.Forms
             // 
             // BtnDelete
             // 
+            this.BtnDelete.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnDelete.BackgroundImage = global::Laboratorium.Properties.Resources.delete;
             this.BtnDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BtnDelete.Location = new System.Drawing.Point(80, 13);
+            this.BtnDelete.Location = new System.Drawing.Point(70, 5);
             this.BtnDelete.Margin = new System.Windows.Forms.Padding(4);
             this.BtnDelete.Name = "BtnDelete";
             this.BtnDelete.Size = new System.Drawing.Size(50, 50);
@@ -1230,22 +1239,24 @@ namespace Laboratorium.Material.Forms
             // 
             // LblDateCreated
             // 
-            this.LblDateCreated.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.LblDateCreated.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.LblDateCreated.AutoSize = true;
             this.LblDateCreated.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.LblDateCreated.ForeColor = System.Drawing.Color.Blue;
-            this.LblDateCreated.Location = new System.Drawing.Point(613, 38);
+            this.LblDateCreated.Location = new System.Drawing.Point(434, 17);
             this.LblDateCreated.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblDateCreated.Name = "LblDateCreated";
-            this.LblDateCreated.Size = new System.Drawing.Size(262, 25);
+            this.LblDateCreated.Size = new System.Drawing.Size(438, 25);
             this.LblDateCreated.TabIndex = 25;
-            this.LblDateCreated.Text = "Utworzenie: 00-00-0000   ";
+            this.LblDateCreated.Text = "Utworzenie: 00-00-0000";
+            this.LblDateCreated.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // BtnCurrency
             // 
+            this.BtnCurrency.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnCurrency.BackgroundImage = global::Laboratorium.Properties.Resources.waluta;
             this.BtnCurrency.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BtnCurrency.Location = new System.Drawing.Point(210, 13);
+            this.BtnCurrency.Location = new System.Drawing.Point(195, 5);
             this.BtnCurrency.Name = "BtnCurrency";
             this.BtnCurrency.Size = new System.Drawing.Size(50, 50);
             this.BtnCurrency.TabIndex = 26;
@@ -1254,9 +1265,10 @@ namespace Laboratorium.Material.Forms
             // 
             // BtnClp
             // 
+            this.BtnClp.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnClp.BackgroundImage = global::Laboratorium.Properties.Resources.clp_ico;
             this.BtnClp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BtnClp.Location = new System.Drawing.Point(266, 12);
+            this.BtnClp.Location = new System.Drawing.Point(255, 5);
             this.BtnClp.Name = "BtnClp";
             this.BtnClp.Size = new System.Drawing.Size(50, 50);
             this.BtnClp.TabIndex = 27;
@@ -1265,41 +1277,72 @@ namespace Laboratorium.Material.Forms
             // 
             // BtnCompositiom
             // 
+            this.BtnCompositiom.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnCompositiom.BackgroundImage = global::Laboratorium.Properties.Resources.Chemicals;
             this.BtnCompositiom.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BtnCompositiom.Location = new System.Drawing.Point(322, 13);
+            this.BtnCompositiom.Location = new System.Drawing.Point(315, 5);
             this.BtnCompositiom.Name = "BtnCompositiom";
             this.BtnCompositiom.Size = new System.Drawing.Size(50, 50);
             this.BtnCompositiom.TabIndex = 28;
             this.BtnCompositiom.UseVisualStyleBackColor = true;
+            this.BtnCompositiom.Click += new System.EventHandler(this.BtnCompositiom_Click);
             // 
             // BtnFunction
             // 
+            this.BtnFunction.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnFunction.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BtnFunction.BackgroundImage")));
             this.BtnFunction.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BtnFunction.Location = new System.Drawing.Point(378, 13);
+            this.BtnFunction.Location = new System.Drawing.Point(375, 5);
             this.BtnFunction.Name = "BtnFunction";
             this.BtnFunction.Size = new System.Drawing.Size(50, 50);
             this.BtnFunction.TabIndex = 29;
             this.BtnFunction.UseVisualStyleBackColor = true;
             this.BtnFunction.Click += new System.EventHandler(this.BtnFunction_Click);
             // 
+            // tableLayoutPanel7
+            // 
+            this.tableLayoutPanel7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel7.ColumnCount = 10;
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel7.Controls.Add(this.BtnAdd, 0, 0);
+            this.tableLayoutPanel7.Controls.Add(this.TbMaterial, 0, 4);
+            this.tableLayoutPanel7.Controls.Add(this.LblDateCreated, 9, 0);
+            this.tableLayoutPanel7.Controls.Add(this.label1, 0, 2);
+            this.tableLayoutPanel7.Controls.Add(this.BtnFunction, 8, 0);
+            this.tableLayoutPanel7.Controls.Add(this.BtnDelete, 2, 0);
+            this.tableLayoutPanel7.Controls.Add(this.BtnCompositiom, 7, 0);
+            this.tableLayoutPanel7.Controls.Add(this.BtnSave, 3, 0);
+            this.tableLayoutPanel7.Controls.Add(this.BtnClp, 6, 0);
+            this.tableLayoutPanel7.Controls.Add(this.BtnCurrency, 5, 0);
+            this.tableLayoutPanel7.Controls.Add(this.TxtName, 3, 2);
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(4, 12);
+            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
+            this.tableLayoutPanel7.RowCount = 5;
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(876, 610);
+            this.tableLayoutPanel7.TabIndex = 30;
+            // 
             // MaterialForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(887, 652);
-            this.Controls.Add(this.BtnFunction);
-            this.Controls.Add(this.BtnCompositiom);
-            this.Controls.Add(this.BtnClp);
-            this.Controls.Add(this.BtnCurrency);
-            this.Controls.Add(this.LblDateCreated);
-            this.Controls.Add(this.BtnSave);
-            this.Controls.Add(this.BtnDelete);
-            this.Controls.Add(this.BtnAdd);
-            this.Controls.Add(this.TbMaterial);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.TxtName);
+            this.Controls.Add(this.tableLayoutPanel7);
             this.Controls.Add(this.BindingNavigatorMaterial);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MaterialForm";
@@ -1333,6 +1376,8 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBox_CLP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvClp)).EndInit();
+            this.tableLayoutPanel7.ResumeLayout(false);
+            this.tableLayoutPanel7.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1432,5 +1477,6 @@ namespace Laboratorium.Material.Forms
         private System.Windows.Forms.Button BtnClp;
         private System.Windows.Forms.Button BtnCompositiom;
         private System.Windows.Forms.Button BtnFunction;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
     }
 }

@@ -141,6 +141,11 @@ namespace Laboratorium.Material.Forms
             _service.OpenFunction();
         }
 
+        private void BtnCompositiom_Click(object sender, EventArgs e)
+        {
+            _service.OpenComposition();
+        }
+
         #endregion
 
 

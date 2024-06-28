@@ -158,8 +158,7 @@ namespace Laboratorium.Material.Service
             IBasicCRUD<CmbCurrencyDto> repoCurr = new CmbCurrencyRepository(_connection);
             _currencyList = repoCurr.GetAll();
 
-            IBasicCRUD<CmbMaterialFunctionDto> repoFunction = new CmbMaterialFunctionRepository(_connection);
-            _functionList = repoFunction.GetAll();
+            PrepareCmbMaterialFunction();
 
             #endregion
 
@@ -390,10 +389,10 @@ namespace Laboratorium.Material.Service
             _form.GetCmbCurrency.DisplayMember = CURRENCY;
             _form.GetCmbCurrency.SelectedIndexChanged += CmbCurrency_SelectedIndexChanged;
 
-            _form.GetCmbFunction.DataSource = _functionList;
-            _form.GetCmbFunction.ValueMember = ID;
-            _form.GetCmbFunction.DisplayMember = NAME_PL;
-            _form.GetCmbFunction.SelectedIndexChanged += CmbFunction_SelectedIndexChanged;
+            //_form.GetCmbFunction.DataSource = _functionList;
+            //_form.GetCmbFunction.ValueMember = ID;
+            //_form.GetCmbFunction.DisplayMember = NAME_PL;
+            //_form.GetCmbFunction.SelectedIndexChanged += CmbFunction_SelectedIndexChanged;
 
         }
 
@@ -424,6 +423,19 @@ namespace Laboratorium.Material.Service
                     material.SignalWord = sig ?? new MaterialClpSignalDto(material.Id, 1, "-- Brak --", DateTime.Today);
                 }
             }
+        }
+
+        private void PrepareCmbMaterialFunction()
+        {
+            IBasicCRUD<CmbMaterialFunctionDto> repoFunction = new CmbMaterialFunctionRepository(_connection);
+            _functionList = repoFunction.GetAll();
+
+            _form.GetCmbFunction.DataSource = null;
+            _form.GetCmbFunction.DataSource = _functionList;
+            _form.GetCmbFunction.ValueMember = ID;
+            _form.GetCmbFunction.DisplayMember = NAME_PL;
+            _form.GetCmbFunction.SelectedIndexChanged += CmbFunction_SelectedIndexChanged;
+
         }
 
         #endregion
@@ -772,6 +784,24 @@ namespace Laboratorium.Material.Service
         public void OpenFunction()
         {
             using (MaterialFunctionForm form = new MaterialFunctionForm(_connection))
+            {
+                form.ShowDialog();
+                if (form.IsChanged)
+                {
+                    _cmbBlock = true;
+                    PrepareCmbMaterialFunction();
+                    _cmbBlock = false;
+                    MaterialBinding_PositionChanged(null, null);
+                }
+            }
+        }
+
+        public void OpenComposition()
+        {
+            if (CurrentMaterial == null)
+                return;
+
+            using (MaterialCompositionForm form = new MaterialCompositionForm(_connection, CurrentMaterial))
             {
                 form.ShowDialog();
             }

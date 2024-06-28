@@ -30,9 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MaterialFunctionForm));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.DgvFunction = new System.Windows.Forms.DataGridView();
             this.BtnDelete = new System.Windows.Forms.Button();
             this.BtnSave = new System.Windows.Forms.Button();
-            this.DgvFunction = new System.Windows.Forms.DataGridView();
+            this.BtnAddNew = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvFunction)).BeginInit();
             this.SuspendLayout();
@@ -42,14 +43,16 @@
             this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnCount = 5;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Controls.Add(this.BtnDelete, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.BtnSave, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.DgvFunction, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.BtnDelete, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.BtnSave, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.BtnAddNew, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -58,12 +61,30 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(415, 507);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
+            // DgvFunction
+            // 
+            this.DgvFunction.AllowUserToAddRows = false;
+            this.DgvFunction.AllowUserToDeleteRows = false;
+            this.DgvFunction.AllowUserToResizeRows = false;
+            this.DgvFunction.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.DgvFunction.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tableLayoutPanel1.SetColumnSpan(this.DgvFunction, 5);
+            this.DgvFunction.Location = new System.Drawing.Point(3, 63);
+            this.DgvFunction.Name = "DgvFunction";
+            this.DgvFunction.RowHeadersWidth = 51;
+            this.DgvFunction.RowTemplate.Height = 24;
+            this.DgvFunction.Size = new System.Drawing.Size(409, 441);
+            this.DgvFunction.TabIndex = 4;
+            this.DgvFunction.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvFunction_CellValueChanged);
+            // 
             // BtnDelete
             // 
             this.BtnDelete.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnDelete.BackgroundImage = global::Laboratorium.Properties.Resources.delete;
             this.BtnDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BtnDelete.Location = new System.Drawing.Point(5, 5);
+            this.BtnDelete.Location = new System.Drawing.Point(70, 5);
             this.BtnDelete.Name = "BtnDelete";
             this.BtnDelete.Size = new System.Drawing.Size(50, 50);
             this.BtnDelete.TabIndex = 2;
@@ -76,30 +97,24 @@
             this.BtnSave.BackgroundImage = global::Laboratorium.Properties.Resources.Save;
             this.BtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnSave.Enabled = false;
-            this.BtnSave.Location = new System.Drawing.Point(65, 5);
+            this.BtnSave.Location = new System.Drawing.Point(130, 5);
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(50, 50);
             this.BtnSave.TabIndex = 3;
             this.BtnSave.UseVisualStyleBackColor = true;
             this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
-            // DgvFunction
+            // BtnAddNew
             // 
-            this.DgvFunction.AllowUserToDeleteRows = false;
-            this.DgvFunction.AllowUserToResizeRows = false;
-            this.DgvFunction.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.DgvFunction.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tableLayoutPanel1.SetColumnSpan(this.DgvFunction, 3);
-            this.DgvFunction.Location = new System.Drawing.Point(3, 63);
-            this.DgvFunction.Name = "DgvFunction";
-            this.DgvFunction.RowHeadersWidth = 51;
-            this.DgvFunction.RowTemplate.Height = 24;
-            this.DgvFunction.Size = new System.Drawing.Size(409, 441);
-            this.DgvFunction.TabIndex = 4;
-            this.DgvFunction.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvFunction_CellValueChanged);
-            this.DgvFunction.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.DgvFunction_DefaultValuesNeeded);
+            this.BtnAddNew.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.BtnAddNew.BackgroundImage = global::Laboratorium.Properties.Resources._new;
+            this.BtnAddNew.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BtnAddNew.Location = new System.Drawing.Point(5, 5);
+            this.BtnAddNew.Name = "BtnAddNew";
+            this.BtnAddNew.Size = new System.Drawing.Size(50, 50);
+            this.BtnAddNew.TabIndex = 5;
+            this.BtnAddNew.UseVisualStyleBackColor = true;
+            this.BtnAddNew.Click += new System.EventHandler(this.BtnAddNew_Click);
             // 
             // MaterialFunctionForm
             // 
@@ -124,5 +139,6 @@
         private System.Windows.Forms.Button BtnDelete;
         private System.Windows.Forms.Button BtnSave;
         private System.Windows.Forms.DataGridView DgvFunction;
+        private System.Windows.Forms.Button BtnAddNew;
     }
 }

@@ -29,6 +29,8 @@
         MaterialClpHcodeIndex,
         MaterialClpSignalIndex,
         MaterialClpHPcombineIndex,
+        MaterialCompositionIndex,
+        MaterialCompoundIndex,
 
         CmbUnitIndex,
         CmbCurrencyIndex,

@@ -9,8 +9,6 @@ namespace Laboratorium.ADO.DTO
         private double _rate;
         private RowState _rowState = RowState.ADDED;
 
-        public CmbCurrencyDto() { }
-
         public CmbCurrencyDto(byte id, string name, string currency, double rate)
         {
             Id = id;

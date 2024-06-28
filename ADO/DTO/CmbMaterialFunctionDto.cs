@@ -6,8 +6,6 @@
         private string _namePl;
         private RowState _rowState = RowState.ADDED;
 
-        public CmbMaterialFunctionDto() { }
-
         public CmbMaterialFunctionDto(short id, string namePl)
         {
             Id = id;

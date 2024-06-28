@@ -1,4 +1,5 @@
 ﻿using Laboratorium.ADO.DTO;
+using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.Service;
 using Laboratorium.Currency.Forms;
 using Laboratorium.Currency.Repository;
@@ -29,7 +30,7 @@ namespace Laboratorium.Currency.Service
 
         private readonly CurrencyForm _form;
         private readonly SqlConnection _connection;
-        private readonly CmbCurrencyRepository _repository;
+        private readonly IBasicCRUD<CmbCurrencyDto> _repository;
         private IList<CmbCurrencyDto> _currencyList;
         private BindingSource _currencyBinding;
 
@@ -181,10 +182,12 @@ namespace Laboratorium.Currency.Service
             }
         }
 
-        public void AddNew(DataGridViewRowEventArgs e)
+        public void AddNew()
         {
-            e.Row.Cells[RATE].Value = 1;
-            e.Row.Cells[ID].Value = _currencyList.Count > 0 ? _currencyList.Max(i => i.Id) + 1 : 1;
+            byte id = Convert.ToByte(_currencyList.Count > 0 ? _currencyList.Max(i => i.Id) + 1 : 1);
+            CmbCurrencyDto currency = new CmbCurrencyDto(id, "", "", 1);
+            _currencyBinding.Add(currency);
+            _currencyBinding.Position = _currencyBinding.Count - 1;
         }
     }
 }

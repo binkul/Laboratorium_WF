@@ -1,7 +1,6 @@
 ﻿using Laboratorium.ADO.DTO;
+using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.Service;
-using Laboratorium.Currency.Forms;
-using Laboratorium.Currency.Repository;
 using Laboratorium.Material.Forms;
 using Laboratorium.Material.Repository;
 using System;
@@ -9,9 +8,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace Laboratorium.Material.Service
 {
@@ -26,18 +23,18 @@ namespace Laboratorium.Material.Service
         private const int STD_WIDTH = 100;
 
         private readonly MaterialFunctionForm _form;
-        private readonly SqlConnection _connection;
-        private readonly CmbMaterialFunctionRepository _repository;
+        private readonly IBasicCRUD<CmbMaterialFunctionDto> _repository;
 
         private IList<CmbMaterialFunctionDto> _functionList;
         private BindingSource _functionBinding;
+
+        public bool IsChanged { get; private set; } = false;
 
         protected override bool Status => _functionList.Any(i => i.GetRowState != ADO.RowState.UNCHANGED);
 
         public MaterialFunctionService(SqlConnection connection, MaterialFunctionForm form) : base(FORM_DATA, form)
         {
             _form = form;
-            _connection = connection;
             _repository = new CmbMaterialFunctionRepository(connection);
         }
 
@@ -86,10 +83,9 @@ namespace Laboratorium.Material.Service
 
             if (view.Rows.Count > 0)
             {
-                view.CurrentCell = view.Rows[_functionBinding.Position].Cells[NAME_PL];
+                view.CurrentCell = view.Rows[0].Cells[NAME_PL];
             }
         }
-
 
         public override bool Save()
         {
@@ -106,6 +102,7 @@ namespace Laboratorium.Material.Service
                 {
                     _repository.Save(item);
                     item.AcceptChanges();
+                    IsChanged = true;
                 }
                 else
                 {
@@ -125,6 +122,7 @@ namespace Laboratorium.Material.Service
                 {
                     _repository.Update(item);
                     item.AcceptChanges();
+                    IsChanged = true;
                 }
                 else
                 {
@@ -149,10 +147,12 @@ namespace Laboratorium.Material.Service
             return true;
         }
 
-
-        public void AddNew(DataGridViewRowEventArgs e)
+        public void AddNew()
         {
-            e.Row.Cells[ID].Value = _functionList.Count > 0 ? _functionList.Max(i => i.Id) + 1 : 1;
+            short id = Convert.ToInt16(_functionList.Count > 0 ? _functionList.Max(i => i.Id) + 1 : 1);
+            CmbMaterialFunctionDto function = new CmbMaterialFunctionDto(id, "");
+            _functionBinding.Add(function);
+            _functionBinding.Position = _functionBinding.Count - 1;
         }
 
         public void Delete()

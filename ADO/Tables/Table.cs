@@ -90,6 +90,8 @@
         public static readonly string MATERIAL_HP_COMBINE_TABLE = "MaterialClpCodeH and MaterialClpCodeP";
         public static readonly string MATERIAL_GHS_CODE_TABLE = "MaterialClpCodeGHS";
         public static readonly string MATERIAL_SIGNAL_CODE_TABLE = "MaterialClpSignal";
+        public static readonly string MATERIAL_COMPOSITION_TABLE = "MaterialComposition";
+        public static readonly string MATERIAL_COMPOUND_TABLE = "MaterialCompound";
         public static readonly string CMB_UNIT_TABLE = "CmbUnits";
         public static readonly string CMB_CURRENCY_TABLE = "CmbCurrency";
         public static readonly string CMB_MAT_FUNCTION_TABLE = "CmbMaterialFunction";

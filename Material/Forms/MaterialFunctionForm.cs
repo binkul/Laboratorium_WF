@@ -24,6 +24,8 @@ namespace Laboratorium.Material.Forms
             _service = new MaterialFunctionService(connection, this);
         }
 
+        public bool IsChanged => _service.IsChanged;
+
         private void MaterialFunctionForm_Load(object sender, EventArgs e)
         {
             _service.PrepareAllData();
@@ -49,11 +51,6 @@ namespace Laboratorium.Material.Forms
             ActivateSave(true);
         }
 
-        private void DgvFunction_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
-        {
-            _service.AddNew(e);
-        }
-
         private void BtnDelete_Click(object sender, EventArgs e)
         {
             _service.Delete();
@@ -62,6 +59,11 @@ namespace Laboratorium.Material.Forms
         private void BtnSave_Click(object sender, EventArgs e)
         {
             _service.Save();
+        }
+
+        private void BtnAddNew_Click(object sender, EventArgs e)
+        {
+            _service.AddNew();
         }
     }
 }
