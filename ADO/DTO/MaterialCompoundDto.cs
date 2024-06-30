@@ -14,7 +14,7 @@ namespace Laboratorium.ADO.DTO
         private string _WE;
         private string _Formula;
         private bool _IsBio = false;
-        public DateTime _dateCreated { get; set; } = DateTime.Today;
+        public DateTime DateCreated { get; set; } = DateTime.Today;
         private RowState _rowState = RowState.ADDED;
 
         public MaterialCompoundDto(int id, string namePl, string nameEn, string shortPl, string shortEn, 
@@ -30,7 +30,7 @@ namespace Laboratorium.ADO.DTO
             WE = wE;
             Formula = formula;
             IsBio = isBio;
-            _dateCreated = dateCreated;
+            DateCreated = dateCreated;
         }
 
         public MaterialCompoundDto() { }

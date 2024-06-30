@@ -6,12 +6,14 @@ namespace Laboratorium.ADO.DTO
     {
         public int Id { get; set; }
         public int MaterialId { get; set; }
+        public int CompoundId { get; set; }
         private double _amountMin;
         private double _amountMax;
         private byte _ordering;
         private string _remarks;
-        public DateTime _dateCreated { get; set; } = DateTime.Today;
+        public DateTime DateCreated { get; set; } = DateTime.Today;
         private RowState _rowState = RowState.ADDED;
+        public MaterialCompoundDto Compound { get; set; }
 
         public MaterialCompositionDto(int id, int materialId, double amountMin, double amountMax, byte ordering, 
             string remarks, DateTime dateCreated)
@@ -22,7 +24,7 @@ namespace Laboratorium.ADO.DTO
             _amountMax = amountMax;
             _ordering = ordering;
             _remarks = remarks;
-            _dateCreated = dateCreated;
+            DateCreated = dateCreated;
         }
 
         public MaterialCompositionDto(int materialId, double amountMin, double amountMax, byte ordering)
@@ -77,6 +79,14 @@ namespace Laboratorium.ADO.DTO
                 ChangeState(RowState.MODIFIED);
             }
         }
+
+        public string CompoundName => Compound.NamePl;
+
+        public string CompoundShort => Compound.ShortPl;
+
+        public string CompoundCas => Compound.CAS;
+
+        public string CompoundWe => Compound.WE;
 
         public RowState GetRowState => _rowState;
 

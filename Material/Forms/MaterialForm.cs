@@ -2,7 +2,6 @@
 using Laboratorium.Material.Service;
 using System;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;

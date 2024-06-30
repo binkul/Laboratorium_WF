@@ -3,7 +3,6 @@ using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.Service;
 using Laboratorium.ClpData.Repository;
-using Laboratorium.Commons;
 using Laboratorium.Material.Dto;
 using Laboratorium.Material.Forms;
 using Laboratorium.Material.Repository;

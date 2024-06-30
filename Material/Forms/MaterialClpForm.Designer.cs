@@ -373,9 +373,9 @@ namespace Laboratorium.Material.Forms
             this.ClpLayoutPanel.ColumnCount = 7;
             this.ClpLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.ClpLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.ClpLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+            this.ClpLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
             this.ClpLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.ClpLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+            this.ClpLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
             this.ClpLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.ClpLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 11F));
             this.ClpLayoutPanel.Controls.Add(this.BtnAddOne, 3, 1);
@@ -402,7 +402,7 @@ namespace Laboratorium.Material.Forms
             this.BtnAddOne.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnAddOne.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.BtnAddOne.ForeColor = System.Drawing.Color.Blue;
-            this.BtnAddOne.Location = new System.Drawing.Point(365, 172);
+            this.BtnAddOne.Location = new System.Drawing.Point(364, 172);
             this.BtnAddOne.Name = "BtnAddOne";
             this.BtnAddOne.Size = new System.Drawing.Size(70, 34);
             this.BtnAddOne.TabIndex = 0;
@@ -415,7 +415,7 @@ namespace Laboratorium.Material.Forms
             this.BtnAddAll.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnAddAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.BtnAddAll.ForeColor = System.Drawing.Color.Blue;
-            this.BtnAddAll.Location = new System.Drawing.Point(365, 212);
+            this.BtnAddAll.Location = new System.Drawing.Point(364, 212);
             this.BtnAddAll.Name = "BtnAddAll";
             this.BtnAddAll.Size = new System.Drawing.Size(70, 34);
             this.BtnAddAll.TabIndex = 1;
@@ -428,7 +428,7 @@ namespace Laboratorium.Material.Forms
             this.BtnRemoveOne.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnRemoveOne.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.BtnRemoveOne.ForeColor = System.Drawing.Color.Blue;
-            this.BtnRemoveOne.Location = new System.Drawing.Point(365, 272);
+            this.BtnRemoveOne.Location = new System.Drawing.Point(364, 272);
             this.BtnRemoveOne.Name = "BtnRemoveOne";
             this.BtnRemoveOne.Size = new System.Drawing.Size(70, 34);
             this.BtnRemoveOne.TabIndex = 2;
@@ -441,7 +441,7 @@ namespace Laboratorium.Material.Forms
             this.BtnRemoveAll.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnRemoveAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.BtnRemoveAll.ForeColor = System.Drawing.Color.Blue;
-            this.BtnRemoveAll.Location = new System.Drawing.Point(365, 312);
+            this.BtnRemoveAll.Location = new System.Drawing.Point(364, 312);
             this.BtnRemoveAll.Name = "BtnRemoveAll";
             this.BtnRemoveAll.Size = new System.Drawing.Size(70, 34);
             this.BtnRemoveAll.TabIndex = 3;
@@ -462,7 +462,7 @@ namespace Laboratorium.Material.Forms
             this.DgvSourceClp.RowHeadersWidth = 51;
             this.ClpLayoutPanel.SetRowSpan(this.DgvSourceClp, 7);
             this.DgvSourceClp.RowTemplate.Height = 24;
-            this.DgvSourceClp.Size = new System.Drawing.Size(334, 512);
+            this.DgvSourceClp.Size = new System.Drawing.Size(338, 512);
             this.DgvSourceClp.TabIndex = 4;
             this.DgvSourceClp.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvSourceClp_CellFormatting);
             // 
@@ -472,12 +472,12 @@ namespace Laboratorium.Material.Forms
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DgvMaterialClp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DgvMaterialClp.Location = new System.Drawing.Point(453, 3);
+            this.DgvMaterialClp.Location = new System.Drawing.Point(447, 3);
             this.DgvMaterialClp.Name = "DgvMaterialClp";
             this.DgvMaterialClp.RowHeadersWidth = 51;
             this.ClpLayoutPanel.SetRowSpan(this.DgvMaterialClp, 7);
             this.DgvMaterialClp.RowTemplate.Height = 24;
-            this.DgvMaterialClp.Size = new System.Drawing.Size(504, 512);
+            this.DgvMaterialClp.Size = new System.Drawing.Size(510, 512);
             this.DgvMaterialClp.TabIndex = 5;
             this.DgvMaterialClp.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvMaterialClp_CellFormatting);
             // 
