@@ -33,15 +33,15 @@ namespace Laboratorium.Material.Repository
                 {
                     while (reader.Read())
                     {
-                        int id = reader.GetInt32(0);
-                        int materialId = reader.GetInt32(1);
+                        int materialId = reader.GetInt32(0);
+                        int compoundId = reader.GetInt32(1);
                         double min = reader.GetDouble(2);
                         double max = reader.GetDouble(3);
                         byte ord = reader.GetByte(4);
                         string remarks = CommonFunction.DBNullToStringConv(reader.GetValue(5));
-                        DateTime dateCreated = reader.GetDateTime(3);
+                        DateTime dateCreated = reader.GetDateTime(6);
 
-                        MaterialCompositionDto composition = new MaterialCompositionDto(id, materialId, min, max, ord, remarks, dateCreated);
+                        MaterialCompositionDto composition = new MaterialCompositionDto(materialId, compoundId, min, max, ord, remarks, dateCreated);
                         composition.AcceptChanges();
                         list.Add(composition);
                     }
@@ -82,14 +82,14 @@ namespace Laboratorium.Material.Repository
                 {
                     while (reader.Read())
                     {
-                        int id = reader.GetInt32(0);
+                        int compoundId = reader.GetInt32(0);
                         double min = reader.GetDouble(1);
                         double max = reader.GetDouble(2);
                         byte ord = reader.GetByte(3);
                         string remarks = CommonFunction.DBNullToStringConv(reader.GetValue(4));
                         DateTime dateCreated = reader.GetDateTime(5);
 
-                        MaterialCompositionDto composition = new MaterialCompositionDto(id, materialId, min, max, ord, remarks, dateCreated);
+                        MaterialCompositionDto composition = new MaterialCompositionDto(materialId, compoundId, min, max, ord, remarks, dateCreated);
                         composition.AcceptChanges();
                         list.Add(composition);
                     }
@@ -117,7 +117,41 @@ namespace Laboratorium.Material.Repository
 
         public override MaterialCompositionDto Save(MaterialCompositionDto data)
         {
-            throw new NotImplementedException();
+            MaterialCompositionDto item = data;
+
+            try
+            {
+                SqlCommand command = new SqlCommand();
+                command.Connection = _connection;
+                command.CommandText = SqlSave.Save[_sqlIndex];
+                command.Parameters.AddWithValue("@material_id", item.MaterialId);
+                command.Parameters.AddWithValue("@compound_id", item.CompoundId);
+                command.Parameters.AddWithValue("@amount_min", item.AmountMin);
+                command.Parameters.AddWithValue("@amount_max", item.AmountMax);
+                command.Parameters.AddWithValue("@ordering", item.Ordering);
+                command.Parameters.AddWithValue("@remarks", CommonFunction.NullStringToDBNullConv(item.Remarks));
+                command.Parameters.AddWithValue("@date_created", item.DateCreated);
+                OpenConnection();
+                command.ExecuteNonQuery();
+                item.CrudState = CrudState.OK;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu Save " + _tableName,
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "': '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return item;
         }
 
         public override MaterialCompositionDto Update(MaterialCompositionDto data)

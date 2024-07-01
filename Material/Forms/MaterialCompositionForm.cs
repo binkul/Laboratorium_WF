@@ -24,14 +24,17 @@ namespace Laboratorium.Material.Forms
 
         public bool Init => _init;
 
+        public void EnableSave(bool enable)
+        {
+            BtnSave.Enabled = enable;
+        }
+
         private void MaterialCompositionForm_Load(object sender, EventArgs e)
         {
             _service.PrepareAllData();
             _service.LoadFormData();
             _service.LoadFormData();
 
-            ToolTip toolTip_1 = new ToolTip();
-            toolTip_1.SetToolTip(BtnDelete, "Usuń pozycję");
             ToolTip toolTip_2 = new ToolTip();
             toolTip_2.SetToolTip(BtnSave, "Zapisz");
             ToolTip toolTip_3 = new ToolTip();
@@ -80,6 +83,41 @@ namespace Laboratorium.Material.Forms
             {
                 base.OnKeyPress(e);
             }
+        }
+
+        private void BtnAddOne_Click(object sender, EventArgs e)
+        {
+            _service.AddOne();
+        }
+
+        private void BtnRemoveOne_Click(object sender, EventArgs e)
+        {
+            _service.RemoveOne();
+        }
+
+        private void BtnRemoveAll_Click(object sender, EventArgs e)
+        {
+            _service.RemoveAll();
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            _service.Save();
+        }
+
+        private void DgvComposition_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            _service.CellValueChanged();
+        }
+
+        private void BtnUp_Click(object sender, EventArgs e)
+        {
+            _service.MoveUp();
+        }
+
+        private void BtnDown_Click(object sender, EventArgs e)
+        {
+            _service.MoveDown();
         }
     }
 }

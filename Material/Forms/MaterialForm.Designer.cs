@@ -115,6 +115,7 @@ namespace Laboratorium.Material.Forms
             this.DgvClp = new System.Windows.Forms.DataGridView();
             this.BtnClpEdit = new System.Windows.Forms.Button();
             this.TbComposition = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
             this.BtnAdd = new System.Windows.Forms.Button();
             this.BtnSave = new System.Windows.Forms.Button();
             this.BtnDelete = new System.Windows.Forms.Button();
@@ -124,6 +125,8 @@ namespace Laboratorium.Material.Forms
             this.BtnCompositiom = new System.Windows.Forms.Button();
             this.BtnFunction = new System.Windows.Forms.Button();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
+            this.DgvComposition = new System.Windows.Forms.DataGridView();
+            this.BtnCompEdit = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.BindingNavigatorMaterial)).BeginInit();
             this.BindingNavigatorMaterial.SuspendLayout();
             this.TbMaterial.SuspendLayout();
@@ -143,7 +146,10 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBox_CLP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvClp)).BeginInit();
+            this.TbComposition.SuspendLayout();
+            this.tableLayoutPanel8.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DgvComposition)).BeginInit();
             this.SuspendLayout();
             // 
             // BindingNavigatorMaterial
@@ -1191,11 +1197,30 @@ namespace Laboratorium.Material.Forms
             // TbComposition
             // 
             this.TbComposition.BackColor = System.Drawing.SystemColors.Control;
+            this.TbComposition.Controls.Add(this.tableLayoutPanel8);
             this.TbComposition.Location = new System.Drawing.Point(4, 29);
             this.TbComposition.Name = "TbComposition";
             this.TbComposition.Size = new System.Drawing.Size(868, 467);
             this.TbComposition.TabIndex = 2;
             this.TbComposition.Text = "Skład";
+            // 
+            // tableLayoutPanel8
+            // 
+            this.tableLayoutPanel8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel8.ColumnCount = 2;
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel8.Controls.Add(this.DgvComposition, 0, 0);
+            this.tableLayoutPanel8.Controls.Add(this.BtnCompEdit, 1, 1);
+            this.tableLayoutPanel8.Location = new System.Drawing.Point(-4, 3);
+            this.tableLayoutPanel8.Name = "tableLayoutPanel8";
+            this.tableLayoutPanel8.RowCount = 2;
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(869, 461);
+            this.tableLayoutPanel8.TabIndex = 0;
             // 
             // BtnAdd
             // 
@@ -1337,6 +1362,36 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel7.Size = new System.Drawing.Size(876, 610);
             this.tableLayoutPanel7.TabIndex = 30;
             // 
+            // DgvComposition
+            // 
+            this.DgvComposition.AllowUserToAddRows = false;
+            this.DgvComposition.AllowUserToDeleteRows = false;
+            this.DgvComposition.AllowUserToResizeRows = false;
+            this.DgvComposition.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.DgvComposition.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tableLayoutPanel8.SetColumnSpan(this.DgvComposition, 2);
+            this.DgvComposition.Location = new System.Drawing.Point(3, 3);
+            this.DgvComposition.MultiSelect = false;
+            this.DgvComposition.Name = "DgvComposition";
+            this.DgvComposition.ReadOnly = true;
+            this.DgvComposition.RowHeadersWidth = 51;
+            this.DgvComposition.RowTemplate.Height = 24;
+            this.DgvComposition.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DgvComposition.Size = new System.Drawing.Size(863, 405);
+            this.DgvComposition.TabIndex = 0;
+            // 
+            // BtnCompEdit
+            // 
+            this.BtnCompEdit.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.BtnCompEdit.Location = new System.Drawing.Point(774, 418);
+            this.BtnCompEdit.Name = "BtnCompEdit";
+            this.BtnCompEdit.Size = new System.Drawing.Size(92, 35);
+            this.BtnCompEdit.TabIndex = 13;
+            this.BtnCompEdit.Text = "Edytuj";
+            this.BtnCompEdit.UseVisualStyleBackColor = true;
+            // 
             // MaterialForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1376,8 +1431,11 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBox_CLP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DgvClp)).EndInit();
+            this.TbComposition.ResumeLayout(false);
+            this.tableLayoutPanel8.ResumeLayout(false);
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DgvComposition)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1478,5 +1536,8 @@ namespace Laboratorium.Material.Forms
         private System.Windows.Forms.Button BtnCompositiom;
         private System.Windows.Forms.Button BtnFunction;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
+        private System.Windows.Forms.DataGridView DgvComposition;
+        private System.Windows.Forms.Button BtnCompEdit;
     }
 }

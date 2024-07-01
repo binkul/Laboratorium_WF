@@ -9,7 +9,6 @@ namespace Laboratorium.ADO.DTO
     public class MaterialDto
     {
         #region Fields
-
         public int Id { get; set; }
         private string _name;
         private string _index;
@@ -43,7 +42,7 @@ namespace Laboratorium.ADO.DTO
         public IList<MaterialClpGhsDto> GhsCodeList { get; set; } = new List<MaterialClpGhsDto>();
         public IList<ClpHPcombineDto> HPcodeList { get; set; } = new List<ClpHPcombineDto>();
         public MaterialClpSignalDto SignalWord { get; set; }
-
+        public IList<MaterialCompositionDto> MaterialCompositionList { get; set; } = new List<MaterialCompositionDto>();
 
         #endregion
 

@@ -20,6 +20,7 @@ namespace Laboratorium.Material.Forms
         public BindingNavigator GetBindingNavigator => BindingNavigatorMaterial;
         public DataGridView GetDgvMaterial => DgvMaterial;
         public DataGridView GetDgvClp => DgvClp;
+        public DataGridView GetDgvComposition => DgvComposition;
         public TextBox GetTxtName => TxtName;
         public TextBox GetTxtIndex => TxtIndex;
         public TextBox GetTxtDensity => TxtDensity;

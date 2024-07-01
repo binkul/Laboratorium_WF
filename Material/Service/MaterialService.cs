@@ -162,9 +162,10 @@ namespace Laboratorium.Material.Service
 
             #endregion
 
-            PrepareClp();
+            PrepareClpAndComposition();
             PreparaeDgvMaterial();
             PrepareDgvClpMaterial();
+            PrepareDgvComposition();
             PrepareCombBoxes();
             PrepareOtherControls();
 
@@ -319,6 +320,11 @@ namespace Laboratorium.Material.Service
 
         }
 
+        private void PrepareDgvComposition()
+        {
+
+        }
+
         private void PrepareOtherControls()
         {
             _form.GetTxtName.DataBindings.Clear();
@@ -388,20 +394,27 @@ namespace Laboratorium.Material.Service
             _form.GetCmbCurrency.ValueMember = ID;
             _form.GetCmbCurrency.DisplayMember = CURRENCY;
             _form.GetCmbCurrency.SelectedIndexChanged += CmbCurrency_SelectedIndexChanged;
-
-            //_form.GetCmbFunction.DataSource = _functionList;
-            //_form.GetCmbFunction.ValueMember = ID;
-            //_form.GetCmbFunction.DisplayMember = NAME_PL;
-            //_form.GetCmbFunction.SelectedIndexChanged += CmbFunction_SelectedIndexChanged;
-
         }
 
-        private void PrepareClp()
+        private void PrepareClpAndComposition()
         {
             IBasicCRUD<ClpHPcombineDto> repo = new ClpHPcombineRepository(_connection);
             IList<ClpHPcombineDto> clpList = repo.GetAll();
             IList<MaterialClpGhsDto> ghsList = _ghsRepository.GetAll();
             IList<MaterialClpSignalDto> sigList = _signalRepository.GetAll();
+
+            IBasicCRUD<MaterialCompositionDto> repoComposition = new MaterialCompositionRepository(_connection);
+            IList<MaterialCompositionDto> compositionList = repoComposition.GetAll();
+
+            IBasicCRUD<MaterialCompoundDto> repoCompound = new MaterialCompoundRepository(_connection);
+            IList<MaterialCompoundDto> compoundList = repoCompound.GetAll();
+
+            foreach (var ingredient in compositionList)
+            {
+                var compound = compoundList.Where(i => i.Id == ingredient.CompoundId).FirstOrDefault();
+                ingredient.Compound = compound;
+            }
+
             foreach (var material in _materialList)
             {
                 if (material.IsDanger)
@@ -414,7 +427,6 @@ namespace Laboratorium.Material.Service
                     var clp = clpList
                         .Where(i => i.MaterialId == material.Id)
                         .ToList();
-
                     material.HPcodeList = clp;
 
                     var sig = sigList
@@ -422,6 +434,12 @@ namespace Laboratorium.Material.Service
                         .FirstOrDefault();
                     material.SignalWord = sig ?? new MaterialClpSignalDto(material.Id, 1, "-- Brak --", DateTime.Today);
                 }
+
+                var ingedrients = compositionList
+                    .Where(i => i.MaterialId == material.Id)
+                    .OrderBy(i => i.Ordering)
+                    .ToList();
+                material.MaterialCompositionList = ingedrients;
             }
         }
 

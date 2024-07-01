@@ -3,7 +3,6 @@ using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.Service;
 using Laboratorium.Material.Forms;
 using Laboratorium.Material.Repository;
-using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -39,6 +38,7 @@ namespace Laboratorium.Material.Service
         private const string COMPOUND_SHORT = "CompoundShort";
         private const string COMPOUND_CAS = "CompoundCas";
         private const string COMPOUND_WE = "CompoundWe";
+        private const string CRUD_STATE = "CrudState";
 
         #endregion
 
@@ -67,9 +67,17 @@ namespace Laboratorium.Material.Service
             
         }
 
+        #region Change status to save button
 
+        private void ChangeStatus(bool status)
+        {
+            CompositionChanged = status;
+            _form.EnableSave(Status);
+        }
 
         protected override bool Status => CompositionChanged;
+
+        #endregion
 
 
         #region Prepare data
@@ -164,7 +172,7 @@ namespace Laboratorium.Material.Service
             view.RowsDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Regular);
             view.ColumnHeadersDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Bold);
             view.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
-            view.RowHeadersVisible = false;
+            view.RowHeadersWidth = 35;
             view.DefaultCellStyle.ForeColor = Color.Black;
             view.MultiSelect = false;
             view.SelectionMode = DataGridViewSelectionMode.CellSelect;
@@ -177,8 +185,8 @@ namespace Laboratorium.Material.Service
             view.Columns.Remove(MATERIAL_ID);
             view.Columns.Remove(COMPOUND_ID);
             view.Columns.Remove(COMPOUND);
+            view.Columns.Remove(CRUD_STATE);
 
-            view.Columns[ID].Visible = false;
             view.Columns[ORDERING].Visible = false;
             view.Columns[COMPOUND_NAME].Visible = false;
             view.Columns[COMPOUND_WE].Visible = false;
@@ -213,7 +221,7 @@ namespace Laboratorium.Material.Service
 
             view.Columns[REMARKS].HeaderText = "Uwagi";
             view.Columns[REMARKS].DisplayIndex = 4;
-            view.Columns[REMARKS].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[REMARKS].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             view.Columns[REMARKS].Width = _formData.ContainsKey(REMARKS) ? (int)_formData[REMARKS] : STD_WIDTH;
             view.Columns[REMARKS].ReadOnly = false;
             view.Columns[REMARKS].SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -228,10 +236,118 @@ namespace Laboratorium.Material.Service
         #endregion
 
 
+        #region CRUD
+
         public override bool Save()
         {
-            throw new NotImplementedException();
+            _repository.DeleteById(_material.Id);
+
+            foreach (var compo in _compositionList)
+            {
+                var status = _repository.Save(compo).CrudState;
+                if (status != ADO.CrudState.OK)
+                    return false;
+            }
+
+            ChangeStatus(false);
+            return true;
         }
+
+        #endregion
+
+
+        #region Add/Remove/Up/Down button
+
+        public void AddOne()
+        {
+            if (_compoundBinding.Count == 0 || _compoundBinding.Current == null || _material == null)
+                return;
+
+            MaterialCompoundDto compound = (MaterialCompoundDto)_compoundBinding.Current;
+            byte position = _compositionList.Count > 0 ? _compositionList.Max(i => i.Ordering) : (byte)0;
+            position++;
+            MaterialCompositionDto compo = new MaterialCompositionDto(_material.Id, compound.Id, 0, 0, position);
+            compo.Compound = compound;
+            _compositionList.Add(compo);
+            _compositionList = _compositionList.OrderBy(i => i.Ordering).ToList();
+            _compositionBinding.DataSource = _compositionList;
+            _compositionBinding.Position = _compositionBinding.Count - 1;
+
+            ChangeStatus(true);
+        }
+
+        public void RemoveOne()
+        {
+            if (_compositionBinding.Count == 0 || _compositionBinding.Current == null)
+                return;
+            _compositionBinding.EndEdit();
+
+            MaterialCompositionDto compo = (MaterialCompositionDto)_compositionBinding.Current;
+            _compositionBinding.Remove(compo);
+
+            ChangeStatus(true);
+        }
+
+        public void RemoveAll()
+        {
+            if (_compositionBinding.Count == 0)
+                return;
+
+            _compositionBinding.EndEdit();
+
+            do
+            {
+                _compositionBinding.RemoveAt(0);
+            } while (_compositionBinding.Count > 0);
+
+            ChangeStatus(true);
+        }
+
+        public void MoveUp()
+        {
+            if (_compositionList.Count <= 1 || _compositionBinding.Current == null || _compositionBinding.Position == 0)
+                return;
+
+            MaterialCompositionDto current = (MaterialCompositionDto)_compositionBinding.Current;
+            MaterialCompositionDto compoUp = (MaterialCompositionDto)_compositionBinding[_compositionBinding.Position - 1];
+
+            byte currentPosition = current.Ordering;
+            byte upPosition = compoUp.Ordering;
+            int position = _compositionBinding.Position - 1;
+
+            current.Ordering = upPosition;
+            compoUp.Ordering = currentPosition;
+
+            _compositionList = _compositionList.OrderBy(i => i.Ordering).ToList();
+            _compositionBinding.DataSource = _compositionList;
+            _compositionBinding.Position = position;
+
+            ChangeStatus(true);
+        }
+
+        public void MoveDown()
+        {
+            if (_compositionList.Count <= 1 || _compositionBinding.Current == null || _compositionBinding.Position == _compositionBinding.Count - 1)
+                return;
+
+            MaterialCompositionDto current = (MaterialCompositionDto)_compositionBinding.Current;
+            MaterialCompositionDto compoDown = (MaterialCompositionDto)_compositionBinding[_compositionBinding.Position + 1];
+
+            byte currentPosition = current.Ordering;
+            byte downPosition = compoDown.Ordering;
+            int position = _compositionBinding.Position + 1;
+
+            current.Ordering = downPosition;
+            compoDown.Ordering = currentPosition;
+
+            _compositionList = _compositionList.OrderBy(i => i.Ordering).ToList();
+            _compositionBinding.DataSource = _compositionList;
+            _compositionBinding.Position = position;
+
+            ChangeStatus(true);
+        }
+
+        #endregion
 
 
         #region DataGridView and others events
@@ -248,6 +364,14 @@ namespace Laboratorium.Material.Service
             _form.GetTxtFilteringCas.Width = view.Columns[CAS].Width;
         }
 
+
+        public void CellValueChanged()
+        {
+            if (_form.Init)
+                return;
+
+            ChangeStatus(true);
+        }
 
         #endregion
 

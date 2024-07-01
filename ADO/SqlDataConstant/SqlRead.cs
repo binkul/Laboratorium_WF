@@ -58,7 +58,9 @@ namespace Laboratorium.ADO.SqlDataConstant
                 "on mat.code_id=p.id Order by material_id, ord" },
             {SqlIndex.MaterialClpSignalIndex, "Select material_id, code_id, date_created, sig.name_pl from Konkurencja.dbo.MaterialClpSignal mat left join Konkurencja.dbo.CmbClpSignalWord sig " +
                 "on mat.code_id=sig.id Order by material_id" },
-            {SqlIndex.MaterialCompositionIndex, "Select id, material_id, compound_Id, amount_min, amount_max, ordering, remarks, date_created From Konkurencja.dbo.MaterialComposition Order By ordering" },
+            {SqlIndex.MaterialCompositionIndex, "Select mat.material_id, mat.compound_Id, mat.amount_min, mat.amount_max, mat.ordering, mat.remarks, mat.date_created, com.name_pl, com.name_en, com.short_pl, " +
+                "com.short_en, com.index_nr, com.cas, com.we, com.formula, com.is_bio, com.date_created From Konkurencja.dbo.MaterialComposition mat Left Join Konkurencja.dbo.MaterialCompound com " +
+                "on mat.compound_id=com.id Order By mat.material_id, mat.ordering" },
             {SqlIndex.MaterialCompoundIndex, "Select id, name_pl, name_en, short_pl, short_en, index_nr, cas, we, formula, is_bio, date_created from Konkurencja.dbo.MaterialCompound Order By is_bio desc, short_pl" },
         };
 
@@ -83,7 +85,7 @@ namespace Laboratorium.ADO.SqlDataConstant
                 "UNION ALL " +
                 "Select matp.material_id, matp.code_id, codp.code, '' as class, codp.[description], codp.ordering as ord, 0 as [type] From Konkurencja.dbo.MaterialClpCodeP matp " +
                 "Left Join Konkurencja.dbo.CmbClpPcode codp on matp.code_id=codp.id Where matp.material_id=XXXX Order by ord" },
-            {SqlIndex.MaterialCompositionIndex, "Select id, compound_Id, amount_min, amount_max, ordering, remarks, date_created From Konkurencja.dbo.MaterialComposition Where material_id=XXXX Order By ordering" },
+            {SqlIndex.MaterialCompositionIndex, "Select compound_Id, amount_min, amount_max, ordering, remarks, date_created From Konkurencja.dbo.MaterialComposition Where material_id=XXXX Order By ordering" },
             {SqlIndex.MaterialCompoundIndex, "Select id, name_pl, name_en, short_pl, short_en, index_nr, cas, we, formula, is_bio, date_created from Konkurencja.dbo.MaterialCompound Where id=" },
         };
     }

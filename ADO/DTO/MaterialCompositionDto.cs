@@ -4,7 +4,6 @@ namespace Laboratorium.ADO.DTO
 {
     public class MaterialCompositionDto
     {
-        public int Id { get; set; }
         public int MaterialId { get; set; }
         public int CompoundId { get; set; }
         private double _amountMin;
@@ -13,13 +12,14 @@ namespace Laboratorium.ADO.DTO
         private string _remarks;
         public DateTime DateCreated { get; set; } = DateTime.Today;
         private RowState _rowState = RowState.ADDED;
+        public CrudState CrudState { get; set; } = CrudState.OK;
         public MaterialCompoundDto Compound { get; set; }
 
-        public MaterialCompositionDto(int id, int materialId, double amountMin, double amountMax, byte ordering, 
+        public MaterialCompositionDto(int materialId, int compoundId, double amountMin, double amountMax, byte ordering, 
             string remarks, DateTime dateCreated)
         {
-            Id = id;
             MaterialId = materialId;
+            CompoundId = compoundId;
             _amountMin = amountMin;
             _amountMax = amountMax;
             _ordering = ordering;
@@ -27,9 +27,10 @@ namespace Laboratorium.ADO.DTO
             DateCreated = dateCreated;
         }
 
-        public MaterialCompositionDto(int materialId, double amountMin, double amountMax, byte ordering)
+        public MaterialCompositionDto(int materialId, int compoundId, double amountMin, double amountMax, byte ordering)
         {
             MaterialId = materialId;
+            CompoundId = compoundId;
             _amountMin = amountMin;
             _amountMax = amountMax;
             _ordering = ordering;
