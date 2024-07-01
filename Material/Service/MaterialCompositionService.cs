@@ -240,6 +240,7 @@ namespace Laboratorium.Material.Service
 
         public override bool Save()
         {
+            _compositionBinding.EndEdit();
             _repository.DeleteById(_material.Id);
 
             foreach (var compo in _compositionList)

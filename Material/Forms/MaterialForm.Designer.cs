@@ -116,6 +116,8 @@ namespace Laboratorium.Material.Forms
             this.BtnClpEdit = new System.Windows.Forms.Button();
             this.TbComposition = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
+            this.DgvComposition = new System.Windows.Forms.DataGridView();
+            this.BtnCompEdit = new System.Windows.Forms.Button();
             this.BtnAdd = new System.Windows.Forms.Button();
             this.BtnSave = new System.Windows.Forms.Button();
             this.BtnDelete = new System.Windows.Forms.Button();
@@ -125,8 +127,6 @@ namespace Laboratorium.Material.Forms
             this.BtnCompositiom = new System.Windows.Forms.Button();
             this.BtnFunction = new System.Windows.Forms.Button();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
-            this.DgvComposition = new System.Windows.Forms.DataGridView();
-            this.BtnCompEdit = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.BindingNavigatorMaterial)).BeginInit();
             this.BindingNavigatorMaterial.SuspendLayout();
             this.TbMaterial.SuspendLayout();
@@ -148,8 +148,8 @@ namespace Laboratorium.Material.Forms
             ((System.ComponentModel.ISupportInitialize)(this.DgvClp)).BeginInit();
             this.TbComposition.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
-            this.tableLayoutPanel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvComposition)).BeginInit();
+            this.tableLayoutPanel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // BindingNavigatorMaterial
@@ -172,21 +172,21 @@ namespace Laboratorium.Material.Forms
             this.bindingNavigatorAddNewItem,
             this.BindingNavigatorDeleteItem,
             this.ToolStripLblMessage});
-            this.BindingNavigatorMaterial.Location = new System.Drawing.Point(0, 625);
+            this.BindingNavigatorMaterial.Location = new System.Drawing.Point(0, 621);
             this.BindingNavigatorMaterial.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
             this.BindingNavigatorMaterial.MoveLastItem = this.bindingNavigatorMoveLastItem;
             this.BindingNavigatorMaterial.MoveNextItem = this.bindingNavigatorMoveNextItem;
             this.BindingNavigatorMaterial.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.BindingNavigatorMaterial.Name = "BindingNavigatorMaterial";
             this.BindingNavigatorMaterial.PositionItem = this.bindingNavigatorPositionItem;
-            this.BindingNavigatorMaterial.Size = new System.Drawing.Size(887, 27);
+            this.BindingNavigatorMaterial.Size = new System.Drawing.Size(887, 31);
             this.BindingNavigatorMaterial.TabIndex = 0;
             this.BindingNavigatorMaterial.Text = "bindingNavigator1";
             // 
             // bindingNavigatorCountItem
             // 
             this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(38, 24);
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(38, 28);
             this.bindingNavigatorCountItem.Text = "z {0}";
             this.bindingNavigatorCountItem.ToolTipText = "Suma elementów";
             // 
@@ -196,7 +196,7 @@ namespace Laboratorium.Material.Forms
             this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
             this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
             this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(29, 24);
+            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(29, 28);
             this.bindingNavigatorMoveFirstItem.Text = "Przenieś pierwszy";
             // 
             // bindingNavigatorMovePreviousItem
@@ -205,18 +205,19 @@ namespace Laboratorium.Material.Forms
             this.bindingNavigatorMovePreviousItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMovePreviousItem.Image")));
             this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
             this.bindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(29, 24);
+            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(29, 28);
             this.bindingNavigatorMovePreviousItem.Text = "Przenieś poprzedni";
             // 
             // bindingNavigatorSeparator
             // 
             this.bindingNavigatorSeparator.Name = "bindingNavigatorSeparator";
-            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 27);
+            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 31);
             // 
             // bindingNavigatorPositionItem
             // 
             this.bindingNavigatorPositionItem.AccessibleName = "Pozycja";
             this.bindingNavigatorPositionItem.AutoSize = false;
+            this.bindingNavigatorPositionItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
             this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 27);
             this.bindingNavigatorPositionItem.Text = "0";
@@ -225,7 +226,7 @@ namespace Laboratorium.Material.Forms
             // bindingNavigatorSeparator1
             // 
             this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
-            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 27);
+            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
             // bindingNavigatorMoveNextItem
             // 
@@ -233,7 +234,7 @@ namespace Laboratorium.Material.Forms
             this.bindingNavigatorMoveNextItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveNextItem.Image")));
             this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
             this.bindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(29, 24);
+            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(29, 28);
             this.bindingNavigatorMoveNextItem.Text = "Przenieś następny";
             // 
             // bindingNavigatorMoveLastItem
@@ -242,13 +243,13 @@ namespace Laboratorium.Material.Forms
             this.bindingNavigatorMoveLastItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveLastItem.Image")));
             this.bindingNavigatorMoveLastItem.Name = "bindingNavigatorMoveLastItem";
             this.bindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(29, 24);
+            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(29, 28);
             this.bindingNavigatorMoveLastItem.Text = "Przenieś ostatni";
             // 
             // bindingNavigatorSeparator2
             // 
             this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
-            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 27);
+            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 31);
             // 
             // bindingNavigatorAddNewItem
             // 
@@ -256,7 +257,7 @@ namespace Laboratorium.Material.Forms
             this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
             this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
             this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(29, 24);
+            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(29, 28);
             this.bindingNavigatorAddNewItem.Text = "Dodaj nowy";
             this.bindingNavigatorAddNewItem.Click += new System.EventHandler(this.bindingNavigatorAddNewItem_Click);
             // 
@@ -266,14 +267,14 @@ namespace Laboratorium.Material.Forms
             this.BindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("BindingNavigatorDeleteItem.Image")));
             this.BindingNavigatorDeleteItem.Name = "BindingNavigatorDeleteItem";
             this.BindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-            this.BindingNavigatorDeleteItem.Size = new System.Drawing.Size(29, 24);
+            this.BindingNavigatorDeleteItem.Size = new System.Drawing.Size(29, 28);
             this.BindingNavigatorDeleteItem.Text = "Usuń";
             this.BindingNavigatorDeleteItem.Click += new System.EventHandler(this.bindingNavigatorDeleteItem_Click);
             // 
             // ToolStripLblMessage
             // 
             this.ToolStripLblMessage.Name = "ToolStripLblMessage";
-            this.ToolStripLblMessage.Size = new System.Drawing.Size(111, 24);
+            this.ToolStripLblMessage.Size = new System.Drawing.Size(111, 28);
             this.ToolStripLblMessage.Text = "toolStripLabel1";
             // 
             // TxtName
@@ -513,9 +514,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel2.SetColumnSpan(this.label2, 2);
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label2.ForeColor = System.Drawing.Color.Blue;
-            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Location = new System.Drawing.Point(3, 1);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(253, 24);
+            this.label2.Size = new System.Drawing.Size(253, 22);
             this.label2.TabIndex = 0;
             this.label2.Text = "Dane podstawowe";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -556,7 +557,7 @@ namespace Laboratorium.Material.Forms
             this.CmbFunction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbFunction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbFunction.FormattingEnabled = true;
-            this.CmbFunction.Location = new System.Drawing.Point(123, 73);
+            this.CmbFunction.Location = new System.Drawing.Point(123, 71);
             this.CmbFunction.Name = "CmbFunction";
             this.CmbFunction.Size = new System.Drawing.Size(133, 28);
             this.CmbFunction.TabIndex = 6;
@@ -566,7 +567,7 @@ namespace Laboratorium.Material.Forms
             this.CmbSupplier.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbSupplier.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbSupplier.FormattingEnabled = true;
-            this.CmbSupplier.Location = new System.Drawing.Point(123, 113);
+            this.CmbSupplier.Location = new System.Drawing.Point(123, 111);
             this.CmbSupplier.Name = "CmbSupplier";
             this.CmbSupplier.Size = new System.Drawing.Size(133, 28);
             this.CmbSupplier.TabIndex = 7;
@@ -642,9 +643,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel3.SetColumnSpan(this.label6, 2);
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label6.ForeColor = System.Drawing.Color.Blue;
-            this.label6.Location = new System.Drawing.Point(3, 0);
+            this.label6.Location = new System.Drawing.Point(3, 1);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(253, 24);
+            this.label6.Size = new System.Drawing.Size(253, 22);
             this.label6.TabIndex = 1;
             this.label6.Text = "Fizykochemia";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -767,9 +768,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel4.SetColumnSpan(this.label11, 2);
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label11.ForeColor = System.Drawing.Color.Blue;
-            this.label11.Location = new System.Drawing.Point(3, 0);
+            this.label11.Location = new System.Drawing.Point(3, 1);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(253, 24);
+            this.label11.Size = new System.Drawing.Size(253, 22);
             this.label11.TabIndex = 1;
             this.label11.Text = "Cennik";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -885,7 +886,7 @@ namespace Laboratorium.Material.Forms
             this.CmbCurrency.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbCurrency.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbCurrency.FormattingEnabled = true;
-            this.CmbCurrency.Location = new System.Drawing.Point(123, 73);
+            this.CmbCurrency.Location = new System.Drawing.Point(123, 71);
             this.CmbCurrency.Name = "CmbCurrency";
             this.CmbCurrency.Size = new System.Drawing.Size(133, 28);
             this.CmbCurrency.TabIndex = 13;
@@ -895,7 +896,7 @@ namespace Laboratorium.Material.Forms
             this.CmbUnit.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbUnit.FormattingEnabled = true;
-            this.CmbUnit.Location = new System.Drawing.Point(123, 113);
+            this.CmbUnit.Location = new System.Drawing.Point(123, 111);
             this.CmbUnit.Name = "CmbUnit";
             this.CmbUnit.Size = new System.Drawing.Size(133, 28);
             this.CmbUnit.TabIndex = 14;
@@ -1015,9 +1016,9 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel5.SetColumnSpan(this.label18, 2);
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label18.ForeColor = System.Drawing.Color.Blue;
-            this.label18.Location = new System.Drawing.Point(3, 0);
+            this.label18.Location = new System.Drawing.Point(3, 1);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(230, 24);
+            this.label18.Size = new System.Drawing.Size(230, 22);
             this.label18.TabIndex = 2;
             this.label18.Text = "Zastosowanie";
             this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1107,9 +1108,9 @@ namespace Laboratorium.Material.Forms
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label25.ForeColor = System.Drawing.Color.Blue;
-            this.label25.Location = new System.Drawing.Point(311, 376);
+            this.label25.Location = new System.Drawing.Point(311, 378);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(144, 24);
+            this.label25.Size = new System.Drawing.Size(144, 22);
             this.label25.TabIndex = 5;
             this.label25.Text = "Uwagi";
             this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1221,6 +1222,36 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel8.Size = new System.Drawing.Size(869, 461);
             this.tableLayoutPanel8.TabIndex = 0;
+            // 
+            // DgvComposition
+            // 
+            this.DgvComposition.AllowUserToAddRows = false;
+            this.DgvComposition.AllowUserToDeleteRows = false;
+            this.DgvComposition.AllowUserToResizeRows = false;
+            this.DgvComposition.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.DgvComposition.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tableLayoutPanel8.SetColumnSpan(this.DgvComposition, 2);
+            this.DgvComposition.Location = new System.Drawing.Point(3, 3);
+            this.DgvComposition.MultiSelect = false;
+            this.DgvComposition.Name = "DgvComposition";
+            this.DgvComposition.ReadOnly = true;
+            this.DgvComposition.RowHeadersWidth = 51;
+            this.DgvComposition.RowTemplate.Height = 24;
+            this.DgvComposition.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.DgvComposition.Size = new System.Drawing.Size(863, 405);
+            this.DgvComposition.TabIndex = 0;
+            // 
+            // BtnCompEdit
+            // 
+            this.BtnCompEdit.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.BtnCompEdit.Location = new System.Drawing.Point(774, 418);
+            this.BtnCompEdit.Name = "BtnCompEdit";
+            this.BtnCompEdit.Size = new System.Drawing.Size(92, 35);
+            this.BtnCompEdit.TabIndex = 13;
+            this.BtnCompEdit.Text = "Edytuj";
+            this.BtnCompEdit.UseVisualStyleBackColor = true;
             // 
             // BtnAdd
             // 
@@ -1362,36 +1393,6 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel7.Size = new System.Drawing.Size(876, 610);
             this.tableLayoutPanel7.TabIndex = 30;
             // 
-            // DgvComposition
-            // 
-            this.DgvComposition.AllowUserToAddRows = false;
-            this.DgvComposition.AllowUserToDeleteRows = false;
-            this.DgvComposition.AllowUserToResizeRows = false;
-            this.DgvComposition.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.DgvComposition.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tableLayoutPanel8.SetColumnSpan(this.DgvComposition, 2);
-            this.DgvComposition.Location = new System.Drawing.Point(3, 3);
-            this.DgvComposition.MultiSelect = false;
-            this.DgvComposition.Name = "DgvComposition";
-            this.DgvComposition.ReadOnly = true;
-            this.DgvComposition.RowHeadersWidth = 51;
-            this.DgvComposition.RowTemplate.Height = 24;
-            this.DgvComposition.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DgvComposition.Size = new System.Drawing.Size(863, 405);
-            this.DgvComposition.TabIndex = 0;
-            // 
-            // BtnCompEdit
-            // 
-            this.BtnCompEdit.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.BtnCompEdit.Location = new System.Drawing.Point(774, 418);
-            this.BtnCompEdit.Name = "BtnCompEdit";
-            this.BtnCompEdit.Size = new System.Drawing.Size(92, 35);
-            this.BtnCompEdit.TabIndex = 13;
-            this.BtnCompEdit.Text = "Edytuj";
-            this.BtnCompEdit.UseVisualStyleBackColor = true;
-            // 
             // MaterialForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1433,9 +1434,9 @@ namespace Laboratorium.Material.Forms
             ((System.ComponentModel.ISupportInitialize)(this.DgvClp)).EndInit();
             this.TbComposition.ResumeLayout(false);
             this.tableLayoutPanel8.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.DgvComposition)).EndInit();
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel7.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DgvComposition)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

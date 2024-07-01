@@ -28,6 +28,7 @@ namespace Laboratorium.Material.Service
         private const string FUNCTION_ID = "FunctionId";
         private const string CURRENCY_ID = "CurrencyId";
         private const string MATERIAL_ID = "MaterialId";
+        private const string COMPOUND_ID = "CompoundId";
         private const string UNIT_ID = "UnitId";
         private const string CODE_ID = "CodeId";
         private const string TYPE = "Type";
@@ -62,12 +63,21 @@ namespace Laboratorium.Material.Service
         private const string CLASS_CLP = "ClassClp";
         private const string CODE_CLP = "CodeClp";
         private const string DESCRIPTION_CLP = "DescriptionClp";
+        private const string COMPOUND = "Compound";
+        private const string COMPOUND_WE = "CompoundWe";
+        private const string COMPOUND_NAME = "CompoundName";
+        private const string COMPOUND_SHORT = "CompoundShort";
+        private const string COMPOUND_CAS = "CompoundCas";
+        private const string COMPOUND_AMOUNT_MIN = "AmountMin";
+        private const string COMPOUND_AMOUNT_MAX = "AmountMax";
+        private const string COMPOUND_REMARKS = "Remarks";
 
         #endregion
 
         private const string ADMIN = "admin";
         private readonly IList<string> _dgvMaterialFields = new List<string> { NAME, IS_ACTIVE, IS_DANGER, IS_PRODUCTION, PRICE, PRICE_UNIT, VOC_PROC, DATE_UPDATE };
         private readonly IList<string> _dgvClpFields = new List<string> { CLASS_CLP, CODE_CLP, DESCRIPTION_CLP };
+        private readonly IList<string> _dgvCompositionFields = new List<string> { COMPOUND_NAME, COMPOUND_SHORT, COMPOUND_CAS, COMPOUND_AMOUNT_MIN, COMPOUND_AMOUNT_MAX, COMPOUND_REMARKS };
         private const string FORM_DATA = "MaterialForm";
         private const int STD_WIDTH = 100;
 
@@ -83,11 +93,13 @@ namespace Laboratorium.Material.Service
         private readonly IExtendedCRUD<MaterialDto> _repository;
         private IList<MaterialDto> _materialList;
         private IList<ClpHPcombineDto> _materialClpList;
+        private IList<MaterialCompositionDto> _compositionList;
         private IList<CmbUnitDto> _unitList;
         private IList<CmbCurrencyDto> _currencyList;
         private IList<CmbMaterialFunctionDto> _functionList;
         private BindingSource _materialBinding;
         private BindingSource _materialClpBinding;
+        private BindingSource _compositionBinding;
         public MaterialDto CurrentMaterial;
 
         public MaterialService(SqlConnection connection, UserDto user, MaterialForm form)
@@ -134,7 +146,8 @@ namespace Laboratorium.Material.Service
             _fields = new Dictionary<DataGridView, IList<string>>
             {
                 { form.GetDgvMaterial,  _dgvMaterialFields},
-                { form.GetDgvClp, _dgvClpFields }
+                { form.GetDgvClp, _dgvClpFields },
+                {form.GetDgvComposition, _dgvCompositionFields}
             };
         }
 
@@ -322,6 +335,67 @@ namespace Laboratorium.Material.Service
 
         private void PrepareDgvComposition()
         {
+            DataGridView view = _form.GetDgvComposition;
+            view.DataSource = _compositionBinding;
+            view.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.RowsDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Regular);
+            view.ColumnHeadersDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Bold);
+            view.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            view.RowHeadersVisible = false;
+            view.DefaultCellStyle.ForeColor = Color.Black;
+            view.ReadOnly = true;
+            view.AutoGenerateColumns = false;
+
+            view.Columns.Remove(MATERIAL_ID);
+            view.Columns.Remove(COMPOUND_ID);
+            view.Columns.Remove(ROW_STATE);
+            view.Columns.Remove(CRUD_STATE);
+            view.Columns.Remove(DATE_CREATE);
+            view.Columns.Remove(COMPOUND);
+            view.Columns.Remove(ORDERING);
+            view.Columns.Remove(COMPOUND_WE);
+
+            view.Columns[COMPOUND_NAME].HeaderText = "Nazwa";
+            view.Columns[COMPOUND_NAME].DisplayIndex = 0;
+            view.Columns[COMPOUND_NAME].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            view.Columns[COMPOUND_NAME].Width = _formData.ContainsKey(COMPOUND_NAME) ? (int)_formData[COMPOUND_NAME] : STD_WIDTH;
+            view.Columns[COMPOUND_NAME].ReadOnly = true;
+            view.Columns[COMPOUND_NAME].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+            view.Columns[COMPOUND_SHORT].HeaderText = "Skrót";
+            view.Columns[COMPOUND_SHORT].DisplayIndex = 1;
+            view.Columns[COMPOUND_SHORT].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            view.Columns[COMPOUND_SHORT].Width = _formData.ContainsKey(COMPOUND_SHORT) ? (int)_formData[COMPOUND_SHORT] : STD_WIDTH;
+            view.Columns[COMPOUND_SHORT].ReadOnly = true;
+            view.Columns[COMPOUND_SHORT].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+            view.Columns[COMPOUND_CAS].HeaderText = "CAS";
+            view.Columns[COMPOUND_CAS].DisplayIndex = 2;
+            view.Columns[COMPOUND_CAS].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[COMPOUND_CAS].Width = _formData.ContainsKey(COMPOUND_CAS) ? (int)_formData[COMPOUND_CAS] : STD_WIDTH;
+            view.Columns[COMPOUND_CAS].ReadOnly = true;
+            view.Columns[COMPOUND_CAS].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+            view.Columns[COMPOUND_AMOUNT_MIN].HeaderText = "Min [%]";
+            view.Columns[COMPOUND_AMOUNT_MIN].DisplayIndex = 3;
+            view.Columns[COMPOUND_AMOUNT_MIN].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[COMPOUND_AMOUNT_MIN].Width = _formData.ContainsKey(COMPOUND_AMOUNT_MIN) ? (int)_formData[COMPOUND_AMOUNT_MIN] : STD_WIDTH;
+            view.Columns[COMPOUND_AMOUNT_MIN].ReadOnly = true;
+            view.Columns[COMPOUND_AMOUNT_MIN].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+            view.Columns[COMPOUND_AMOUNT_MAX].HeaderText = "Max [%]";
+            view.Columns[COMPOUND_AMOUNT_MAX].DisplayIndex = 4;
+            view.Columns[COMPOUND_AMOUNT_MAX].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[COMPOUND_AMOUNT_MAX].Width = _formData.ContainsKey(COMPOUND_AMOUNT_MAX) ? (int)_formData[COMPOUND_AMOUNT_MAX] : STD_WIDTH;
+            view.Columns[COMPOUND_AMOUNT_MAX].ReadOnly = true;
+            view.Columns[COMPOUND_AMOUNT_MAX].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+            view.Columns[REMARKS].HeaderText = "Uwagi";
+            view.Columns[REMARKS].DisplayIndex = 5;
+            view.Columns[REMARKS].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            view.Columns[REMARKS].Width = _formData.ContainsKey(REMARKS) ? (int)_formData[REMARKS] : STD_WIDTH;
+            view.Columns[REMARKS].ReadOnly = true;
+            view.Columns[REMARKS].SortMode = DataGridViewColumnSortMode.NotSortable;
 
         }
 
@@ -404,16 +478,9 @@ namespace Laboratorium.Material.Service
             IList<MaterialClpSignalDto> sigList = _signalRepository.GetAll();
 
             IBasicCRUD<MaterialCompositionDto> repoComposition = new MaterialCompositionRepository(_connection);
-            IList<MaterialCompositionDto> compositionList = repoComposition.GetAll();
-
-            IBasicCRUD<MaterialCompoundDto> repoCompound = new MaterialCompoundRepository(_connection);
-            IList<MaterialCompoundDto> compoundList = repoCompound.GetAll();
-
-            foreach (var ingredient in compositionList)
-            {
-                var compound = compoundList.Where(i => i.Id == ingredient.CompoundId).FirstOrDefault();
-                ingredient.Compound = compound;
-            }
+            _compositionList = repoComposition.GetAll();
+            _compositionBinding = new BindingSource();
+            _compositionBinding.DataSource = _compositionList;
 
             foreach (var material in _materialList)
             {
@@ -435,7 +502,7 @@ namespace Laboratorium.Material.Service
                     material.SignalWord = sig ?? new MaterialClpSignalDto(material.Id, 1, "-- Brak --", DateTime.Today);
                 }
 
-                var ingedrients = compositionList
+                var ingedrients = _compositionList
                     .Where(i => i.MaterialId == material.Id)
                     .OrderBy(i => i.Ordering)
                     .ToList();
@@ -507,6 +574,19 @@ namespace Laboratorium.Material.Service
                 SetGhsImage(false);
                 SetSignalWord(false);
                 SynchronizeHPcode(false);
+            }
+
+            #endregion
+
+            #region Synchronize Composition
+
+            if (CurrentMaterial != null)
+            {
+                _compositionBinding.DataSource = CurrentMaterial.MaterialCompositionList;
+            }
+            else
+            {
+                _compositionBinding.DataSource = null;
             }
 
             #endregion

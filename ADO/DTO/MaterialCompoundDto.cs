@@ -33,8 +33,6 @@ namespace Laboratorium.ADO.DTO
             DateCreated = dateCreated;
         }
 
-        public MaterialCompoundDto() { }
-
         private void ChangeState(RowState state)
         {
             _rowState = _rowState == RowState.UNCHANGED ? state : _rowState;

@@ -40,8 +40,20 @@ namespace Laboratorium.Material.Repository
                         byte ord = reader.GetByte(4);
                         string remarks = CommonFunction.DBNullToStringConv(reader.GetValue(5));
                         DateTime dateCreated = reader.GetDateTime(6);
+                        string namePl = reader.GetString(7);
+                        string nameEn = CommonFunction.DBNullToStringConv(reader.GetValue(8));
+                        string shortPl = reader.GetString(9);
+                        string shortEn = CommonFunction.DBNullToStringConv(reader.GetValue(10));
+                        string index = CommonFunction.DBNullToStringConv(reader.GetValue(11));
+                        string cas = CommonFunction.DBNullToStringConv(reader.GetValue(12));
+                        string we = CommonFunction.DBNullToStringConv(reader.GetValue(13));
+                        string formula = CommonFunction.DBNullToStringConv(reader.GetValue(14));
+                        bool isBio = reader.GetBoolean(15);
+                        DateTime dateCreatedC = reader.GetDateTime(16);
 
                         MaterialCompositionDto composition = new MaterialCompositionDto(materialId, compoundId, min, max, ord, remarks, dateCreated);
+                        MaterialCompoundDto compound = new MaterialCompoundDto(compoundId, namePl, nameEn, shortPl, shortEn, index, cas, we, formula, isBio, dateCreatedC);
+                        composition.Compound = compound;
                         composition.AcceptChanges();
                         list.Add(composition);
                     }
