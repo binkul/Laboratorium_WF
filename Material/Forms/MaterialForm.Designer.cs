@@ -127,6 +127,7 @@ namespace Laboratorium.Material.Forms
             this.BtnCompositiom = new System.Windows.Forms.Button();
             this.BtnFunction = new System.Windows.Forms.Button();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
+            this.BtnCompound = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.BindingNavigatorMaterial)).BeginInit();
             this.BindingNavigatorMaterial.SuspendLayout();
             this.TbMaterial.SuspendLayout();
@@ -172,21 +173,21 @@ namespace Laboratorium.Material.Forms
             this.bindingNavigatorAddNewItem,
             this.BindingNavigatorDeleteItem,
             this.ToolStripLblMessage});
-            this.BindingNavigatorMaterial.Location = new System.Drawing.Point(0, 621);
+            this.BindingNavigatorMaterial.Location = new System.Drawing.Point(0, 625);
             this.BindingNavigatorMaterial.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
             this.BindingNavigatorMaterial.MoveLastItem = this.bindingNavigatorMoveLastItem;
             this.BindingNavigatorMaterial.MoveNextItem = this.bindingNavigatorMoveNextItem;
             this.BindingNavigatorMaterial.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.BindingNavigatorMaterial.Name = "BindingNavigatorMaterial";
             this.BindingNavigatorMaterial.PositionItem = this.bindingNavigatorPositionItem;
-            this.BindingNavigatorMaterial.Size = new System.Drawing.Size(887, 31);
+            this.BindingNavigatorMaterial.Size = new System.Drawing.Size(887, 27);
             this.BindingNavigatorMaterial.TabIndex = 0;
             this.BindingNavigatorMaterial.Text = "bindingNavigator1";
             // 
             // bindingNavigatorCountItem
             // 
             this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(38, 28);
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(38, 24);
             this.bindingNavigatorCountItem.Text = "z {0}";
             this.bindingNavigatorCountItem.ToolTipText = "Suma elementów";
             // 
@@ -196,7 +197,7 @@ namespace Laboratorium.Material.Forms
             this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
             this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
             this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(29, 28);
+            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(29, 24);
             this.bindingNavigatorMoveFirstItem.Text = "Przenieś pierwszy";
             // 
             // bindingNavigatorMovePreviousItem
@@ -205,13 +206,13 @@ namespace Laboratorium.Material.Forms
             this.bindingNavigatorMovePreviousItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMovePreviousItem.Image")));
             this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
             this.bindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(29, 28);
+            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(29, 24);
             this.bindingNavigatorMovePreviousItem.Text = "Przenieś poprzedni";
             // 
             // bindingNavigatorSeparator
             // 
             this.bindingNavigatorSeparator.Name = "bindingNavigatorSeparator";
-            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 31);
+            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 27);
             // 
             // bindingNavigatorPositionItem
             // 
@@ -226,7 +227,7 @@ namespace Laboratorium.Material.Forms
             // bindingNavigatorSeparator1
             // 
             this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
-            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 31);
+            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
             // bindingNavigatorMoveNextItem
             // 
@@ -234,7 +235,7 @@ namespace Laboratorium.Material.Forms
             this.bindingNavigatorMoveNextItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveNextItem.Image")));
             this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
             this.bindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(29, 28);
+            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(29, 24);
             this.bindingNavigatorMoveNextItem.Text = "Przenieś następny";
             // 
             // bindingNavigatorMoveLastItem
@@ -243,13 +244,13 @@ namespace Laboratorium.Material.Forms
             this.bindingNavigatorMoveLastItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveLastItem.Image")));
             this.bindingNavigatorMoveLastItem.Name = "bindingNavigatorMoveLastItem";
             this.bindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(29, 28);
+            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(29, 24);
             this.bindingNavigatorMoveLastItem.Text = "Przenieś ostatni";
             // 
             // bindingNavigatorSeparator2
             // 
             this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
-            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 31);
+            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 27);
             // 
             // bindingNavigatorAddNewItem
             // 
@@ -257,7 +258,7 @@ namespace Laboratorium.Material.Forms
             this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
             this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
             this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(29, 28);
+            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(29, 24);
             this.bindingNavigatorAddNewItem.Text = "Dodaj nowy";
             this.bindingNavigatorAddNewItem.Click += new System.EventHandler(this.bindingNavigatorAddNewItem_Click);
             // 
@@ -267,24 +268,24 @@ namespace Laboratorium.Material.Forms
             this.BindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("BindingNavigatorDeleteItem.Image")));
             this.BindingNavigatorDeleteItem.Name = "BindingNavigatorDeleteItem";
             this.BindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-            this.BindingNavigatorDeleteItem.Size = new System.Drawing.Size(29, 28);
+            this.BindingNavigatorDeleteItem.Size = new System.Drawing.Size(29, 24);
             this.BindingNavigatorDeleteItem.Text = "Usuń";
             this.BindingNavigatorDeleteItem.Click += new System.EventHandler(this.bindingNavigatorDeleteItem_Click);
             // 
             // ToolStripLblMessage
             // 
             this.ToolStripLblMessage.Name = "ToolStripLblMessage";
-            this.ToolStripLblMessage.Size = new System.Drawing.Size(111, 28);
+            this.ToolStripLblMessage.Size = new System.Drawing.Size(111, 24);
             this.ToolStripLblMessage.Text = "toolStripLabel1";
             // 
             // TxtName
             // 
             this.TxtName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel7.SetColumnSpan(this.TxtName, 7);
+            this.tableLayoutPanel7.SetColumnSpan(this.TxtName, 8);
             this.TxtName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TxtName.Location = new System.Drawing.Point(128, 70);
+            this.TxtName.Location = new System.Drawing.Point(112, 70);
             this.TxtName.Name = "TxtName";
-            this.TxtName.Size = new System.Drawing.Size(745, 30);
+            this.TxtName.Size = new System.Drawing.Size(761, 30);
             this.TxtName.TabIndex = 1;
             this.TxtName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDensity_KeyPress);
             // 
@@ -296,7 +297,7 @@ namespace Laboratorium.Material.Forms
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label1.Location = new System.Drawing.Point(3, 72);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(119, 25);
+            this.label1.Size = new System.Drawing.Size(103, 25);
             this.label1.TabIndex = 2;
             this.label1.Text = "Nazwa";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -306,7 +307,7 @@ namespace Laboratorium.Material.Forms
             this.TbMaterial.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel7.SetColumnSpan(this.TbMaterial, 10);
+            this.tableLayoutPanel7.SetColumnSpan(this.TbMaterial, 11);
             this.TbMaterial.Controls.Add(this.TbMain);
             this.TbMaterial.Controls.Add(this.TbData);
             this.TbMaterial.Controls.Add(this.TbClp);
@@ -557,7 +558,7 @@ namespace Laboratorium.Material.Forms
             this.CmbFunction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbFunction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbFunction.FormattingEnabled = true;
-            this.CmbFunction.Location = new System.Drawing.Point(123, 71);
+            this.CmbFunction.Location = new System.Drawing.Point(123, 73);
             this.CmbFunction.Name = "CmbFunction";
             this.CmbFunction.Size = new System.Drawing.Size(133, 28);
             this.CmbFunction.TabIndex = 6;
@@ -567,7 +568,7 @@ namespace Laboratorium.Material.Forms
             this.CmbSupplier.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbSupplier.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbSupplier.FormattingEnabled = true;
-            this.CmbSupplier.Location = new System.Drawing.Point(123, 111);
+            this.CmbSupplier.Location = new System.Drawing.Point(123, 113);
             this.CmbSupplier.Name = "CmbSupplier";
             this.CmbSupplier.Size = new System.Drawing.Size(133, 28);
             this.CmbSupplier.TabIndex = 7;
@@ -886,7 +887,7 @@ namespace Laboratorium.Material.Forms
             this.CmbCurrency.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbCurrency.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbCurrency.FormattingEnabled = true;
-            this.CmbCurrency.Location = new System.Drawing.Point(123, 71);
+            this.CmbCurrency.Location = new System.Drawing.Point(123, 73);
             this.CmbCurrency.Name = "CmbCurrency";
             this.CmbCurrency.Size = new System.Drawing.Size(133, 28);
             this.CmbCurrency.TabIndex = 13;
@@ -896,7 +897,7 @@ namespace Laboratorium.Material.Forms
             this.CmbUnit.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbUnit.FormattingEnabled = true;
-            this.CmbUnit.Location = new System.Drawing.Point(123, 111);
+            this.CmbUnit.Location = new System.Drawing.Point(123, 113);
             this.CmbUnit.Name = "CmbUnit";
             this.CmbUnit.Size = new System.Drawing.Size(133, 28);
             this.CmbUnit.TabIndex = 14;
@@ -1258,8 +1259,8 @@ namespace Laboratorium.Material.Forms
             this.BtnAdd.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnAdd.BackgroundImage = global::Laboratorium.Properties.Resources._new;
             this.BtnAdd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BtnAdd.Location = new System.Drawing.Point(5, 5);
-            this.BtnAdd.Margin = new System.Windows.Forms.Padding(4);
+            this.BtnAdd.Location = new System.Drawing.Point(1, 5);
+            this.BtnAdd.Margin = new System.Windows.Forms.Padding(0);
             this.BtnAdd.Name = "BtnAdd";
             this.BtnAdd.Size = new System.Drawing.Size(50, 50);
             this.BtnAdd.TabIndex = 21;
@@ -1272,8 +1273,8 @@ namespace Laboratorium.Material.Forms
             this.BtnSave.BackgroundImage = global::Laboratorium.Properties.Resources.Save;
             this.BtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnSave.Enabled = false;
-            this.BtnSave.Location = new System.Drawing.Point(130, 5);
-            this.BtnSave.Margin = new System.Windows.Forms.Padding(4);
+            this.BtnSave.Location = new System.Drawing.Point(110, 5);
+            this.BtnSave.Margin = new System.Windows.Forms.Padding(0);
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(50, 50);
             this.BtnSave.TabIndex = 24;
@@ -1285,8 +1286,8 @@ namespace Laboratorium.Material.Forms
             this.BtnDelete.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnDelete.BackgroundImage = global::Laboratorium.Properties.Resources.delete;
             this.BtnDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BtnDelete.Location = new System.Drawing.Point(70, 5);
-            this.BtnDelete.Margin = new System.Windows.Forms.Padding(4);
+            this.BtnDelete.Location = new System.Drawing.Point(58, 5);
+            this.BtnDelete.Margin = new System.Windows.Forms.Padding(0);
             this.BtnDelete.Name = "BtnDelete";
             this.BtnDelete.Size = new System.Drawing.Size(50, 50);
             this.BtnDelete.TabIndex = 23;
@@ -1299,10 +1300,10 @@ namespace Laboratorium.Material.Forms
             this.LblDateCreated.AutoSize = true;
             this.LblDateCreated.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.LblDateCreated.ForeColor = System.Drawing.Color.Blue;
-            this.LblDateCreated.Location = new System.Drawing.Point(434, 17);
+            this.LblDateCreated.Location = new System.Drawing.Point(430, 17);
             this.LblDateCreated.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblDateCreated.Name = "LblDateCreated";
-            this.LblDateCreated.Size = new System.Drawing.Size(438, 25);
+            this.LblDateCreated.Size = new System.Drawing.Size(442, 25);
             this.LblDateCreated.TabIndex = 25;
             this.LblDateCreated.Text = "Utworzenie: 00-00-0000";
             this.LblDateCreated.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1312,7 +1313,8 @@ namespace Laboratorium.Material.Forms
             this.BtnCurrency.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnCurrency.BackgroundImage = global::Laboratorium.Properties.Resources.waluta;
             this.BtnCurrency.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BtnCurrency.Location = new System.Drawing.Point(195, 5);
+            this.BtnCurrency.Location = new System.Drawing.Point(167, 5);
+            this.BtnCurrency.Margin = new System.Windows.Forms.Padding(0);
             this.BtnCurrency.Name = "BtnCurrency";
             this.BtnCurrency.Size = new System.Drawing.Size(50, 50);
             this.BtnCurrency.TabIndex = 26;
@@ -1324,7 +1326,8 @@ namespace Laboratorium.Material.Forms
             this.BtnClp.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnClp.BackgroundImage = global::Laboratorium.Properties.Resources.clp_ico;
             this.BtnClp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BtnClp.Location = new System.Drawing.Point(255, 5);
+            this.BtnClp.Location = new System.Drawing.Point(219, 5);
+            this.BtnClp.Margin = new System.Windows.Forms.Padding(0);
             this.BtnClp.Name = "BtnClp";
             this.BtnClp.Size = new System.Drawing.Size(50, 50);
             this.BtnClp.TabIndex = 27;
@@ -1336,7 +1339,8 @@ namespace Laboratorium.Material.Forms
             this.BtnCompositiom.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnCompositiom.BackgroundImage = global::Laboratorium.Properties.Resources.Chemicals;
             this.BtnCompositiom.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BtnCompositiom.Location = new System.Drawing.Point(315, 5);
+            this.BtnCompositiom.Location = new System.Drawing.Point(271, 5);
+            this.BtnCompositiom.Margin = new System.Windows.Forms.Padding(0);
             this.BtnCompositiom.Name = "BtnCompositiom";
             this.BtnCompositiom.Size = new System.Drawing.Size(50, 50);
             this.BtnCompositiom.TabIndex = 28;
@@ -1348,7 +1352,8 @@ namespace Laboratorium.Material.Forms
             this.BtnFunction.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.BtnFunction.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BtnFunction.BackgroundImage")));
             this.BtnFunction.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BtnFunction.Location = new System.Drawing.Point(375, 5);
+            this.BtnFunction.Location = new System.Drawing.Point(323, 5);
+            this.BtnFunction.Margin = new System.Windows.Forms.Padding(0);
             this.BtnFunction.Name = "BtnFunction";
             this.BtnFunction.Size = new System.Drawing.Size(50, 50);
             this.BtnFunction.TabIndex = 29;
@@ -1360,20 +1365,21 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel7.ColumnCount = 10;
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel7.ColumnCount = 11;
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel7.Controls.Add(this.BtnAdd, 0, 0);
             this.tableLayoutPanel7.Controls.Add(this.TbMaterial, 0, 4);
-            this.tableLayoutPanel7.Controls.Add(this.LblDateCreated, 9, 0);
+            this.tableLayoutPanel7.Controls.Add(this.LblDateCreated, 10, 0);
             this.tableLayoutPanel7.Controls.Add(this.label1, 0, 2);
             this.tableLayoutPanel7.Controls.Add(this.BtnFunction, 8, 0);
             this.tableLayoutPanel7.Controls.Add(this.BtnDelete, 2, 0);
@@ -1382,6 +1388,7 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel7.Controls.Add(this.BtnClp, 6, 0);
             this.tableLayoutPanel7.Controls.Add(this.BtnCurrency, 5, 0);
             this.tableLayoutPanel7.Controls.Add(this.TxtName, 3, 2);
+            this.tableLayoutPanel7.Controls.Add(this.BtnCompound, 9, 0);
             this.tableLayoutPanel7.Location = new System.Drawing.Point(4, 12);
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
             this.tableLayoutPanel7.RowCount = 5;
@@ -1390,8 +1397,22 @@ namespace Laboratorium.Material.Forms
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel7.Size = new System.Drawing.Size(876, 610);
             this.tableLayoutPanel7.TabIndex = 30;
+            // 
+            // BtnCompound
+            // 
+            this.BtnCompound.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.BtnCompound.BackgroundImage = global::Laboratorium.Properties.Resources.Benzene;
+            this.BtnCompound.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BtnCompound.Location = new System.Drawing.Point(375, 5);
+            this.BtnCompound.Margin = new System.Windows.Forms.Padding(0);
+            this.BtnCompound.Name = "BtnCompound";
+            this.BtnCompound.Size = new System.Drawing.Size(50, 50);
+            this.BtnCompound.TabIndex = 30;
+            this.BtnCompound.UseVisualStyleBackColor = true;
+            this.BtnCompound.Click += new System.EventHandler(this.BtnCompound_Click);
             // 
             // MaterialForm
             // 
@@ -1540,5 +1561,6 @@ namespace Laboratorium.Material.Forms
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
         private System.Windows.Forms.DataGridView DgvComposition;
         private System.Windows.Forms.Button BtnCompEdit;
+        private System.Windows.Forms.Button BtnCompound;
     }
 }

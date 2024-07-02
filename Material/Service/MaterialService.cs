@@ -71,6 +71,7 @@ namespace Laboratorium.Material.Service
         private const string COMPOUND_AMOUNT_MIN = "AmountMin";
         private const string COMPOUND_AMOUNT_MAX = "AmountMax";
         private const string COMPOUND_REMARKS = "Remarks";
+        private const string COMPOSITION_LIST = "MaterialCompositionList";
 
         #endregion
 
@@ -227,6 +228,7 @@ namespace Laboratorium.Material.Service
             view.Columns.Remove(GHS_LIST);
             view.Columns.Remove(HP_LIST);
             view.Columns.Remove(SIGNAL_WORD);
+            view.Columns.Remove(COMPOSITION_LIST);
 
             view.Columns[ID].Visible = false;
             view.Columns[CURRENCY_ID].Visible = false;
@@ -903,6 +905,11 @@ namespace Laboratorium.Material.Service
             {
                 form.ShowDialog();
             }
+        }
+
+        public void OpenCompound()
+        {
+
         }
 
         #endregion

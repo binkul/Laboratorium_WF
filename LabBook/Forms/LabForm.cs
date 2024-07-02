@@ -117,6 +117,9 @@ namespace Laboratorium.LabBook.Forms
             _service.PrepareAllData();
             _service.LoadFormData();
 
+            int topLbl = (LblProject.Height - GetBtnProjectChange.Height) / 2;
+            GetBtnProjectChange.Top = LblProject.Top + topLbl;
+
             _init = false;
         }
 

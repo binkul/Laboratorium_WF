@@ -83,6 +83,23 @@ namespace Laboratorium.Material.Forms
             _service.PrepareAllData();
             _service.LoadFormData();
 
+            ToolTip toolTip_1 = new ToolTip();
+            toolTip_1.SetToolTip(BtnAdd, "Dodaj pojedynczy");
+            ToolTip toolTip_2 = new ToolTip();
+            toolTip_2.SetToolTip(BtnDelete, "Usuń bierzący");
+            ToolTip toolTip_3 = new ToolTip();
+            toolTip_3.SetToolTip(BtnSave, "Zapisz zmiany");
+            ToolTip toolTip_4 = new ToolTip();
+            toolTip_4.SetToolTip(BtnCurrency, "Otwórz waluty");
+            ToolTip toolTip_5 = new ToolTip();
+            toolTip_5.SetToolTip(BtnClp, "Otwórz dane CLP");
+            ToolTip toolTip_6 = new ToolTip();
+            toolTip_6.SetToolTip(BtnCompositiom, "Otwórz skład");
+            ToolTip toolTip_7 = new ToolTip();
+            toolTip_7.SetToolTip(BtnFunction, "Otwórz funkcje");
+            ToolTip toolTip_8 = new ToolTip();
+            toolTip_8.SetToolTip(BtnCompound, "Otwórz związki");
+
             _init = false;
         }
 
@@ -144,6 +161,11 @@ namespace Laboratorium.Material.Forms
         private void BtnCompositiom_Click(object sender, EventArgs e)
         {
             _service.OpenComposition();
+        }
+
+        private void BtnCompound_Click(object sender, EventArgs e)
+        {
+            _service.OpenCompound();
         }
 
         #endregion
