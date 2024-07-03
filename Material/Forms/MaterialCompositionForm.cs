@@ -1,6 +1,7 @@
 ﻿using Laboratorium.ADO.DTO;
 using Laboratorium.Material.Service;
 using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
@@ -23,11 +24,21 @@ namespace Laboratorium.Material.Forms
         }
 
         public bool Init => _init;
-
+    
         public void EnableSave(bool enable)
         {
             BtnSave.Enabled = enable;
         }
+
+        #region Data for outside request
+
+        public bool IsChanged => _service.IsSaved;
+
+        public IList<MaterialCompositionDto> CompositionList => _service.CompositionList;
+
+        #endregion
+
+        #region FormLoad/Closing
 
         private void MaterialCompositionForm_Load(object sender, EventArgs e)
         {
@@ -56,6 +67,10 @@ namespace Laboratorium.Material.Forms
             _service.FormClose(e);
         }
 
+        #endregion
+
+        #region TextBox events
+
         private void TxtFilerName_TextChanged(object sender, EventArgs e)
         {
             _service.Filtering();
@@ -64,11 +79,6 @@ namespace Laboratorium.Material.Forms
         private void TxtFilterCas_TextChanged(object sender, EventArgs e)
         {
             _service.Filtering();
-        }
-
-        private void DgvCompound_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
-        {
-            _service.DgvCompoundColumnWidthChanged();
         }
 
         private void TxtFilerName_KeyPress(object sender, KeyPressEventArgs e)
@@ -84,6 +94,24 @@ namespace Laboratorium.Material.Forms
                 base.OnKeyPress(e);
             }
         }
+
+        #endregion
+
+        #region DataGridView events
+
+        private void DgvCompound_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            _service.DgvCompoundColumnWidthChanged();
+        }
+
+        private void DgvComposition_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            _service.CellValueChanged();
+        }
+
+        #endregion
+
+        #region Buttons
 
         private void BtnAddOne_Click(object sender, EventArgs e)
         {
@@ -105,11 +133,6 @@ namespace Laboratorium.Material.Forms
             _service.Save();
         }
 
-        private void DgvComposition_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            _service.CellValueChanged();
-        }
-
         private void BtnUp_Click(object sender, EventArgs e)
         {
             _service.MoveUp();
@@ -119,5 +142,7 @@ namespace Laboratorium.Material.Forms
         {
             _service.MoveDown();
         }
+
+        #endregion
     }
 }

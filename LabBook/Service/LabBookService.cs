@@ -525,7 +525,7 @@ namespace Laboratorium.LabBook.Service
         #endregion
 
 
-        #region Current/Binkding/Navigation
+        #region Current/Binding/Navigation
 
         private void LaboBinding_PositionChanged(object sender, EventArgs e)
         {
@@ -1391,9 +1391,9 @@ namespace Laboratorium.LabBook.Service
 
                 List<LaboDto> filter = _laboList
                     .Where(i => i.Id >= id)
-                    .Where(i => i.Title.ToLower().Contains(title.ToLower()))
-                    .Where(i => i.ProjectName.Contains(project))
-                    .Where(i => i.UserShortcut.ToLower().Contains(user.ToLower()))
+                    .Where(i => string.IsNullOrEmpty(title) || i.Title.ToLower().Contains(title.ToLower()))
+                    .Where(i => string.IsNullOrEmpty(project) || i.ProjectName.Contains(project))
+                    .Where(i => string.IsNullOrEmpty(user) || i.UserShortcut.ToLower().Contains(user.ToLower()))
                     .ToList();
 
                 _laboBinding.DataSource = filter;

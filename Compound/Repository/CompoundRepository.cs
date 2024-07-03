@@ -11,17 +11,17 @@ using System.Windows.Forms;
 
 namespace Laboratorium.Material.Repository
 {
-    public class MaterialCompoundRepository : BasicCRUD<MaterialCompoundDto>
+    public class CompoundRepository : BasicCRUD<CompoundDto>
     {
-        private static readonly SqlIndex SQL_INDEX = SqlIndex.MaterialCompoundIndex;
-        private static readonly string TABLE_NAME = Table.MATERIAL_COMPOUND_TABLE;
+        private static readonly SqlIndex SQL_INDEX = SqlIndex.CompoundIndex;
+        private static readonly string TABLE_NAME = Table.COMPOUND_TABLE;
 
-        public MaterialCompoundRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
+        public CompoundRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
         { }
 
-        public override IList<MaterialCompoundDto> GetAll()
+        public override IList<CompoundDto> GetAll()
         {
-            List<MaterialCompoundDto> list = new List<MaterialCompoundDto>();
+            List<CompoundDto> list = new List<CompoundDto>();
 
             try
             {
@@ -45,7 +45,7 @@ namespace Laboratorium.Material.Repository
                         bool isBio = reader.GetBoolean(9);
                         DateTime dateCreated = reader.GetDateTime(10);
 
-                        MaterialCompoundDto composition = new MaterialCompoundDto(id, namePl, nameEn, shortPl, shortEn, index, cas, we, formula, isBio, dateCreated);
+                        CompoundDto composition = new CompoundDto(id, namePl, nameEn, shortPl, shortEn, index, cas, we, formula, isBio, dateCreated);
                         composition.AcceptChanges();
                         list.Add(composition);
                     }
@@ -69,12 +69,12 @@ namespace Laboratorium.Material.Repository
             return list;
         }
 
-        public override MaterialCompoundDto Save(MaterialCompoundDto data)
+        public override CompoundDto Save(CompoundDto data)
         {
             throw new NotImplementedException();
         }
 
-        public override MaterialCompoundDto Update(MaterialCompoundDto data)
+        public override CompoundDto Update(CompoundDto data)
         {
             throw new NotImplementedException();
         }

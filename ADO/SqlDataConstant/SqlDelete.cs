@@ -20,7 +20,7 @@ namespace Laboratorium.ADO.SqlDataConstant
             {SqlIndex.MaterialClpPcodeIndex, "Delete From Konkurencja.dbo.MaterialClpCodeP Where material_id=" },
             {SqlIndex.MaterialClpSignalIndex, "Delete From Konkurencja.dbo.MaterialClpSignal Where material_id=" },
             {SqlIndex.MaterialCompositionIndex, "Delete from Konkurencja.dbo.MaterialComposition Where material_id=" },
-            {SqlIndex.MaterialCompoundIndex, "Delete from Konkurencja.dbo.MaterialCompound Where id=" },
+            {SqlIndex.CompoundIndex, "Delete from Konkurencja.dbo.MaterialCompound Where id=" },
         };
     }
 }

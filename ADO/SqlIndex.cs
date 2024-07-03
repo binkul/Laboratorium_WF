@@ -30,7 +30,7 @@
         MaterialClpSignalIndex,
         MaterialClpHPcombineIndex,
         MaterialCompositionIndex,
-        MaterialCompoundIndex,
+        CompoundIndex,
 
         CmbUnitIndex,
         CmbCurrencyIndex,

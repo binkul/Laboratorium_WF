@@ -52,8 +52,9 @@ namespace Laboratorium.Material.Service
         private readonly MaterialDto _material;
         private readonly IBasicCRUD<MaterialCompositionDto> _repository;
 
-        private IList<MaterialCompositionDto> _compositionList;
-        private IList<MaterialCompoundDto> _compoundList;
+        public IList<MaterialCompositionDto> CompositionList { get; private set; }
+        public bool IsSaved = false;
+        private IList<CompoundDto> _compoundList;
         private BindingSource _compoundBinding;
         private BindingSource _compositionBinding;
         private bool CompositionChanged = false;
@@ -94,14 +95,14 @@ namespace Laboratorium.Material.Service
 
         public override void PrepareAllData()
         {
-            IBasicCRUD<MaterialCompoundDto> repo = new MaterialCompoundRepository(_connection);
+            IBasicCRUD<CompoundDto> repo = new CompoundRepository(_connection);
             _compoundList = repo.GetAll();
             _compoundBinding = new BindingSource();
             _compoundBinding.DataSource = _compoundList;
 
-            _compositionList = _repository.GetAllByLaboId(_material.Id);
+            CompositionList = _repository.GetAllByLaboId(_material.Id);
             _compositionBinding = new BindingSource();
-            _compositionBinding.DataSource = _compositionList;
+            _compositionBinding.DataSource = CompositionList;
 
             PrepareComposition();
             PrepareDgvCompound();
@@ -110,10 +111,10 @@ namespace Laboratorium.Material.Service
 
         private void PrepareComposition()
         {
-            foreach (MaterialCompositionDto composition in _compositionList)
+            foreach (MaterialCompositionDto composition in CompositionList)
             {
                 int id = composition.CompoundId;
-                MaterialCompoundDto cpompoud = _compoundList.Where(i => i.Id == id).FirstOrDefault();
+                CompoundDto cpompoud = _compoundList.Where(i => i.Id == id).FirstOrDefault();
                 composition.Compound = cpompoud;
             }
         }
@@ -243,7 +244,7 @@ namespace Laboratorium.Material.Service
             _compositionBinding.EndEdit();
             _repository.DeleteById(_material.Id);
 
-            foreach (var compo in _compositionList)
+            foreach (var compo in CompositionList)
             {
                 var status = _repository.Save(compo).CrudState;
                 if (status != ADO.CrudState.OK)
@@ -251,6 +252,7 @@ namespace Laboratorium.Material.Service
             }
 
             ChangeStatus(false);
+            IsSaved = true;
             return true;
         }
 
@@ -264,14 +266,14 @@ namespace Laboratorium.Material.Service
             if (_compoundBinding.Count == 0 || _compoundBinding.Current == null || _material == null)
                 return;
 
-            MaterialCompoundDto compound = (MaterialCompoundDto)_compoundBinding.Current;
-            byte position = _compositionList.Count > 0 ? _compositionList.Max(i => i.Ordering) : (byte)0;
+            CompoundDto compound = (CompoundDto)_compoundBinding.Current;
+            byte position = CompositionList.Count > 0 ? CompositionList.Max(i => i.Ordering) : (byte)0;
             position++;
             MaterialCompositionDto compo = new MaterialCompositionDto(_material.Id, compound.Id, 0, 0, position);
             compo.Compound = compound;
-            _compositionList.Add(compo);
-            _compositionList = _compositionList.OrderBy(i => i.Ordering).ToList();
-            _compositionBinding.DataSource = _compositionList;
+            CompositionList.Add(compo);
+            CompositionList = CompositionList.OrderBy(i => i.Ordering).ToList();
+            _compositionBinding.DataSource = CompositionList;
             _compositionBinding.Position = _compositionBinding.Count - 1;
 
             ChangeStatus(true);
@@ -306,7 +308,7 @@ namespace Laboratorium.Material.Service
 
         public void MoveUp()
         {
-            if (_compositionList.Count <= 1 || _compositionBinding.Current == null || _compositionBinding.Position == 0)
+            if (CompositionList.Count <= 1 || _compositionBinding.Current == null || _compositionBinding.Position == 0)
                 return;
 
             MaterialCompositionDto current = (MaterialCompositionDto)_compositionBinding.Current;
@@ -319,8 +321,8 @@ namespace Laboratorium.Material.Service
             current.Ordering = upPosition;
             compoUp.Ordering = currentPosition;
 
-            _compositionList = _compositionList.OrderBy(i => i.Ordering).ToList();
-            _compositionBinding.DataSource = _compositionList;
+            CompositionList = CompositionList.OrderBy(i => i.Ordering).ToList();
+            _compositionBinding.DataSource = CompositionList;
             _compositionBinding.Position = position;
 
             ChangeStatus(true);
@@ -328,7 +330,7 @@ namespace Laboratorium.Material.Service
 
         public void MoveDown()
         {
-            if (_compositionList.Count <= 1 || _compositionBinding.Current == null || _compositionBinding.Position == _compositionBinding.Count - 1)
+            if (CompositionList.Count <= 1 || _compositionBinding.Current == null || _compositionBinding.Position == _compositionBinding.Count - 1)
                 return;
 
             MaterialCompositionDto current = (MaterialCompositionDto)_compositionBinding.Current;
@@ -341,8 +343,8 @@ namespace Laboratorium.Material.Service
             current.Ordering = downPosition;
             compoDown.Ordering = currentPosition;
 
-            _compositionList = _compositionList.OrderBy(i => i.Ordering).ToList();
-            _compositionBinding.DataSource = _compositionList;
+            CompositionList = CompositionList.OrderBy(i => i.Ordering).ToList();
+            _compositionBinding.DataSource = CompositionList;
             _compositionBinding.Position = position;
 
             ChangeStatus(true);
@@ -384,7 +386,7 @@ namespace Laboratorium.Material.Service
             string name = _form.GetTxtFilteringName.Text;
             string cas = _form.GetTxtFilteringCas.Text;
 
-            IList<MaterialCompoundDto> filtered;
+            IList<CompoundDto> filtered;
 
             filtered = _compoundList
                 .Where(i => i.ShortPl.ToLower().Contains(name.ToLower()))

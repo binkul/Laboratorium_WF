@@ -2,7 +2,7 @@
 
 namespace Laboratorium.ADO.DTO
 {
-    public class MaterialCompoundDto
+    public class CompoundDto
     {
         public int Id { get; set; }
         private string _namePl;
@@ -17,7 +17,7 @@ namespace Laboratorium.ADO.DTO
         public DateTime DateCreated { get; set; } = DateTime.Today;
         private RowState _rowState = RowState.ADDED;
 
-        public MaterialCompoundDto(int id, string namePl, string nameEn, string shortPl, string shortEn, 
+        public CompoundDto(int id, string namePl, string nameEn, string shortPl, string shortEn, 
             string index, string cAS, string wE, string formula, bool isBio, DateTime dateCreated)
         {
             Id = id;

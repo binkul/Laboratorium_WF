@@ -67,7 +67,7 @@
     <Compile Include="ADO\DTO\MaterialClpPCodeDto.cs" />
     <Compile Include="ADO\DTO\MaterialClpSignalDto.cs" />
     <Compile Include="ADO\DTO\MaterialCompositionDto.cs" />
-    <Compile Include="ADO\DTO\MaterialCompoundDto.cs" />
+    <Compile Include="ADO\DTO\CompoundDto.cs" />
     <Compile Include="ADO\DTO\MaterialDto.cs" />
     <Compile Include="ADO\DTO\NormDetailDto.cs" />
     <Compile Include="ADO\DTO\NormDto.cs" />
@@ -102,6 +102,13 @@
     <Compile Include="Commons\CommonData.cs" />
     <Compile Include="Commons\CommonFunction.cs" />
     <Compile Include="Commons\SerializeClass.cs" />
+    <Compile Include="Compound\Forms\CompoundForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compound\Forms\CompoundForm.Designer.cs">
+      <DependentUpon>CompoundForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Compound\Service\CompoundService.cs" />
     <Compile Include="Currency\Forms\CurrencyForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -174,7 +181,7 @@
     <Compile Include="Material\Repository\ClpHPcombineRepository.cs" />
     <Compile Include="Material\Repository\CmbMaterialFunctionRepository.cs" />
     <Compile Include="Material\Repository\MaterialCompositionRepository.cs" />
-    <Compile Include="Material\Repository\MaterialCompoundRepository.cs" />
+    <Compile Include="Compound\Repository\CompoundRepository.cs" />
     <Compile Include="Material\Repository\MaterialGHSRepository.cs" />
     <Compile Include="Material\Repository\CmbUnitRepository.cs" />
     <Compile Include="Material\Repository\MaterialHcodeRepository.cs" />
@@ -208,6 +215,9 @@
     </Compile>
     <Compile Include="Security\Encrypt.cs" />
     <Compile Include="User\Repository\UserRepository.cs" />
+    <EmbeddedResource Include="Compound\Forms\CompoundForm.resx">
+      <DependentUpon>CompoundForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Currency\Forms\CurrencyForm.resx">
       <DependentUpon>CurrencyForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -356,5 +366,6 @@
   <ItemGroup>
     <None Include="Resources\Benzene.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

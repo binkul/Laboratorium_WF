@@ -3,6 +3,7 @@ using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.Service;
 using Laboratorium.Commons;
+using Laboratorium.Compound.Forms;
 using Laboratorium.Currency.Forms;
 using Laboratorium.Currency.Repository;
 using Laboratorium.Material.Dto;
@@ -534,7 +535,7 @@ namespace Laboratorium.Material.Service
         {
             _cmbBlock = true;
 
-            #region Get Current Material
+            #region Set Current Material
 
             if (_materialBinding == null || _materialBinding.Count == 0)
             {
@@ -904,12 +905,20 @@ namespace Laboratorium.Material.Service
             using (MaterialCompositionForm form = new MaterialCompositionForm(_connection, CurrentMaterial))
             {
                 form.ShowDialog();
+                if (form.IsChanged)
+                {
+                    CurrentMaterial.MaterialCompositionList = form.CompositionList;
+                    MaterialBinding_PositionChanged(null, null);
+                }
             }
         }
 
         public void OpenCompound()
         {
-
+            using (CompoundForm form = new CompoundForm(_connection))
+            {
+                form.ShowDialog();
+            }
         }
 
         #endregion

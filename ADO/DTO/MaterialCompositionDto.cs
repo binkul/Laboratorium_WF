@@ -13,7 +13,7 @@ namespace Laboratorium.ADO.DTO
         public DateTime DateCreated { get; set; } = DateTime.Today;
         private RowState _rowState = RowState.ADDED;
         public CrudState CrudState { get; set; } = CrudState.OK;
-        public MaterialCompoundDto Compound { get; set; }
+        public CompoundDto Compound { get; set; }
 
         public MaterialCompositionDto(int materialId, int compoundId, double amountMin, double amountMax, byte ordering, 
             string remarks, DateTime dateCreated)
