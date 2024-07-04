@@ -63,17 +63,18 @@ namespace Laboratorium.Compound.Forms
             this.LblDate = new System.Windows.Forms.Label();
             this.LblDateCreated = new System.Windows.Forms.Label();
             this.BindingNavCompound = new System.Windows.Forms.BindingNavigator(this.components);
+            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.bindingNavigatorPositionItem = new System.Windows.Forms.ToolStripTextBox();
-            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
             this.bindingNavigatorSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
+            this.BtnAdd = new System.Windows.Forms.Button();
+            this.BtnDelete = new System.Windows.Forms.Button();
+            this.BtnFilterClear = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvCompound)).BeginInit();
             this.panel1.SuspendLayout();
@@ -89,7 +90,7 @@ namespace Laboratorium.Compound.Forms
             this.label1.Location = new System.Drawing.Point(34, 7);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(93, 20);
-            this.label1.TabIndex = 0;
+            this.label1.TabIndex = 20;
             this.label1.Text = "Nazwa Pl.";
             // 
             // label2
@@ -100,7 +101,7 @@ namespace Laboratorium.Compound.Forms
             this.label2.Location = new System.Drawing.Point(29, 42);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(98, 20);
-            this.label2.TabIndex = 1;
+            this.label2.TabIndex = 21;
             this.label2.Text = "Nazwa En.";
             // 
             // label3
@@ -111,7 +112,7 @@ namespace Laboratorium.Compound.Forms
             this.label3.Location = new System.Drawing.Point(46, 77);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(81, 20);
-            this.label3.TabIndex = 2;
+            this.label3.TabIndex = 22;
             this.label3.Text = "Skrót Pl.";
             // 
             // label4
@@ -122,7 +123,7 @@ namespace Laboratorium.Compound.Forms
             this.label4.Location = new System.Drawing.Point(41, 112);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(86, 20);
-            this.label4.TabIndex = 3;
+            this.label4.TabIndex = 23;
             this.label4.Text = "Skrót En.";
             // 
             // label5
@@ -133,7 +134,7 @@ namespace Laboratorium.Compound.Forms
             this.label5.Location = new System.Drawing.Point(64, 147);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(63, 20);
-            this.label5.TabIndex = 4;
+            this.label5.TabIndex = 24;
             this.label5.Text = "Indeks";
             // 
             // label6
@@ -144,7 +145,7 @@ namespace Laboratorium.Compound.Forms
             this.label6.Location = new System.Drawing.Point(332, 147);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(46, 20);
-            this.label6.TabIndex = 5;
+            this.label6.TabIndex = 25;
             this.label6.Text = "CAS";
             // 
             // label7
@@ -155,7 +156,7 @@ namespace Laboratorium.Compound.Forms
             this.label7.Location = new System.Drawing.Point(581, 147);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(38, 20);
-            this.label7.TabIndex = 6;
+            this.label7.TabIndex = 26;
             this.label7.Text = "WE";
             // 
             // label8
@@ -166,7 +167,7 @@ namespace Laboratorium.Compound.Forms
             this.label8.Location = new System.Drawing.Point(827, 147);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(53, 20);
-            this.label8.TabIndex = 7;
+            this.label8.TabIndex = 27;
             this.label8.Text = "Wzór";
             // 
             // label9
@@ -177,7 +178,7 @@ namespace Laboratorium.Compound.Forms
             this.label9.Location = new System.Drawing.Point(90, 182);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(37, 20);
-            this.label9.TabIndex = 8;
+            this.label9.TabIndex = 28;
             this.label9.Text = "Bio";
             // 
             // BtnSave
@@ -185,12 +186,13 @@ namespace Laboratorium.Compound.Forms
             this.BtnSave.BackgroundImage = global::Laboratorium.Properties.Resources.Save;
             this.BtnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BtnSave.Enabled = false;
-            this.BtnSave.Location = new System.Drawing.Point(9, 9);
+            this.BtnSave.Location = new System.Drawing.Point(120, 9);
             this.BtnSave.Margin = new System.Windows.Forms.Padding(0);
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(50, 50);
-            this.BtnSave.TabIndex = 25;
+            this.BtnSave.TabIndex = 11;
             this.BtnSave.UseVisualStyleBackColor = true;
+            this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
             // TxtNamePl
             // 
@@ -200,7 +202,7 @@ namespace Laboratorium.Compound.Forms
             this.TxtNamePl.Location = new System.Drawing.Point(133, 4);
             this.TxtNamePl.Name = "TxtNamePl";
             this.TxtNamePl.Size = new System.Drawing.Size(928, 27);
-            this.TxtNamePl.TabIndex = 26;
+            this.TxtNamePl.TabIndex = 0;
             this.TxtNamePl.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtBox_KeyPress);
             // 
             // TxtNameEn
@@ -211,7 +213,7 @@ namespace Laboratorium.Compound.Forms
             this.TxtNameEn.Location = new System.Drawing.Point(133, 39);
             this.TxtNameEn.Name = "TxtNameEn";
             this.TxtNameEn.Size = new System.Drawing.Size(928, 27);
-            this.TxtNameEn.TabIndex = 27;
+            this.TxtNameEn.TabIndex = 1;
             this.TxtNameEn.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtBox_KeyPress);
             // 
             // TxtShortPl
@@ -222,7 +224,7 @@ namespace Laboratorium.Compound.Forms
             this.TxtShortPl.Location = new System.Drawing.Point(133, 74);
             this.TxtShortPl.Name = "TxtShortPl";
             this.TxtShortPl.Size = new System.Drawing.Size(928, 27);
-            this.TxtShortPl.TabIndex = 28;
+            this.TxtShortPl.TabIndex = 2;
             this.TxtShortPl.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtBox_KeyPress);
             // 
             // TxtShortEn
@@ -233,7 +235,7 @@ namespace Laboratorium.Compound.Forms
             this.TxtShortEn.Location = new System.Drawing.Point(133, 109);
             this.TxtShortEn.Name = "TxtShortEn";
             this.TxtShortEn.Size = new System.Drawing.Size(928, 27);
-            this.TxtShortEn.TabIndex = 29;
+            this.TxtShortEn.TabIndex = 3;
             this.TxtShortEn.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtBox_KeyPress);
             // 
             // TxtIndeks
@@ -243,7 +245,7 @@ namespace Laboratorium.Compound.Forms
             this.TxtIndeks.Location = new System.Drawing.Point(133, 144);
             this.TxtIndeks.Name = "TxtIndeks";
             this.TxtIndeks.Size = new System.Drawing.Size(175, 27);
-            this.TxtIndeks.TabIndex = 30;
+            this.TxtIndeks.TabIndex = 4;
             this.TxtIndeks.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtBox_KeyPress);
             // 
             // TxtCAS
@@ -253,7 +255,7 @@ namespace Laboratorium.Compound.Forms
             this.TxtCAS.Location = new System.Drawing.Point(384, 144);
             this.TxtCAS.Name = "TxtCAS";
             this.TxtCAS.Size = new System.Drawing.Size(175, 27);
-            this.TxtCAS.TabIndex = 31;
+            this.TxtCAS.TabIndex = 5;
             this.TxtCAS.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtBox_KeyPress);
             // 
             // TxtWE
@@ -263,7 +265,7 @@ namespace Laboratorium.Compound.Forms
             this.TxtWE.Location = new System.Drawing.Point(625, 144);
             this.TxtWE.Name = "TxtWE";
             this.TxtWE.Size = new System.Drawing.Size(175, 27);
-            this.TxtWE.TabIndex = 32;
+            this.TxtWE.TabIndex = 6;
             this.TxtWE.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtBox_KeyPress);
             // 
             // TxtFormula
@@ -273,7 +275,7 @@ namespace Laboratorium.Compound.Forms
             this.TxtFormula.Location = new System.Drawing.Point(886, 144);
             this.TxtFormula.Name = "TxtFormula";
             this.TxtFormula.Size = new System.Drawing.Size(175, 27);
-            this.TxtFormula.TabIndex = 33;
+            this.TxtFormula.TabIndex = 7;
             this.TxtFormula.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtBox_KeyPress);
             // 
             // ChbIsBio
@@ -283,7 +285,7 @@ namespace Laboratorium.Compound.Forms
             this.ChbIsBio.Location = new System.Drawing.Point(133, 184);
             this.ChbIsBio.Name = "ChbIsBio";
             this.ChbIsBio.Size = new System.Drawing.Size(18, 17);
-            this.ChbIsBio.TabIndex = 34;
+            this.ChbIsBio.TabIndex = 8;
             this.ChbIsBio.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel1
@@ -354,7 +356,7 @@ namespace Laboratorium.Compound.Forms
             this.DgvCompound.RowHeadersWidth = 51;
             this.DgvCompound.RowTemplate.Height = 24;
             this.DgvCompound.Size = new System.Drawing.Size(1058, 373);
-            this.DgvCompound.TabIndex = 35;
+            this.DgvCompound.TabIndex = 10;
             this.DgvCompound.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.DgvCompound_ColumnWidthChanged);
             // 
             // panel1
@@ -363,15 +365,16 @@ namespace Laboratorium.Compound.Forms
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.SetColumnSpan(this.panel1, 9);
+            this.panel1.Controls.Add(this.BtnFilterClear);
             this.panel1.Controls.Add(this.ChbFiletrIsBio);
             this.panel1.Controls.Add(this.TxtFilterWE);
             this.panel1.Controls.Add(this.TxtFilerCas);
             this.panel1.Controls.Add(this.TxtFilterShort);
             this.panel1.Controls.Add(this.TxtFilterName);
-            this.panel1.Location = new System.Drawing.Point(0, 210);
-            this.panel1.Margin = new System.Windows.Forms.Padding(0);
+            this.panel1.Location = new System.Drawing.Point(3, 210);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1064, 35);
+            this.panel1.Size = new System.Drawing.Size(1058, 35);
             this.panel1.TabIndex = 36;
             // 
             // ChbFiletrIsBio
@@ -380,8 +383,9 @@ namespace Laboratorium.Compound.Forms
             this.ChbFiletrIsBio.Location = new System.Drawing.Point(635, 10);
             this.ChbFiletrIsBio.Name = "ChbFiletrIsBio";
             this.ChbFiletrIsBio.Size = new System.Drawing.Size(18, 17);
-            this.ChbFiletrIsBio.TabIndex = 4;
+            this.ChbFiletrIsBio.TabIndex = 9;
             this.ChbFiletrIsBio.UseVisualStyleBackColor = true;
+            this.ChbFiletrIsBio.CheckedChanged += new System.EventHandler(this.ChbFiletrIsBio_CheckedChanged);
             // 
             // TxtFilterWE
             // 
@@ -390,30 +394,41 @@ namespace Laboratorium.Compound.Forms
             this.TxtFilterWE.Name = "TxtFilterWE";
             this.TxtFilterWE.Size = new System.Drawing.Size(189, 27);
             this.TxtFilterWE.TabIndex = 3;
+            this.TxtFilterWE.Tag = "we";
+            this.TxtFilterWE.TextChanged += new System.EventHandler(this.TxtFilter_TextChanged);
+            this.TxtFilterWE.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtBox_KeyPress);
             // 
             // TxtFilerCas
             // 
             this.TxtFilerCas.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TxtFilerCas.Location = new System.Drawing.Point(393, 3);
+            this.TxtFilerCas.Location = new System.Drawing.Point(440, 3);
             this.TxtFilerCas.Name = "TxtFilerCas";
             this.TxtFilerCas.Size = new System.Drawing.Size(189, 27);
             this.TxtFilerCas.TabIndex = 2;
+            this.TxtFilerCas.Tag = "cas";
+            this.TxtFilerCas.TextChanged += new System.EventHandler(this.TxtFilter_TextChanged);
+            this.TxtFilerCas.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtBox_KeyPress);
             // 
             // TxtFilterShort
             // 
             this.TxtFilterShort.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TxtFilterShort.Location = new System.Drawing.Point(198, 3);
+            this.TxtFilterShort.Location = new System.Drawing.Point(304, 3);
             this.TxtFilterShort.Name = "TxtFilterShort";
-            this.TxtFilterShort.Size = new System.Drawing.Size(189, 27);
+            this.TxtFilterShort.Size = new System.Drawing.Size(130, 27);
             this.TxtFilterShort.TabIndex = 1;
+            this.TxtFilterShort.Tag = "short";
+            this.TxtFilterShort.TextChanged += new System.EventHandler(this.TxtFilter_TextChanged);
+            this.TxtFilterShort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtBox_KeyPress);
             // 
             // TxtFilterName
             // 
             this.TxtFilterName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TxtFilterName.Location = new System.Drawing.Point(3, 3);
+            this.TxtFilterName.Location = new System.Drawing.Point(109, 3);
             this.TxtFilterName.Name = "TxtFilterName";
             this.TxtFilterName.Size = new System.Drawing.Size(189, 27);
             this.TxtFilterName.TabIndex = 0;
+            this.TxtFilterName.Tag = "name";
+            this.TxtFilterName.TextChanged += new System.EventHandler(this.TxtFilter_TextChanged);
             this.TxtFilterName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtBox_KeyPress);
             // 
             // label10
@@ -449,7 +464,7 @@ namespace Laboratorium.Compound.Forms
             this.LblDate.Location = new System.Drawing.Point(654, 182);
             this.LblDate.Name = "LblDate";
             this.LblDate.Size = new System.Drawing.Size(146, 20);
-            this.LblDate.TabIndex = 39;
+            this.LblDate.TabIndex = 29;
             this.LblDate.Text = "Data utworzenia";
             // 
             // LblDateCreated
@@ -462,14 +477,14 @@ namespace Laboratorium.Compound.Forms
             this.LblDateCreated.Location = new System.Drawing.Point(806, 182);
             this.LblDateCreated.Name = "LblDateCreated";
             this.LblDateCreated.Size = new System.Drawing.Size(103, 20);
-            this.LblDateCreated.TabIndex = 40;
+            this.LblDateCreated.TabIndex = 30;
             this.LblDateCreated.Text = "00-00-0000";
             // 
             // BindingNavCompound
             // 
-            this.BindingNavCompound.AddNewItem = this.bindingNavigatorAddNewItem;
+            this.BindingNavCompound.AddNewItem = null;
             this.BindingNavCompound.CountItem = this.bindingNavigatorCountItem;
-            this.BindingNavCompound.DeleteItem = this.bindingNavigatorDeleteItem;
+            this.BindingNavCompound.DeleteItem = null;
             this.BindingNavCompound.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.BindingNavCompound.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.BindingNavCompound.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -481,9 +496,7 @@ namespace Laboratorium.Compound.Forms
             this.bindingNavigatorSeparator1,
             this.bindingNavigatorMoveNextItem,
             this.bindingNavigatorMoveLastItem,
-            this.bindingNavigatorSeparator2,
-            this.bindingNavigatorAddNewItem,
-            this.bindingNavigatorDeleteItem});
+            this.bindingNavigatorSeparator2});
             this.BindingNavCompound.Location = new System.Drawing.Point(0, 689);
             this.BindingNavCompound.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
             this.BindingNavCompound.MoveLastItem = this.bindingNavigatorMoveLastItem;
@@ -494,6 +507,13 @@ namespace Laboratorium.Compound.Forms
             this.BindingNavCompound.Size = new System.Drawing.Size(1064, 27);
             this.BindingNavCompound.TabIndex = 36;
             this.BindingNavCompound.Text = "bindingNavigator1";
+            // 
+            // bindingNavigatorCountItem
+            // 
+            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(38, 24);
+            this.bindingNavigatorCountItem.Text = "z {0}";
+            this.bindingNavigatorCountItem.ToolTipText = "Suma elementów";
             // 
             // bindingNavigatorMoveFirstItem
             // 
@@ -527,16 +547,9 @@ namespace Laboratorium.Compound.Forms
             this.bindingNavigatorPositionItem.Text = "0";
             this.bindingNavigatorPositionItem.ToolTipText = "Bieżąca pozycja";
             // 
-            // bindingNavigatorCountItem
-            // 
-            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(38, 24);
-            this.bindingNavigatorCountItem.Text = "z {0}";
-            this.bindingNavigatorCountItem.ToolTipText = "Suma elementów";
-            // 
             // bindingNavigatorSeparator1
             // 
-            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator";
+            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
             this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
             // bindingNavigatorMoveNextItem
@@ -559,31 +572,52 @@ namespace Laboratorium.Compound.Forms
             // 
             // bindingNavigatorSeparator2
             // 
-            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator";
+            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
             this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 27);
             // 
-            // bindingNavigatorAddNewItem
+            // BtnAdd
             // 
-            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
-            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
-            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(29, 24);
-            this.bindingNavigatorAddNewItem.Text = "Dodaj nowy";
+            this.BtnAdd.BackgroundImage = global::Laboratorium.Properties.Resources._new;
+            this.BtnAdd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BtnAdd.Location = new System.Drawing.Point(7, 9);
+            this.BtnAdd.Margin = new System.Windows.Forms.Padding(0);
+            this.BtnAdd.Name = "BtnAdd";
+            this.BtnAdd.Size = new System.Drawing.Size(50, 50);
+            this.BtnAdd.TabIndex = 37;
+            this.BtnAdd.UseVisualStyleBackColor = true;
+            this.BtnAdd.Click += new System.EventHandler(this.BtnAdd_Click);
             // 
-            // bindingNavigatorDeleteItem
+            // BtnDelete
             // 
-            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
-            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
-            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(29, 24);
-            this.bindingNavigatorDeleteItem.Text = "Usuń";
+            this.BtnDelete.BackgroundImage = global::Laboratorium.Properties.Resources.delete;
+            this.BtnDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BtnDelete.Location = new System.Drawing.Point(67, 9);
+            this.BtnDelete.Margin = new System.Windows.Forms.Padding(0);
+            this.BtnDelete.Name = "BtnDelete";
+            this.BtnDelete.Size = new System.Drawing.Size(50, 50);
+            this.BtnDelete.TabIndex = 38;
+            this.BtnDelete.UseVisualStyleBackColor = true;
+            this.BtnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
+            // 
+            // BtnFilterClear
+            // 
+            this.BtnFilterClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.BtnFilterClear.ForeColor = System.Drawing.Color.Red;
+            this.BtnFilterClear.Location = new System.Drawing.Point(5, 2);
+            this.BtnFilterClear.Margin = new System.Windows.Forms.Padding(0);
+            this.BtnFilterClear.Name = "BtnFilterClear";
+            this.BtnFilterClear.Size = new System.Drawing.Size(28, 28);
+            this.BtnFilterClear.TabIndex = 10;
+            this.BtnFilterClear.Text = "X";
+            this.BtnFilterClear.UseVisualStyleBackColor = true;
+            this.BtnFilterClear.Click += new System.EventHandler(this.BtnFilterClear_Click);
             // 
             // CompoundForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1064, 716);
+            this.Controls.Add(this.BtnDelete);
+            this.Controls.Add(this.BtnAdd);
             this.Controls.Add(this.BindingNavCompound);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.BtnSave);
@@ -640,9 +674,7 @@ namespace Laboratorium.Compound.Forms
         private System.Windows.Forms.CheckBox ChbFiletrIsBio;
         private System.Windows.Forms.Label LblDateCreated;
         private System.Windows.Forms.BindingNavigator BindingNavCompound;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorAddNewItem;
         private System.Windows.Forms.ToolStripLabel bindingNavigatorCountItem;
-        private System.Windows.Forms.ToolStripButton bindingNavigatorDeleteItem;
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveFirstItem;
         private System.Windows.Forms.ToolStripButton bindingNavigatorMovePreviousItem;
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator;
@@ -651,5 +683,8 @@ namespace Laboratorium.Compound.Forms
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveNextItem;
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
+        private System.Windows.Forms.Button BtnAdd;
+        private System.Windows.Forms.Button BtnDelete;
+        private System.Windows.Forms.Button BtnFilterClear;
     }
 }

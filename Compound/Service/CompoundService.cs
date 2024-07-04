@@ -1,4 +1,5 @@
-﻿using Laboratorium.ADO.DTO;
+﻿using Laboratorium.ADO;
+using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.Service;
 using Laboratorium.Compound.Forms;
@@ -8,12 +9,11 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Laboratorium.Compound.Service
 {
-    public class CompoundService : LoadService
+    public class CompoundService : LoadService, IService
     {
         #region DTO-s fields for DGV column
 
@@ -46,22 +46,31 @@ namespace Laboratorium.Compound.Service
         private BindingSource _compoundBinding;
 
         private bool CompoundChanged = false;
+        private bool FilterBlock = false;
 
         public CompoundService(SqlConnection connection, CompoundForm form) : base(FORM_DATA, form)
         {
             _form = form;
             _connection = connection;
-            _repository = new CompoundRepository(_connection);
+            _repository = new CompoundRepository(_connection, this);
         }
 
 
         #region Change status to save button
+        
+        public void Modify(RowState state)
+        {
+            if (state != RowState.UNCHANGED)
+                ChangeStatus(true);
+        }
 
-        private void ChangeStatus(bool status)
+        public void ChangeStatus(bool status)
         {
             CompoundChanged = status;
             _form.EnableSave(Status);
         }
+
+        private bool CheckStatus => _compoundList.Any(i => i.GetRowState != RowState.UNCHANGED);
 
         protected override bool Status => CompoundChanged;
 
@@ -89,6 +98,8 @@ namespace Laboratorium.Compound.Service
 
             PrepareDgvCompound();
             PrepareOtherConrols();
+
+            CompoundBinding_PositionChanged(null, null);
         }
 
         private void PrepareDgvCompound()
@@ -110,6 +121,7 @@ namespace Laboratorium.Compound.Service
             view.Columns.Remove(INDEX);
             view.Columns.Remove(FORMULA);
             view.Columns.Remove(GET_ROW_STATE);
+            view.Columns.Remove(CRUD_STATE);
 
             view.Columns[ID].Visible = false;
 
@@ -211,19 +223,234 @@ namespace Laboratorium.Compound.Service
         #endregion
 
 
-        #region DataGridView Events
+        #region Button Add/Delete
 
-        public void ChangeFilterWidth()
+        public void AddNewCompound()
         {
+            CompoundDto compound = new CompoundDto(0 ,"", "", "", "", "", "", "", "", false, DateTime.Today, this);
+            ClearFiltrationByNewAdd();
+            _compoundBinding.Add(compound);
+            _compoundBinding.Position = _compoundBinding.Count - 1;
+            ChangeStatus(true);
+        }
 
+        public void DeleteCompound()
+        {
+            DialogResult result = MessageBox.Show("Czy usunąć bierzący związek chemiczny: '" + CurrentCompound.ShortPl + "' z bazy danych ?", "Usuwanie", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.No || CurrentCompound == null)
+                return;
+
+            _compoundBinding.RemoveCurrent();
+
+            if (CurrentCompound.Id > 0)
+            {
+                _repository.DeleteById(CurrentCompound.Id);
+            }
+
+            ChangeStatus(CheckStatus);
         }
 
         #endregion
 
-        public override bool Save()
+
+        #region DataGridView Events
+
+        public void ChangeFilterWidth()
         {
-            throw new NotImplementedException();
+            int border = 2;
+            var view = _form.GetDgvCompound;
+
+            _form.GetBtnFilerClear.Left = view.Left + (view.RowHeadersWidth / 2) - (_form.GetBtnFilerClear.Width / 2) - border;
+
+            _form.GetTxtFilterName.Left = view.Left + view.RowHeadersWidth - border;
+            _form.GetTxtFilterName.Width = view.Columns[NAME_PL].Width - border;
+
+            _form.GetTxtFilterShort.Left = _form.GetTxtFilterName.Left + _form.GetTxtFilterName.Width + border;
+            _form.GetTxtFilterShort.Width = view.Columns[SHORT_PL].Width - border;
+
+            _form.GetTxtFilterCas.Left = _form.GetTxtFilterShort.Left + _form.GetTxtFilterShort.Width + border;
+            _form.GetTxtFilterCas.Width = view.Columns[CAS].Width - border;
+
+            _form.GetChbFilterIsBio.Left = _form.GetTxtFilterCas.Left + _form.GetTxtFilterCas.Width
+                + (view.Columns[IS_BIO].Width / 2) - (_form.GetChbFilterIsBio.Width / 2);
+
+            _form.GetTxtFilterWe.Left = _form.GetTxtFilterCas.Left + _form.GetTxtFilterCas.Width + view.Columns[IS_BIO].Width + border;
+            _form.GetTxtFilterWe.Width = view.Columns[WE].Width - border;
         }
 
+        #endregion
+
+
+        #region CRUD
+        public override bool Save()
+        {
+            _form.GetDgvCompound.EndEdit();
+            _compoundBinding.EndEdit();
+
+            #region save
+
+            var saveList = _compoundList
+                .Where(i => i.GetRowState == RowState.ADDED)
+                .ToList();
+
+            foreach (var compound in saveList)
+            {
+                if (!CheckBeforeSave(compound))
+                {
+                    ClearFiltrationByNewAdd();
+                    var find = _compoundList.IndexOf(compound);
+                    _compoundBinding.Position = find;
+                    return false;
+                }
+
+                CrudState saveState = _repository.Save(compound).CrudState;
+                if (saveState == CrudState.OK)
+                    compound.AcceptChanges();
+                else
+                    return false;
+            }
+
+            #endregion
+
+            #region Update
+
+            var updateList = _compoundList
+                .Where(i => i.GetRowState == RowState.MODIFIED)
+                .ToList();
+
+            foreach (var compound in saveList)
+            {
+                if (!CheckBeforeSave(compound))
+                {
+                    ClearFiltrationByNewAdd();
+                    var find = _compoundList.IndexOf(compound);
+                    _compoundBinding.Position = find;
+                    return false;
+                }
+
+                CrudState saveState = _repository.Update(compound).CrudState;
+                if (saveState == CrudState.OK)
+                    compound.AcceptChanges();
+                else
+                    return false;
+            }
+
+            #endregion
+
+            return true;
+        }
+
+        private bool CheckBeforeSave(CompoundDto compound)
+        {
+            if (string.IsNullOrEmpty(compound.NamePl))
+            {
+                MessageBox.Show("Brak polskiej nazwy związku chemicznego. Nie mozna zapisac związku bez nazwy. Uzupełnij nazwę.", "Brak nazwy", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(compound.NamePl))
+            {
+                MessageBox.Show("Brak polskiej nazwy skrótowej związku chemicznego. Nie mozna zapisac związku bez jego skrótu. Uzupełnij skrót.", "Brak skrótu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
+        }
+
+        #endregion
+
+
+        #region Filtering
+
+        private void ClearFiltrationByNewAdd()
+        {
+            FilterBlock = true;
+
+            _form.GetTxtFilterName.Text = "";
+            _form.GetTxtFilterShort.Text = "";
+            _form.GetTxtFilterCas.Text = "";
+            _form.GetTxtFilterWe.Text = "";
+            _form.GetChbFilterIsBio.Checked = false;
+
+            _compoundBinding.DataSource = _compoundList;
+
+            FilterBlock = false;
+        }
+
+        public void ClearFiltrationByButton()
+        {
+            FilterBlock = true;
+
+            _form.GetTxtFilterName.Text = "";
+            _form.GetTxtFilterShort.Text = "";
+            _form.GetTxtFilterCas.Text = "";
+            _form.GetTxtFilterWe.Text = "";
+            _form.GetChbFilterIsBio.Checked = false;
+
+            int position = -1;
+            if (CurrentCompound != null)
+            {
+                int id = CurrentCompound.Id;
+
+                var current = _compoundList
+                    .Where(i => i.Id == id)
+                    .FirstOrDefault();
+                position = current != null ? _compoundList.IndexOf(current) : -1;
+            }
+
+            _compoundBinding.DataSource = _compoundList;
+            _compoundBinding.Position = position;
+
+            FilterBlock = false;
+        }
+
+        private bool IsFiltrationSet()
+        {
+            string namePl = _form.GetTxtFilterName.Text;
+            string shortPl = _form.GetTxtFilterShort.Text;
+            string cas = _form.GetTxtFilterCas.Text;
+            string we = _form.GetTxtFilterWe.Text;
+            bool bio = _form.GetChbFilterIsBio.Checked;
+
+            return !string.IsNullOrEmpty(namePl) | !string.IsNullOrEmpty(shortPl)
+                | !string.IsNullOrEmpty(cas) | !string.IsNullOrEmpty(we) | bio;
+        }
+
+        public void SetFiltration()
+        {
+            if (FilterBlock)
+                return;
+
+            string namePl = _form.GetTxtFilterName.Text.ToLower();
+            string shortPl = _form.GetTxtFilterShort.Text.ToLower();
+            string cas = _form.GetTxtFilterCas.Text.ToLower();
+            string we = _form.GetTxtFilterWe.Text.ToLower();
+            bool bio = _form.GetChbFilterIsBio.Checked;
+
+            bool namePl_set = string.IsNullOrEmpty(namePl);
+            bool shortPl_set = string.IsNullOrEmpty(shortPl);
+            bool cas_set = string.IsNullOrEmpty(cas);
+            bool we_set = string.IsNullOrEmpty(we);
+
+            if (IsFiltrationSet())
+            {
+                List<CompoundDto> filtered = _compoundList
+                    .Where(i => i.NamePl != null && (namePl_set || i.NamePl.ToLower().Contains(namePl)))
+                    .Where(i => i.ShortPl != null && (shortPl_set || i.ShortPl.ToLower().Contains(shortPl)))
+                    .Where(i => i.CAS != null && (cas_set || i.CAS.ToLower().Contains(cas)))
+                    .Where(i => i.WE != null && (we_set || i.WE.ToLower().Contains(we)))
+                    .Where(i => !bio || i.IsBio)
+                    .ToList();
+
+                _compoundBinding.DataSource = filtered;
+            }
+            else
+            {
+                _compoundBinding.DataSource = _compoundList;
+            }
+        }
+
+
+        #endregion`
     }
 }

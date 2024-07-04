@@ -95,7 +95,7 @@ namespace Laboratorium.Material.Service
 
         public override void PrepareAllData()
         {
-            IBasicCRUD<CompoundDto> repo = new CompoundRepository(_connection);
+            IBasicCRUD<CompoundDto> repo = new CompoundRepository(_connection, null);
             _compoundList = repo.GetAll();
             _compoundBinding = new BindingSource();
             _compoundBinding.DataSource = _compoundList;

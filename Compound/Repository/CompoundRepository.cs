@@ -1,6 +1,7 @@
 ﻿using Laboratorium.ADO;
 using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
+using Laboratorium.ADO.Service;
 using Laboratorium.ADO.SqlDataConstant;
 using Laboratorium.ADO.Tables;
 using Laboratorium.Commons;
@@ -15,9 +16,11 @@ namespace Laboratorium.Material.Repository
     {
         private static readonly SqlIndex SQL_INDEX = SqlIndex.CompoundIndex;
         private static readonly string TABLE_NAME = Table.COMPOUND_TABLE;
-
-        public CompoundRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
-        { }
+        private readonly IService _service;
+        public CompoundRepository(SqlConnection connection, IService service) : base(connection, SQL_INDEX, TABLE_NAME)
+        {
+            _service = service;
+        }
 
         public override IList<CompoundDto> GetAll()
         {
@@ -45,7 +48,7 @@ namespace Laboratorium.Material.Repository
                         bool isBio = reader.GetBoolean(9);
                         DateTime dateCreated = reader.GetDateTime(10);
 
-                        CompoundDto composition = new CompoundDto(id, namePl, nameEn, shortPl, shortEn, index, cas, we, formula, isBio, dateCreated);
+                        CompoundDto composition = new CompoundDto(id, namePl, nameEn, shortPl, shortEn, index, cas, we, formula, isBio, dateCreated, _service);
                         composition.AcceptChanges();
                         list.Add(composition);
                     }
@@ -71,12 +74,87 @@ namespace Laboratorium.Material.Repository
 
         public override CompoundDto Save(CompoundDto data)
         {
-            throw new NotImplementedException();
+            CompoundDto item = data;
+
+            try
+            {
+                SqlCommand command = new SqlCommand();
+                command.Connection = _connection;
+                command.CommandText = SqlSave.Save[_sqlIndex];
+                command.Parameters.AddWithValue("@name_pl", item.NamePl);
+                command.Parameters.AddWithValue("@name_en", CommonFunction.NullStringToDBNullConv(item.NameEn));
+                command.Parameters.AddWithValue("@short_pl", item.ShortPl);
+                command.Parameters.AddWithValue("@short_en", CommonFunction.NullStringToDBNullConv(item.ShortEn));
+                command.Parameters.AddWithValue("@index_nr", CommonFunction.NullStringToDBNullConv(item.Index));
+                command.Parameters.AddWithValue("@cas", CommonFunction.NullStringToDBNullConv(item.CAS));
+                command.Parameters.AddWithValue("@we", CommonFunction.NullStringToDBNullConv(item.WE));
+                command.Parameters.AddWithValue("@formula", CommonFunction.NullStringToDBNullConv(item.Formula));
+                command.Parameters.AddWithValue("@is_bio", item.IsBio);
+                command.Parameters.AddWithValue("@date_created", item.DateCreated);
+                OpenConnection();
+                int id = Convert.ToInt16(command.ExecuteScalar());
+                item.Id = id;
+                item.CrudState = CrudState.OK;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu Save " + _tableName,
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "': '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return item;
         }
 
         public override CompoundDto Update(CompoundDto data)
         {
-            throw new NotImplementedException();
+            CompoundDto item = data;
+
+            try
+            {
+                SqlCommand command = new SqlCommand();
+                command.Connection = _connection;
+                command.CommandText = SqlUpdate.Update[_sqlIndex];
+                command.Parameters.AddWithValue("@name_pl", item.NamePl);
+                command.Parameters.AddWithValue("@name_en", CommonFunction.NullStringToDBNullConv(item.NameEn));
+                command.Parameters.AddWithValue("@short_pl", item.ShortPl);
+                command.Parameters.AddWithValue("@short_en", CommonFunction.NullStringToDBNullConv(item.ShortEn));
+                command.Parameters.AddWithValue("@index_nr", CommonFunction.NullStringToDBNullConv(item.Index));
+                command.Parameters.AddWithValue("@cas", CommonFunction.NullStringToDBNullConv(item.CAS));
+                command.Parameters.AddWithValue("@we", CommonFunction.NullStringToDBNullConv(item.WE));
+                command.Parameters.AddWithValue("@formula", CommonFunction.NullStringToDBNullConv(item.Formula));
+                command.Parameters.AddWithValue("@is_bio", item.IsBio);
+                command.Parameters.AddWithValue("@id", item.Id);
+                OpenConnection();
+                command.ExecuteNonQuery();
+                item.CrudState = CrudState.OK;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu Update " + _tableName,
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "': '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                item.CrudState = CrudState.ERROR;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return item;
         }
     }
 }

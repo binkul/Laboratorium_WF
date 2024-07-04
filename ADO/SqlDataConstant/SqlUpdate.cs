@@ -30,6 +30,8 @@ namespace Laboratorium.ADO.SqlDataConstant
                 "is_intermediate=@is_intermediate, is_danger=@is_danger, is_production=@is_production, is_observed=@is_observed, is_active=@is_active, " +
                 "is_package=@is_package, price=@price, price_per_quantity=@price_per_quantity, price_transport=@price_transport, quantity=@quantity, " +
                 "currency_id=@currency_id, unit_id=@unit_id, density=@density, solids=@solids, ash_450=@ash_450, VOC=@VOC, remarks=@remarks, date_updated=@date_updated Where id=@id" },
+            {SqlIndex.CompoundIndex, "Update Konkurencja.dbo.MaterialCompound Set name_pl=@name_pl, name_en=@name_en, short_pl=@short_pl, short_en=@short_en, index_nr=@index_nr, " +
+                "cas=@cas, we=@we, formula=@formula, is_bio=@is_bio Where id=@id " },
         };
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Laboratorium.ADO.Service;
+using System;
 
 namespace Laboratorium.ADO.DTO
 {
@@ -14,11 +15,13 @@ namespace Laboratorium.ADO.DTO
         private string _WE;
         private string _Formula;
         private bool _IsBio = false;
+        private IService _service;
         public DateTime DateCreated { get; set; } = DateTime.Today;
         private RowState _rowState = RowState.ADDED;
+        public CrudState CrudState { get; set; } = CrudState.OK;
 
         public CompoundDto(int id, string namePl, string nameEn, string shortPl, string shortEn, 
-            string index, string cAS, string wE, string formula, bool isBio, DateTime dateCreated)
+            string index, string cAS, string wE, string formula, bool isBio, DateTime dateCreated, IService service)
         {
             Id = id;
             NamePl = namePl;
@@ -31,11 +34,14 @@ namespace Laboratorium.ADO.DTO
             Formula = formula;
             IsBio = isBio;
             DateCreated = dateCreated;
+            _service = service;
         }
 
         private void ChangeState(RowState state)
         {
             _rowState = _rowState == RowState.UNCHANGED ? state : _rowState;
+            if (_service != null)
+                _service.Modify(state);
         }
 
         public string NamePl

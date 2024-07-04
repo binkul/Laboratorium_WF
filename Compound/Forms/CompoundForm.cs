@@ -19,6 +19,7 @@ namespace Laboratorium.Compound.Forms
 
         public BindingNavigator GetNavigator => BindingNavCompound;
         public DataGridView GetDgvCompound => DgvCompound;
+        public Button GetBtnFilerClear => BtnFilterClear;
         public TextBox GetTxtNamePl => TxtNamePl;
         public TextBox GetTxtNameEn => TxtNameEn;
         public TextBox GetTxtShortPl => TxtShortPl;
@@ -27,8 +28,13 @@ namespace Laboratorium.Compound.Forms
         public TextBox GetTxtCas => TxtCAS;
         public TextBox GetTxtWE => TxtWE;
         public TextBox GetTxtFormula => TxtFormula;
+        public TextBox GetTxtFilterName => TxtFilterName;
+        public TextBox GetTxtFilterShort => TxtFilterShort;
+        public TextBox GetTxtFilterCas => TxtFilerCas;
+        public TextBox GetTxtFilterWe => TxtFilterWE;
         public Label GetLblDate => LblDateCreated;
         public CheckBox GetChbIsBio => ChbIsBio;
+        public CheckBox GetChbFilterIsBio => ChbFiletrIsBio;
 
         public CompoundForm(SqlConnection connection)
         {
@@ -78,6 +84,43 @@ namespace Laboratorium.Compound.Forms
         {
             _service.ChangeFilterWidth();
         }
+
+        #region Buttons
+
+        private void BtnAdd_Click(object sender, EventArgs e)
+        {
+            _service.AddNewCompound();
+        }
+
+        private void BtnDelete_Click(object sender, EventArgs e)
+        {
+            _service.DeleteCompound();
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            _service.Save();
+        }
+
+        #endregion
+
+        #region Filtration
+        private void TxtFilter_TextChanged(object sender, EventArgs e)
+        {
+            _service.SetFiltration();
+        }
+
+        private void ChbFiletrIsBio_CheckedChanged(object sender, EventArgs e)
+        {
+            _service.SetFiltration();
+        }
+
+        private void BtnFilterClear_Click(object sender, EventArgs e)
+        {
+            _service.ClearFiltrationByButton();
+        }
+
+        #endregion
 
     }
 }

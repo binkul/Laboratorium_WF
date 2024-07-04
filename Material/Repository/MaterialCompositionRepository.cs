@@ -52,7 +52,7 @@ namespace Laboratorium.Material.Repository
                         DateTime dateCreatedC = reader.GetDateTime(16);
 
                         MaterialCompositionDto composition = new MaterialCompositionDto(materialId, compoundId, min, max, ord, remarks, dateCreated);
-                        CompoundDto compound = new CompoundDto(compoundId, namePl, nameEn, shortPl, shortEn, index, cas, we, formula, isBio, dateCreatedC);
+                        CompoundDto compound = new CompoundDto(compoundId, namePl, nameEn, shortPl, shortEn, index, cas, we, formula, isBio, dateCreatedC, null);
                         composition.Compound = compound;
                         composition.AcceptChanges();
                         list.Add(composition);
