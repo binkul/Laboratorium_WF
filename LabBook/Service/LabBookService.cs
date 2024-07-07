@@ -1094,12 +1094,11 @@ namespace Laboratorium.LabBook.Service
             newLabo.LaboBasicData.AcceptChanges();
         }
 
-        private void InsertCopyCurrentLabo()
+        private void InsertCopyCurrentLabo(LaboDto current)
         {
             if (CurrentLabBook == null)
                 return;
 
-            LaboDto current = CurrentLabBook;
             LaboDto newLabo = new LaboDto(0, current.Title, DateTime.Today, DateTime.Today, current.ProjectId,
                 current.Goal, null, "", "", false, _user.Id, this)
             {
@@ -1115,12 +1114,11 @@ namespace Laboratorium.LabBook.Service
             newLabo.LaboBasicData.AcceptChanges();
         }
 
-        private void InsertCopyCurrentEmptyLabo()
+        private void InsertCopyCurrentEmptyLabo(LaboDto current)
         {
             if (CurrentLabBook == null)
                 return;
 
-            LaboDto current = CurrentLabBook;
             LaboDto newLabo = new LaboDto(0, "PUSTY", DateTime.Today, DateTime.Today, current.ProjectId,
                 current.Goal, null, "", "", false, _user.Id, this)
             {
@@ -1159,9 +1157,9 @@ namespace Laboratorium.LabBook.Service
 
         public void AddOneLabBook()
         {
-            ClearFiltersBox();
+            ClearFiltrationByNewAdd();
             InsertNewEmptyLabo();
-            SetFilter(_laboBinding.Count - 1);
+            _laboBinding.Position = _laboBinding.Count - 1;
         }
 
         public void AddSeriesLabBooks()
@@ -1187,64 +1185,55 @@ namespace Laboratorium.LabBook.Service
                 return;
 
             LaboDto current = CurrentLabBook;
+            ClearFiltrationByNewAdd();
+            int position = _laboBinding.Count;
 
             if (type == 1)
             {
-                ClearFiltersBox();
                 InsertCopyLastLabo();
-                SetFilter(_laboBinding.Count - 1);
+                position = _laboList.Count - 1;
             }
             else if (type == 2)
             {
-                ClearFiltersBox();
-                InsertCopyCurrentLabo();
-                SetFilter(_laboBinding.Count - 1);
+                InsertCopyCurrentLabo(current);
+                position = _laboList.Count - 1;
             }
-            else if (type == 3)
+            else if (type == 3 && amount > 0)
             {
-                ClearFiltersBox();
                 for (int i = 0; i < amount; i++)
                 {
-                    InsertCopyCurrentLabo();
+                    InsertCopyCurrentLabo(current);
                 }
-
-                SetFilter(_laboBinding.Count - 1);
+                position = _laboList.Count - amount;
             }
-            else if (type == 4)
+            else if (type == 4 && amount > 0)
             {
-                ClearFiltersBox();
-                InsertCopyCurrentLabo();
-
+                InsertCopyCurrentLabo(current);
                 for (int i = 0; i < amount - 1; i++)
                 {
-                    InsertCopyCurrentEmptyLabo();
+                    InsertCopyCurrentEmptyLabo(current);
                 }
-
-                SetFilter(_laboBinding.Count - 1);
+                position = _laboList.Count - amount;
 
             }
-            else if (type == 5)
+            else if (type == 5 && amount > 0)
             {
-                ClearFiltersBox();
                 for (int i = 0; i < amount; i++)
                 {
-                    InsertCopyCurrentEmptyLabo();
+                    InsertCopyCurrentEmptyLabo(current);
                 }
-
-                SetFilter(_laboBinding.Count - 1);
+                position = _laboList.Count - amount;
             }
-            else if (type == 6)
+            else if (type == 6 && amount > 0)
             {
-                ClearFiltersBox();
-
                 for (int i = 0; i < amount; i++)
                 {
                     InsertNewEmptyLabo();
                 }
-
-                SetFilter(_laboBinding.Count - 1);
+                position = _laboList.Count - amount;
             }
 
+            _laboBinding.Position = position;
             Modify(RowState.ADDED);
         }
 
@@ -1339,37 +1328,56 @@ namespace Laboratorium.LabBook.Service
 
         #region Filtering
 
-        public bool IsFilterSet()
+        public bool IsFiltrationSet()
         {
-            return !string.IsNullOrEmpty(_form.GetTxtFilterNumD.Text) | !string.IsNullOrEmpty(_form.GetTxtFilterTitle.Text)
-                | !string.IsNullOrEmpty(_form.GetTxtFilterUser.Text) | _form.GetBtnFilterProject.Text != CommonData.ALL_DATA_PL;
+            string number = _form.GetTxtFilterNumD.Text;
+            string title = _form.GetTxtFilterTitle.Text;
+            string user = _form.GetTxtFilterUser.Text;
+
+            return !string.IsNullOrEmpty(number) | !string.IsNullOrEmpty(title) | !string.IsNullOrEmpty(user) | _form.GetBtnFilterProject.Text != CommonData.ALL_DATA_PL;
         }
 
-        public void ClearFilter()
-        {
-            if (!IsFilterSet())
-            {
-                return;
-            }
-            else
-            {
-                ClearFiltersBox();
-                int position = CurrentLabBook != null && _laboBinding.Count > 0 ? _laboList.IndexOf(CurrentLabBook) : -1;
-                SetFilter(position);
-            }
-        }
-
-        public void ClearFiltersBox()
+        public void ClearFiltrationByButton()
         {
             _filterBlock = true;
+
+            _form.GetTxtFilterNumD.Text = "";
+            _form.GetTxtFilterTitle.Text = "";
+            _form.GetTxtFilterUser.Text = "";
+            _form.GetBtnFilterProject.Text = CommonData.ALL_DATA_PL;
+
+            int position = -1;
+            if (CurrentLabBook != null)
+            {
+                int id = CurrentLabBook.Id;
+
+                var current = _laboList
+                    .Where(i => i.Id == id)
+                    .FirstOrDefault();
+                position = current != null ? _laboList.IndexOf(current) : -1;
+            }
+
+            _laboBinding.DataSource = _laboList;
+            _laboBinding.Position = position;
+
+            _filterBlock = false;
+        }
+
+        public void ClearFiltrationByNewAdd()
+        {
+            _filterBlock = true;
+
             _form.GetTxtFilterNumD.Text = string.Empty;
             _form.GetTxtFilterTitle.Text = string.Empty;
             _form.GetTxtFilterUser.Text = string.Empty;
             _form.GetBtnFilterProject.Text = CommonData.ALL_DATA_PL;
+
+            _laboBinding.DataSource = _laboList;
+
             _filterBlock = false;
         }
 
-        public void SetFilter(int position)
+        public void SetFiltration()
         {
             if (_filterBlock)
                 return;
@@ -1397,12 +1405,10 @@ namespace Laboratorium.LabBook.Service
                     .ToList();
 
                 _laboBinding.DataSource = filter;
-                _laboBinding.Position = position;
             }
             else
             {
                 _laboBinding.DataSource = _laboList;
-                _laboBinding.Position = position;
             }
 
             LaboBinding_PositionChanged(null, null);
@@ -1416,7 +1422,7 @@ namespace Laboratorium.LabBook.Service
                 if (form.Ok)
                 {
                     _form.GetBtnFilterProject.Text = form.Result.Title;
-                    SetFilter(0);
+                    SetFiltration();
                 }
             }
         }

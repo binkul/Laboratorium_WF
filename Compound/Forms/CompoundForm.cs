@@ -36,6 +36,9 @@ namespace Laboratorium.Compound.Forms
         public CheckBox GetChbIsBio => ChbIsBio;
         public CheckBox GetChbFilterIsBio => ChbFiletrIsBio;
 
+        public bool ChangedComposiotn => _service.ChangedComposition;
+        public IList<int> DeletedCompounds => _service.DeletedCompounds;
+
         public CompoundForm(SqlConnection connection)
         {
             InitializeComponent();

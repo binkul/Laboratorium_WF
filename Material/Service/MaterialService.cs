@@ -92,10 +92,10 @@ namespace Laboratorium.Material.Service
         private readonly IBasicCRUD<MaterialClpPCodeDto> _pCodeRepository;
         private readonly IBasicCRUD<MaterialClpHCodeDto> _hCodeRepository;
         private readonly IBasicCRUD<MaterialClpSignalDto> _signalRepository;
+        private readonly IBasicCRUD<MaterialCompositionDto> _compositionRepository;
         private readonly IExtendedCRUD<MaterialDto> _repository;
         private IList<MaterialDto> _materialList;
         private IList<ClpHPcombineDto> _materialClpList;
-        private IList<MaterialCompositionDto> _compositionList;
         private IList<CmbUnitDto> _unitList;
         private IList<CmbCurrencyDto> _currencyList;
         private IList<CmbMaterialFunctionDto> _functionList;
@@ -115,6 +115,7 @@ namespace Laboratorium.Material.Service
             _pCodeRepository = new MaterialPcodeRepository(_connection);
             _hCodeRepository = new MaterialHcodeRepository(_connection);
             _signalRepository = new MaterialSignalRepository(_connection);
+            _compositionRepository = new MaterialCompositionRepository(_connection);
             _repository = new MaterialRepository(_connection, this);
         }
 
@@ -480,8 +481,7 @@ namespace Laboratorium.Material.Service
             IList<MaterialClpGhsDto> ghsList = _ghsRepository.GetAll();
             IList<MaterialClpSignalDto> sigList = _signalRepository.GetAll();
 
-            IBasicCRUD<MaterialCompositionDto> repoComposition = new MaterialCompositionRepository(_connection);
-            _compositionList = repoComposition.GetAll();
+            IList<MaterialCompositionDto> _compositionList = _compositionRepository.GetAll();
             _compositionBinding = new BindingSource();
             _compositionBinding.DataSource = _compositionList;
 
@@ -918,6 +918,19 @@ namespace Laboratorium.Material.Service
             using (CompoundForm form = new CompoundForm(_connection))
             {
                 form.ShowDialog();
+                if (form.ChangedComposiotn)
+                {
+                    IList<MaterialCompositionDto> _compositionList = _compositionRepository.GetAll();
+                    foreach (var material in _materialList)
+                    {
+                        var ingedrients = _compositionList
+                            .Where(i => i.MaterialId == material.Id)
+                            .OrderBy(i => i.Ordering)
+                            .ToList();
+                        material.MaterialCompositionList = ingedrients;
+                    }
+                    MaterialBinding_PositionChanged(null, null);
+                }
             }
         }
 

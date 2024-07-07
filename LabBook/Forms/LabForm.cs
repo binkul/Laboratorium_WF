@@ -171,12 +171,12 @@ namespace Laboratorium.LabBook.Forms
 
         private void TxtFilterNumD_TextChanged(object sender, EventArgs e)
         {
-            _service.SetFilter(0);
+            _service.SetFiltration();
         }
 
         private void BtnFilterCancel_Click(object sender, EventArgs e)
         {
-            _service.ClearFilter();
+            _service.ClearFiltrationByButton();
         }
 
         private void BtnFilterByProject_Click(object sender, EventArgs e)

@@ -36,11 +36,11 @@ namespace Laboratorium.ADO.Repository
             }
             catch (SqlException e)
             {
-                MessageBox.Show("Błąd SQL w czasie odczytu danych z tabeli '" + _tableName + "': '" + e.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Błąd SQL w czasie odczytu danych z tabeli '" + _tableName + "': '" + e.Message + "'", "Błąd z poziomu Read", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception e)
             {
-                MessageBox.Show("Błąd systemowy w czasie odczytu danych z tabeli '" + _tableName + "': '" + e.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Błąd systemowy w czasie odczytu danych z tabeli '" + _tableName + "': '" + e.Message + "'", "Błąd z poziomu Read", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -72,7 +72,7 @@ namespace Laboratorium.ADO.Repository
             }
             catch (SqlException ex)
             {
-                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu Read " + _tableName,
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu Delete " + _tableName,
                     "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 result = false;
             }

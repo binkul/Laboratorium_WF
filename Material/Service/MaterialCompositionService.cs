@@ -144,6 +144,7 @@ namespace Laboratorium.Material.Service
             view.Columns.Remove(IS_BIO);
             view.Columns.Remove(GET_ROW_STATE);
             view.Columns.Remove(DATE_CREATED);
+            view.Columns.Remove(CRUD_STATE);
 
             view.Columns[ID].Visible = false;
 

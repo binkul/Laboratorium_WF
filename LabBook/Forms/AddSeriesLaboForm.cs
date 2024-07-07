@@ -8,7 +8,7 @@ namespace Laboratorium.LabBook.Forms
         private int _nr;
         private string _title;
         private bool _exitByButton = false;
-        public int Amount { get; private set; } = 1;
+        public int Amount { get; private set; } = 0;
         public int Type { get; private set; } = 1;
         public bool Ok { get; private set; } = false;
 

@@ -156,5 +156,37 @@ namespace Laboratorium.Material.Repository
 
             return item;
         }
+
+        public new bool DeleteById(long id)
+        {
+            SqlCommand command = new SqlCommand();
+            bool result = true;
+
+            try
+            {
+                command.Connection = _connection;
+                command.CommandText = "Delete From Konkurencja.dbo.MaterialComposition Where compound_id=" + id.ToString();
+                OpenConnection();
+                command.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu Delete " + _tableName,
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli '" + _tableName + "': '" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                result = false;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return result;
+
+        }
     }
 }

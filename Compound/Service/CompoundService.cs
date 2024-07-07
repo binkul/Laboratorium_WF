@@ -45,8 +45,10 @@ namespace Laboratorium.Compound.Service
         private IList<CompoundDto> _compoundList;
         private BindingSource _compoundBinding;
 
-        private bool CompoundChanged = false;
-        private bool FilterBlock = false;
+        private bool _compoundChanged = false;
+        private bool _filterBlock = false;
+        public bool ChangedComposition = false;
+        public IList<int> DeletedCompounds = new List<int>();
 
         public CompoundService(SqlConnection connection, CompoundForm form) : base(FORM_DATA, form)
         {
@@ -66,13 +68,13 @@ namespace Laboratorium.Compound.Service
 
         public void ChangeStatus(bool status)
         {
-            CompoundChanged = status;
+            _compoundChanged = status;
             _form.EnableSave(Status);
         }
 
         private bool CheckStatus => _compoundList.Any(i => i.GetRowState != RowState.UNCHANGED);
 
-        protected override bool Status => CompoundChanged;
+        protected override bool Status => _compoundChanged;
 
         #endregion
 
@@ -236,7 +238,7 @@ namespace Laboratorium.Compound.Service
 
         public void DeleteCompound()
         {
-            DialogResult result = MessageBox.Show("Czy usunąć bierzący związek chemiczny: '" + CurrentCompound.ShortPl + "' z bazy danych ?", "Usuwanie", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("Czy usunąć bierzący związek chemiczny: '" + CurrentCompound.ShortPl + "' z bazy danych. UWAGA - związek zostanie usunięty z tabeli związków, jak i również z tabeli składu surowców !!!", "Usuwanie", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.No || CurrentCompound == null)
                 return;
 
@@ -245,6 +247,11 @@ namespace Laboratorium.Compound.Service
             if (CurrentCompound.Id > 0)
             {
                 _repository.DeleteById(CurrentCompound.Id);
+                CompoundRepository repo = new CompoundRepository(_connection, null);
+                repo.DeleteById(CurrentCompound.Id);
+
+                DeletedCompounds.Add(CurrentCompound.Id);
+                ChangedComposition = true;
             }
 
             ChangeStatus(CheckStatus);
@@ -268,26 +275,27 @@ namespace Laboratorium.Compound.Service
             _form.GetTxtFilterShort.Left = _form.GetTxtFilterName.Left + _form.GetTxtFilterName.Width + border;
             _form.GetTxtFilterShort.Width = view.Columns[SHORT_PL].Width - border;
 
-            _form.GetTxtFilterCas.Left = _form.GetTxtFilterShort.Left + _form.GetTxtFilterShort.Width + border;
-            _form.GetTxtFilterCas.Width = view.Columns[CAS].Width - border;
-
-            _form.GetChbFilterIsBio.Left = _form.GetTxtFilterCas.Left + _form.GetTxtFilterCas.Width
+            _form.GetChbFilterIsBio.Left = _form.GetTxtFilterShort.Left + _form.GetTxtFilterShort.Width + border
                 + (view.Columns[IS_BIO].Width / 2) - (_form.GetChbFilterIsBio.Width / 2);
 
-            _form.GetTxtFilterWe.Left = _form.GetTxtFilterCas.Left + _form.GetTxtFilterCas.Width + view.Columns[IS_BIO].Width + border;
-            _form.GetTxtFilterWe.Width = view.Columns[WE].Width - border;
+            _form.GetTxtFilterCas.Left = _form.GetTxtFilterShort.Left + _form.GetTxtFilterShort.Width + view.Columns[IS_BIO].Width + border;
+            _form.GetTxtFilterCas.Width = view.Columns[CAS].Width - border;
+
+            _form.GetTxtFilterWe.Left = _form.GetTxtFilterCas.Left + _form.GetTxtFilterCas.Width + border;
+            _form.GetTxtFilterWe.Width = view.Columns[WE].Width;
         }
 
         #endregion
 
 
         #region CRUD
+
         public override bool Save()
         {
             _form.GetDgvCompound.EndEdit();
             _compoundBinding.EndEdit();
 
-            #region save
+            #region Save
 
             var saveList = _compoundList
                 .Where(i => i.GetRowState == RowState.ADDED)
@@ -337,6 +345,7 @@ namespace Laboratorium.Compound.Service
 
             #endregion
 
+            ChangeStatus(false);
             return true;
         }
 
@@ -344,13 +353,13 @@ namespace Laboratorium.Compound.Service
         {
             if (string.IsNullOrEmpty(compound.NamePl))
             {
-                MessageBox.Show("Brak polskiej nazwy związku chemicznego. Nie mozna zapisac związku bez nazwy. Uzupełnij nazwę.", "Brak nazwy", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Brak Polskiej Nazwy związku chemicznego. Nie można zapisać związku bez nazwy. Uzupełnij nazwę.", "Brak nazwy", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
-            if (string.IsNullOrEmpty(compound.NamePl))
+            if (string.IsNullOrEmpty(compound.ShortPl))
             {
-                MessageBox.Show("Brak polskiej nazwy skrótowej związku chemicznego. Nie mozna zapisac związku bez jego skrótu. Uzupełnij skrót.", "Brak skrótu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Brak Nazwy Skrótowej związku chemicznego. Nie można zapisać związku bez jego nazwy skrótowej. Uzupełnij skrót.", "Brak skrótu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
@@ -364,7 +373,7 @@ namespace Laboratorium.Compound.Service
 
         private void ClearFiltrationByNewAdd()
         {
-            FilterBlock = true;
+            _filterBlock = true;
 
             _form.GetTxtFilterName.Text = "";
             _form.GetTxtFilterShort.Text = "";
@@ -374,12 +383,12 @@ namespace Laboratorium.Compound.Service
 
             _compoundBinding.DataSource = _compoundList;
 
-            FilterBlock = false;
+            _filterBlock = false;
         }
 
         public void ClearFiltrationByButton()
         {
-            FilterBlock = true;
+            _filterBlock = true;
 
             _form.GetTxtFilterName.Text = "";
             _form.GetTxtFilterShort.Text = "";
@@ -401,7 +410,7 @@ namespace Laboratorium.Compound.Service
             _compoundBinding.DataSource = _compoundList;
             _compoundBinding.Position = position;
 
-            FilterBlock = false;
+            _filterBlock = false;
         }
 
         private bool IsFiltrationSet()
@@ -418,7 +427,7 @@ namespace Laboratorium.Compound.Service
 
         public void SetFiltration()
         {
-            if (FilterBlock)
+            if (_filterBlock)
                 return;
 
             string namePl = _form.GetTxtFilterName.Text.ToLower();
