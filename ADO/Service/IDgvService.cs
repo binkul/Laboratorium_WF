@@ -5,7 +5,7 @@
         bool IsModified();
         void PrepareData();
         bool Save();
-        bool Delete(long id, long tmpId);
+        bool Delete();
         void AddNew(int id);
         void SynchronizeData(int LaboId);
         void AcceptAllChanges();

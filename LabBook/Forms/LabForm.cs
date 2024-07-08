@@ -81,14 +81,10 @@ namespace Laboratorium.LabBook.Forms
             _connection = new SqlConnection(connectionString);
         }
 
-        public bool Init => _init;
 
-        public void ActivateSave(bool state)
-        {
-            if (_init)
-                return;
-            BtnSave.Enabled = state;   
-        }
+        #region Open/Close
+
+        public bool Init => _init;
 
         private void LabForm_Load(object sender, EventArgs e)
         {
@@ -129,6 +125,16 @@ namespace Laboratorium.LabBook.Forms
                 _service.FormClose(e);
         }
 
+        #endregion
+
+
+        public void ActivateSave(bool state)
+        {
+            if (_init)
+                return;
+            BtnSave.Enabled = state;   
+        }
+
         private void LabForm_Resize(object sender, EventArgs e)
         {           
             LblTitle.Font = FONT_12;
@@ -138,67 +144,9 @@ namespace Laboratorium.LabBook.Forms
             LblNrD.Font = FONT_14;
         }
 
-        private void TxtTitle_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)13)
-            {
-                e.Handled = true;
-                SendKeys.Send("{Tab}");
-            }
-
-            else
-            {
-                base.OnKeyPress(e);
-            }
-        }
-
-        private void TxtGloss20_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            TextBox box = (TextBox)sender;
-            string text = box.Text;
-            string separator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
-            string wzor = (separator == ".") ? @"^[0-9]*\" + separator + "?[0-9]*$"
-                                             : "^[0-9]*" + separator + "?[0-9]*$";
-            Regex wzorzec = new Regex(wzor);
-
-            if (!wzorzec.IsMatch(text) && text.Length > 0)
-            {
-                MessageBox.Show("Wprowadzona wartość nie jest liczbą '" + text + "'",
-                    "Błąd wartości", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                e.Cancel = true;
-            }
-        }
-
         private void TxtFilterNumD_TextChanged(object sender, EventArgs e)
         {
             _service.SetFiltration();
-        }
-
-        private void BtnFilterCancel_Click(object sender, EventArgs e)
-        {
-            _service.ClearFiltrationByButton();
-        }
-
-        private void BtnFilterByProject_Click(object sender, EventArgs e)
-        {
-            _service.FilterByProject();
-        }
-
-        private void BtnChangeProject_Click(object sender, EventArgs e)
-        {
-            _service.ChangeProject();
-        }
-
-        private void StdXToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            int nr = Convert.ToInt32(item.Tag);
-            _service.ChangeViscosityProfile(nr);
-        }
-
-        private void BtnSave_Click(object sender, EventArgs e)
-        {
-            _service.Save();
         }
 
         private void TabLabo_SelectedIndexChanged(object sender, EventArgs e)
@@ -245,6 +193,65 @@ namespace Laboratorium.LabBook.Forms
             }
         }
 
+
+        #region TextBox validation events
+
+        private void TxtTitle_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                e.Handled = true;
+                SendKeys.Send("{Tab}");
+            }
+
+            else
+            {
+                base.OnKeyPress(e);
+            }
+        }
+
+        private void TxtGloss20_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            TextBox box = (TextBox)sender;
+            string text = box.Text;
+            string separator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+            string wzor = (separator == ".") ? @"^[0-9]*\" + separator + "?[0-9]*$"
+                                             : "^[0-9]*" + separator + "?[0-9]*$";
+            Regex wzorzec = new Regex(wzor);
+
+            if (!wzorzec.IsMatch(text) && text.Length > 0)
+            {
+                MessageBox.Show("Wprowadzona wartość nie jest liczbą '" + text + "'",
+                    "Błąd wartości", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.Cancel = true;
+            }
+        }
+
+        #endregion
+
+
+        #region Buttons
+
+        private void BtnFilterByProject_Click(object sender, EventArgs e)
+        {
+            _service.FilterByProject();
+        }
+
+        private void BtnChangeProject_Click(object sender, EventArgs e)
+        {
+            _service.ChangeProject();
+        }
+
+        private void BtnFilterCancel_Click(object sender, EventArgs e)
+        {
+            _service.ClearFiltrationByButton();
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            _service.Save();
+        }
+
         private void BtnAdd_Click(object sender, EventArgs e)
         {
             _service.AddOneLabBook();
@@ -255,17 +262,34 @@ namespace Laboratorium.LabBook.Forms
             _service.AddSeriesLabBooks();
         }
 
-        private void ApplicatorInsertToolStripMenuItem_Click(object sender, EventArgs e)
+        private void BtnDelete_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem menu = (ToolStripMenuItem)sender;
-            int appNr = menu.Tag != null ? Convert.ToInt32(menu.Tag) : CommonData.NONE_APPLIKATOR;
-            _service.ApplicatorInsert(appNr);
+            string currentTab = TabLabo.SelectedTab.Name;
+
+            int pageNr;
+            switch (currentTab)
+            {
+                case "TbLabBook":
+                    pageNr = 0;
+                    break;
+                case "TbViscosity":
+                    pageNr = 1;
+                    break;
+                case "TbContrast":
+                    pageNr = 2;
+                    break;
+                case "TbTests":
+                    pageNr = 3;
+                    break;
+                default:
+                    pageNr = -1;
+                    break;
+            }
+
+            _service.DeleteItem(pageNr);
         }
 
-        private void ApplicatorStdInsertstandardoweToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _service.ApplicatorInsert(CommonData.STD_APPLICATOR);
-        }
+        #endregion
 
 
         #region DataGridView Events
@@ -301,11 +325,6 @@ namespace Laboratorium.LabBook.Forms
             _service.PaintHeaderForNormTest(e);
         }
 
-        private void DgvDeleteButton_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            _service.DeleteRow(sender, e);
-        }
-
         private void DgvViscosity_UserAddedRow(object sender, DataGridViewRowEventArgs e)
         {
             _service.AddNewViscosityRow();
@@ -317,11 +336,31 @@ namespace Laboratorium.LabBook.Forms
 
         #region Manu -> Windows
 
+        private void StdXToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            int nr = Convert.ToInt32(item.Tag);
+            _service.ChangeViscosityProfile(nr);
+        }
+
+        private void ApplicatorInsertToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem menu = (ToolStripMenuItem)sender;
+            int appNr = menu.Tag != null ? Convert.ToInt32(menu.Tag) : CommonData.NONE_APPLIKATOR;
+            _service.ApplicatorInsert(appNr);
+        }
+
+        private void ApplicatorStdInsertstandardoweToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _service.ApplicatorInsert(CommonData.STD_APPLICATOR);
+        }
+
         private void MaterialToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _service.OpenMaterialForm();
         }
 
         #endregion
+
     }
 }

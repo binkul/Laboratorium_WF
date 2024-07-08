@@ -282,7 +282,6 @@
             // 
             this.bindingNavigatorPositionItem.AccessibleName = "Pozycja";
             this.bindingNavigatorPositionItem.AutoSize = false;
-            this.bindingNavigatorPositionItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
             this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(49, 27);
             this.bindingNavigatorPositionItem.Text = "0";
@@ -438,7 +437,7 @@
             this.TbBasicData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TbBasicData.Name = "TbBasicData";
             this.TbBasicData.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.TbBasicData.Size = new System.Drawing.Size(1362, 598);
+            this.TbBasicData.Size = new System.Drawing.Size(1362, 600);
             this.TbBasicData.TabIndex = 1;
             this.TbBasicData.Text = "Dane Podstawowe";
             // 
@@ -477,7 +476,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1350, 840);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1350, 590);
             this.tableLayoutPanel2.TabIndex = 6;
             // 
             // panel2
@@ -550,7 +549,7 @@
             this.CmbScrubClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbScrubClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbScrubClass.FormattingEnabled = true;
-            this.CmbScrubClass.Location = new System.Drawing.Point(205, 203);
+            this.CmbScrubClass.Location = new System.Drawing.Point(205, 202);
             this.CmbScrubClass.Name = "CmbScrubClass";
             this.CmbScrubClass.Size = new System.Drawing.Size(159, 28);
             this.CmbScrubClass.TabIndex = 3;
@@ -765,7 +764,7 @@
             this.CmbGlossClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbGlossClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbGlossClass.FormattingEnabled = true;
-            this.CmbGlossClass.Location = new System.Drawing.Point(207, 246);
+            this.CmbGlossClass.Location = new System.Drawing.Point(207, 245);
             this.CmbGlossClass.Name = "CmbGlossClass";
             this.CmbGlossClass.Size = new System.Drawing.Size(224, 28);
             this.CmbGlossClass.TabIndex = 10;
@@ -883,7 +882,7 @@
             this.CmbContrastClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbContrastClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbContrastClass.FormattingEnabled = true;
-            this.CmbContrastClass.Location = new System.Drawing.Point(205, 120);
+            this.CmbContrastClass.Location = new System.Drawing.Point(205, 118);
             this.CmbContrastClass.Name = "CmbContrastClass";
             this.CmbContrastClass.Size = new System.Drawing.Size(149, 28);
             this.CmbContrastClass.TabIndex = 5;
@@ -952,7 +951,7 @@
             this.CmbVocClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbVocClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbVocClass.FormattingEnabled = true;
-            this.CmbVocClass.Location = new System.Drawing.Point(205, 83);
+            this.CmbVocClass.Location = new System.Drawing.Point(205, 82);
             this.CmbVocClass.Name = "CmbVocClass";
             this.CmbVocClass.Size = new System.Drawing.Size(298, 28);
             this.CmbVocClass.TabIndex = 12;
@@ -1257,7 +1256,7 @@
             this.TbConclusion.Controls.Add(this.tableLayoutPanel7);
             this.TbConclusion.Location = new System.Drawing.Point(4, 29);
             this.TbConclusion.Name = "TbConclusion";
-            this.TbConclusion.Size = new System.Drawing.Size(1362, 598);
+            this.TbConclusion.Size = new System.Drawing.Size(1362, 600);
             this.TbConclusion.TabIndex = 2;
             this.TbConclusion.Text = "Uwagi";
             // 
@@ -1280,7 +1279,7 @@
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(1343, 842);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(1343, 594);
             this.tableLayoutPanel7.TabIndex = 0;
             // 
             // label25
@@ -1317,7 +1316,7 @@
             this.TxtObservation.Location = new System.Drawing.Point(3, 73);
             this.TxtObservation.Multiline = true;
             this.TxtObservation.Name = "TxtObservation";
-            this.TxtObservation.Size = new System.Drawing.Size(655, 766);
+            this.TxtObservation.Size = new System.Drawing.Size(655, 509);
             this.TxtObservation.TabIndex = 10;
             // 
             // TxtConclusion
@@ -1328,7 +1327,7 @@
             this.TxtConclusion.Location = new System.Drawing.Point(684, 73);
             this.TxtConclusion.Multiline = true;
             this.TxtConclusion.Name = "TxtConclusion";
-            this.TxtConclusion.Size = new System.Drawing.Size(656, 766);
+            this.TxtConclusion.Size = new System.Drawing.Size(656, 509);
             this.TxtConclusion.TabIndex = 11;
             // 
             // TbViscosity
@@ -1337,7 +1336,7 @@
             this.TbViscosity.Controls.Add(this.DgvViscosity);
             this.TbViscosity.Location = new System.Drawing.Point(4, 29);
             this.TbViscosity.Name = "TbViscosity";
-            this.TbViscosity.Size = new System.Drawing.Size(1362, 598);
+            this.TbViscosity.Size = new System.Drawing.Size(1362, 600);
             this.TbViscosity.TabIndex = 3;
             this.TbViscosity.Text = "Lepkość";
             // 
@@ -1353,9 +1352,9 @@
             this.DgvViscosity.Name = "DgvViscosity";
             this.DgvViscosity.RowHeadersWidth = 51;
             this.DgvViscosity.RowTemplate.Height = 24;
-            this.DgvViscosity.Size = new System.Drawing.Size(1352, 842);
+            this.DgvViscosity.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.DgvViscosity.Size = new System.Drawing.Size(1352, 594);
             this.DgvViscosity.TabIndex = 0;
-            this.DgvViscosity.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvDeleteButton_CellContentClick);
             this.DgvViscosity.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.DgvViscosity_DefaultValuesNeeded);
             this.DgvViscosity.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.DgvViscosity_UserAddedRow);
             // 
@@ -1365,7 +1364,7 @@
             this.TbContrast.Controls.Add(this.DgvContrast);
             this.TbContrast.Location = new System.Drawing.Point(4, 29);
             this.TbContrast.Name = "TbContrast";
-            this.TbContrast.Size = new System.Drawing.Size(1362, 598);
+            this.TbContrast.Size = new System.Drawing.Size(1362, 600);
             this.TbContrast.TabIndex = 4;
             this.TbContrast.Text = "Krycia";
             // 
@@ -1381,9 +1380,8 @@
             this.DgvContrast.Name = "DgvContrast";
             this.DgvContrast.RowHeadersWidth = 51;
             this.DgvContrast.RowTemplate.Height = 24;
-            this.DgvContrast.Size = new System.Drawing.Size(1356, 842);
+            this.DgvContrast.Size = new System.Drawing.Size(1354, 594);
             this.DgvContrast.TabIndex = 0;
-            this.DgvContrast.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvDeleteButton_CellContentClick);
             this.DgvContrast.SizeChanged += new System.EventHandler(this.DgvContrast_SizeChanged);
             // 
             // TbTests
@@ -1392,7 +1390,7 @@
             this.TbTests.Controls.Add(this.DgvNormTest);
             this.TbTests.Location = new System.Drawing.Point(4, 29);
             this.TbTests.Name = "TbTests";
-            this.TbTests.Size = new System.Drawing.Size(1362, 598);
+            this.TbTests.Size = new System.Drawing.Size(1362, 600);
             this.TbTests.TabIndex = 5;
             this.TbTests.Text = "Badania";
             // 
@@ -1406,9 +1404,8 @@
             this.DgvNormTest.Name = "DgvNormTest";
             this.DgvNormTest.RowHeadersWidth = 51;
             this.DgvNormTest.RowTemplate.Height = 24;
-            this.DgvNormTest.Size = new System.Drawing.Size(1351, 842);
+            this.DgvNormTest.Size = new System.Drawing.Size(1354, 594);
             this.DgvNormTest.TabIndex = 0;
-            this.DgvNormTest.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvDeleteButton_CellContentClick);
             this.DgvNormTest.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.DgvNormTest_RowPostPaint);
             // 
             // TxtTitle
@@ -1920,6 +1917,7 @@
             this.BtnDelete.Size = new System.Drawing.Size(50, 50);
             this.BtnDelete.TabIndex = 21;
             this.BtnDelete.UseVisualStyleBackColor = true;
+            this.BtnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
             // 
             // BtnSave
             // 
@@ -1941,10 +1939,10 @@
             this.LblDateCreated.AutoSize = true;
             this.LblDateCreated.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.LblDateCreated.ForeColor = System.Drawing.Color.Blue;
-            this.LblDateCreated.Location = new System.Drawing.Point(1131, 65);
+            this.LblDateCreated.Location = new System.Drawing.Point(1132, 64);
             this.LblDateCreated.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblDateCreated.Name = "LblDateCreated";
-            this.LblDateCreated.Size = new System.Drawing.Size(241, 22);
+            this.LblDateCreated.Size = new System.Drawing.Size(240, 24);
             this.LblDateCreated.TabIndex = 7;
             this.LblDateCreated.Text = "Utworzenie: 00-00-0000   ";
             // 
@@ -1954,10 +1952,10 @@
             this.LblDateModified.AutoSize = true;
             this.LblDateModified.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.LblDateModified.ForeColor = System.Drawing.Color.Blue;
-            this.LblDateModified.Location = new System.Drawing.Point(1131, 99);
+            this.LblDateModified.Location = new System.Drawing.Point(1133, 99);
             this.LblDateModified.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblDateModified.Name = "LblDateModified";
-            this.LblDateModified.Size = new System.Drawing.Size(241, 22);
+            this.LblDateModified.Size = new System.Drawing.Size(239, 45);
             this.LblDateModified.TabIndex = 8;
             this.LblDateModified.Text = "Modyfikacja: 00-00-0000   ";
             // 

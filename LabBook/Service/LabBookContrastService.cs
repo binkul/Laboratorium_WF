@@ -71,46 +71,45 @@ namespace Laboratorium.LabBook.Service
             view.Columns.Remove("DateUpdated");
 
             view.Columns["Id"].Visible = false;
+            view.Columns["TmpId"].Visible = false;
             view.Columns["LaboId"].Visible = false;
             view.Columns["IsDeleted"].Visible = false;
             view.Columns["Position"].Visible = false;
 
-            view.Columns.Add(CommonFunction.GetDgvDeleteButtonColumn());
-
             view.Columns["DateCreated"].HeaderText = "Data";
             view.Columns["DateCreated"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             view.Columns["DateCreated"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["DateCreated"].DisplayIndex = 1;
+            view.Columns["DateCreated"].DisplayIndex = 0;
 
             view.Columns["Applicator"].HeaderText = "Aplikator";
             view.Columns["Applicator"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             view.Columns["Applicator"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["Applicator"].DisplayIndex = 2;
+            view.Columns["Applicator"].DisplayIndex = 1;
 
             view.Columns["Substrate"].HeaderText = "Podłoże";
             view.Columns["Substrate"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             view.Columns["Substrate"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["Substrate"].DisplayIndex = 3;
+            view.Columns["Substrate"].DisplayIndex = 2;
 
             view.Columns["Contrast"].HeaderText = "Krycie";
             view.Columns["Contrast"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             view.Columns["Contrast"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["Contrast"].DisplayIndex = 4;
+            view.Columns["Contrast"].DisplayIndex = 3;
 
             view.Columns["Sp"].HeaderText = "Sp";
             view.Columns["Sp"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             view.Columns["Sp"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["Sp"].DisplayIndex = 5;
+            view.Columns["Sp"].DisplayIndex = 4;
 
             view.Columns["Tw"].HeaderText = "Tw";
             view.Columns["Tw"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             view.Columns["Tw"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["Tw"].DisplayIndex = 6;
+            view.Columns["Tw"].DisplayIndex = 5;
 
             view.Columns["Comments"].HeaderText = "Uwagi";
             view.Columns["Comments"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             view.Columns["Comments"].SortMode = DataGridViewColumnSortMode.NotSortable;
-            view.Columns["Comments"].DisplayIndex = 7;
+            view.Columns["Comments"].DisplayIndex = 6;
         }
 
         private LaboDto GetCurrentLaboDto()
@@ -179,8 +178,17 @@ namespace Laboratorium.LabBook.Service
                 .Max();
         }
 
-        public bool Delete(long id, long tmpId)
+        public bool Delete()
         {
+            LaboContrastBinding.EndEdit();
+
+            if (LaboContrastBinding.Current == null || _form.GetDgvContrast.SelectedCells.Count == 0 || _form.GetDgvContrast.SelectedCells[0].RowIndex == _form.GetDgvContrast.NewRowIndex)
+                return false;
+
+            LaboDataContrastDto current = (LaboDataContrastDto)LaboContrastBinding.Current;
+            int id = current.Id;
+            int tmpId = current.TmpId;
+
             if (id > 0)
             {
                 LaboDataContrastDto data = _laboContrastList

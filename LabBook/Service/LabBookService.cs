@@ -1006,43 +1006,43 @@ namespace Laboratorium.LabBook.Service
             }
         }
 
-        public void DeleteRow(object sender, DataGridViewCellEventArgs e)
-        {
-            var grid = (DataGridView)sender;
+        //public void DeleteRow(object sender, DataGridViewCellEventArgs e)
+        //{
+        //    var grid = (DataGridView)sender;
 
-            if (e.RowIndex < 0) return;
-            if (grid.Columns.Count == 0 || grid.Rows.Count == 0) return;
-            if (grid.Rows[e.RowIndex].IsNewRow) return;
+        //    if (e.RowIndex < 0) return;
+        //    if (grid.Columns.Count == 0 || grid.Rows.Count == 0) return;
+        //    if (grid.Rows[e.RowIndex].IsNewRow) return;
 
-            bool head = Convert.ToInt64(grid.Rows[e.RowIndex].Cells["TmpId"].Value) == -1;
-            if (!IsAdmin && !IsValidUser && !head)
-            {
-                MessageBox.Show("Nie masz uprawnień do usuwania wierszy.", "Brak uprawnień", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
+        //    bool head = Convert.ToInt64(grid.Rows[e.RowIndex].Cells["TmpId"].Value) == -1;
+        //    if (!IsAdmin && !IsValidUser && !head)
+        //    {
+        //        MessageBox.Show("Nie masz uprawnień do usuwania wierszy.", "Brak uprawnień", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        //        return;
+        //    }
 
-            if (grid[e.ColumnIndex, e.RowIndex] is DataGridViewButtonCell)
-            {
-                long id = Convert.ToInt64(grid.Rows[e.RowIndex].Cells["Id"].Value);
-                long tmpId = Convert.ToInt64(grid.Rows[e.RowIndex].Cells["TmpId"].Value);
+        //    if (grid[e.ColumnIndex, e.RowIndex] is DataGridViewButtonCell)
+        //    {
+        //        long id = Convert.ToInt64(grid.Rows[e.RowIndex].Cells["Id"].Value);
+        //        long tmpId = Convert.ToInt64(grid.Rows[e.RowIndex].Cells["TmpId"].Value);
 
-                string name = grid.Name;
-                switch (name)
-                {
-                    case "DgvViscosity":
-                        _viscosityService.Delete(id, tmpId);
-                        break;
-                    case "DgvContrast":
-                        _contrastService.Delete(id, tmpId);
-                        break;
-                    case "DgvNormTest":
-                        _normTestService.Delete(id, tmpId);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
+        //        string name = grid.Name;
+        //        switch (name)
+        //        {
+        //            case "DgvViscosity":
+        //                _viscosityService.Delete(id, tmpId);
+        //                break;
+        //            case "DgvContrast":
+        //                _contrastService.Delete(id, tmpId);
+        //                break;
+        //            case "DgvNormTest":
+        //                _normTestService.Delete(id, tmpId);
+        //                break;
+        //            default:
+        //                break;
+        //        }
+        //    }
+        //}
 
         public void AddNewViscosityRow()
         {
@@ -1157,9 +1157,9 @@ namespace Laboratorium.LabBook.Service
 
         public void AddOneLabBook()
         {
-            ClearFiltrationByNewAdd();
             InsertNewEmptyLabo();
-            _laboBinding.Position = _laboBinding.Count - 1;
+            ClearFiltrationByNewAdd(_laboBinding.Count - 1);
+            //_laboBinding.Position = _laboBinding.Count - 1;
         }
 
         public void AddSeriesLabBooks()
@@ -1185,7 +1185,7 @@ namespace Laboratorium.LabBook.Service
                 return;
 
             LaboDto current = CurrentLabBook;
-            ClearFiltrationByNewAdd();
+            //ClearFiltrationByNewAdd();
             int position = _laboBinding.Count;
 
             if (type == 1)
@@ -1233,8 +1233,31 @@ namespace Laboratorium.LabBook.Service
                 position = _laboList.Count - amount;
             }
 
-            _laboBinding.Position = position;
-            Modify(RowState.ADDED);
+            ClearFiltrationByNewAdd(position);
+            //_laboBinding.Position = position;
+            //Modify(RowState.ADDED);
+        }
+
+        public void DeleteItem(int type)
+        {
+            switch (type)
+            {
+                case 0:
+
+                    break;
+                case 1:
+                    _viscosityService.Delete();
+                    break;
+                case 2:
+                    _contrastService.Delete();
+                    break;
+                case 3:
+                    _normTestService.Delete();
+                    break;
+                default:
+
+                    break;
+            }
         }
 
         #endregion
@@ -1363,7 +1386,7 @@ namespace Laboratorium.LabBook.Service
             _filterBlock = false;
         }
 
-        public void ClearFiltrationByNewAdd()
+        public void ClearFiltrationByNewAdd(int position)
         {
             _filterBlock = true;
 
@@ -1373,6 +1396,7 @@ namespace Laboratorium.LabBook.Service
             _form.GetBtnFilterProject.Text = CommonData.ALL_DATA_PL;
 
             _laboBinding.DataSource = _laboList;
+            _laboBinding.Position = position;
 
             _filterBlock = false;
         }
@@ -1451,9 +1475,7 @@ namespace Laboratorium.LabBook.Service
             if (newLabo.CrudState == CrudState.OK)
             {
                 newLabo.AcceptChanges();
-                _laboBinding.Add(newLabo);
-                _laboBinding.EndEdit();
-                _form.GetDgvLabo.Refresh();
+                _laboList.Add(newLabo);
             }
 
             return newLabo;
