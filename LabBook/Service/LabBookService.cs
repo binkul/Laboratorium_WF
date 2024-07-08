@@ -1362,6 +1362,9 @@ namespace Laboratorium.LabBook.Service
 
         public void ClearFiltrationByButton()
         {
+            if (!IsFiltrationSet())
+                return;
+
             _filterBlock = true;
 
             _form.GetTxtFilterNumD.Text = "";
@@ -1388,17 +1391,26 @@ namespace Laboratorium.LabBook.Service
 
         public void ClearFiltrationByNewAdd(int position)
         {
-            _filterBlock = true;
+            if (!IsFiltrationSet())
+            {
+                _laboBinding.ResetBindings(false);
+                _laboBinding.Position = position;
+            }
+            else
+            {
 
-            _form.GetTxtFilterNumD.Text = string.Empty;
-            _form.GetTxtFilterTitle.Text = string.Empty;
-            _form.GetTxtFilterUser.Text = string.Empty;
-            _form.GetBtnFilterProject.Text = CommonData.ALL_DATA_PL;
+                _filterBlock = true;
 
-            _laboBinding.DataSource = _laboList;
-            _laboBinding.Position = position;
+                _form.GetTxtFilterNumD.Text = string.Empty;
+                _form.GetTxtFilterTitle.Text = string.Empty;
+                _form.GetTxtFilterUser.Text = string.Empty;
+                _form.GetBtnFilterProject.Text = CommonData.ALL_DATA_PL;
 
-            _filterBlock = false;
+                _laboBinding.DataSource = _laboList;
+                _laboBinding.Position = position;
+
+                _filterBlock = false;
+            }
         }
 
         public void SetFiltration()
