@@ -1159,7 +1159,6 @@ namespace Laboratorium.LabBook.Service
         {
             InsertNewEmptyLabo();
             ClearFiltrationByNewAdd(_laboBinding.Count - 1);
-            //_laboBinding.Position = _laboBinding.Count - 1;
         }
 
         public void AddSeriesLabBooks()
@@ -1185,7 +1184,6 @@ namespace Laboratorium.LabBook.Service
                 return;
 
             LaboDto current = CurrentLabBook;
-            //ClearFiltrationByNewAdd();
             int position = _laboBinding.Count;
 
             if (type == 1)
@@ -1234,8 +1232,6 @@ namespace Laboratorium.LabBook.Service
             }
 
             ClearFiltrationByNewAdd(position);
-            //_laboBinding.Position = position;
-            //Modify(RowState.ADDED);
         }
 
         public void DeleteItem(int type)
@@ -1419,8 +1415,8 @@ namespace Laboratorium.LabBook.Service
                 return;
 
             string nr = _form.GetTxtFilterNumD.Text;
-            string title = _form.GetTxtFilterTitle.Text;
-            string user = _form.GetTxtFilterUser.Text;
+            string title = _form.GetTxtFilterTitle.Text.ToLower();
+            string user = _form.GetTxtFilterUser.Text.ToLower();
             string project = _form.GetBtnFilterProject.Text == CommonData.ALL_DATA_PL ? "" : _form.GetBtnFilterProject.Text;
 
             if (nr.Length > 0 && !Regex.IsMatch(nr, @"^\d+$"))
@@ -1429,15 +1425,15 @@ namespace Laboratorium.LabBook.Service
                 return;
             }
 
-            if (!string.IsNullOrEmpty(nr) || !string.IsNullOrEmpty(title) || !string.IsNullOrEmpty(user) || !string.IsNullOrEmpty(project))
+            if (IsFiltrationSet())
             {
                 int id = nr.Length > 0 ? Convert.ToInt32(nr) : -1;
 
                 List<LaboDto> filter = _laboList
                     .Where(i => i.Id >= id)
-                    .Where(i => string.IsNullOrEmpty(title) || i.Title.ToLower().Contains(title.ToLower()))
+                    .Where(i => string.IsNullOrEmpty(title) || i.Title.ToLower().Contains(title))
                     .Where(i => string.IsNullOrEmpty(project) || i.ProjectName.Contains(project))
-                    .Where(i => string.IsNullOrEmpty(user) || i.UserShortcut.ToLower().Contains(user.ToLower()))
+                    .Where(i => string.IsNullOrEmpty(user) || i.UserShortcut.ToLower().Contains(user))
                     .ToList();
 
                 _laboBinding.DataSource = filter;
