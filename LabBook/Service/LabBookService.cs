@@ -3,6 +3,7 @@ using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.Service;
 using Laboratorium.Commons;
+using Laboratorium.Composition.Forms;
 using Laboratorium.LabBook.Forms;
 using Laboratorium.LabBook.Repository;
 using Laboratorium.Material.Forms;
@@ -1337,6 +1338,14 @@ namespace Laboratorium.LabBook.Service
         public void OpenMaterialForm()
         {
             using (MaterialForm form = new MaterialForm(_connection, _user))
+            {
+                form.ShowDialog();
+            }
+        }
+
+        public void OpenCompositionForm()
+        {
+            using (CompositionForm form = new CompositionForm(_connection, _user))
             {
                 form.ShowDialog();
             }

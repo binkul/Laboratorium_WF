@@ -214,4 +214,37 @@
   <data name="Benzene" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Benzene.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="addFirst" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\addFirst.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="addLast" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\addLast.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="addMiddle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\addMiddle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CountOn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CountOn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cut" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cut.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="loadFromDB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\loadFromDB.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="loadToMaterial" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\loadToMaterial.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="printer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\printer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="recFrameDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\recFrameDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="recFrameUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\recFrameUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="upTo100" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\upTo100.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

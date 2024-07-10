@@ -360,6 +360,11 @@ namespace Laboratorium.LabBook.Forms
             _service.OpenMaterialForm();
         }
 
+        private void SkładToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _service.OpenCompositionForm();
+        }
+
         #endregion
 
     }

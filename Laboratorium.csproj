@@ -56,6 +56,7 @@
     <Compile Include="ADO\DTO\CmbGlossClassDto.cs" />
     <Compile Include="ADO\DTO\CmbMaterialFunctionDto.cs" />
     <Compile Include="ADO\DTO\CmbUnitDto.cs" />
+    <Compile Include="ADO\DTO\CompositionDto.cs" />
     <Compile Include="ADO\DTO\LaboDataBasicDto.cs" />
     <Compile Include="ADO\DTO\LaboDataContrastDto.cs" />
     <Compile Include="ADO\DTO\LaboDataNormTestDto.cs" />
@@ -102,6 +103,14 @@
     <Compile Include="Commons\CommonData.cs" />
     <Compile Include="Commons\CommonFunction.cs" />
     <Compile Include="Commons\SerializeClass.cs" />
+    <Compile Include="Composition\Forms\CompositionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Composition\Forms\CompositionForm.Designer.cs">
+      <DependentUpon>CompositionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Composition\Repository\CompositionRepository.cs" />
+    <Compile Include="Composition\Service\CompositionService.cs" />
     <Compile Include="Compound\Forms\CompoundForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -215,6 +224,9 @@
     </Compile>
     <Compile Include="Security\Encrypt.cs" />
     <Compile Include="User\Repository\UserRepository.cs" />
+    <EmbeddedResource Include="Composition\Forms\CompositionForm.resx">
+      <DependentUpon>CompositionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Compound\Forms\CompoundForm.resx">
       <DependentUpon>CompoundForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -366,6 +378,38 @@
   <ItemGroup>
     <None Include="Resources\Benzene.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\printer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\loadFromDB.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\loadToMaterial.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\addFirst.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\addLast.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\addMiddle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\recFrameDown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\recFrameUp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\upTo100.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CountOn.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

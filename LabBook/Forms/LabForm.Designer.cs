@@ -190,6 +190,7 @@
             this.BtnDown = new System.Windows.Forms.Button();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.składToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.BindingNavigatorLabo)).BeginInit();
             this.BindingNavigatorLabo.SuspendLayout();
             this.TabLabo.SuspendLayout();
@@ -549,7 +550,7 @@
             this.CmbScrubClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbScrubClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbScrubClass.FormattingEnabled = true;
-            this.CmbScrubClass.Location = new System.Drawing.Point(205, 202);
+            this.CmbScrubClass.Location = new System.Drawing.Point(205, 203);
             this.CmbScrubClass.Name = "CmbScrubClass";
             this.CmbScrubClass.Size = new System.Drawing.Size(159, 28);
             this.CmbScrubClass.TabIndex = 3;
@@ -764,7 +765,7 @@
             this.CmbGlossClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbGlossClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbGlossClass.FormattingEnabled = true;
-            this.CmbGlossClass.Location = new System.Drawing.Point(207, 245);
+            this.CmbGlossClass.Location = new System.Drawing.Point(207, 246);
             this.CmbGlossClass.Name = "CmbGlossClass";
             this.CmbGlossClass.Size = new System.Drawing.Size(224, 28);
             this.CmbGlossClass.TabIndex = 10;
@@ -882,7 +883,7 @@
             this.CmbContrastClass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CmbContrastClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbContrastClass.FormattingEnabled = true;
-            this.CmbContrastClass.Location = new System.Drawing.Point(205, 118);
+            this.CmbContrastClass.Location = new System.Drawing.Point(205, 120);
             this.CmbContrastClass.Name = "CmbContrastClass";
             this.CmbContrastClass.Size = new System.Drawing.Size(149, 28);
             this.CmbContrastClass.TabIndex = 5;
@@ -951,7 +952,7 @@
             this.CmbVocClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.CmbVocClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CmbVocClass.FormattingEnabled = true;
-            this.CmbVocClass.Location = new System.Drawing.Point(205, 82);
+            this.CmbVocClass.Location = new System.Drawing.Point(205, 83);
             this.CmbVocClass.Name = "CmbVocClass";
             this.CmbVocClass.Size = new System.Drawing.Size(298, 28);
             this.CmbVocClass.TabIndex = 12;
@@ -1316,7 +1317,7 @@
             this.TxtObservation.Location = new System.Drawing.Point(3, 73);
             this.TxtObservation.Multiline = true;
             this.TxtObservation.Name = "TxtObservation";
-            this.TxtObservation.Size = new System.Drawing.Size(655, 509);
+            this.TxtObservation.Size = new System.Drawing.Size(655, 518);
             this.TxtObservation.TabIndex = 10;
             // 
             // TxtConclusion
@@ -1327,7 +1328,7 @@
             this.TxtConclusion.Location = new System.Drawing.Point(684, 73);
             this.TxtConclusion.Multiline = true;
             this.TxtConclusion.Name = "TxtConclusion";
-            this.TxtConclusion.Size = new System.Drawing.Size(656, 509);
+            this.TxtConclusion.Size = new System.Drawing.Size(656, 518);
             this.TxtConclusion.TabIndex = 11;
             // 
             // TbViscosity
@@ -1893,7 +1894,8 @@
             // oknaToolStripMenuItem
             // 
             this.oknaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MaterialToolStripMenuItem});
+            this.MaterialToolStripMenuItem,
+            this.składToolStripMenuItem});
             this.oknaToolStripMenuItem.Name = "oknaToolStripMenuItem";
             this.oknaToolStripMenuItem.Size = new System.Drawing.Size(65, 27);
             this.oknaToolStripMenuItem.Text = "Okna";
@@ -1901,7 +1903,7 @@
             // MaterialToolStripMenuItem
             // 
             this.MaterialToolStripMenuItem.Name = "MaterialToolStripMenuItem";
-            this.MaterialToolStripMenuItem.Size = new System.Drawing.Size(159, 28);
+            this.MaterialToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
             this.MaterialToolStripMenuItem.Text = "Surowce";
             this.MaterialToolStripMenuItem.Click += new System.EventHandler(this.MaterialToolStripMenuItem_Click);
             // 
@@ -2092,6 +2094,13 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1120, 39);
             this.panel3.TabIndex = 27;
+            // 
+            // składToolStripMenuItem
+            // 
+            this.składToolStripMenuItem.Name = "składToolStripMenuItem";
+            this.składToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
+            this.składToolStripMenuItem.Text = "Skład";
+            this.składToolStripMenuItem.Click += new System.EventHandler(this.SkładToolStripMenuItem_Click);
             // 
             // LabForm
             // 
@@ -2314,5 +2323,6 @@
         private System.Windows.Forms.ToolStripMenuItem MaterialToolStripMenuItem;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.ToolStripMenuItem składToolStripMenuItem;
     }
 }
