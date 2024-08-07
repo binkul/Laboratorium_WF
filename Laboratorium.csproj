@@ -57,6 +57,7 @@
     <Compile Include="ADO\DTO\CmbMaterialFunctionDto.cs" />
     <Compile Include="ADO\DTO\CmbUnitDto.cs" />
     <Compile Include="ADO\DTO\CompositionDto.cs" />
+    <Compile Include="ADO\DTO\CompositionHistoryDto.cs" />
     <Compile Include="ADO\DTO\LaboDataBasicDto.cs" />
     <Compile Include="ADO\DTO\LaboDataContrastDto.cs" />
     <Compile Include="ADO\DTO\LaboDataNormTestDto.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Composition\Forms\CompositionForm.Designer.cs">
       <DependentUpon>CompositionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Composition\Repository\CompositionHistoryRepository.cs" />
     <Compile Include="Composition\Repository\CompositionRepository.cs" />
     <Compile Include="Composition\Service\CompositionService.cs" />
     <Compile Include="Compound\Forms\CompoundForm.cs">

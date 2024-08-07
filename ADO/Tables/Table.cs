@@ -65,6 +65,11 @@
         // ContrastClass table
         public static readonly string CONTRAST_CLASS_TABLE = "CmbClassContrast";
 
+        // composition
+        public static readonly string COMPOSITION_TABLE = "LaboComposition";
+        public static readonly string COMPOSITION_ARCHIVE_TABLE = "LaboCompositionArchive";
+        public static readonly string COMPOSITION_HISTORY_TABLE = "LaboCompositionHistory";
+
         // GlossClass table
         public static readonly string GLOSS_CLASS_TABLE = "CmbClassGloss";
 
