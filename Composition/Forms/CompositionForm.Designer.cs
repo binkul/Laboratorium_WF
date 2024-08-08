@@ -72,24 +72,24 @@ namespace Laboratorium.Composition.Forms
             this.LblNrD = new System.Windows.Forms.Label();
             this.LblTitle = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.DgvComposition = new System.Windows.Forms.DataGridView();
-            this.CmbMaterial = new System.Windows.Forms.ComboBox();
-            this.TxtAmount = new System.Windows.Forms.TextBox();
-            this.RdAmount = new System.Windows.Forms.RadioButton();
-            this.RdMass = new System.Windows.Forms.RadioButton();
-            this.TxtComment = new System.Windows.Forms.TextBox();
-            this.LblDensity = new System.Windows.Forms.Label();
-            this.LblSum = new System.Windows.Forms.Label();
-            this.LblSumPercent = new System.Windows.Forms.Label();
-            this.LblSumMass = new System.Windows.Forms.Label();
-            this.LblPricePerKg = new System.Windows.Forms.Label();
-            this.LblPricePerL = new System.Windows.Forms.Label();
-            this.LblPriceCalcPerKg = new System.Windows.Forms.Label();
-            this.LblPriceCalcPerL = new System.Windows.Forms.Label();
-            this.LblVocPerKg = new System.Windows.Forms.Label();
-            this.LblVocPerL = new System.Windows.Forms.Label();
-            this.LblMass = new System.Windows.Forms.Label();
             this.TxtMass = new System.Windows.Forms.TextBox();
+            this.LblMass = new System.Windows.Forms.Label();
+            this.LblVocPerL = new System.Windows.Forms.Label();
+            this.LblVocPerKg = new System.Windows.Forms.Label();
+            this.LblPriceCalcPerL = new System.Windows.Forms.Label();
+            this.LblPriceCalcPerKg = new System.Windows.Forms.Label();
+            this.LblPricePerL = new System.Windows.Forms.Label();
+            this.LblPricePerKg = new System.Windows.Forms.Label();
+            this.LblSumMass = new System.Windows.Forms.Label();
+            this.LblSumPercent = new System.Windows.Forms.Label();
+            this.LblSum = new System.Windows.Forms.Label();
+            this.LblDensity = new System.Windows.Forms.Label();
+            this.TxtComment = new System.Windows.Forms.TextBox();
+            this.RdMass = new System.Windows.Forms.RadioButton();
+            this.RdAmount = new System.Windows.Forms.RadioButton();
+            this.TxtAmount = new System.Windows.Forms.TextBox();
+            this.CmbMaterial = new System.Windows.Forms.ComboBox();
+            this.DgvComposition = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvComposition)).BeginInit();
@@ -653,6 +653,190 @@ namespace Laboratorium.Composition.Forms
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             // 
+            // TxtMass
+            // 
+            this.TxtMass.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.TxtMass.Location = new System.Drawing.Point(436, 460);
+            this.TxtMass.Name = "TxtMass";
+            this.TxtMass.Size = new System.Drawing.Size(147, 27);
+            this.TxtMass.TabIndex = 17;
+            // 
+            // LblMass
+            // 
+            this.LblMass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LblMass.AutoSize = true;
+            this.LblMass.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LblMass.Location = new System.Drawing.Point(358, 462);
+            this.LblMass.Name = "LblMass";
+            this.LblMass.Size = new System.Drawing.Size(72, 25);
+            this.LblMass.TabIndex = 16;
+            this.LblMass.Text = "Masa:";
+            // 
+            // LblVocPerL
+            // 
+            this.LblVocPerL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LblVocPerL.AutoSize = true;
+            this.LblVocPerL.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LblVocPerL.ForeColor = System.Drawing.Color.Blue;
+            this.LblVocPerL.Location = new System.Drawing.Point(848, 459);
+            this.LblVocPerL.Name = "LblVocPerL";
+            this.LblVocPerL.Size = new System.Drawing.Size(90, 25);
+            this.LblVocPerL.TabIndex = 15;
+            this.LblVocPerL.Text = "1120 g/l";
+            // 
+            // LblVocPerKg
+            // 
+            this.LblVocPerKg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LblVocPerKg.AutoSize = true;
+            this.LblVocPerKg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LblVocPerKg.ForeColor = System.Drawing.Color.Blue;
+            this.LblVocPerKg.Location = new System.Drawing.Point(848, 434);
+            this.LblVocPerKg.Name = "LblVocPerKg";
+            this.LblVocPerKg.Size = new System.Drawing.Size(96, 25);
+            this.LblVocPerKg.TabIndex = 14;
+            this.LblVocPerKg.Text = "950 g/kg";
+            // 
+            // LblPriceCalcPerL
+            // 
+            this.LblPriceCalcPerL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LblPriceCalcPerL.AutoSize = true;
+            this.LblPriceCalcPerL.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LblPriceCalcPerL.ForeColor = System.Drawing.Color.Green;
+            this.LblPriceCalcPerL.Location = new System.Drawing.Point(713, 459);
+            this.LblPriceCalcPerL.Name = "LblPriceCalcPerL";
+            this.LblPriceCalcPerL.Size = new System.Drawing.Size(112, 25);
+            this.LblPriceCalcPerL.TabIndex = 13;
+            this.LblPriceCalcPerL.Text = "1400,15 zł";
+            // 
+            // LblPriceCalcPerKg
+            // 
+            this.LblPriceCalcPerKg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LblPriceCalcPerKg.AutoSize = true;
+            this.LblPriceCalcPerKg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LblPriceCalcPerKg.ForeColor = System.Drawing.Color.Green;
+            this.LblPriceCalcPerKg.Location = new System.Drawing.Point(713, 434);
+            this.LblPriceCalcPerKg.Name = "LblPriceCalcPerKg";
+            this.LblPriceCalcPerKg.Size = new System.Drawing.Size(112, 25);
+            this.LblPriceCalcPerKg.TabIndex = 12;
+            this.LblPriceCalcPerKg.Text = "1000,05 zł";
+            // 
+            // LblPricePerL
+            // 
+            this.LblPricePerL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LblPricePerL.AutoSize = true;
+            this.LblPricePerL.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LblPricePerL.Location = new System.Drawing.Point(591, 459);
+            this.LblPricePerL.Name = "LblPricePerL";
+            this.LblPricePerL.Size = new System.Drawing.Size(98, 25);
+            this.LblPricePerL.TabIndex = 11;
+            this.LblPricePerL.Text = "Cena zł/l";
+            // 
+            // LblPricePerKg
+            // 
+            this.LblPricePerKg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LblPricePerKg.AutoSize = true;
+            this.LblPricePerKg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LblPricePerKg.Location = new System.Drawing.Point(591, 434);
+            this.LblPricePerKg.Name = "LblPricePerKg";
+            this.LblPricePerKg.Size = new System.Drawing.Size(116, 25);
+            this.LblPricePerKg.TabIndex = 10;
+            this.LblPricePerKg.Text = "Cena zł/kg";
+            // 
+            // LblSumMass
+            // 
+            this.LblSumMass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LblSumMass.AutoSize = true;
+            this.LblSumMass.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LblSumMass.ForeColor = System.Drawing.Color.Blue;
+            this.LblSumMass.Location = new System.Drawing.Point(458, 434);
+            this.LblSumMass.Name = "LblSumMass";
+            this.LblSumMass.Size = new System.Drawing.Size(101, 25);
+            this.LblSumMass.TabIndex = 9;
+            this.LblSumMass.Text = "10000 kg";
+            // 
+            // LblSumPercent
+            // 
+            this.LblSumPercent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LblSumPercent.AutoSize = true;
+            this.LblSumPercent.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LblSumPercent.ForeColor = System.Drawing.Color.Red;
+            this.LblSumPercent.Location = new System.Drawing.Point(331, 434);
+            this.LblSumPercent.Name = "LblSumPercent";
+            this.LblSumPercent.Size = new System.Drawing.Size(115, 25);
+            this.LblSumPercent.TabIndex = 8;
+            this.LblSumPercent.Text = "100,000 %";
+            // 
+            // LblSum
+            // 
+            this.LblSum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LblSum.AutoSize = true;
+            this.LblSum.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LblSum.Location = new System.Drawing.Point(250, 434);
+            this.LblSum.Name = "LblSum";
+            this.LblSum.Size = new System.Drawing.Size(75, 25);
+            this.LblSum.TabIndex = 7;
+            this.LblSum.Text = "Suma:";
+            // 
+            // LblDensity
+            // 
+            this.LblDensity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LblDensity.AutoSize = true;
+            this.LblDensity.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LblDensity.Location = new System.Drawing.Point(10, 434);
+            this.LblDensity.Name = "LblDensity";
+            this.LblDensity.Size = new System.Drawing.Size(223, 25);
+            this.LblDensity.TabIndex = 6;
+            this.LblDensity.Text = "Gęstość: 1,400 g/cm3";
+            // 
+            // TxtComment
+            // 
+            this.TxtComment.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.TxtComment.Location = new System.Drawing.Point(788, 10);
+            this.TxtComment.Name = "TxtComment";
+            this.TxtComment.Size = new System.Drawing.Size(270, 27);
+            this.TxtComment.TabIndex = 5;
+            // 
+            // RdMass
+            // 
+            this.RdMass.AutoSize = true;
+            this.RdMass.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.RdMass.Location = new System.Drawing.Point(634, 17);
+            this.RdMass.Name = "RdMass";
+            this.RdMass.Size = new System.Drawing.Size(75, 24);
+            this.RdMass.TabIndex = 4;
+            this.RdMass.TabStop = true;
+            this.RdMass.Text = "Masa";
+            this.RdMass.UseVisualStyleBackColor = true;
+            // 
+            // RdAmount
+            // 
+            this.RdAmount.AutoSize = true;
+            this.RdAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.RdAmount.Location = new System.Drawing.Point(558, 17);
+            this.RdAmount.Name = "RdAmount";
+            this.RdAmount.Size = new System.Drawing.Size(70, 24);
+            this.RdAmount.TabIndex = 3;
+            this.RdAmount.TabStop = true;
+            this.RdAmount.Text = "Ilość";
+            this.RdAmount.UseVisualStyleBackColor = true;
+            // 
+            // TxtAmount
+            // 
+            this.TxtAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.TxtAmount.Location = new System.Drawing.Point(389, 11);
+            this.TxtAmount.Name = "TxtAmount";
+            this.TxtAmount.Size = new System.Drawing.Size(120, 27);
+            this.TxtAmount.TabIndex = 2;
+            // 
+            // CmbMaterial
+            // 
+            this.CmbMaterial.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.CmbMaterial.FormattingEnabled = true;
+            this.CmbMaterial.Location = new System.Drawing.Point(119, 10);
+            this.CmbMaterial.Name = "CmbMaterial";
+            this.CmbMaterial.Size = new System.Drawing.Size(264, 28);
+            this.CmbMaterial.TabIndex = 1;
+            // 
             // DgvComposition
             // 
             this.DgvComposition.AllowUserToAddRows = false;
@@ -669,190 +853,6 @@ namespace Laboratorium.Composition.Forms
             this.DgvComposition.Size = new System.Drawing.Size(1050, 387);
             this.DgvComposition.TabIndex = 0;
             // 
-            // CmbMaterial
-            // 
-            this.CmbMaterial.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.CmbMaterial.FormattingEnabled = true;
-            this.CmbMaterial.Location = new System.Drawing.Point(119, 10);
-            this.CmbMaterial.Name = "CmbMaterial";
-            this.CmbMaterial.Size = new System.Drawing.Size(264, 28);
-            this.CmbMaterial.TabIndex = 1;
-            // 
-            // TxtAmount
-            // 
-            this.TxtAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TxtAmount.Location = new System.Drawing.Point(389, 11);
-            this.TxtAmount.Name = "TxtAmount";
-            this.TxtAmount.Size = new System.Drawing.Size(120, 27);
-            this.TxtAmount.TabIndex = 2;
-            // 
-            // RdAmount
-            // 
-            this.RdAmount.AutoSize = true;
-            this.RdAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.RdAmount.Location = new System.Drawing.Point(558, 17);
-            this.RdAmount.Name = "RdAmount";
-            this.RdAmount.Size = new System.Drawing.Size(70, 24);
-            this.RdAmount.TabIndex = 3;
-            this.RdAmount.TabStop = true;
-            this.RdAmount.Text = "Ilość";
-            this.RdAmount.UseVisualStyleBackColor = true;
-            // 
-            // RdMass
-            // 
-            this.RdMass.AutoSize = true;
-            this.RdMass.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.RdMass.Location = new System.Drawing.Point(634, 17);
-            this.RdMass.Name = "RdMass";
-            this.RdMass.Size = new System.Drawing.Size(75, 24);
-            this.RdMass.TabIndex = 4;
-            this.RdMass.TabStop = true;
-            this.RdMass.Text = "Masa";
-            this.RdMass.UseVisualStyleBackColor = true;
-            // 
-            // TxtComment
-            // 
-            this.TxtComment.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TxtComment.Location = new System.Drawing.Point(788, 10);
-            this.TxtComment.Name = "TxtComment";
-            this.TxtComment.Size = new System.Drawing.Size(270, 27);
-            this.TxtComment.TabIndex = 5;
-            // 
-            // LblDensity
-            // 
-            this.LblDensity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LblDensity.AutoSize = true;
-            this.LblDensity.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblDensity.Location = new System.Drawing.Point(10, 434);
-            this.LblDensity.Name = "LblDensity";
-            this.LblDensity.Size = new System.Drawing.Size(223, 25);
-            this.LblDensity.TabIndex = 6;
-            this.LblDensity.Text = "Gęstość: 1,400 g/cm3";
-            // 
-            // LblSum
-            // 
-            this.LblSum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LblSum.AutoSize = true;
-            this.LblSum.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblSum.Location = new System.Drawing.Point(250, 434);
-            this.LblSum.Name = "LblSum";
-            this.LblSum.Size = new System.Drawing.Size(75, 25);
-            this.LblSum.TabIndex = 7;
-            this.LblSum.Text = "Suma:";
-            // 
-            // LblSumPercent
-            // 
-            this.LblSumPercent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LblSumPercent.AutoSize = true;
-            this.LblSumPercent.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblSumPercent.ForeColor = System.Drawing.Color.Red;
-            this.LblSumPercent.Location = new System.Drawing.Point(331, 434);
-            this.LblSumPercent.Name = "LblSumPercent";
-            this.LblSumPercent.Size = new System.Drawing.Size(115, 25);
-            this.LblSumPercent.TabIndex = 8;
-            this.LblSumPercent.Text = "100,000 %";
-            // 
-            // LblSumMass
-            // 
-            this.LblSumMass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LblSumMass.AutoSize = true;
-            this.LblSumMass.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblSumMass.ForeColor = System.Drawing.Color.Blue;
-            this.LblSumMass.Location = new System.Drawing.Point(458, 434);
-            this.LblSumMass.Name = "LblSumMass";
-            this.LblSumMass.Size = new System.Drawing.Size(101, 25);
-            this.LblSumMass.TabIndex = 9;
-            this.LblSumMass.Text = "10000 kg";
-            // 
-            // LblPricePerKg
-            // 
-            this.LblPricePerKg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LblPricePerKg.AutoSize = true;
-            this.LblPricePerKg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblPricePerKg.Location = new System.Drawing.Point(591, 434);
-            this.LblPricePerKg.Name = "LblPricePerKg";
-            this.LblPricePerKg.Size = new System.Drawing.Size(116, 25);
-            this.LblPricePerKg.TabIndex = 10;
-            this.LblPricePerKg.Text = "Cena zł/kg";
-            // 
-            // LblPricePerL
-            // 
-            this.LblPricePerL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LblPricePerL.AutoSize = true;
-            this.LblPricePerL.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblPricePerL.Location = new System.Drawing.Point(591, 459);
-            this.LblPricePerL.Name = "LblPricePerL";
-            this.LblPricePerL.Size = new System.Drawing.Size(98, 25);
-            this.LblPricePerL.TabIndex = 11;
-            this.LblPricePerL.Text = "Cena zł/l";
-            // 
-            // LblPriceCalcPerKg
-            // 
-            this.LblPriceCalcPerKg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LblPriceCalcPerKg.AutoSize = true;
-            this.LblPriceCalcPerKg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblPriceCalcPerKg.ForeColor = System.Drawing.Color.Green;
-            this.LblPriceCalcPerKg.Location = new System.Drawing.Point(713, 434);
-            this.LblPriceCalcPerKg.Name = "LblPriceCalcPerKg";
-            this.LblPriceCalcPerKg.Size = new System.Drawing.Size(112, 25);
-            this.LblPriceCalcPerKg.TabIndex = 12;
-            this.LblPriceCalcPerKg.Text = "1000,05 zł";
-            // 
-            // LblPriceCalcPerL
-            // 
-            this.LblPriceCalcPerL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LblPriceCalcPerL.AutoSize = true;
-            this.LblPriceCalcPerL.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblPriceCalcPerL.ForeColor = System.Drawing.Color.Green;
-            this.LblPriceCalcPerL.Location = new System.Drawing.Point(713, 459);
-            this.LblPriceCalcPerL.Name = "LblPriceCalcPerL";
-            this.LblPriceCalcPerL.Size = new System.Drawing.Size(112, 25);
-            this.LblPriceCalcPerL.TabIndex = 13;
-            this.LblPriceCalcPerL.Text = "1400,15 zł";
-            // 
-            // LblVocPerKg
-            // 
-            this.LblVocPerKg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LblVocPerKg.AutoSize = true;
-            this.LblVocPerKg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblVocPerKg.ForeColor = System.Drawing.Color.Blue;
-            this.LblVocPerKg.Location = new System.Drawing.Point(848, 434);
-            this.LblVocPerKg.Name = "LblVocPerKg";
-            this.LblVocPerKg.Size = new System.Drawing.Size(96, 25);
-            this.LblVocPerKg.TabIndex = 14;
-            this.LblVocPerKg.Text = "950 g/kg";
-            // 
-            // LblVocPerL
-            // 
-            this.LblVocPerL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LblVocPerL.AutoSize = true;
-            this.LblVocPerL.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblVocPerL.ForeColor = System.Drawing.Color.Blue;
-            this.LblVocPerL.Location = new System.Drawing.Point(848, 459);
-            this.LblVocPerL.Name = "LblVocPerL";
-            this.LblVocPerL.Size = new System.Drawing.Size(90, 25);
-            this.LblVocPerL.TabIndex = 15;
-            this.LblVocPerL.Text = "1120 g/l";
-            // 
-            // LblMass
-            // 
-            this.LblMass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LblMass.AutoSize = true;
-            this.LblMass.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblMass.Location = new System.Drawing.Point(358, 462);
-            this.LblMass.Name = "LblMass";
-            this.LblMass.Size = new System.Drawing.Size(72, 25);
-            this.LblMass.TabIndex = 16;
-            this.LblMass.Text = "Masa:";
-            // 
-            // TxtMass
-            // 
-            this.TxtMass.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TxtMass.Location = new System.Drawing.Point(436, 460);
-            this.TxtMass.Name = "TxtMass";
-            this.TxtMass.Size = new System.Drawing.Size(147, 27);
-            this.TxtMass.TabIndex = 17;
-            // 
             // CompositionForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -865,6 +865,8 @@ namespace Laboratorium.Composition.Forms
             this.Name = "CompositionForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Skład";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CompositionForm_FormClosing);
+            this.Load += new System.EventHandler(this.CompositionForm_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.groupBox1.ResumeLayout(false);

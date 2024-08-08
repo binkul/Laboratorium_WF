@@ -1,4 +1,5 @@
 ﻿using Laboratorium.ADO.DTO;
+using Laboratorium.Composition.Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,12 +17,37 @@ namespace Laboratorium.Composition.Forms
         private readonly SqlConnection _connection;
         private UserDto _user;
         private bool _init = true;
+        private int _laboId;
+        private CompositionService _service;
 
-        public CompositionForm(SqlConnection connection, UserDto user)
+        public DataGridView GetDgvComposition => DgvComposition;
+
+        public CompositionForm(SqlConnection connection, UserDto user, int laboId)
         {
             InitializeComponent();
             _connection = connection;
             _user = user;
+            _laboId = laboId;
         }
+
+        #region Form init and load
+
+        public bool Init => _init;
+
+        private void CompositionForm_Load(object sender, EventArgs e)
+        {
+            _service = new CompositionService(_connection, _user, this, _laboId);
+            _service.PrepareAllData();
+            _service.LoadFormData();
+
+            _init = false;
+        }
+
+        private void CompositionForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _service.FormClose(e);
+        }
+
+        #endregion
     }
 }

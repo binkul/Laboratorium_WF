@@ -77,11 +77,11 @@ namespace Laboratorium.Material.Service
         #endregion
 
         private const string ADMIN = "admin";
+        private const string FORM_DATA = "MaterialForm";
+        private const int STD_WIDTH = 100;
         private readonly IList<string> _dgvMaterialFields = new List<string> { NAME, IS_ACTIVE, IS_DANGER, IS_PRODUCTION, PRICE, PRICE_UNIT, VOC_PROC, DATE_UPDATE };
         private readonly IList<string> _dgvClpFields = new List<string> { CLASS_CLP, CODE_CLP, DESCRIPTION_CLP };
         private readonly IList<string> _dgvCompositionFields = new List<string> { COMPOUND_NAME, COMPOUND_SHORT, COMPOUND_CAS, COMPOUND_AMOUNT_MIN, COMPOUND_AMOUNT_MAX, COMPOUND_REMARKS };
-        private const string FORM_DATA = "MaterialForm";
-        private const int STD_WIDTH = 100;
 
         private bool _filterBlock = false;
         private bool _cmbBlock = false;
@@ -529,7 +529,7 @@ namespace Laboratorium.Material.Service
         #endregion
 
 
-        #region Current/Binkding/Navigation
+        #region Current/Binding/Navigation
 
         private void MaterialBinding_PositionChanged(object sender, System.EventArgs e)
         {

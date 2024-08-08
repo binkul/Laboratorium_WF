@@ -13,13 +13,15 @@ namespace Laboratorium.ADO.DTO
         public short LoginId { get; set; }
         public DateTime DateCreated { get; set; } = DateTime.Today;
 
+        public bool IsNew { get; set; } = true;
+
         public CompositionHistoryDto(int laboId, short loginId)
         {
             LaboId = laboId;
             LoginId = loginId;
         }
 
-        public CompositionHistoryDto(int id, int laboId, int version, double mass, string changeType, string comments, short loginId, DateTime dateCreated)
+        public CompositionHistoryDto(int id, int laboId, int version, double mass, string changeType, string comments, short loginId, DateTime dateCreated, bool isnew)
         {
             Id = id;
             LaboId = laboId;
@@ -29,6 +31,7 @@ namespace Laboratorium.ADO.DTO
             Comments = comments;
             LoginId = loginId;
             DateCreated = dateCreated;
+            IsNew = isnew;
         }
     }
 }

@@ -32,9 +32,9 @@
         MaterialCompositionIndex,
         CompoundIndex,
 
-        Composition,
-        CompositionHistory,
-        CompositionArchive,
+        CompositionIndex,
+        CompositionHistoryIndex,
+        CompositionArchiveIndex,
 
         CmbUnitIndex,
         CmbCurrencyIndex,

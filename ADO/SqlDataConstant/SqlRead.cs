@@ -87,6 +87,8 @@ namespace Laboratorium.ADO.SqlDataConstant
                 "Left Join Konkurencja.dbo.CmbClpPcode codp on matp.code_id=codp.id Where matp.material_id=XXXX Order by ord" },
             {SqlIndex.MaterialCompositionIndex, "Select compound_Id, amount_min, amount_max, ordering, remarks, date_created From Konkurencja.dbo.MaterialComposition Where material_id=XXXX Order By ordering" },
             {SqlIndex.CompoundIndex, "Select id, name_pl, name_en, short_pl, short_en, index_nr, cas, we, formula, is_bio, date_created from Konkurencja.dbo.MaterialCompound Where id=" },
+            {SqlIndex.CompositionIndex, "Select labo_id, [version], ordering, material, material_id, is_intermediate, amount, operation, comment From Konkurencja.dbo.LaboComposition " +
+                "Where labo_id=XXXX Order By ordering" },
         };
     }
 }

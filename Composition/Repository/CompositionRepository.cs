@@ -12,43 +12,49 @@ using System.Windows.Forms;
 
 namespace Laboratorium.Composition.Repository
 {
-    public class CompositionRepository : BasicCRUD<CompositionHistoryDto>
+    public class CompositionRepository : BasicCRUD<CompositionDto>
     {
-        private const string GET_LAST_BY_ID = "Select TOP 1 id, labo_id, [version], mass, change_type, comments, login_id, date_created " +
-            "From Konkurencja.dbo.LaboCompositionHistory Where labo_id=XXXX And[version] = " +
-            "(Select MAX([version]) From Konkurencja.dbo.LaboCompositionHistory Where labo_id=XXXX) Order by id Desc";
 
-        private static readonly SqlIndex SQL_INDEX = SqlIndex.CompositionHistory;
-        private static readonly string TABLE_NAME = Table.COMPOSITION_HISTORY_TABLE;
+        private static readonly SqlIndex SQL_INDEX = SqlIndex.CompositionIndex;
+        private static readonly string TABLE_NAME = Table.COMPOSITION_TABLE;
+        private readonly IService _service;
 
-        public CompositionRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
-        { }
-
-        public CompositionHistoryDto GetLastFromLaboId(int laboId, short loginId)
+        public CompositionRepository(SqlConnection connection, IService service) : base(connection, SQL_INDEX, TABLE_NAME)
         {
-            CompositionHistoryDto composition = new CompositionHistoryDto(laboId, loginId);
+            _service = service;
+        }
+
+        public override IList<CompositionDto> GetAllByLaboId(int laboId)
+        {
+            IList<CompositionDto> list = new List<CompositionDto>();
 
             try
             {
-                string query = GET_LAST_BY_ID.Replace("XXXX", laboId.ToString());
+                string query = SqlRead.ReadByName[_sqlIndex].Replace("XXXX", laboId.ToString());
                 SqlCommand command = new SqlCommand(query, _connection);
                 _connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
 
                 if (reader.HasRows)
                 {
-                    reader.Read();
-                    int id = reader.GetInt32(0);
-                    int labo = reader.GetInt32(1);
-                    int version = reader.GetInt32(2);
-                    double mass = reader.GetDouble(3);
-                    string changeType = CommonFunction.DBNullToStringConv(reader.GetValue(4));
-                    string comments = CommonFunction.DBNullToStringConv(reader.GetValue(5));
-                    short loginId = reader.GetInt16(6);
-                    DateTime dateCreated = reader.GetDateTime(7);
-                    composition = new CompositionHistoryDto(id, laboId, version, mass, changeType, comments, loginId, dateCreated);
+                    while (reader.Read())
+                    {
+                        int labo = reader.GetInt32(0);
+                        int version = reader.GetInt32(1);
+                        short ordering = reader.GetInt16(2);
+                        string material = reader.GetString(3);
+                        int materialId = reader.GetInt32(4);
+                        bool semiprod = reader.GetBoolean(5);
+                        double amount = reader.GetDouble(6);
+                        byte operation = reader.GetByte(7);
+                        string comment = CommonFunction.DBNullToStringConv(reader.GetValue(8));
+
+                        CompositionDto composition = new CompositionDto(labo, version, ordering, material, materialId, semiprod, amount, operation, comment, _service);
+                        list.Add(composition);
+                    }
                     reader.Close();
                 }
+
             }
             catch (SqlException ex)
             {
@@ -64,20 +70,20 @@ namespace Laboratorium.Composition.Repository
                 CloseConnection();
             }
 
-            return composition;
+            return list;
         }
 
-        public override IList<CompositionHistoryDto> GetAll()
+        public override IList<CompositionDto> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public override CompositionHistoryDto Save(CompositionHistoryDto data)
+        public override CompositionDto Save(CompositionDto data)
         {
             throw new NotImplementedException();
         }
 
-        public override CompositionHistoryDto Update(CompositionHistoryDto data)
+        public override CompositionDto Update(CompositionDto data)
         {
             throw new NotImplementedException();
         }
