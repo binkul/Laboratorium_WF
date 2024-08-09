@@ -49,5 +49,10 @@ namespace Laboratorium.Composition.Forms
         }
 
         #endregion
+
+        private void DgvComposition_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            _service.RecipeCellFormat(e);
+        }
     }
 }

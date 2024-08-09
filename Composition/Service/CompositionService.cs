@@ -25,12 +25,17 @@ namespace Laboratorium.Composition.Service
         private const string MATERIAL_ID = "MaterialId";
         private const string AMOUNT = "Amount";
         private const string MASS = "Mass";
+        private const string INTERMEDIATE = "IsIntermediate";
+        private const string OPERATION = "Operation";
+        private const string COMMENT = "Comment";
+        private const string ROW_STATE = "GetRowState";
+        private const string CRUD_STATE = "CrudState";
 
         #endregion
 
         private const int STD_WIDTH = 100;
         private const string FORM_DATA = "CompositionForm";
-        //private readonly IList<string> _dgvCompositionFields = new List<string> { NAME, IS_ACTIVE, IS_DANGER, IS_PRODUCTION, PRICE, PRICE_UNIT, VOC_PROC, DATE_UPDATE };
+        private readonly IList<string> _dgvCompositionFields = new List<string> { ORDERING, MATERIAL, AMOUNT, MASS, COMMENT };
 
         private readonly CompositionForm _form;
         private readonly UserDto _user;
@@ -58,7 +63,7 @@ namespace Laboratorium.Composition.Service
 
         #region Modification markers
 
-        protected override bool Status => throw new NotImplementedException();
+        protected override bool Status => _recipe.Where(i => i.GetRowState != RowState.UNCHANGED).Any();
 
         public void Modify(RowState state)
         {
@@ -75,9 +80,7 @@ namespace Laboratorium.Composition.Service
             CompositionForm form = (CompositionForm)_baseForm;
             _fields = new Dictionary<DataGridView, IList<string>>
             {
-                //{ form.GetDgvMaterial,  _dgvMaterialFields},
-                //{ form.GetDgvClp, _dgvClpFields },
-                //{form.GetDgvComposition, _dgvCompositionFields}
+                { form.GetDgvComposition,  _dgvCompositionFields}
             };
         }
 
@@ -100,6 +103,11 @@ namespace Laboratorium.Composition.Service
             if (_lastVersion.IsNew)
                 return;
 
+            double mass = _lastVersion.Mass;
+            foreach (CompositionDto component in _recipe)
+            {
+                component.Mass = Math.Round(mass * (component.Amount / 100), 4);
+            }
         }
 
         private void PrepareDgvComposition()
@@ -118,33 +126,50 @@ namespace Laboratorium.Composition.Service
             view.AutoGenerateColumns = false;
             view.AllowUserToResizeRows = false;
 
-            view.Columns[LABO_ID].Visible = false;
-            view.Columns[VERSION].Visible = false;
+            view.Columns.Remove(ROW_STATE);
+            view.Columns.Remove(CRUD_STATE);
+            view.Columns.Remove(LABO_ID);
+            view.Columns.Remove(VERSION);
+
             view.Columns[MATERIAL_ID].Visible = false;
+            view.Columns[INTERMEDIATE].Visible = false;
+            view.Columns[OPERATION].Visible = false;
 
             view.Columns[ORDERING].HeaderText = "L.p.";
             view.Columns[ORDERING].DisplayIndex = 0;
             view.Columns[ORDERING].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             view.Columns[ORDERING].Width = _formData.ContainsKey(ORDERING) ? (int)_formData[ORDERING] : STD_WIDTH;
+            view.Columns[ORDERING].ReadOnly = true;
             view.Columns[ORDERING].SortMode = DataGridViewColumnSortMode.NotSortable;
 
             view.Columns[MATERIAL].HeaderText = "Surowiec";
             view.Columns[MATERIAL].DisplayIndex = 1;
             view.Columns[MATERIAL].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            view.Columns[MATERIAL].Width = _formData.ContainsKey(ORDERING) ? (int)_formData[ORDERING] : STD_WIDTH;
+            view.Columns[MATERIAL].Width = _formData.ContainsKey(MATERIAL) ? (int)_formData[MATERIAL] : STD_WIDTH;
+            view.Columns[MATERIAL].ReadOnly = true;
             view.Columns[MATERIAL].SortMode = DataGridViewColumnSortMode.NotSortable;
 
             view.Columns[AMOUNT].HeaderText = "Ilość [%]";
             view.Columns[AMOUNT].DisplayIndex = 2;
             view.Columns[AMOUNT].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns[AMOUNT].Width = _formData.ContainsKey(ORDERING) ? (int)_formData[ORDERING] : STD_WIDTH;
+            view.Columns[AMOUNT].Width = _formData.ContainsKey(AMOUNT) ? (int)_formData[AMOUNT] : STD_WIDTH;
+            view.Columns[AMOUNT].ReadOnly = true;
             view.Columns[AMOUNT].SortMode = DataGridViewColumnSortMode.NotSortable;
 
             view.Columns[MASS].HeaderText = "Masa [kg]";
             view.Columns[MASS].DisplayIndex = 3;
             view.Columns[MASS].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns[MASS].Width = _formData.ContainsKey(ORDERING) ? (int)_formData[ORDERING] : STD_WIDTH;
+            view.Columns[MASS].Width = _formData.ContainsKey(MASS) ? (int)_formData[MASS] : STD_WIDTH;
+            view.Columns[MASS].ReadOnly = true;
             view.Columns[MASS].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+
+            view.Columns[COMMENT].HeaderText = "Uwagi";
+            view.Columns[COMMENT].DisplayIndex = 4;
+            view.Columns[COMMENT].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            view.Columns[COMMENT].Width = _formData.ContainsKey(COMMENT) ? (int)_formData[COMMENT] : STD_WIDTH;
+            view.Columns[COMMENT].ReadOnly = true;
+            view.Columns[COMMENT].SortMode = DataGridViewColumnSortMode.NotSortable;
 
 
         }
@@ -157,6 +182,20 @@ namespace Laboratorium.Composition.Service
         private void RecipeBinding_PositionChanged(object sender, EventArgs e)
         {
 
+        }
+
+        #endregion
+
+
+        #region DataGridView and Combo  events
+
+        public void RecipeCellFormat(DataGridViewCellFormattingEventArgs e)
+        {
+            if (_form.GetDgvComposition.Columns[e.ColumnIndex].Name == AMOUNT)
+            {
+                double value = Convert.ToDouble(e.Value);
+                e.Value = value.ToString("0.00");
+            }
         }
 
         #endregion

@@ -655,6 +655,7 @@ namespace Laboratorium.Composition.Forms
             // 
             // TxtMass
             // 
+            this.TxtMass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.TxtMass.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.TxtMass.Location = new System.Drawing.Point(436, 460);
             this.TxtMass.Name = "TxtMass";
@@ -848,10 +849,12 @@ namespace Laboratorium.Composition.Forms
             this.DgvComposition.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DgvComposition.Location = new System.Drawing.Point(8, 44);
             this.DgvComposition.Name = "DgvComposition";
+            this.DgvComposition.ReadOnly = true;
             this.DgvComposition.RowHeadersWidth = 51;
             this.DgvComposition.RowTemplate.Height = 24;
             this.DgvComposition.Size = new System.Drawing.Size(1050, 387);
             this.DgvComposition.TabIndex = 0;
+            this.DgvComposition.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvComposition_CellFormatting);
             // 
             // CompositionForm
             // 

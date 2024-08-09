@@ -48,8 +48,15 @@ namespace Laboratorium.Composition.Repository
                         double amount = reader.GetDouble(6);
                         byte operation = reader.GetByte(7);
                         string comment = CommonFunction.DBNullToStringConv(reader.GetValue(8));
+                        double? voc = CommonFunction.DBNullToDoubleConv(reader.GetValue(9));
+                        double? priceOrg = CommonFunction.DBNullToDoubleConv(reader.GetValue(10));
+                        string currency = CommonFunction.DBNullToStringConv(reader.GetValue(11));
+                        double? rate = CommonFunction.DBNullToDoubleConv(reader.GetValue(12));
+                        double? priceKg = CommonFunction.DBNullToDoubleConv(reader.GetValue(13));
 
-                        CompositionDto composition = new CompositionDto(labo, version, ordering, material, materialId, semiprod, amount, operation, comment, _service);
+                        CompositionDto composition = new CompositionDto(labo, version, ordering, material, 
+                            materialId, semiprod, amount, operation, comment, voc, priceOrg, priceKg, 
+                            currency, rate, _service);
                         list.Add(composition);
                     }
                     reader.Close();

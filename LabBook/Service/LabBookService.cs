@@ -1345,7 +1345,10 @@ namespace Laboratorium.LabBook.Service
 
         public void OpenCompositionForm()
         {
-            using (CompositionForm form = new CompositionForm(_connection, _user))
+            if (CurrentLabBook == null)
+                return;
+
+            using (CompositionForm form = new CompositionForm(_connection, _user, CurrentLabBook.Id))
             {
                 form.ShowDialog();
             }

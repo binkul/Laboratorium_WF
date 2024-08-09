@@ -1,4 +1,5 @@
 ﻿using Laboratorium.ADO.Service;
+using System;
 
 namespace Laboratorium.ADO.DTO
 {
@@ -14,13 +15,19 @@ namespace Laboratorium.ADO.DTO
         private double _mass;
         private byte _operation;
         private string _comment;
+        private double? _voc;
+        private double? _priceOryg;
+        private double? _pricePl;
+        private string _currency;
+        private double? _rate;
         private RowState _rowState = RowState.ADDED;
         private IService _service;
 
         public CrudState CrudState { get; set; } = CrudState.OK;
 
         public CompositionDto(int laboId, int version, short ordering, string material, int materialId, 
-            bool isIntermediate, double amount, byte operation, string comment, IService service)
+            bool isIntermediate, double amount, byte operation, string comment, double? voc, double? 
+            priceOrg, double? pricePl, string currency, double? rate, IService service)
         {
             _laboId = laboId;
             _version = version;
@@ -32,6 +39,11 @@ namespace Laboratorium.ADO.DTO
             _operation = operation;
             _comment = comment;
             _service = service;
+            _voc = voc;
+            _priceOryg = priceOrg;
+            _pricePl = pricePl;
+            _currency = currency;
+            _rate = rate;
         }
 
         private void ChangeState(RowState state)
