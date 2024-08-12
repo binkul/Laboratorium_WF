@@ -30,12 +30,18 @@ namespace Laboratorium.Composition.Service
         private const string COMMENT = "Comment";
         private const string ROW_STATE = "GetRowState";
         private const string CRUD_STATE = "CrudState";
+        private const string CURRENCY = "Currency";
+        private const string RATE = "Rate";
+        private const string PRICE_PL = "PricePl";
+        private const string PRICE_ORIGINAL = "PriceOriginal";
+        private const string PRICE_CURRENCY = "PriceCurrency";
+        private const string VOC = "VOC";
 
         #endregion
 
         private const int STD_WIDTH = 100;
         private const string FORM_DATA = "CompositionForm";
-        private readonly IList<string> _dgvCompositionFields = new List<string> { ORDERING, MATERIAL, AMOUNT, MASS, COMMENT };
+        private readonly IList<string> _dgvCompositionFields = new List<string> { ORDERING, MATERIAL, AMOUNT, MASS, COMMENT, PRICE_PL, PRICE_CURRENCY, VOC };
 
         private readonly CompositionForm _form;
         private readonly UserDto _user;
@@ -67,7 +73,7 @@ namespace Laboratorium.Composition.Service
 
         public void Modify(RowState state)
         {
-            throw new NotImplementedException();
+
         }
 
         #endregion
@@ -130,6 +136,9 @@ namespace Laboratorium.Composition.Service
             view.Columns.Remove(CRUD_STATE);
             view.Columns.Remove(LABO_ID);
             view.Columns.Remove(VERSION);
+            view.Columns.Remove(CURRENCY);
+            view.Columns.Remove(RATE);
+            view.Columns.Remove(PRICE_ORIGINAL);
 
             view.Columns[MATERIAL_ID].Visible = false;
             view.Columns[INTERMEDIATE].Visible = false;
@@ -163,9 +172,31 @@ namespace Laboratorium.Composition.Service
             view.Columns[MASS].ReadOnly = true;
             view.Columns[MASS].SortMode = DataGridViewColumnSortMode.NotSortable;
 
+            view.Columns[PRICE_PL].HeaderText = "Cena [kg]";
+            view.Columns[PRICE_PL].DisplayIndex = 4;
+            view.Columns[PRICE_PL].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[PRICE_PL].Width = _formData.ContainsKey(PRICE_PL) ? (int)_formData[PRICE_PL] : STD_WIDTH;
+            view.Columns[PRICE_PL].ReadOnly = true;
+            view.Columns[PRICE_PL].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+            view.Columns[PRICE_CURRENCY].HeaderText = "Cena oryg.";
+            view.Columns[PRICE_CURRENCY].DisplayIndex = 5;
+            view.Columns[PRICE_CURRENCY].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[PRICE_CURRENCY].Width = _formData.ContainsKey(PRICE_CURRENCY) ? (int)_formData[PRICE_CURRENCY] : STD_WIDTH;
+            view.Columns[PRICE_CURRENCY].ReadOnly = true;
+            view.Columns[PRICE_CURRENCY].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+
+            view.Columns[VOC].HeaderText = "VOC [%]";
+            view.Columns[VOC].DisplayIndex = 6;
+            view.Columns[VOC].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[VOC].Width = _formData.ContainsKey(VOC) ? (int)_formData[VOC] : STD_WIDTH;
+            view.Columns[VOC].ReadOnly = true;
+            view.Columns[VOC].SortMode = DataGridViewColumnSortMode.NotSortable;
+
 
             view.Columns[COMMENT].HeaderText = "Uwagi";
-            view.Columns[COMMENT].DisplayIndex = 4;
+            view.Columns[COMMENT].DisplayIndex = 7;
             view.Columns[COMMENT].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             view.Columns[COMMENT].Width = _formData.ContainsKey(COMMENT) ? (int)_formData[COMMENT] : STD_WIDTH;
             view.Columns[COMMENT].ReadOnly = true;
@@ -187,7 +218,7 @@ namespace Laboratorium.Composition.Service
         #endregion
 
 
-        #region DataGridView and Combo  events
+        #region DataGridView and Combo events
 
         public void RecipeCellFormat(DataGridViewCellFormattingEventArgs e)
         {

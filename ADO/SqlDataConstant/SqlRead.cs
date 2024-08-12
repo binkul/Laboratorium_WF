@@ -89,7 +89,7 @@ namespace Laboratorium.ADO.SqlDataConstant
             {SqlIndex.CompoundIndex, "Select id, name_pl, name_en, short_pl, short_en, index_nr, cas, we, formula, is_bio, date_created from Konkurencja.dbo.MaterialCompound Where id=" },
             {SqlIndex.CompositionIndex, "Select lab.labo_id, lab.[version], lab.ordering, lab.material, lab.material_id, lab.is_intermediate, lab.amount, lab.operation, lab.comment, " +
                 "ISNULL(mat.VOC, -1) as voc, ISNULL(mat.price, -1) as price_org, ISNULL(cur.currency, 'Brak') as currency, ISNULL(cur.rate, 0) as rate, ISNULL((mat.price * cur.rate), -1) " +
-                "as price_per_kg From Konkurencja.dbo.LaboComposition lab Left join (Konkurencja.dbo.Material mat Left join Konkurencja.dbo.CmbCurrency cur on mat.currency_id=cur.id) " +
+                "as price_pl From Konkurencja.dbo.LaboComposition lab Left join (Konkurencja.dbo.Material mat Left join Konkurencja.dbo.CmbCurrency cur on mat.currency_id=cur.id) " +
                 "on lab.material_id=mat.id Where lab.labo_id=XXXX Order By lab.ordering" },
         };
     }

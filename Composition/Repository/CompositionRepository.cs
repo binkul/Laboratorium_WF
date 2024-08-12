@@ -52,11 +52,27 @@ namespace Laboratorium.Composition.Repository
                         double? priceOrg = CommonFunction.DBNullToDoubleConv(reader.GetValue(10));
                         string currency = CommonFunction.DBNullToStringConv(reader.GetValue(11));
                         double? rate = CommonFunction.DBNullToDoubleConv(reader.GetValue(12));
-                        double? priceKg = CommonFunction.DBNullToDoubleConv(reader.GetValue(13));
+                        double? pricePl = CommonFunction.DBNullToDoubleConv(reader.GetValue(13));
 
-                        CompositionDto composition = new CompositionDto(labo, version, ordering, material, 
-                            materialId, semiprod, amount, operation, comment, voc, priceOrg, priceKg, 
-                            currency, rate, _service);
+                        CompositionDto composition = new CompositionDto.Builder()
+                            .LaboId(labo)
+                            .Version(version)
+                            .Ordering(ordering)
+                            .Material(material)
+                            .MaterialId(materialId)
+                            .IsIntermediate(semiprod)
+                            .Amount(amount)
+                            .VOC(voc)
+                            .Operation(operation)
+                            .Comment(comment)
+                            .PricePl(pricePl)
+                            .PriceOriginal(priceOrg)
+                            .Currency(currency)
+                            .Rate(rate)
+                            .Service(_service)
+                            .Build();
+
+                        composition.AcceptChanges();
                         list.Add(composition);
                     }
                     reader.Close();

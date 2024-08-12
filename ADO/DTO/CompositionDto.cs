@@ -1,5 +1,6 @@
 ﻿using Laboratorium.ADO.Service;
 using System;
+using System.Text.RegularExpressions;
 
 namespace Laboratorium.ADO.DTO
 {
@@ -25,26 +26,26 @@ namespace Laboratorium.ADO.DTO
 
         public CrudState CrudState { get; set; } = CrudState.OK;
 
-        public CompositionDto(int laboId, int version, short ordering, string material, int materialId, 
-            bool isIntermediate, double amount, byte operation, string comment, double? voc, double? 
-            priceOrg, double? pricePl, string currency, double? rate, IService service)
+        private CompositionDto(Builder builder)
         {
-            _laboId = laboId;
-            _version = version;
-            _ordering = ordering;
-            _material = material;
-            _materialId = materialId;
-            _isIntermediate = isIntermediate;
-            _amount = amount;
-            _operation = operation;
-            _comment = comment;
-            _service = service;
-            _voc = voc;
-            _priceOryg = priceOrg;
-            _pricePl = pricePl;
-            _currency = currency;
-            _rate = rate;
+            _laboId = builder._laboId;
+            _version = builder._version;
+            _ordering = builder._ordering;
+            _material = builder._material;
+            _materialId = builder._materialId;
+            _isIntermediate = builder._isIntermediate;
+            _amount = builder._amount;
+            _mass = builder._mass;
+            _operation = builder._operation;
+            _comment = builder._comment;
+            _voc = builder._voc;
+            _priceOryg = builder._priceOryg;
+            _pricePl = builder._pricePl;
+            _currency = builder._currency;
+            _rate = builder._rate;
+            _service = builder._service;
         }
+
 
         private void ChangeState(RowState state)
         {
@@ -112,7 +113,7 @@ namespace Laboratorium.ADO.DTO
                 ChangeState(RowState.MODIFIED);
             }
         }
-   
+
         public double Amount
         {
             get => _amount;
@@ -129,6 +130,56 @@ namespace Laboratorium.ADO.DTO
             set
             {
                 _mass = value;
+            }
+        }
+
+        public double? VOC
+        {
+            get => _voc;
+            set
+            {
+                _voc = value;
+            }
+        }
+
+        public double? PriceOriginal
+        {
+            get => _priceOryg;
+            set
+            {
+                _priceOryg = value;
+            }
+        }
+
+        public string PriceCurrency
+        {
+            get => IsIntermediate ? "-" : _priceOryg != null ? Convert.ToDouble(_priceOryg).ToString("0.##") + " " + Currency : "Brak";
+        }
+
+        public double? PricePl
+        {
+            get => _pricePl;
+            set
+            {
+                _pricePl = value;
+            }
+        }
+
+        public string Currency
+        {
+            get => _currency;
+            set
+            {
+                _currency = value;
+            }
+        }
+
+        public double? Rate
+        {
+            get => _rate;
+            set
+            {
+                _rate = value;
             }
         }
 
@@ -161,5 +212,113 @@ namespace Laboratorium.ADO.DTO
                 _service.Modify(RowState.UNCHANGED);
         }
 
+        public sealed class Builder
+        {
+            #region Fields
+            internal int _laboId;
+            internal int _version;
+            internal short _ordering;
+            internal string _material;
+            internal int _materialId;
+            internal bool _isIntermediate;
+            internal double _amount;
+            internal double _mass;
+            internal byte _operation;
+            internal string _comment;
+            internal double? _voc;
+            internal double? _priceOryg;
+            internal double? _pricePl;
+            internal string _currency;
+            internal double? _rate;
+            internal IService _service;
+            #endregion
+
+            public CompositionDto Build()
+            {
+                return new CompositionDto(this);
+            }
+
+            public Builder LaboId(int val)
+            {
+                _laboId = val;
+                return this;
+            }
+            public Builder Version(int val)
+            {
+                _version = val;
+                return this;
+            }
+            public Builder Ordering(short val)
+            {
+                _ordering = val;
+                return this;
+            }
+            public Builder Material(string val)
+            {
+                _material = val;
+                return this;
+            }
+            public Builder MaterialId(int val)
+            {
+                _materialId = val;
+                return this;
+            }
+            public Builder IsIntermediate(bool val)
+            {
+                _isIntermediate = val;
+                return this;
+            }
+            public Builder Amount(double val)
+            {
+                _amount = val;
+                return this;
+            }
+            public Builder Mass(double val)
+            {
+                _mass = val;
+                return this;
+            }
+            public Builder Operation(byte val)
+            {
+                _operation = val;
+                return this;
+            }
+            public Builder Comment(string val)
+            {
+                _comment = val;
+                return this;
+            }
+            public Builder VOC(double? val)
+            {
+                _voc = val;
+                return this;
+            }
+            public Builder PriceOriginal(double? val)
+            {
+                _priceOryg = val;
+                return this;
+            }
+            public Builder PricePl(double? val)
+            {
+                _pricePl = val;
+                return this;
+            }
+            public Builder Currency(string val)
+            {
+                _currency = val;
+                return this;
+            }
+            public Builder Rate(double? val)
+            {
+                _rate = val;
+                return this;
+            }
+            public Builder Service(IService val)
+            {
+                _service = val;
+                return this;
+            }
+
+        }
     }
 }
