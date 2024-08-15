@@ -4,6 +4,13 @@ using System.Text.RegularExpressions;
 
 namespace Laboratorium.ADO.DTO
 {
+    public enum ExpandState
+    {
+        None,
+        Expanded,
+        Collapsed
+    }
+
     public class CompositionDto
     {
         private int _laboId;
@@ -11,14 +18,18 @@ namespace Laboratorium.ADO.DTO
         private short _ordering;
         private string _material;
         private int _materialId;
-        private bool _isIntermediate;
+        private bool _isSemiproduct;
+        private byte _semiproductLevel = 0;
+        private ExpandState _semiproductExpandState = ExpandState.None;
         private double _amount;
         private double _mass;
         private byte _operation;
         private string _comment;
         private double? _voc;
+        private string _vocAmount;
         private double? _priceOryg;
         private double? _pricePl;
+        private string _priceMass;
         private string _currency;
         private double? _rate;
         private RowState _rowState = RowState.ADDED;
@@ -33,7 +44,7 @@ namespace Laboratorium.ADO.DTO
             _ordering = builder._ordering;
             _material = builder._material;
             _materialId = builder._materialId;
-            _isIntermediate = builder._isIntermediate;
+            _isSemiproduct = builder._isSemiproduct;
             _amount = builder._amount;
             _mass = builder._mass;
             _operation = builder._operation;
@@ -104,14 +115,26 @@ namespace Laboratorium.ADO.DTO
             }
         }
 
-        public bool IsIntermediate
+        public bool IsSemiproduct
         {
-            get => _isIntermediate;
+            get => _isSemiproduct;
             set
             {
-                _isIntermediate = value;
+                _isSemiproduct = value;
                 ChangeState(RowState.MODIFIED);
             }
+        }
+
+        public byte SemiProductLevel
+        {
+            get => _semiproductLevel;
+            set => _semiproductLevel = value;
+        }
+
+        public ExpandState SemiProductState
+        {
+            get => _semiproductExpandState;
+            set => _semiproductExpandState = value;
         }
 
         public double Amount
@@ -142,6 +165,17 @@ namespace Laboratorium.ADO.DTO
             }
         }
 
+        public string VocPercent
+        {
+            get => _voc != -1 ? Convert.ToDouble(_voc).ToString("0.00") : "Brak";
+        }
+
+        public string VocAmount
+        {
+            get => !string.IsNullOrEmpty(_vocAmount) ? _vocAmount : "# Count #";
+            set => _vocAmount = value;
+        }
+
         public double? PriceOriginal
         {
             get => _priceOryg;
@@ -153,16 +187,22 @@ namespace Laboratorium.ADO.DTO
 
         public string PriceCurrency
         {
-            get => IsIntermediate ? "-" : _priceOryg != null ? Convert.ToDouble(_priceOryg).ToString("0.##") + " " + Currency : "Brak";
+            get => IsSemiproduct ? "-" : _priceOryg != null ? Convert.ToDouble(_priceOryg).ToString("0.00") + " " + Currency : "Brak";
         }
 
-        public double? PricePl
+        public double? PricePlKg
         {
             get => _pricePl;
             set
             {
                 _pricePl = value;
             }
+        }
+
+        public string PriceMass
+        {
+            get => !string.IsNullOrEmpty(_priceMass) ? _priceMass : "# Count #";
+            set => _priceMass = value;
         }
 
         public string Currency
@@ -220,7 +260,7 @@ namespace Laboratorium.ADO.DTO
             internal short _ordering;
             internal string _material;
             internal int _materialId;
-            internal bool _isIntermediate;
+            internal bool _isSemiproduct;
             internal double _amount;
             internal double _mass;
             internal byte _operation;
@@ -263,9 +303,9 @@ namespace Laboratorium.ADO.DTO
                 _materialId = val;
                 return this;
             }
-            public Builder IsIntermediate(bool val)
+            public Builder IsSemiproduct(bool val)
             {
-                _isIntermediate = val;
+                _isSemiproduct = val;
                 return this;
             }
             public Builder Amount(double val)

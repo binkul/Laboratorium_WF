@@ -60,7 +60,7 @@ namespace Laboratorium.Composition.Repository
                             .Ordering(ordering)
                             .Material(material)
                             .MaterialId(materialId)
-                            .IsIntermediate(semiprod)
+                            .IsSemiproduct(semiprod)
                             .Amount(amount)
                             .VOC(voc)
                             .Operation(operation)

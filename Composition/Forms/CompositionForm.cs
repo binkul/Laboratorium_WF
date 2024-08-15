@@ -17,17 +17,37 @@ namespace Laboratorium.Composition.Forms
         private readonly SqlConnection _connection;
         private UserDto _user;
         private bool _init = true;
-        private int _laboId;
+        private LaboDto _laboDto;
         private CompositionService _service;
 
         public DataGridView GetDgvComposition => DgvComposition;
+        public ComboBox GetCmbMaterial => CmbMaterial;
+        public TextBox GetTxtSetAmount => TxtSetAmount;
+        public TextBox GetTxtSetMass => TxtSetMass;
+        public TextBox GetTxtComment => TxtComment;
+        public TextBox GetTxtTotalMass => TxtTotalMass;
+        public RadioButton GetRadioAmount => RdAmount;
+        public RadioButton GetRadioMass => RdMass;
+        public Label GetLblDensity => LblDensity;
+        public Label GetLblSumText => LblSum;
+        public Label GetLblSumMass => LblSumMass;
+        public Label GetLblSumPrecent => LblSumPercent;
+        public Label GetLblMassText => LblMass;
+        public Label GetLblPricePerKg => LblPricePerKg;
+        public Label GetLblPricePerL => LblPricePerL;
+        public Label GetLblCalcPricePerKg => LblPriceCalcPerKg;
+        public Label GetLblCalcPricePerL => LblPriceCalcPerL;
+        public Label GetLblVocKg => LblVocKg;
+        public Label GetLblVocL => LblVocL;
+        public Label GetLblVocPerKg => LblVocPerKg;
+        public Label GetLblVocPerL => LblVocPerL;
 
-        public CompositionForm(SqlConnection connection, UserDto user, int laboId)
+        public CompositionForm(SqlConnection connection, UserDto user, LaboDto laboDto)
         {
             InitializeComponent();
             _connection = connection;
             _user = user;
-            _laboId = laboId;
+            _laboDto = laboDto;
         }
 
         #region Form init and load
@@ -36,11 +56,17 @@ namespace Laboratorium.Composition.Forms
 
         private void CompositionForm_Load(object sender, EventArgs e)
         {
-            _service = new CompositionService(_connection, _user, this, _laboId);
+            LblDensity.Text = _laboDto.Density != null ? "Gęstość: " + _laboDto.Density.ToString() + " g/cm3" : "Gęstość: BRAK";
+            LblNrD.Text = "D-" + _laboDto.Id.ToString();
+            LblTitle.Text = _laboDto.Title;
+
+            _service = new CompositionService(_connection, _user, this, _laboDto);
             _service.PrepareAllData();
             _service.LoadFormData();
 
             _init = false;
+
+            DgvComposition_ColumnWidthChanged(null, null);
         }
 
         private void CompositionForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -53,6 +79,16 @@ namespace Laboratorium.Composition.Forms
         private void DgvComposition_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             _service.RecipeCellFormat(e);
+        }
+
+        private void DgvComposition_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            _service.ChangeColumnWidth();
+        }
+
+        private void RdAmount_CheckedChanged(object sender, EventArgs e)
+        {
+            _service.ChangeCalculationType((RadioButton)sender);
         }
     }
 }

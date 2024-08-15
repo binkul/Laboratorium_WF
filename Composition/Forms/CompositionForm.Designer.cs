@@ -72,7 +72,8 @@ namespace Laboratorium.Composition.Forms
             this.LblNrD = new System.Windows.Forms.Label();
             this.LblTitle = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.TxtMass = new System.Windows.Forms.TextBox();
+            this.TxtSetMass = new System.Windows.Forms.TextBox();
+            this.TxtTotalMass = new System.Windows.Forms.TextBox();
             this.LblMass = new System.Windows.Forms.Label();
             this.LblVocPerL = new System.Windows.Forms.Label();
             this.LblVocPerKg = new System.Windows.Forms.Label();
@@ -87,9 +88,11 @@ namespace Laboratorium.Composition.Forms
             this.TxtComment = new System.Windows.Forms.TextBox();
             this.RdMass = new System.Windows.Forms.RadioButton();
             this.RdAmount = new System.Windows.Forms.RadioButton();
-            this.TxtAmount = new System.Windows.Forms.TextBox();
+            this.TxtSetAmount = new System.Windows.Forms.TextBox();
             this.CmbMaterial = new System.Windows.Forms.ComboBox();
             this.DgvComposition = new System.Windows.Forms.DataGridView();
+            this.LblVocKg = new System.Windows.Forms.Label();
+            this.LblVocL = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvComposition)).BeginInit();
@@ -177,9 +180,9 @@ namespace Laboratorium.Composition.Forms
             this.label13.AutoSize = true;
             this.tableLayoutPanel1.SetColumnSpan(this.label13, 2);
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label13.Location = new System.Drawing.Point(908, 90);
+            this.label13.Location = new System.Drawing.Point(910, 90);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(84, 17);
+            this.label13.Size = new System.Drawing.Size(80, 16);
             this.label13.TabIndex = 32;
             this.label13.Text = "Obliczenia";
             // 
@@ -187,9 +190,9 @@ namespace Laboratorium.Composition.Forms
             // 
             this.label12.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(956, 55);
+            this.label12.Location = new System.Drawing.Point(958, 55);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(57, 34);
+            this.label12.Size = new System.Drawing.Size(53, 32);
             this.label12.TabIndex = 32;
             this.label12.Text = "Przelicz na ...";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -198,9 +201,9 @@ namespace Laboratorium.Composition.Forms
             // 
             this.label11.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(893, 55);
+            this.label11.Location = new System.Drawing.Point(884, 55);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(44, 34);
+            this.label11.Size = new System.Drawing.Size(61, 16);
             this.label11.TabIndex = 31;
             this.label11.Text = "Do 100%";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -235,9 +238,9 @@ namespace Laboratorium.Composition.Forms
             this.label10.AutoSize = true;
             this.tableLayoutPanel1.SetColumnSpan(this.label10, 5);
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label10.Location = new System.Drawing.Point(693, 90);
+            this.label10.Location = new System.Drawing.Point(694, 90);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(74, 17);
+            this.label10.Size = new System.Drawing.Size(71, 16);
             this.label10.TabIndex = 31;
             this.label10.Text = "Operacje";
             // 
@@ -247,7 +250,7 @@ namespace Laboratorium.Composition.Forms
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(739, 55);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(52, 34);
+            this.label9.Size = new System.Drawing.Size(51, 32);
             this.label9.TabIndex = 30;
             this.label9.Text = "Ramka usuń";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -258,7 +261,7 @@ namespace Laboratorium.Composition.Forms
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(809, 55);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(52, 34);
+            this.label8.Size = new System.Drawing.Size(51, 32);
             this.label8.TabIndex = 30;
             this.label8.Text = "Ramka dół";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -269,7 +272,7 @@ namespace Laboratorium.Composition.Forms
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(669, 55);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(52, 34);
+            this.label7.Size = new System.Drawing.Size(51, 32);
             this.label7.TabIndex = 30;
             this.label7.Text = "Ramka góra";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -356,9 +359,9 @@ namespace Laboratorium.Composition.Forms
             // 
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(524, 55);
+            this.label5.Location = new System.Drawing.Point(526, 55);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(41, 17);
+            this.label5.Size = new System.Drawing.Size(38, 16);
             this.label5.TabIndex = 29;
             this.label5.Text = "Usuń";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -367,9 +370,9 @@ namespace Laboratorium.Composition.Forms
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(450, 55);
+            this.label4.Location = new System.Drawing.Point(452, 55);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(50, 34);
+            this.label4.Size = new System.Drawing.Size(46, 32);
             this.label4.TabIndex = 29;
             this.label4.Text = "Dodaj ostatni";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -378,9 +381,9 @@ namespace Laboratorium.Composition.Forms
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(379, 55);
+            this.label3.Location = new System.Drawing.Point(380, 55);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 34);
+            this.label3.Size = new System.Drawing.Size(49, 32);
             this.label3.TabIndex = 29;
             this.label3.Text = "Dodaj środek";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -389,9 +392,9 @@ namespace Laboratorium.Composition.Forms
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(304, 55);
+            this.label2.Location = new System.Drawing.Point(305, 55);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(62, 34);
+            this.label2.Size = new System.Drawing.Size(59, 32);
             this.label2.TabIndex = 28;
             this.label2.Text = "Dodaj pierwszy";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -460,9 +463,9 @@ namespace Laboratorium.Composition.Forms
             this.label1.AutoSize = true;
             this.tableLayoutPanel1.SetColumnSpan(this.label1, 2);
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(177, 90);
+            this.label1.Location = new System.Drawing.Point(178, 90);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(85, 17);
+            this.label1.Size = new System.Drawing.Size(83, 16);
             this.label1.TabIndex = 29;
             this.label1.Text = "Ładowanie";
             // 
@@ -471,9 +474,9 @@ namespace Laboratorium.Composition.Forms
             this.LblExchange.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.LblExchange.AutoSize = true;
             this.LblExchange.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblExchange.Location = new System.Drawing.Point(230, 55);
+            this.LblExchange.Location = new System.Drawing.Point(231, 55);
             this.LblExchange.Name = "LblExchange";
-            this.LblExchange.Size = new System.Drawing.Size(49, 17);
+            this.LblExchange.Size = new System.Drawing.Size(47, 16);
             this.LblExchange.TabIndex = 29;
             this.LblExchange.Text = "Wstaw";
             this.LblExchange.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -483,9 +486,9 @@ namespace Laboratorium.Composition.Forms
             this.LblLoad.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.LblLoad.AutoSize = true;
             this.LblLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblLoad.Location = new System.Drawing.Point(162, 55);
+            this.LblLoad.Location = new System.Drawing.Point(163, 55);
             this.LblLoad.Name = "LblLoad";
-            this.LblLoad.Size = new System.Drawing.Size(45, 17);
+            this.LblLoad.Size = new System.Drawing.Size(43, 16);
             this.LblLoad.TabIndex = 28;
             this.LblLoad.Text = "Wgraj";
             this.LblLoad.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -532,7 +535,7 @@ namespace Laboratorium.Composition.Forms
             this.LblFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.LblFile.Location = new System.Drawing.Point(53, 90);
             this.LblFile.Name = "LblFile";
-            this.LblFile.Size = new System.Drawing.Size(34, 17);
+            this.LblFile.Size = new System.Drawing.Size(33, 16);
             this.LblFile.TabIndex = 28;
             this.LblFile.Text = "Plik";
             // 
@@ -540,9 +543,9 @@ namespace Laboratorium.Composition.Forms
             // 
             this.LblPrint.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.LblPrint.AutoSize = true;
-            this.LblPrint.Location = new System.Drawing.Point(80, 55);
+            this.LblPrint.Location = new System.Drawing.Point(82, 55);
             this.LblPrint.Name = "LblPrint";
-            this.LblPrint.Size = new System.Drawing.Size(49, 17);
+            this.LblPrint.Size = new System.Drawing.Size(45, 16);
             this.LblPrint.TabIndex = 28;
             this.LblPrint.Text = "Drukuj";
             // 
@@ -575,9 +578,9 @@ namespace Laboratorium.Composition.Forms
             // 
             this.LblSave.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.LblSave.AutoSize = true;
-            this.LblSave.Location = new System.Drawing.Point(10, 55);
+            this.LblSave.Location = new System.Drawing.Point(11, 55);
             this.LblSave.Name = "LblSave";
-            this.LblSave.Size = new System.Drawing.Size(50, 17);
+            this.LblSave.Size = new System.Drawing.Size(47, 16);
             this.LblSave.TabIndex = 27;
             this.LblSave.Text = "Zapisz";
             // 
@@ -597,9 +600,9 @@ namespace Laboratorium.Composition.Forms
             this.label6.AutoSize = true;
             this.tableLayoutPanel1.SetColumnSpan(this.label6, 4);
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label6.Location = new System.Drawing.Point(395, 90);
+            this.label6.Location = new System.Drawing.Point(397, 90);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(89, 17);
+            this.label6.Size = new System.Drawing.Size(86, 16);
             this.label6.TabIndex = 30;
             this.label6.Text = "Wstawianie";
             // 
@@ -608,7 +611,7 @@ namespace Laboratorium.Composition.Forms
             this.LblNrD.AutoSize = true;
             this.LblNrD.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.LblNrD.ForeColor = System.Drawing.Color.Blue;
-            this.LblNrD.Location = new System.Drawing.Point(5, 129);
+            this.LblNrD.Location = new System.Drawing.Point(12, 136);
             this.LblNrD.Name = "LblNrD";
             this.LblNrD.Size = new System.Drawing.Size(95, 25);
             this.LblNrD.TabIndex = 1;
@@ -618,7 +621,7 @@ namespace Laboratorium.Composition.Forms
             // 
             this.LblTitle.AutoSize = true;
             this.LblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblTitle.Location = new System.Drawing.Point(106, 129);
+            this.LblTitle.Location = new System.Drawing.Point(113, 136);
             this.LblTitle.Name = "LblTitle";
             this.LblTitle.Size = new System.Drawing.Size(60, 25);
             this.LblTitle.TabIndex = 2;
@@ -629,7 +632,10 @@ namespace Laboratorium.Composition.Forms
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.TxtMass);
+            this.groupBox1.Controls.Add(this.LblVocL);
+            this.groupBox1.Controls.Add(this.LblVocKg);
+            this.groupBox1.Controls.Add(this.TxtSetMass);
+            this.groupBox1.Controls.Add(this.TxtTotalMass);
             this.groupBox1.Controls.Add(this.LblMass);
             this.groupBox1.Controls.Add(this.LblVocPerL);
             this.groupBox1.Controls.Add(this.LblVocPerKg);
@@ -644,7 +650,7 @@ namespace Laboratorium.Composition.Forms
             this.groupBox1.Controls.Add(this.TxtComment);
             this.groupBox1.Controls.Add(this.RdMass);
             this.groupBox1.Controls.Add(this.RdAmount);
-            this.groupBox1.Controls.Add(this.TxtAmount);
+            this.groupBox1.Controls.Add(this.TxtSetAmount);
             this.groupBox1.Controls.Add(this.CmbMaterial);
             this.groupBox1.Controls.Add(this.DgvComposition);
             this.groupBox1.Location = new System.Drawing.Point(5, 164);
@@ -653,14 +659,24 @@ namespace Laboratorium.Composition.Forms
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             // 
-            // TxtMass
+            // TxtSetMass
             // 
-            this.TxtMass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.TxtMass.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TxtMass.Location = new System.Drawing.Point(436, 460);
-            this.TxtMass.Name = "TxtMass";
-            this.TxtMass.Size = new System.Drawing.Size(147, 27);
-            this.TxtMass.TabIndex = 17;
+            this.TxtSetMass.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.TxtSetMass.Location = new System.Drawing.Point(662, 10);
+            this.TxtSetMass.Name = "TxtSetMass";
+            this.TxtSetMass.Size = new System.Drawing.Size(120, 27);
+            this.TxtSetMass.TabIndex = 18;
+            this.TxtSetMass.Visible = false;
+            // 
+            // TxtTotalMass
+            // 
+            this.TxtTotalMass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.TxtTotalMass.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.TxtTotalMass.Location = new System.Drawing.Point(436, 460);
+            this.TxtTotalMass.Name = "TxtTotalMass";
+            this.TxtTotalMass.Size = new System.Drawing.Size(147, 27);
+            this.TxtTotalMass.TabIndex = 17;
+            this.TxtTotalMass.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // LblMass
             // 
@@ -679,7 +695,7 @@ namespace Laboratorium.Composition.Forms
             this.LblVocPerL.AutoSize = true;
             this.LblVocPerL.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.LblVocPerL.ForeColor = System.Drawing.Color.Blue;
-            this.LblVocPerL.Location = new System.Drawing.Point(848, 459);
+            this.LblVocPerL.Location = new System.Drawing.Point(963, 459);
             this.LblVocPerL.Name = "LblVocPerL";
             this.LblVocPerL.Size = new System.Drawing.Size(90, 25);
             this.LblVocPerL.TabIndex = 15;
@@ -691,7 +707,7 @@ namespace Laboratorium.Composition.Forms
             this.LblVocPerKg.AutoSize = true;
             this.LblVocPerKg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.LblVocPerKg.ForeColor = System.Drawing.Color.Blue;
-            this.LblVocPerKg.Location = new System.Drawing.Point(848, 434);
+            this.LblVocPerKg.Location = new System.Drawing.Point(963, 434);
             this.LblVocPerKg.Name = "LblVocPerKg";
             this.LblVocPerKg.Size = new System.Drawing.Size(96, 25);
             this.LblVocPerKg.TabIndex = 14;
@@ -703,7 +719,7 @@ namespace Laboratorium.Composition.Forms
             this.LblPriceCalcPerL.AutoSize = true;
             this.LblPriceCalcPerL.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.LblPriceCalcPerL.ForeColor = System.Drawing.Color.Green;
-            this.LblPriceCalcPerL.Location = new System.Drawing.Point(713, 459);
+            this.LblPriceCalcPerL.Location = new System.Drawing.Point(714, 459);
             this.LblPriceCalcPerL.Name = "LblPriceCalcPerL";
             this.LblPriceCalcPerL.Size = new System.Drawing.Size(112, 25);
             this.LblPriceCalcPerL.TabIndex = 13;
@@ -715,7 +731,7 @@ namespace Laboratorium.Composition.Forms
             this.LblPriceCalcPerKg.AutoSize = true;
             this.LblPriceCalcPerKg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.LblPriceCalcPerKg.ForeColor = System.Drawing.Color.Green;
-            this.LblPriceCalcPerKg.Location = new System.Drawing.Point(713, 434);
+            this.LblPriceCalcPerKg.Location = new System.Drawing.Point(714, 434);
             this.LblPriceCalcPerKg.Name = "LblPriceCalcPerKg";
             this.LblPriceCalcPerKg.Size = new System.Drawing.Size(112, 25);
             this.LblPriceCalcPerKg.TabIndex = 12;
@@ -726,22 +742,22 @@ namespace Laboratorium.Composition.Forms
             this.LblPricePerL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LblPricePerL.AutoSize = true;
             this.LblPricePerL.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblPricePerL.Location = new System.Drawing.Point(591, 459);
+            this.LblPricePerL.Location = new System.Drawing.Point(592, 459);
             this.LblPricePerL.Name = "LblPricePerL";
-            this.LblPricePerL.Size = new System.Drawing.Size(98, 25);
+            this.LblPricePerL.Size = new System.Drawing.Size(105, 25);
             this.LblPricePerL.TabIndex = 11;
-            this.LblPricePerL.Text = "Cena zł/l";
+            this.LblPricePerL.Text = "Cena zł/l:";
             // 
             // LblPricePerKg
             // 
             this.LblPricePerKg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LblPricePerKg.AutoSize = true;
             this.LblPricePerKg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblPricePerKg.Location = new System.Drawing.Point(591, 434);
+            this.LblPricePerKg.Location = new System.Drawing.Point(592, 434);
             this.LblPricePerKg.Name = "LblPricePerKg";
-            this.LblPricePerKg.Size = new System.Drawing.Size(116, 25);
+            this.LblPricePerKg.Size = new System.Drawing.Size(123, 25);
             this.LblPricePerKg.TabIndex = 10;
-            this.LblPricePerKg.Text = "Cena zł/kg";
+            this.LblPricePerKg.Text = "Cena zł/kg:";
             // 
             // LblSumMass
             // 
@@ -801,39 +817,41 @@ namespace Laboratorium.Composition.Forms
             // 
             this.RdMass.AutoSize = true;
             this.RdMass.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.RdMass.Location = new System.Drawing.Point(634, 17);
+            this.RdMass.Location = new System.Drawing.Point(86, 12);
             this.RdMass.Name = "RdMass";
             this.RdMass.Size = new System.Drawing.Size(75, 24);
             this.RdMass.TabIndex = 4;
-            this.RdMass.TabStop = true;
             this.RdMass.Text = "Masa";
             this.RdMass.UseVisualStyleBackColor = true;
+            this.RdMass.CheckedChanged += new System.EventHandler(this.RdAmount_CheckedChanged);
             // 
             // RdAmount
             // 
             this.RdAmount.AutoSize = true;
+            this.RdAmount.Checked = true;
             this.RdAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.RdAmount.Location = new System.Drawing.Point(558, 17);
+            this.RdAmount.Location = new System.Drawing.Point(10, 12);
             this.RdAmount.Name = "RdAmount";
             this.RdAmount.Size = new System.Drawing.Size(70, 24);
             this.RdAmount.TabIndex = 3;
             this.RdAmount.TabStop = true;
             this.RdAmount.Text = "Ilość";
             this.RdAmount.UseVisualStyleBackColor = true;
+            this.RdAmount.CheckedChanged += new System.EventHandler(this.RdAmount_CheckedChanged);
             // 
-            // TxtAmount
+            // TxtSetAmount
             // 
-            this.TxtAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.TxtAmount.Location = new System.Drawing.Point(389, 11);
-            this.TxtAmount.Name = "TxtAmount";
-            this.TxtAmount.Size = new System.Drawing.Size(120, 27);
-            this.TxtAmount.TabIndex = 2;
+            this.TxtSetAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.TxtSetAmount.Location = new System.Drawing.Point(537, 10);
+            this.TxtSetAmount.Name = "TxtSetAmount";
+            this.TxtSetAmount.Size = new System.Drawing.Size(120, 27);
+            this.TxtSetAmount.TabIndex = 2;
             // 
             // CmbMaterial
             // 
             this.CmbMaterial.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.CmbMaterial.FormattingEnabled = true;
-            this.CmbMaterial.Location = new System.Drawing.Point(119, 10);
+            this.CmbMaterial.Location = new System.Drawing.Point(255, 10);
             this.CmbMaterial.Name = "CmbMaterial";
             this.CmbMaterial.Size = new System.Drawing.Size(264, 28);
             this.CmbMaterial.TabIndex = 1;
@@ -855,6 +873,29 @@ namespace Laboratorium.Composition.Forms
             this.DgvComposition.Size = new System.Drawing.Size(1050, 387);
             this.DgvComposition.TabIndex = 0;
             this.DgvComposition.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvComposition_CellFormatting);
+            this.DgvComposition.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.DgvComposition_ColumnWidthChanged);
+            // 
+            // LblVocKg
+            // 
+            this.LblVocKg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LblVocKg.AutoSize = true;
+            this.LblVocKg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LblVocKg.Location = new System.Drawing.Point(868, 434);
+            this.LblVocKg.Name = "LblVocKg";
+            this.LblVocKg.Size = new System.Drawing.Size(97, 25);
+            this.LblVocKg.TabIndex = 19;
+            this.LblVocKg.Text = "VOC/kg:";
+            // 
+            // LblVocL
+            // 
+            this.LblVocL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LblVocL.AutoSize = true;
+            this.LblVocL.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LblVocL.Location = new System.Drawing.Point(867, 459);
+            this.LblVocL.Name = "LblVocL";
+            this.LblVocL.Size = new System.Drawing.Size(86, 25);
+            this.LblVocL.TabIndex = 20;
+            this.LblVocL.Text = "VOC/L:";
             // 
             // CompositionForm
             // 
@@ -925,7 +966,7 @@ namespace Laboratorium.Composition.Forms
         private System.Windows.Forms.Label LblTitle;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView DgvComposition;
-        private System.Windows.Forms.TextBox TxtAmount;
+        private System.Windows.Forms.TextBox TxtSetAmount;
         private System.Windows.Forms.ComboBox CmbMaterial;
         private System.Windows.Forms.TextBox TxtComment;
         private System.Windows.Forms.RadioButton RdMass;
@@ -940,7 +981,10 @@ namespace Laboratorium.Composition.Forms
         private System.Windows.Forms.Label LblSumPercent;
         private System.Windows.Forms.Label LblSum;
         private System.Windows.Forms.Label LblDensity;
-        private System.Windows.Forms.TextBox TxtMass;
+        private System.Windows.Forms.TextBox TxtTotalMass;
         private System.Windows.Forms.Label LblMass;
+        private System.Windows.Forms.TextBox TxtSetMass;
+        private System.Windows.Forms.Label LblVocL;
+        private System.Windows.Forms.Label LblVocKg;
     }
 }
