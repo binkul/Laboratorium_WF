@@ -72,6 +72,8 @@ namespace Laboratorium.Composition.Forms
             this.LblNrD = new System.Windows.Forms.Label();
             this.LblTitle = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.LblVocL = new System.Windows.Forms.Label();
+            this.LblVocKg = new System.Windows.Forms.Label();
             this.TxtSetMass = new System.Windows.Forms.TextBox();
             this.TxtTotalMass = new System.Windows.Forms.TextBox();
             this.LblMass = new System.Windows.Forms.Label();
@@ -91,8 +93,6 @@ namespace Laboratorium.Composition.Forms
             this.TxtSetAmount = new System.Windows.Forms.TextBox();
             this.CmbMaterial = new System.Windows.Forms.ComboBox();
             this.DgvComposition = new System.Windows.Forms.DataGridView();
-            this.LblVocKg = new System.Windows.Forms.Label();
-            this.LblVocL = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvComposition)).BeginInit();
@@ -659,6 +659,28 @@ namespace Laboratorium.Composition.Forms
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             // 
+            // LblVocL
+            // 
+            this.LblVocL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LblVocL.AutoSize = true;
+            this.LblVocL.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LblVocL.Location = new System.Drawing.Point(867, 459);
+            this.LblVocL.Name = "LblVocL";
+            this.LblVocL.Size = new System.Drawing.Size(86, 25);
+            this.LblVocL.TabIndex = 20;
+            this.LblVocL.Text = "VOC/L:";
+            // 
+            // LblVocKg
+            // 
+            this.LblVocKg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LblVocKg.AutoSize = true;
+            this.LblVocKg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LblVocKg.Location = new System.Drawing.Point(868, 434);
+            this.LblVocKg.Name = "LblVocKg";
+            this.LblVocKg.Size = new System.Drawing.Size(97, 25);
+            this.LblVocKg.TabIndex = 19;
+            this.LblVocKg.Text = "VOC/kg:";
+            // 
             // TxtSetMass
             // 
             this.TxtSetMass.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
@@ -874,28 +896,7 @@ namespace Laboratorium.Composition.Forms
             this.DgvComposition.TabIndex = 0;
             this.DgvComposition.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvComposition_CellFormatting);
             this.DgvComposition.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.DgvComposition_ColumnWidthChanged);
-            // 
-            // LblVocKg
-            // 
-            this.LblVocKg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LblVocKg.AutoSize = true;
-            this.LblVocKg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblVocKg.Location = new System.Drawing.Point(868, 434);
-            this.LblVocKg.Name = "LblVocKg";
-            this.LblVocKg.Size = new System.Drawing.Size(97, 25);
-            this.LblVocKg.TabIndex = 19;
-            this.LblVocKg.Text = "VOC/kg:";
-            // 
-            // LblVocL
-            // 
-            this.LblVocL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LblVocL.AutoSize = true;
-            this.LblVocL.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblVocL.Location = new System.Drawing.Point(867, 459);
-            this.LblVocL.Name = "LblVocL";
-            this.LblVocL.Size = new System.Drawing.Size(86, 25);
-            this.LblVocL.TabIndex = 20;
-            this.LblVocL.Text = "VOC/L:";
+            this.DgvComposition.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.DgvComposition_RowPostPaint);
             // 
             // CompositionForm
             // 

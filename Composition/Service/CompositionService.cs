@@ -256,33 +256,107 @@ namespace Laboratorium.Composition.Service
 
         #region DataGridView, Combo and other events
 
+        private int FrameWidth => _form.GetDgvComposition.Columns[MATERIAL].Width + _form.GetDgvComposition.Columns[AMOUNT].Width + _form.GetDgvComposition.Columns[MASS].Width +
+                _form.GetDgvComposition.Columns[PRICE_PL_KG].Width + _form.GetDgvComposition.Columns[PRICE_MASS].Width + _form.GetDgvComposition.Columns[PRICE_CURRENCY].Width +
+                _form.GetDgvComposition.Columns[VOC_PERCENT].Width + _form.GetDgvComposition.Columns[VOC_AMOUNT].Width + _form.GetDgvComposition.Columns[COMMENT].Width;
+
+        private int FrameX => _form.GetDgvComposition.Columns[ORDERING].Width + _form.GetDgvComposition.Columns[SEMIPRODUCT_STATE].Width + _form.GetDgvComposition.RowHeadersWidth;
+
         public void RecipeCellFormat(DataGridViewCellFormattingEventArgs e)
         {
-            if (_form.GetDgvComposition.Columns[e.ColumnIndex].Name == AMOUNT)
+            string cell = _form.GetDgvComposition.Columns[e.ColumnIndex].Name;
+            CompositionDto row = (CompositionDto)_recipeBinding[e.RowIndex];
+
+            double price = Convert.ToDouble(row.PricePlKg);
+            double voc = Convert.ToDouble(row.VOC);
+            double amount = row.Amount;
+            double mass = row.Mass;
+
+            #region Yellow color of background in frame
+
+            if (row.Operation > 1 && cell != ORDERING && cell != SEMIPRODUCT_STATE)
             {
-                double value = Convert.ToDouble(e.Value);
-                e.Value = value > 10 ? value.ToString("0.00") : value.ToString("0.000");
+                e.CellStyle.BackColor = Color.Yellow;
             }
 
-            if (_form.GetDgvComposition.Columns[e.ColumnIndex].Name == MASS)
+            #endregion
+
+            #region Red color of font in Price and VOC
+
+            if (cell == PRICE_MASS || cell == PRICE_PL_KG || cell == PRICE_CURRENCY)
             {
-                double value = Convert.ToDouble(e.Value);
-                e.Value = value >= 100 ? value.ToString("0.0") :
-                          value >= 10 ? value.ToString("0.00") :
-                          value >= 1 ? value.ToString("0.000") :
-                          value.ToString("0.0000");
+                e.CellStyle.ForeColor = price != -1 ? Color.Black : Color.Red;
+                e.CellStyle.Font = price != -1 ? e.CellStyle.Font : new Font(e.CellStyle.Font.Name, 10, FontStyle.Bold);
             }
 
-            if (_form.GetDgvComposition.Columns[e.ColumnIndex].Name == PRICE_PL_KG)
+
+            if (cell == VOC_AMOUNT || cell == VOC_PERCENT)
             {
-                double value = Convert.ToDouble(e.Value);
-                e.Value = value != -1 ? value.ToString("0.00") : "Brak";
+                e.CellStyle.ForeColor = voc != -1 ? Color.Black : Color.Red;
+                e.CellStyle.Font = voc != -1 ? e.CellStyle.Font : new Font(e.CellStyle.Font.Name, 10, FontStyle.Bold);
             }
 
-            if (_form.GetDgvComposition.Columns[e.ColumnIndex].Name == SEMIPRODUCT_STATE)
+            #endregion
+
+            #region Numbers format
+
+            switch (cell)
             {
-                ExpandState state = (ExpandState)e.Value;
-                e.Value = state == ExpandState.None ? " " : state == ExpandState.Collapsed ? "[+]" : "[-]";
+                case AMOUNT:
+                    e.Value = amount > 10 ? amount.ToString("0.00") : amount.ToString("0.000");
+                    break;
+                case MASS:
+                    e.Value = mass >= 100 ? mass.ToString("0.0") :
+                              mass >= 10 ? mass.ToString("0.00") :
+                              mass >= 1 ? mass.ToString("0.000") :
+                              mass.ToString("0.0000");
+                    break;
+                case PRICE_PL_KG:
+                    e.Value = price != -1 ? price.ToString("0.00") : "Brak";
+                    break;
+                case SEMIPRODUCT_STATE:
+                    ExpandState state = (ExpandState)e.Value;
+                    e.Value = state == ExpandState.None ? " " : state == ExpandState.Collapsed ? "[+]" : "[-]";
+                    break;
+            }
+
+            #endregion
+        }
+
+        public void RecipeRowsPaint(DataGridViewRowPostPaintEventArgs e)
+        {
+            CompositionDto row = (CompositionDto)_recipeBinding[e.RowIndex];
+            Brush red = new SolidBrush(Color.Red);
+            Pen penRed = new Pen(red, 2);
+            int distance = 1;
+
+            int x = FrameX;
+            int y = e.RowBounds.Top;
+            int width = FrameWidth;
+            int height = e.RowBounds.Height;
+            byte operation = row.Operation;
+
+            Point top_left = new Point(x + distance, y);
+            Point top_right = new Point(x + width - distance, y);
+            Point bottom_left = new Point(x + distance, y + height);
+            Point bottom_right = new Point(x + width - distance, y + height);
+
+            if (operation == 2)
+            {
+                e.Graphics.DrawLine(penRed, top_left, top_right);
+                e.Graphics.DrawLine(penRed, top_left, bottom_left);
+                e.Graphics.DrawLine(penRed, top_right, bottom_right);
+            }
+            else if (operation == 3)
+            {
+                e.Graphics.DrawLine(penRed, top_left, bottom_left);
+                e.Graphics.DrawLine(penRed, top_right, bottom_right);
+            }
+            else if (operation == 4)
+            {
+                e.Graphics.DrawLine(penRed, new Point(x + distance, y + height - distance), new Point(x + width - distance, y + height - distance));
+                e.Graphics.DrawLine(penRed, top_left, bottom_left);
+                e.Graphics.DrawLine(penRed, top_right, bottom_right);
             }
         }
 
@@ -368,7 +442,6 @@ namespace Laboratorium.Composition.Service
             _form.GetLblVocPerL.Top = bottomII;
             _form.GetLblVocPerL.Left = left + headerWidth + orderWidth + semiWidth + materialWidth + amountWidth + massWidth + pricePlWidth + priceWidth + priceCurWidth + vocWidth + (Math.Abs(vocAmountWidth - _form.GetLblVocPerL.Width) / 2);
         }
-
 
         public void ChangeCalculationType(RadioButton button)
         {

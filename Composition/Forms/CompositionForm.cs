@@ -90,5 +90,10 @@ namespace Laboratorium.Composition.Forms
         {
             _service.ChangeCalculationType((RadioButton)sender);
         }
+
+        private void DgvComposition_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            _service.RecipeRowsPaint(e);
+        }
     }
 }
