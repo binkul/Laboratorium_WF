@@ -6,6 +6,7 @@ using Laboratorium.Composition.Forms;
 using Laboratorium.Composition.Repository;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace Laboratorium.Composition.Service
     {
         #region DTO-s fields for DGV column
 
+        private const string ID = "Id";
         private const string LABO_ID = "LaboId";
         private const string ORDERING = "Ordering";
         private const string VERSION = "Version";
@@ -57,6 +59,7 @@ namespace Laboratorium.Composition.Service
         private readonly IBasicCRUD<CompositionHistoryDto> _historyRepository;
         private CompositionHistoryDto _lastVersion;
         private IList<CompositionDto> _recipe;
+        private IList<CmbMaterialCompositionDto> _materials;
         private BindingSource _recipeBinding;
 
         public CompositionService(SqlConnection connection, UserDto user, CompositionForm form, LaboDto laboDto)
@@ -73,6 +76,8 @@ namespace Laboratorium.Composition.Service
 
 
         #region Modification markers
+
+        private CompositionDto GetCurrent => (_recipeBinding != null && _recipeBinding.Count > 0) ? (CompositionDto)_recipeBinding.Current : null;
 
         protected override bool Status => _recipe.Where(i => i.GetRowState != RowState.UNCHANGED).Any();
 
@@ -105,8 +110,8 @@ namespace Laboratorium.Composition.Service
             _recipeBinding.DataSource = _recipe;
             _recipeBinding.PositionChanged += RecipeBinding_PositionChanged;
             PrepareRecipe();
-
             PrepareDgvComposition();
+            PrepareCmbMaterial();
         }
 
         public void PrepareRecipe()
@@ -239,6 +244,26 @@ namespace Laboratorium.Composition.Service
             view.Columns[COMMENT].SortMode = DataGridViewColumnSortMode.NotSortable;
         }
 
+        private void PrepareCmbMaterial()
+        {
+            CompositionRepository repository = (CompositionRepository)_repository;
+            _materials = repository.GetCmbMaterials();
+
+            _form.GetCmbMaterial.DataSource = _materials;
+            _form.GetCmbMaterial.ValueMember = ID;
+            _form.GetCmbMaterial.DisplayMember = MATERIAL;
+
+            foreach (CmbMaterialCompositionDto mat in _materials)
+            {
+                _form.GetCmbMaterial.AutoCompleteCustomSource.Add(mat.Material.ToString());
+            }
+            _form.GetCmbMaterial.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            _form.GetCmbMaterial.AutoCompleteSource = AutoCompleteSource.ListItems;
+
+            _form.GetCmbMaterial.SelectedIndexChanged += GetCmbMaterial_SelectedIndexChanged;
+        }
+
+
         #endregion
 
 
@@ -250,6 +275,42 @@ namespace Laboratorium.Composition.Service
         }
 
         private bool ContainsSemiProduct => _recipe.Where(i => i.SemiProductLevel == 0).Any(i => i.IsSemiproduct);
+
+        private void GetCmbMaterial_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CmbMaterialCompositionDto mat = _form.GetCmbMaterial.SelectedItem != null ? (CmbMaterialCompositionDto)_form.GetCmbMaterial.SelectedItem : null;
+            CompositionDto current = GetCurrent;
+
+            if (mat != null && current != null)
+            {
+                current.Material = mat.Material;
+                current.MaterialId = mat.MaterialId;
+                current.IsSemiproduct = mat.IsSemiproduct;
+                current.SemiProductLevel = 0;
+                current.SemiProductState = ExpandState.None;
+                current.VOC = mat.VOC;
+                current.VocAmount = "";
+                current.PriceOriginal = mat.PriceOryg;
+                current.PricePlKg = mat.PricePl;
+                current.PriceMass = "";
+                current.Currency = mat.Currency;
+                current.Rate = mat.Rate;
+
+                _recipeBinding.EndEdit();
+                _recipeBinding.ResetBindings(false);
+            }
+
+            RecalculateAll();
+        }
+
+        #endregion
+
+        #region Mathematic
+
+        private void RecalculateAll()
+        {
+
+        }
 
         #endregion
 

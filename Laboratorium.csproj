@@ -54,6 +54,7 @@
     <Compile Include="ADO\DTO\CmbContrastClassDto.cs" />
     <Compile Include="ADO\DTO\CmbCurrencyDto.cs" />
     <Compile Include="ADO\DTO\CmbGlossClassDto.cs" />
+    <Compile Include="ADO\DTO\CmbMaterialCompositionDto.cs" />
     <Compile Include="ADO\DTO\CmbMaterialFunctionDto.cs" />
     <Compile Include="ADO\DTO\CmbUnitDto.cs" />
     <Compile Include="ADO\DTO\CompositionDto.cs" />

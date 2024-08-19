@@ -14,7 +14,9 @@ namespace Laboratorium.Composition.Repository
 {
     public class CompositionRepository : BasicCRUD<CompositionDto>
     {
-
+        private static readonly string SQL_CMB_MATERIAL = "Select mat.[name], mat.id, CAST(is_intermediate as bit) as [intermediate], ISNULL(VOC, -1) as VOC, ISNULL(mat.price, -1) as price, ISNULL(mat.price * cur.rate, -1) as price_pl, " +
+            "cur.currency, cur.rate From Konkurencja.dbo.Material mat Left Join Konkurencja.dbo.CmbCurrency cur on mat.currency_id=cur.id Where mat.is_package='false' Union All Select [name], " +
+            "labo_id, CAST(1 as bit) as [intermediate], -1 as VOC, -1 as price, -1 as price_pl, 'Zł' as currency, 1 as rate From Konkurencja.dbo.LaboSemiProduct Where is_active='true' Order by intermediate, [name]";
         private static readonly SqlIndex SQL_INDEX = SqlIndex.CompositionIndex;
         private static readonly string TABLE_NAME = Table.COMPOSITION_TABLE;
         private readonly IService _service;
@@ -22,6 +24,57 @@ namespace Laboratorium.Composition.Repository
         public CompositionRepository(SqlConnection connection, IService service) : base(connection, SQL_INDEX, TABLE_NAME)
         {
             _service = service;
+        }
+
+        public IList<CmbMaterialCompositionDto> GetCmbMaterials()
+        {
+            IList<CmbMaterialCompositionDto> list = new List<CmbMaterialCompositionDto>();
+
+            try
+            {
+                SqlCommand command = new SqlCommand(SQL_CMB_MATERIAL, _connection);
+                _connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    int id = 0;
+                    while (reader.Read())
+                    {
+                        id++;
+                        string material = reader.GetString(0);
+                        int materialId = reader.GetInt32(1);
+                        bool semiprod = reader.GetBoolean(2);
+                        double voc = reader.GetDouble(3);
+                        double price = reader.GetDouble(4);
+                        double pricePl = reader.GetDouble(5);
+                        string currency = CommonFunction.DBNullToStringConv(reader.GetValue(6));
+                        double rate = reader.GetDouble(7);
+
+                        CmbMaterialCompositionDto mat = new CmbMaterialCompositionDto(id, material, materialId, semiprod, voc, price, pricePl, currency, rate);
+
+                        list.Add(mat);
+                    }
+                    reader.Close();
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Problem z połączeniem z serwerem. Prawdopodobnie serwer jest wyłączony, błąd w nazwie serwera lub dostępie do bazy: '" + ex.Message + "'. Błąd z poziomu GetMaterialCompositionDto ",
+                    "Błąd połaczenia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd systemowy w czasie operacji na tabeli 'Material'" + ex.Message + "'", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+
+            return list;
         }
 
         public override IList<CompositionDto> GetAllByLaboId(int laboId)
