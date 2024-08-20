@@ -6,12 +6,14 @@ using Laboratorium.Composition.Forms;
 using Laboratorium.Composition.Repository;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace Laboratorium.Composition.Service
 {
@@ -61,6 +63,8 @@ namespace Laboratorium.Composition.Service
         private IList<CompositionDto> _recipe;
         private IList<CmbMaterialCompositionDto> _materials;
         private BindingSource _recipeBinding;
+        private bool _comboBlock = true;
+
 
         public CompositionService(SqlConnection connection, UserDto user, CompositionForm form, LaboDto laboDto)
             : base(FORM_DATA, form)
@@ -109,9 +113,14 @@ namespace Laboratorium.Composition.Service
             _recipeBinding = new BindingSource();
             _recipeBinding.DataSource = _recipe;
             _recipeBinding.PositionChanged += RecipeBinding_PositionChanged;
+
+            CompositionRepository repositoryComp = (CompositionRepository)_repository;
+            _materials = repositoryComp.GetCmbMaterials();
+
             PrepareRecipe();
             PrepareDgvComposition();
             PrepareCmbMaterial();
+            RecipeBinding_PositionChanged(null, null);
         }
 
         public void PrepareRecipe()
@@ -119,18 +128,9 @@ namespace Laboratorium.Composition.Service
             if (_lastVersion.IsNew)
                 return;
 
-            double mass = _lastVersion.Mass;
             foreach (CompositionDto component in _recipe)
             {
-                component.Mass = Math.Round(mass * (component.Amount / 100), 4);
-
-                double? voc = (component.Amount * component.VOC) / 100;
-                component.VocAmount = component.VOC != -1 ? ((Convert.ToDouble(voc) * mass) / 100).ToString("0.00") : "Brak";
-
-                double? price = component.PricePlKg * component.Mass;
-                component.PriceMass = component.PricePlKg != -1 ? Convert.ToDouble(price).ToString("0.00") : "Brak";
-
-                component.SemiProductState = component.IsSemiproduct ? ExpandState.Collapsed : ExpandState.None;
+                RecalculateAll(component);
             }
         }
 
@@ -246,9 +246,6 @@ namespace Laboratorium.Composition.Service
 
         private void PrepareCmbMaterial()
         {
-            CompositionRepository repository = (CompositionRepository)_repository;
-            _materials = repository.GetCmbMaterials();
-
             _form.GetCmbMaterial.DataSource = _materials;
             _form.GetCmbMaterial.ValueMember = ID;
             _form.GetCmbMaterial.DisplayMember = MATERIAL;
@@ -271,13 +268,40 @@ namespace Laboratorium.Composition.Service
 
         private void RecipeBinding_PositionChanged(object sender, EventArgs e)
         {
+            if (_recipeBinding == null || _recipeBinding.Count == 0)
+                return;
 
+            _comboBlock = true;
+
+            if (GetCurrent != null)
+            {
+                int id = GetCurrent.MaterialId;
+                string name = GetCurrent.Material.ToLower();
+
+                CmbMaterialCompositionDto selected = _materials
+                    .Where(i => i.MaterialId == id && i.Material.ToLower() == name)
+                    .FirstOrDefault();
+
+                if (selected != null)
+                {
+                    _form.GetCmbMaterial.SelectedValue = selected.Id;                 
+                }
+                else
+                {
+                    _form.GetCmbMaterial.Text = name;
+                }
+            }
+
+            _comboBlock = false;
         }
 
         private bool ContainsSemiProduct => _recipe.Where(i => i.SemiProductLevel == 0).Any(i => i.IsSemiproduct);
 
         private void GetCmbMaterial_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (_comboBlock)
+                return;
+
             CmbMaterialCompositionDto mat = _form.GetCmbMaterial.SelectedItem != null ? (CmbMaterialCompositionDto)_form.GetCmbMaterial.SelectedItem : null;
             CompositionDto current = GetCurrent;
 
@@ -287,7 +311,7 @@ namespace Laboratorium.Composition.Service
                 current.MaterialId = mat.MaterialId;
                 current.IsSemiproduct = mat.IsSemiproduct;
                 current.SemiProductLevel = 0;
-                current.SemiProductState = ExpandState.None;
+                current.SemiProductState = current.IsSemiproduct ? ExpandState.Collapsed : ExpandState.None;
                 current.VOC = mat.VOC;
                 current.VocAmount = "";
                 current.PriceOriginal = mat.PriceOryg;
@@ -295,21 +319,45 @@ namespace Laboratorium.Composition.Service
                 current.PriceMass = "";
                 current.Currency = mat.Currency;
                 current.Rate = mat.Rate;
-
-                _recipeBinding.EndEdit();
-                _recipeBinding.ResetBindings(false);
+            }
+            else
+            {
+                current.Material = _form.GetCmbMaterial.Text;
+                current.MaterialId = -1;
+                current.IsSemiproduct = false;
+                current.SemiProductLevel = 0;
+                current.SemiProductState = ExpandState.None;
+                current.VOC = -1;
+                current.VocAmount = "";
+                current.PriceOriginal = -1;
+                current.PricePlKg = -1;
+                current.PriceMass = "";
+                current.Currency = "Brak";
+                current.Rate = 0;
             }
 
-            RecalculateAll();
+            _recipeBinding.EndEdit();
+            _recipeBinding.ResetBindings(false);
+            RecalculateAll(current);
         }
 
         #endregion
 
         #region Mathematic
 
-        private void RecalculateAll()
+        private void RecalculateAll(CompositionDto component)
         {
+            double mass = _lastVersion.Mass;
 
+            component.Mass = Math.Round(mass * (component.Amount / 100), 4);
+
+            double? voc = (component.Amount * component.VOC) / 100;
+            component.VocAmount = component.VOC != -1 ? ((Convert.ToDouble(voc) * mass) / 100).ToString("0.00") : "Brak";
+
+            double? price = component.PricePlKg * component.Mass;
+            component.PriceMass = component.PricePlKg != -1 ? Convert.ToDouble(price).ToString("0.00") : "Brak";
+
+            component.SemiProductState = component.IsSemiproduct ? ExpandState.Collapsed : ExpandState.None;
         }
 
         #endregion

@@ -187,7 +187,7 @@ namespace Laboratorium.ADO.DTO
 
         public string PriceCurrency
         {
-            get => IsSemiproduct ? "-" : _priceOryg != null ? Convert.ToDouble(_priceOryg).ToString("0.00") + " " + Currency : "Brak";
+            get => IsSemiproduct ? "-" : _priceOryg != null && _priceOryg != -1 ? Convert.ToDouble(_priceOryg).ToString("0.00") + " " + Currency : "Brak";
         }
 
         public double? PricePlKg
