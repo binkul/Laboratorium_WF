@@ -1,6 +1,6 @@
 ﻿using Laboratorium.ADO.Service;
 using System;
-using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace Laboratorium.ADO.DTO
 {
@@ -34,6 +34,8 @@ namespace Laboratorium.ADO.DTO
         private double? _rate;
         private RowState _rowState = RowState.ADDED;
         private IService _service;
+
+        public IList<CompositionDto> SubProductComposition { get; set; } = null;
 
         public CrudState CrudState { get; set; } = CrudState.OK;
 

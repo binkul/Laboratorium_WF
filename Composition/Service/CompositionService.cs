@@ -3,12 +3,14 @@ using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.Service;
 using Laboratorium.Composition.Forms;
+using Laboratorium.Composition.LocalDto;
 using Laboratorium.Composition.Repository;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -130,6 +132,17 @@ namespace Laboratorium.Composition.Service
 
             foreach (CompositionDto component in _recipe)
             {
+                if (component.IsSemiproduct)
+                {
+                    var tmp = FillSemiproductMaterial(component);
+                    component.SubProductComposition = tmp.SubProductComposition;
+                    component.PriceOriginal = null;
+                    component.Currency = "";
+                    component.Rate = 0;
+                    component.PricePlKg = tmp.Price > 0 ? tmp.Price : -1;
+                    component.VOC = tmp.VOC > 0 ? tmp.VOC : -1;
+                }
+
                 RecalculateAll(component);
             }
         }
@@ -342,6 +355,67 @@ namespace Laboratorium.Composition.Service
         }
 
         #endregion
+
+
+        #region Semiproduct Operation
+
+        private SemiProductTransferDto FillSemiproductMaterial(CompositionDto semiproduct)
+        {
+            SemiProductTransferDto result = new SemiProductTransferDto();
+            IList<CompositionDto> list = _repository.GetAllByLaboId(semiproduct.LaboId);
+
+            if (list.Count == 0) 
+                return result;
+
+            bool noPrice = false;
+            bool noVOC = false;
+            double price = 0;
+            double voc = 0;
+            foreach (CompositionDto component in list) 
+            {
+                component.Amount = (component.Amount * semiproduct.Amount) / 100d;
+
+                if (component.IsSemiproduct)
+                {
+                    var tmp = FillSemiproductMaterial(component);
+                    component.SubProductComposition = tmp.SubProductComposition;
+                    component.PriceOriginal = null;
+                    component.Currency = "";
+                    component.Rate = 0;
+                    noPrice = tmp.Price < 0;
+                    noVOC = tmp.VOC < 0;
+                }
+
+                if (component.PricePlKg > 0)
+                {
+                    price += Convert.ToDouble(component.PricePlKg);
+                }
+                else
+                {
+                    noPrice = true;
+                }
+
+                if (component.VOC > 0)
+                {
+                    voc += Convert.ToDouble(component.VOC);
+                }
+                else
+                {
+                    noVOC = true;
+                }
+
+                RecalculateAll(component);
+            }
+
+            result.SubProductComposition = list;
+            result.Price = !noPrice ? price : -1;
+            result.VOC = !noVOC ? voc : -1;
+
+            return result;
+        }
+
+        #endregion
+
 
         #region Mathematic
 

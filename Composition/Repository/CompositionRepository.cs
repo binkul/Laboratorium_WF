@@ -14,9 +14,10 @@ namespace Laboratorium.Composition.Repository
 {
     public class CompositionRepository : BasicCRUD<CompositionDto>
     {
-        private static readonly string SQL_CMB_MATERIAL = "Select mat.[name], mat.id, CAST(is_intermediate as bit) as [intermediate], ISNULL(VOC, -1) as VOC, ISNULL(mat.price, -1) as price, ISNULL(mat.price * cur.rate, -1) as price_pl, " +
+        private const string SQL_CMB_MATERIAL = "Select mat.[name], mat.id, CAST(is_intermediate as bit) as [intermediate], ISNULL(VOC, -1) as VOC, ISNULL(mat.price, -1) as price, ISNULL(mat.price * cur.rate, -1) as price_pl, " +
             "cur.currency, cur.rate From Konkurencja.dbo.Material mat Left Join Konkurencja.dbo.CmbCurrency cur on mat.currency_id=cur.id Where mat.is_package='false' Union All Select [name], " +
             "labo_id, CAST(1 as bit) as [intermediate], -1 as VOC, -1 as price, -1 as price_pl, 'Zł' as currency, 1 as rate From Konkurencja.dbo.LaboSemiProduct Where is_active='true' Order by intermediate, [name]";
+
         private static readonly SqlIndex SQL_INDEX = SqlIndex.CompositionIndex;
         private static readonly string TABLE_NAME = Table.COMPOSITION_TABLE;
         private readonly IService _service;
