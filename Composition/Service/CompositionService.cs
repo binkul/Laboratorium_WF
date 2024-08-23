@@ -51,6 +51,7 @@ namespace Laboratorium.Composition.Service
         #endregion
 
         private const int STD_WIDTH = 100;
+        private const int ABSENCE = -1;
         private const string FORM_DATA = "CompositionForm";
         private readonly IList<string> _dgvCompositionFields = new List<string> { SEMIPRODUCT_STATE, ORDERING, MATERIAL, AMOUNT, MASS, COMMENT, PRICE_PL_KG, PRICE_CURRENCY, VOC_PERCENT, VOC_AMOUNT, PRICE_MASS };
 
@@ -134,16 +135,11 @@ namespace Laboratorium.Composition.Service
             {
                 if (component.IsSemiproduct)
                 {
-                    var tmp = FillSemiproductMaterial(component);
-                    component.SubProductComposition = tmp.SubProductComposition;
-                    component.PriceOriginal = null;
-                    component.Currency = "";
-                    component.Rate = 0;
-                    component.PricePlKg = tmp.Price > 0 ? tmp.Price : -1;
-                    component.VOC = tmp.VOC > 0 ? tmp.VOC : -1;
+                    var tmp = FillSemiproductMaterial(component, Percent(_lastVersion.Mass, component.Percent));
+                    FillSemiProductData(tmp, component);
                 }
 
-                RecalculateAll(component);
+                RecalculateAll(component, _lastVersion.Mass, component.Percent);
             }
         }
 
@@ -326,32 +322,28 @@ namespace Laboratorium.Composition.Service
                 current.SemiProductLevel = 0;
                 current.SemiProductState = current.IsSemiproduct ? ExpandState.Collapsed : ExpandState.None;
                 current.VOC = mat.VOC;
-                current.VocAmount = "";
                 current.PriceOriginal = mat.PriceOryg;
                 current.PricePlKg = mat.PricePl;
-                current.PriceMass = "";
                 current.Currency = mat.Currency;
                 current.Rate = mat.Rate;
             }
             else
             {
                 current.Material = _form.GetCmbMaterial.Text;
-                current.MaterialId = -1;
+                current.MaterialId = ABSENCE;
                 current.IsSemiproduct = false;
                 current.SemiProductLevel = 0;
                 current.SemiProductState = ExpandState.None;
-                current.VOC = -1;
-                current.VocAmount = "";
-                current.PriceOriginal = -1;
-                current.PricePlKg = -1;
-                current.PriceMass = "";
+                current.VOC = ABSENCE;
+                current.PriceOriginal = ABSENCE;
+                current.PricePlKg = ABSENCE;
                 current.Currency = "Brak";
                 current.Rate = 0;
             }
 
             _recipeBinding.EndEdit();
             _recipeBinding.ResetBindings(false);
-            RecalculateAll(current);
+            RecalculateAll(current, _lastVersion.Mass, current.Percent);
         }
 
         #endregion
@@ -359,59 +351,59 @@ namespace Laboratorium.Composition.Service
 
         #region Semiproduct Operation
 
-        private SemiProductTransferDto FillSemiproductMaterial(CompositionDto semiproduct)
+        private SemiProductTransferDto FillSemiproductMaterial(CompositionDto semiProduct, double mass)
         {
-            SemiProductTransferDto result = new SemiProductTransferDto();
-            IList<CompositionDto> list = _repository.GetAllByLaboId(semiproduct.LaboId);
-
-            if (list.Count == 0) 
-                return result;
-
             bool noPrice = false;
             bool noVOC = false;
-            double price = 0;
-            double voc = 0;
-            foreach (CompositionDto component in list) 
+            double totalPrice = 0;
+            double totalVOC = 0;
+
+            SemiProductTransferDto result = new SemiProductTransferDto();
+            IList<CompositionDto> composition = _repository.GetAllByLaboId(semiProduct.MaterialId);
+
+            if (composition.Count == 0) 
+                return result;
+
+            foreach (CompositionDto component in composition) 
             {
-                component.Amount = (component.Amount * semiproduct.Amount) / 100d;
+                component.Percent = Percent(semiProduct.Percent, component.PercentOryginal);
+                component.AcceptChanges();
 
                 if (component.IsSemiproduct)
                 {
-                    var tmp = FillSemiproductMaterial(component);
-                    component.SubProductComposition = tmp.SubProductComposition;
-                    component.PriceOriginal = null;
-                    component.Currency = "";
-                    component.Rate = 0;
-                    noPrice = tmp.Price < 0;
-                    noVOC = tmp.VOC < 0;
-                }
+                    var subSemiProduct = FillSemiproductMaterial(component, Percent(semiProduct.PercentOryginal, mass));
 
-                if (component.PricePlKg > 0)
-                {
-                    price += Convert.ToDouble(component.PricePlKg);
+                    FillSemiProductData(subSemiProduct, component);
+
+                    noPrice = subSemiProduct.Price <= 0 && subSemiProduct.SubProductComposition.Count > 0;
+                    noVOC = subSemiProduct.VOC < 0 && subSemiProduct.SubProductComposition.Count >= 0;
                 }
                 else
                 {
-                    noPrice = true;
+                    noPrice = component.PricePlKg <= 0 || component.Rate == 0;
+                    noVOC = component.VOC < 0;
                 }
 
-                if (component.VOC > 0)
-                {
-                    voc += Convert.ToDouble(component.VOC);
-                }
-                else
-                {
-                    noVOC = true;
-                }
-
-                RecalculateAll(component);
+                totalPrice += Percent(Convert.ToDouble(component.PricePlKg), component.PercentOryginal);
+                totalVOC += Percent(Convert.ToDouble(component.VOC), component.PercentOryginal);
+                RecalculateAll(component, mass, component.PercentOryginal);
             }
 
-            result.SubProductComposition = list;
-            result.Price = !noPrice ? price : -1;
-            result.VOC = !noVOC ? voc : -1;
+            result.SubProductComposition = composition;
+            result.Price = !noPrice ? totalPrice : ABSENCE;
+            result.VOC = !noVOC ? totalVOC : ABSENCE;
 
             return result;
+        }
+
+        private void FillSemiProductData(SemiProductTransferDto source, CompositionDto destination)
+        {
+            destination.SubProductComposition = source.SubProductComposition;
+            destination.PriceOriginal = source.Price > 0 ? source.Price : ABSENCE;
+            destination.PricePlKg = source.Price > 0 ? source.Price : ABSENCE;
+            destination.Currency = "Zł";
+            destination.Rate = 1;
+            destination.VOC = source.VOC >= 0 ? source.VOC : ABSENCE;
         }
 
         #endregion
@@ -419,20 +411,20 @@ namespace Laboratorium.Composition.Service
 
         #region Mathematic
 
-        private void RecalculateAll(CompositionDto component)
+        private void RecalculateAll(CompositionDto component, double mass, double amount)
         {
-            double mass = _lastVersion.Mass;
+            component.Mass = Math.Round(mass * (amount / 100), 4);
 
-            component.Mass = Math.Round(mass * (component.Amount / 100), 4);
-
-            double? voc = (component.Amount * component.VOC) / 100;
-            component.VocAmount = component.VOC != -1 ? ((Convert.ToDouble(voc) * mass) / 100).ToString("0.00") : "Brak";
+            double? voc = (amount * component.VOC) / 100;
+            component.VocAmount = component.VOC != ABSENCE ? ((Convert.ToDouble(voc) * mass) / 100).ToString("0.00") : "Brak";
 
             double? price = component.PricePlKg * component.Mass;
-            component.PriceMass = component.PricePlKg != -1 ? Convert.ToDouble(price).ToString("0.00") : "Brak";
+            component.PriceMass = component.PricePlKg != ABSENCE ? Convert.ToDouble(price).ToString("0.00") : "Brak";
 
             component.SemiProductState = component.IsSemiproduct ? ExpandState.Collapsed : ExpandState.None;
         }
+
+        private double Percent(double value, double percent) => value * percent / 100d;
 
         #endregion
 
@@ -452,7 +444,7 @@ namespace Laboratorium.Composition.Service
 
             double price = Convert.ToDouble(row.PricePlKg);
             double voc = Convert.ToDouble(row.VOC);
-            double amount = row.Amount;
+            double amount = row.Percent;
             double mass = row.Mass;
 
             #region Yellow color of background in frame
@@ -468,15 +460,15 @@ namespace Laboratorium.Composition.Service
 
             if (cell == PRICE_MASS || cell == PRICE_PL_KG || cell == PRICE_CURRENCY)
             {
-                e.CellStyle.ForeColor = price != -1 ? Color.Black : Color.Red;
-                e.CellStyle.Font = price != -1 ? e.CellStyle.Font : new Font(e.CellStyle.Font.Name, 10, FontStyle.Bold);
+                e.CellStyle.ForeColor = price != ABSENCE ? Color.Black : Color.Red;
+                e.CellStyle.Font = price != ABSENCE ? e.CellStyle.Font : new Font(e.CellStyle.Font.Name, 10, FontStyle.Bold);
             }
 
 
             if (cell == VOC_AMOUNT || cell == VOC_PERCENT)
             {
-                e.CellStyle.ForeColor = voc != -1 ? Color.Black : Color.Red;
-                e.CellStyle.Font = voc != -1 ? e.CellStyle.Font : new Font(e.CellStyle.Font.Name, 10, FontStyle.Bold);
+                e.CellStyle.ForeColor = voc != ABSENCE ? Color.Black : Color.Red;
+                e.CellStyle.Font = voc != ABSENCE ? e.CellStyle.Font : new Font(e.CellStyle.Font.Name, 10, FontStyle.Bold);
             }
 
             #endregion
@@ -495,7 +487,7 @@ namespace Laboratorium.Composition.Service
                               mass.ToString("0.0000");
                     break;
                 case PRICE_PL_KG:
-                    e.Value = price != -1 ? price.ToString("0.00") : "Brak";
+                    e.Value = price != ABSENCE ? price.ToString("0.00") : "Brak";
                     break;
                 case SEMIPRODUCT_STATE:
                     ExpandState state = (ExpandState)e.Value;

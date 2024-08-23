@@ -21,7 +21,8 @@ namespace Laboratorium.ADO.DTO
         private bool _isSemiproduct;
         private byte _semiproductLevel = 0;
         private ExpandState _semiproductExpandState = ExpandState.None;
-        private double _amount;
+        private double _percent;        // for manipulation
+        private double _percentOrginal; // from DataBase, not modified
         private double _mass;
         private byte _operation;
         private string _comment;
@@ -47,7 +48,8 @@ namespace Laboratorium.ADO.DTO
             _material = builder._material;
             _materialId = builder._materialId;
             _isSemiproduct = builder._isSemiproduct;
-            _amount = builder._amount;
+            _percent = builder._percent;
+            _percentOrginal = builder._percentOryginal;
             _mass = builder._mass;
             _operation = builder._operation;
             _comment = builder._comment;
@@ -139,15 +141,17 @@ namespace Laboratorium.ADO.DTO
             set => _semiproductExpandState = value;
         }
 
-        public double Amount
+        public double Percent
         {
-            get => _amount;
+            get => _percent;
             set
             {
-                _amount = value;
+                _percent = value;
                 ChangeState(RowState.MODIFIED);
             }
         }
+
+        public double PercentOryginal => _percentOrginal;
 
         public double Mass
         {
@@ -263,7 +267,8 @@ namespace Laboratorium.ADO.DTO
             internal string _material;
             internal int _materialId;
             internal bool _isSemiproduct;
-            internal double _amount;
+            internal double _percent;
+            internal double _percentOryginal;
             internal double _mass;
             internal byte _operation;
             internal string _comment;
@@ -310,9 +315,14 @@ namespace Laboratorium.ADO.DTO
                 _isSemiproduct = val;
                 return this;
             }
-            public Builder Amount(double val)
+            public Builder Percent(double val)
             {
-                _amount = val;
+                _percent = val;
+                return this;
+            }
+            public Builder PercentOriginal(double val)
+            {
+                _percentOryginal = val;
                 return this;
             }
             public Builder Mass(double val)
