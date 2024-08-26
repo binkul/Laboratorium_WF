@@ -13,13 +13,16 @@ namespace Laboratorium.ADO.DTO
 
     public class CompositionDto
     {
+        public int Id { get; set; }
+        public bool Visible { get; set; } = false;
+        public byte VisibleLevel { get; set; } = 0;
+
         private int _laboId;
         private int _version;
         private short _ordering;
         private string _material;
         private int _materialId;
         private bool _isSemiproduct;
-        private byte _semiproductLevel = 0;
         private ExpandState _semiproductExpandState = ExpandState.None;
         private double _percent;        // for manipulation
         private double _percentOrginal; // from DataBase, not modified
@@ -127,12 +130,6 @@ namespace Laboratorium.ADO.DTO
                 _isSemiproduct = value;
                 ChangeState(RowState.MODIFIED);
             }
-        }
-
-        public byte SemiProductLevel
-        {
-            get => _semiproductLevel;
-            set => _semiproductLevel = value;
         }
 
         public ExpandState SemiProductState

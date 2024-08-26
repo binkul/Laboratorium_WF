@@ -24,15 +24,17 @@ namespace Laboratorium.Composition.Service
         #region DTO-s fields for DGV column
 
         private const string ID = "Id";
+        private const string VISIBLE = "Visible";
+        private const string VISIBLE_LEVEL = "VisibleLevel";
         private const string LABO_ID = "LaboId";
         private const string ORDERING = "Ordering";
         private const string VERSION = "Version";
         private const string MATERIAL = "Material";
         private const string MATERIAL_ID = "MaterialId";
-        private const string AMOUNT = "Amount";
+        private const string PERCENT = "Percent";
+        private const string PERCENT_ORIGINAL = "PercentOryginal";
         private const string MASS = "Mass";
         private const string IS_SEMIPRODUCT = "IsSemiproduct";
-        private const string SEMIPRODUCT_LEVEL = "SemiProductLevel";
         private const string SEMIPRODUCT_STATE = "SemiProductState";
         private const string OPERATION = "Operation";
         private const string COMMENT = "Comment";
@@ -47,13 +49,14 @@ namespace Laboratorium.Composition.Service
         private const string VOC = "VOC";
         private const string VOC_PERCENT = "VocPercent";
         private const string VOC_AMOUNT = "VocAmount";
+        private const string SUB_PRODUCT_COMPOSITION = "SubProductComposition";
 
         #endregion
 
         private const int STD_WIDTH = 100;
         private const int ABSENCE = -1;
         private const string FORM_DATA = "CompositionForm";
-        private readonly IList<string> _dgvCompositionFields = new List<string> { SEMIPRODUCT_STATE, ORDERING, MATERIAL, AMOUNT, MASS, COMMENT, PRICE_PL_KG, PRICE_CURRENCY, VOC_PERCENT, VOC_AMOUNT, PRICE_MASS };
+        private readonly IList<string> _dgvCompositionFields = new List<string> { SEMIPRODUCT_STATE, ORDERING, MATERIAL, PERCENT, MASS, COMMENT, PRICE_PL_KG, PRICE_CURRENCY, VOC_PERCENT, VOC_AMOUNT, PRICE_MASS };
 
         private readonly CompositionForm _form;
         private readonly UserDto _user;
@@ -67,6 +70,7 @@ namespace Laboratorium.Composition.Service
         private IList<CmbMaterialCompositionDto> _materials;
         private BindingSource _recipeBinding;
         private bool _comboBlock = true;
+        private int _id = 1;
 
 
         public CompositionService(SqlConnection connection, UserDto user, CompositionForm form, LaboDto laboDto)
@@ -112,7 +116,7 @@ namespace Laboratorium.Composition.Service
             CompositionHistoryRepository repository = (CompositionHistoryRepository)_historyRepository;
             _lastVersion = repository.GetLastFromLaboId(_laboDto.Id, _user.Id);
 
-            _recipe = _repository.GetAllByLaboId(_laboDto.Id);
+            PrepareRecipe();
             _recipeBinding = new BindingSource();
             _recipeBinding.DataSource = _recipe;
             _recipeBinding.PositionChanged += RecipeBinding_PositionChanged;
@@ -120,7 +124,6 @@ namespace Laboratorium.Composition.Service
             CompositionRepository repositoryComp = (CompositionRepository)_repository;
             _materials = repositoryComp.GetCmbMaterials();
 
-            PrepareRecipe();
             PrepareDgvComposition();
             PrepareCmbMaterial();
             RecipeBinding_PositionChanged(null, null);
@@ -131,8 +134,16 @@ namespace Laboratorium.Composition.Service
             if (_lastVersion.IsNew)
                 return;
 
-            foreach (CompositionDto component in _recipe)
+            IList<CompositionDto> recipe = _repository.GetAllByLaboId(_laboDto.Id);
+            _recipe = new List<CompositionDto>();
+
+            foreach (CompositionDto component in recipe)
             {
+                component.Id = _id++;
+                component.Visible = true;
+                component.VisibleLevel = 0;
+                _recipe.Add(component);
+
                 if (component.IsSemiproduct)
                 {
                     var tmp = FillSemiproductMaterial(component, Percent(_lastVersion.Mass, component.Percent));
@@ -163,12 +174,16 @@ namespace Laboratorium.Composition.Service
             view.Columns.Remove(CRUD_STATE);
             view.Columns.Remove(LABO_ID);
             view.Columns.Remove(VERSION);
+            view.Columns.Remove(PERCENT_ORIGINAL);
             view.Columns.Remove(CURRENCY);
             view.Columns.Remove(RATE);
             view.Columns.Remove(PRICE_ORIGINAL);
             view.Columns.Remove(VOC);
-            view.Columns.Remove(SEMIPRODUCT_LEVEL);
+            view.Columns.Remove(VISIBLE_LEVEL);
+            view.Columns.Remove(VISIBLE);
+            view.Columns.Remove(SUB_PRODUCT_COMPOSITION);
 
+            //view.Columns[ID].Visible = false;
             view.Columns[MATERIAL_ID].Visible = false;
             view.Columns[IS_SEMIPRODUCT].Visible = false;
             view.Columns[OPERATION].Visible = false;
@@ -196,12 +211,23 @@ namespace Laboratorium.Composition.Service
             view.Columns[MATERIAL].ReadOnly = true;
             view.Columns[MATERIAL].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            view.Columns[AMOUNT].HeaderText = "Ilość [%]";
-            view.Columns[AMOUNT].DisplayIndex = displayIndex++;
-            view.Columns[AMOUNT].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns[AMOUNT].Width = _formData.ContainsKey(AMOUNT) ? (int)_formData[AMOUNT] : STD_WIDTH;
-            view.Columns[AMOUNT].ReadOnly = true;
-            view.Columns[AMOUNT].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+            view.Columns[ID].HeaderText = "Lev";
+            view.Columns[ID].DisplayIndex = displayIndex++;
+            view.Columns[ID].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[ID].Width = STD_WIDTH;
+            view.Columns[ID].ReadOnly = true;
+            view.Columns[ID].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+
+
+
+            view.Columns[PERCENT].HeaderText = "Ilość [%]";
+            view.Columns[PERCENT].DisplayIndex = displayIndex++;
+            view.Columns[PERCENT].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[PERCENT].Width = _formData.ContainsKey(PERCENT) ? (int)_formData[PERCENT] : STD_WIDTH;
+            view.Columns[PERCENT].ReadOnly = true;
+            view.Columns[PERCENT].SortMode = DataGridViewColumnSortMode.NotSortable;
 
             view.Columns[MASS].HeaderText = "Masa [kg]";
             view.Columns[MASS].DisplayIndex = displayIndex++;
@@ -304,7 +330,7 @@ namespace Laboratorium.Composition.Service
             _comboBlock = false;
         }
 
-        private bool ContainsSemiProduct => _recipe.Where(i => i.SemiProductLevel == 0).Any(i => i.IsSemiproduct);
+        private bool ContainsSemiProduct => _recipe.Where(i => i.VisibleLevel == 0).Any(i => i.IsSemiproduct);
 
         private void GetCmbMaterial_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -314,12 +340,17 @@ namespace Laboratorium.Composition.Service
             CmbMaterialCompositionDto mat = _form.GetCmbMaterial.SelectedItem != null ? (CmbMaterialCompositionDto)_form.GetCmbMaterial.SelectedItem : null;
             CompositionDto current = GetCurrent;
 
+            int maxId = _recipe.Select(i => i.Id).DefaultIfEmpty().Max();
+            maxId++;
+
             if (mat != null && current != null)
             {
+                current.Id = maxId;
                 current.Material = mat.Material;
                 current.MaterialId = mat.MaterialId;
                 current.IsSemiproduct = mat.IsSemiproduct;
-                current.SemiProductLevel = 0;
+                current.Visible = true;
+                current.VisibleLevel = 0;
                 current.SemiProductState = current.IsSemiproduct ? ExpandState.Collapsed : ExpandState.None;
                 current.VOC = mat.VOC;
                 current.PriceOriginal = mat.PriceOryg;
@@ -329,10 +360,12 @@ namespace Laboratorium.Composition.Service
             }
             else
             {
+                current.Id = maxId;
                 current.Material = _form.GetCmbMaterial.Text;
                 current.MaterialId = ABSENCE;
                 current.IsSemiproduct = false;
-                current.SemiProductLevel = 0;
+                current.Visible = true;
+                current.VisibleLevel = 0;
                 current.SemiProductState = ExpandState.None;
                 current.VOC = ABSENCE;
                 current.PriceOriginal = ABSENCE;
@@ -364,10 +397,20 @@ namespace Laboratorium.Composition.Service
             if (composition.Count == 0) 
                 return result;
 
+            int maxId = _recipe.Select(i => i.Id).DefaultIfEmpty().Max();
+            maxId++;
+
             foreach (CompositionDto component in composition) 
             {
+
+                component.Id = maxId++;
+                component.Visible = true;
+                component.SemiProductState = ExpandState.Collapsed;
+                component.VisibleLevel = Convert.ToByte(semiProduct.VisibleLevel + 1);
+                component.Operation = semiProduct.Operation;
                 component.Percent = Percent(semiProduct.Percent, component.PercentOryginal);
                 component.AcceptChanges();
+                _recipe.Add(component);
 
                 if (component.IsSemiproduct)
                 {
@@ -431,7 +474,7 @@ namespace Laboratorium.Composition.Service
 
         #region DataGridView, Combo and other events
 
-        private int FrameWidth => _form.GetDgvComposition.Columns[MATERIAL].Width + _form.GetDgvComposition.Columns[AMOUNT].Width + _form.GetDgvComposition.Columns[MASS].Width +
+        private int FrameWidth => _form.GetDgvComposition.Columns[MATERIAL].Width + _form.GetDgvComposition.Columns[PERCENT].Width + _form.GetDgvComposition.Columns[MASS].Width +
                 _form.GetDgvComposition.Columns[PRICE_PL_KG].Width + _form.GetDgvComposition.Columns[PRICE_MASS].Width + _form.GetDgvComposition.Columns[PRICE_CURRENCY].Width +
                 _form.GetDgvComposition.Columns[VOC_PERCENT].Width + _form.GetDgvComposition.Columns[VOC_AMOUNT].Width + _form.GetDgvComposition.Columns[COMMENT].Width;
 
@@ -477,7 +520,7 @@ namespace Laboratorium.Composition.Service
 
             switch (cell)
             {
-                case AMOUNT:
+                case PERCENT:
                     e.Value = amount > 10 ? amount.ToString("0.00") : amount.ToString("0.000");
                     break;
                 case MASS:
@@ -492,7 +535,25 @@ namespace Laboratorium.Composition.Service
                 case SEMIPRODUCT_STATE:
                     ExpandState state = (ExpandState)e.Value;
                     e.Value = state == ExpandState.None ? " " : state == ExpandState.Collapsed ? "[+]" : "[-]";
+                    e.CellStyle.Font = new Font(e.CellStyle.Font.Name, 8, FontStyle.Regular);
                     break;
+            }
+
+            #endregion
+
+            #region Section format
+
+            if (row.VisibleLevel > 0)
+            {
+                e.CellStyle.Font = new Font(e.CellStyle.Font.Name, 8, FontStyle.Regular);
+                e.CellStyle.ForeColor = Color.Red;
+            }
+
+            if (cell == MATERIAL && row.VisibleLevel > 0)
+            {
+                int left = 25 * row.VisibleLevel;
+                var padding = new Padding(left, 0, 0, 0);
+                e.CellStyle.Padding = padding;
             }
 
             #endregion
@@ -548,7 +609,7 @@ namespace Laboratorium.Composition.Service
             int orderWidth = _form.GetDgvComposition.Columns[ORDERING].Width;
             int semiWidth = ContainsSemiProduct ? _form.GetDgvComposition.Columns[SEMIPRODUCT_STATE].Width : 0;
             int materialWidth = _form.GetDgvComposition.Columns[MATERIAL].Width;
-            int amountWidth = _form.GetDgvComposition.Columns[AMOUNT].Width;
+            int amountWidth = _form.GetDgvComposition.Columns[PERCENT].Width;
             int massWidth = _form.GetDgvComposition.Columns[MASS].Width;
             int priceWidth = _form.GetDgvComposition.Columns[PRICE_MASS].Width;
             int pricePlWidth = _form.GetDgvComposition.Columns[PRICE_PL_KG].Width;
