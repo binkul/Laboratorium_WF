@@ -17,6 +17,7 @@ namespace Laboratorium.ADO.DTO
         public bool Visible { get; set; } = false;
         public byte VisibleLevel { get; set; } = 0;
         public bool LastPosition {get; set;} = false;
+        public int SubLevel { get; set; } = 0;
         private int _laboId;
         private int _version;
         private short _ordering;

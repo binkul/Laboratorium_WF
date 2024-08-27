@@ -26,6 +26,7 @@ namespace Laboratorium.Composition.Service
         private const string ID = "Id";
         private const string VISIBLE = "Visible";
         private const string VISIBLE_LEVEL = "VisibleLevel";
+        private const string SUB_LEVEL = "SubLevel";
         private const string LABO_ID = "LaboId";
         private const string ORDERING = "Ordering";
         private const string VERSION = "Version";
@@ -154,7 +155,7 @@ namespace Laboratorium.Composition.Service
 
                 if (component.IsSemiproduct)
                 {
-                    var tmp = FillSemiproductMaterial(component, Percent(_lastVersion.Mass, component.Percent));
+                    var tmp = FillSemiproductMaterial(component, Percent(_lastVersion.Mass, component.Percent), 0);
                     FillSemiProductData(tmp, component);
                 }
 
@@ -215,12 +216,13 @@ namespace Laboratorium.Composition.Service
             view.Columns[MATERIAL].SortMode = DataGridViewColumnSortMode.NotSortable;
 
 
-            view.Columns[ID].HeaderText = "Lev";
-            view.Columns[ID].DisplayIndex = displayIndex++;
-            view.Columns[ID].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns[ID].Width = STD_WIDTH;
-            view.Columns[ID].ReadOnly = true;
-            view.Columns[ID].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+            view.Columns[SUB_LEVEL].HeaderText = "Lev";
+            view.Columns[SUB_LEVEL].DisplayIndex = displayIndex++;
+            view.Columns[SUB_LEVEL].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[SUB_LEVEL].Width = STD_WIDTH;
+            view.Columns[SUB_LEVEL].ReadOnly = true;
+            view.Columns[SUB_LEVEL].SortMode = DataGridViewColumnSortMode.NotSortable;
 
 
 
@@ -333,8 +335,6 @@ namespace Laboratorium.Composition.Service
             _comboBlock = false;
         }
 
-        private bool ContainsSemiProduct => _recipe.Where(i => i.VisibleLevel == 0).Any(i => i.IsSemiproduct);
-
         private void GetCmbMaterial_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (_comboBlock)
@@ -387,7 +387,7 @@ namespace Laboratorium.Composition.Service
 
         #region Semiproduct Operation
 
-        private SemiProductTransferDto FillSemiproductMaterial(CompositionDto semiProduct, double mass)
+        private SemiProductTransferDto FillSemiproductMaterial(CompositionDto semiProduct, double mass, int subLevel)
         {
             bool noPrice = false;
             bool noVOC = false;
@@ -403,11 +403,13 @@ namespace Laboratorium.Composition.Service
             int maxId = _recipe.Select(i => i.Id).DefaultIfEmpty().Max();
             maxId++;
 
-            foreach (CompositionDto component in composition) 
+            for (int i = 0; i < composition.Count; i++)
             {
+                CompositionDto component = composition[i];
 
                 component.Id = maxId++;
                 component.Visible = true;
+                component.SubLevel = subLevel;
                 component.SemiProductState = ExpandState.Collapsed;
                 component.VisibleLevel = Convert.ToByte(semiProduct.VisibleLevel + 1);
                 component.Operation = semiProduct.Operation;
@@ -418,7 +420,8 @@ namespace Laboratorium.Composition.Service
 
                 if (component.IsSemiproduct)
                 {
-                    var subSemiProduct = FillSemiproductMaterial(component, Percent(semiProduct.PercentOryginal, mass));
+                    int level = i == composition.Count - 1 ? 0 : subLevel + 1;
+                    var subSemiProduct = FillSemiproductMaterial(component, Percent(semiProduct.PercentOryginal, mass), level);
 
                     FillSemiProductData(subSemiProduct, component);
 
@@ -606,21 +609,21 @@ namespace Laboratorium.Composition.Service
             }
             else if (row.IsSemiproduct && row.VisibleLevel > 0 && !row.LastPosition)
             {
-                CrossPaint(e, LEFT_PADDING + (row.VisibleLevel - 1) * PARAGRAPH);
+                CrossPaint(e, LEFT_PADDING + (row.VisibleLevel - 1) * PARAGRAPH, row.SubLevel);
                 PlusPaint(e, LEFT_PADDING + row.VisibleLevel * PARAGRAPH);
             }
             else if (row.IsSemiproduct && row.VisibleLevel > 0 && row.LastPosition)
             {
-                CornerPaint(e, LEFT_PADDING + (row.VisibleLevel - 1) * PARAGRAPH);
+                CornerPaint(e, LEFT_PADDING + (row.VisibleLevel - 1) * PARAGRAPH, row.SubLevel);
                 PlusPaint(e, LEFT_PADDING + row.VisibleLevel * PARAGRAPH);
             }
             else if (row.VisibleLevel > 0 && !row.LastPosition)
             {
-                CrossPaint(e, LEFT_PADDING + (row.VisibleLevel - 1) * PARAGRAPH);
+                CrossPaint(e, LEFT_PADDING + (row.VisibleLevel - 1) * PARAGRAPH, row.SubLevel);
             }
             else if (row.VisibleLevel > 0 && row.LastPosition)
             {
-                CornerPaint(e, LEFT_PADDING + (row.VisibleLevel - 1) * PARAGRAPH);
+                CornerPaint(e, LEFT_PADDING + (row.VisibleLevel - 1) * PARAGRAPH, row.SubLevel);
             }
 
             #endregion
@@ -730,6 +733,11 @@ namespace Laboratorium.Composition.Service
 
         #region SemiProduct paints function
 
+        /// <summary>
+        /// paint on current line: '[+]-'
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="left"></param>
         private void PlusPaint(DataGridViewRowPostPaintEventArgs e, int left)
         {
             int x = _form.GetDgvComposition.RowHeadersWidth + left;
@@ -752,6 +760,11 @@ namespace Laboratorium.Composition.Service
             e.Graphics.DrawLine(PEN_BLACK_1, left_line, right_line);
         }
 
+        /// <summary>
+        /// paint on current line: '[-]-
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="left"></param>
         private void MinusPaint(DataGridViewRowPostPaintEventArgs e, int left)
         {
             Brush black = new SolidBrush(Color.Black);
@@ -775,7 +788,13 @@ namespace Laboratorium.Composition.Service
             e.Graphics.DrawLine(penBlack_1, left_line, right_line);
         }
 
-        private void CrossPaint(DataGridViewRowPostPaintEventArgs e, int left)
+        /// <summary>
+        /// paint on current line: '|-'
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="left"></param>
+        /// <param name="vertLines"></param>
+        private void CrossPaint(DataGridViewRowPostPaintEventArgs e, int left, int vertLines)
         {
             int x = 1 + _form.GetDgvComposition.RowHeadersWidth + left + (RECTANGLE_SIZE / 2);
             int y = e.RowBounds.Top;
@@ -787,9 +806,17 @@ namespace Laboratorium.Composition.Service
             Point halfRight = new Point(x + distance, y + e.RowBounds.Height / 2);
             e.Graphics.DrawLine(PEN_BLACK_1, top, bottom);
             e.Graphics.DrawLine(PEN_BLACK_1, halfTop, halfRight);
+
+            VerticalLinePaint(e, x, vertLines);
         }
 
-        private void CornerPaint(DataGridViewRowPostPaintEventArgs e, int left)
+        /// <summary>
+        /// paint on current line: '|_'
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="left"></param>
+        /// <param name="vertLines"></param>
+        private void CornerPaint(DataGridViewRowPostPaintEventArgs e, int left, int vertLines) // '|_'
         {
             int x = 1 + _form.GetDgvComposition.RowHeadersWidth + left + (RECTANGLE_SIZE / 2);
             int y = e.RowBounds.Top;
@@ -800,6 +827,27 @@ namespace Laboratorium.Composition.Service
             Point end = new Point(x + distance, y + e.RowBounds.Height / 2);
             Point[] points = new Point[] { top, middle, end };
             e.Graphics.DrawLines(PEN_BLACK_1, points);
+
+            VerticalLinePaint(e, x, vertLines);
+        }
+
+        /// <summary>
+        /// paint on current line: '|' vertLines times
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="left"></param>
+        /// <param name="vertLines"></param>
+        private void VerticalLinePaint(DataGridViewRowPostPaintEventArgs e, int left, int vertLines) // '|'
+        {
+            int x = left - PARAGRAPH;
+            int y = e.RowBounds.Top;
+            for (int i = 0; i < vertLines; i++)
+            {
+                Point top = new Point(x, y);
+                Point bottom = new Point(x, y + e.RowBounds.Height);
+                e.Graphics.DrawLine(PEN_BLACK_1, top, bottom);
+                x -= PARAGRAPH;
+            }
         }
 
         #endregion
