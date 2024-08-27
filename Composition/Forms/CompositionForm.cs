@@ -95,5 +95,10 @@ namespace Laboratorium.Composition.Forms
         {
             _service.RecipeRowsPaint(e);
         }
+
+        private void BtnPrint_Click(object sender, EventArgs e)
+        {
+            _service.Print();
+        }
     }
 }

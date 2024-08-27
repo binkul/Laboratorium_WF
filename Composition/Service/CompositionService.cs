@@ -53,10 +53,18 @@ namespace Laboratorium.Composition.Service
 
         #endregion
 
-        private const int STD_WIDTH = 100;
+        private const int STD_WIDTH = 100;      // Standard column width in DGV composition
         private const int ABSENCE = -1;
+        private const int PARAGRAPH = 25;       // Space between sub levels
+        private const int RECTANGLE_SIZE = 13;  // Size of rectangle [+] and [-] - only odd numbers
+        private const int LEFT_PADDING = 2;     // Distance from RowHeaders for [+] and [-]
+        private const int HEADER_WIDTH = 40;    // RowHeaders width
         private const string FORM_DATA = "CompositionForm";
-        private readonly IList<string> _dgvCompositionFields = new List<string> { SEMIPRODUCT_STATE, ORDERING, MATERIAL, PERCENT, MASS, COMMENT, PRICE_PL_KG, PRICE_CURRENCY, VOC_PERCENT, VOC_AMOUNT, PRICE_MASS };
+
+        private Pen PEN_BLACK_1 = new Pen(new SolidBrush(Color.Black), 1);
+        private Pen PEN_BLACK_2 = new Pen(new SolidBrush(Color.Black), 2);
+        private Brush BRUSH_WHITE = new SolidBrush(Color.White);
+        private readonly IList<string> _dgvCompositionFields = new List<string> { ORDERING, MATERIAL, PERCENT, MASS, COMMENT, PRICE_PL_KG, PRICE_CURRENCY, VOC_PERCENT, VOC_AMOUNT, PRICE_MASS };
 
         private readonly CompositionForm _form;
         private readonly UserDto _user;
@@ -163,6 +171,7 @@ namespace Laboratorium.Composition.Service
             view.ColumnHeadersDefaultCellStyle.Font = new Font(view.DefaultCellStyle.Font.Name, 10, FontStyle.Bold);
             view.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
             view.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            view.RowHeadersWidth = HEADER_WIDTH;
             view.DefaultCellStyle.ForeColor = Color.Black;
             view.MultiSelect = false;
             view.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -171,6 +180,7 @@ namespace Laboratorium.Composition.Service
             view.AllowUserToResizeRows = false;
 
             view.Columns.Remove(ROW_STATE);
+            view.Columns.Remove(SEMIPRODUCT_STATE);
             view.Columns.Remove(CRUD_STATE);
             view.Columns.Remove(LABO_ID);
             view.Columns.Remove(VERSION);
@@ -183,7 +193,7 @@ namespace Laboratorium.Composition.Service
             view.Columns.Remove(VISIBLE);
             view.Columns.Remove(SUB_PRODUCT_COMPOSITION);
 
-            //view.Columns[ID].Visible = false;
+            view.Columns[ID].Visible = false;
             view.Columns[MATERIAL_ID].Visible = false;
             view.Columns[IS_SEMIPRODUCT].Visible = false;
             view.Columns[OPERATION].Visible = false;
@@ -192,17 +202,10 @@ namespace Laboratorium.Composition.Service
 
             view.Columns[ORDERING].HeaderText = "L.p.";
             view.Columns[ORDERING].DisplayIndex = displayIndex++;
-            view.Columns[ORDERING].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            view.Columns[ORDERING].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             view.Columns[ORDERING].Width = _formData.ContainsKey(ORDERING) ? (int)_formData[ORDERING] : STD_WIDTH;
             view.Columns[ORDERING].ReadOnly = true;
             view.Columns[ORDERING].SortMode = DataGridViewColumnSortMode.NotSortable;
-
-            view.Columns[SEMIPRODUCT_STATE].HeaderText = "";
-            view.Columns[SEMIPRODUCT_STATE].DisplayIndex = displayIndex++;
-            view.Columns[SEMIPRODUCT_STATE].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns[SEMIPRODUCT_STATE].Width = _formData.ContainsKey(SEMIPRODUCT_STATE) ? (int)_formData[SEMIPRODUCT_STATE] : STD_WIDTH;
-            view.Columns[SEMIPRODUCT_STATE].ReadOnly = true;
-            view.Columns[SEMIPRODUCT_STATE].SortMode = DataGridViewColumnSortMode.NotSortable;
 
             view.Columns[MATERIAL].HeaderText = "Surowiec";
             view.Columns[MATERIAL].DisplayIndex = displayIndex++;
@@ -409,6 +412,7 @@ namespace Laboratorium.Composition.Service
                 component.VisibleLevel = Convert.ToByte(semiProduct.VisibleLevel + 1);
                 component.Operation = semiProduct.Operation;
                 component.Percent = Percent(semiProduct.Percent, component.PercentOryginal);
+                component.LastPosition = composition.IndexOf(component) == composition.Count - 1;
                 component.AcceptChanges();
                 _recipe.Add(component);
 
@@ -478,7 +482,7 @@ namespace Laboratorium.Composition.Service
                 _form.GetDgvComposition.Columns[PRICE_PL_KG].Width + _form.GetDgvComposition.Columns[PRICE_MASS].Width + _form.GetDgvComposition.Columns[PRICE_CURRENCY].Width +
                 _form.GetDgvComposition.Columns[VOC_PERCENT].Width + _form.GetDgvComposition.Columns[VOC_AMOUNT].Width + _form.GetDgvComposition.Columns[COMMENT].Width;
 
-        private int FrameX => _form.GetDgvComposition.Columns[ORDERING].Width + _form.GetDgvComposition.Columns[SEMIPRODUCT_STATE].Width + _form.GetDgvComposition.RowHeadersWidth;
+        private int FrameX => _form.GetDgvComposition.Columns[ORDERING].Width + _form.GetDgvComposition.RowHeadersWidth;
 
         public void RecipeCellFormat(DataGridViewCellFormattingEventArgs e)
         {
@@ -532,11 +536,6 @@ namespace Laboratorium.Composition.Service
                 case PRICE_PL_KG:
                     e.Value = price != ABSENCE ? price.ToString("0.00") : "Brak";
                     break;
-                case SEMIPRODUCT_STATE:
-                    ExpandState state = (ExpandState)e.Value;
-                    e.Value = state == ExpandState.None ? " " : state == ExpandState.Collapsed ? "[+]" : "[-]";
-                    e.CellStyle.Font = new Font(e.CellStyle.Font.Name, 8, FontStyle.Regular);
-                    break;
             }
 
             #endregion
@@ -549,9 +548,9 @@ namespace Laboratorium.Composition.Service
                 e.CellStyle.ForeColor = Color.Red;
             }
 
-            if (cell == MATERIAL && row.VisibleLevel > 0)
+            if (cell == ORDERING)
             {
-                int left = 25 * row.VisibleLevel;
+                int left = PARAGRAPH * (row.VisibleLevel + 1);
                 var padding = new Padding(left, 0, 0, 0);
                 e.CellStyle.Padding = padding;
             }
@@ -565,6 +564,8 @@ namespace Laboratorium.Composition.Service
             Brush red = new SolidBrush(Color.Red);
             Pen penRed = new Pen(red, 2);
             int distance = 1;
+
+            #region Paint red frame around separate
 
             int x = FrameX;
             int y = e.RowBounds.Top;
@@ -594,6 +595,35 @@ namespace Laboratorium.Composition.Service
                 e.Graphics.DrawLine(penRed, top_left, bottom_left);
                 e.Graphics.DrawLine(penRed, top_right, bottom_right);
             }
+
+            #endregion
+
+            #region Paint SemiProduct composition
+
+            if (row.IsSemiproduct && row.VisibleLevel == 0)
+            {
+                PlusPaint(e, LEFT_PADDING + row.VisibleLevel * PARAGRAPH);
+            }
+            else if (row.IsSemiproduct && row.VisibleLevel > 0 && !row.LastPosition)
+            {
+                CrossPaint(e, LEFT_PADDING + (row.VisibleLevel - 1) * PARAGRAPH);
+                PlusPaint(e, LEFT_PADDING + row.VisibleLevel * PARAGRAPH);
+            }
+            else if (row.IsSemiproduct && row.VisibleLevel > 0 && row.LastPosition)
+            {
+                CornerPaint(e, LEFT_PADDING + (row.VisibleLevel - 1) * PARAGRAPH);
+                PlusPaint(e, LEFT_PADDING + row.VisibleLevel * PARAGRAPH);
+            }
+            else if (row.VisibleLevel > 0 && !row.LastPosition)
+            {
+                CrossPaint(e, LEFT_PADDING + (row.VisibleLevel - 1) * PARAGRAPH);
+            }
+            else if (row.VisibleLevel > 0 && row.LastPosition)
+            {
+                CornerPaint(e, LEFT_PADDING + (row.VisibleLevel - 1) * PARAGRAPH);
+            }
+
+            #endregion
         }
 
         public void ChangeColumnWidth()
@@ -607,7 +637,6 @@ namespace Laboratorium.Composition.Service
             int left = _form.GetDgvComposition.Left;
             int headerWidth = _form.GetDgvComposition.RowHeadersWidth;
             int orderWidth = _form.GetDgvComposition.Columns[ORDERING].Width;
-            int semiWidth = ContainsSemiProduct ? _form.GetDgvComposition.Columns[SEMIPRODUCT_STATE].Width : 0;
             int materialWidth = _form.GetDgvComposition.Columns[MATERIAL].Width;
             int amountWidth = _form.GetDgvComposition.Columns[PERCENT].Width;
             int massWidth = _form.GetDgvComposition.Columns[MASS].Width;
@@ -624,15 +653,15 @@ namespace Laboratorium.Composition.Service
             _form.GetRadioMass.Left = left + _form.GetRadioAmount.Width;
 
             _form.GetCmbMaterial.Top = top;
-            _form.GetCmbMaterial.Left = left + headerWidth + orderWidth + semiWidth;
+            _form.GetCmbMaterial.Left = left + headerWidth + orderWidth;
             _form.GetCmbMaterial.Width = materialWidth;
 
             _form.GetTxtSetAmount.Top = top;
-            _form.GetTxtSetAmount.Left = left + headerWidth + orderWidth + semiWidth + materialWidth + 2;
+            _form.GetTxtSetAmount.Left = left + headerWidth + orderWidth + materialWidth + 2;
             _form.GetTxtSetAmount.Width = amountWidth - 1;
 
             _form.GetTxtSetMass.Top = top;
-            _form.GetTxtSetMass.Left = left + headerWidth + orderWidth + semiWidth + materialWidth + amountWidth + 2;
+            _form.GetTxtSetMass.Left = left + headerWidth + orderWidth + materialWidth + amountWidth + 2;
             _form.GetTxtSetMass.Width = massWidth - 1;
 
             _form.GetTxtComment.Top = top;
@@ -644,39 +673,40 @@ namespace Laboratorium.Composition.Service
             _form.GetLblDensity.Left = left;
 
             _form.GetLblSumText.Top = bottom;
-            _form.GetLblSumText.Left = left + headerWidth + orderWidth + semiWidth + materialWidth - (_form.GetLblSumText.Width + 2);
+            _form.GetLblSumText.Left = left + headerWidth + orderWidth + materialWidth - (_form.GetLblSumText.Width + 2);
             _form.GetLblMassText.Top = bottomII;
-            _form.GetLblMassText.Left = left + headerWidth + orderWidth + semiWidth + materialWidth - (_form.GetLblMassText.Width + 2);
+            _form.GetLblMassText.Left = left + headerWidth + orderWidth + materialWidth - (_form.GetLblMassText.Width + 2);
 
             _form.GetLblSumPrecent.Top = bottom;
-            _form.GetLblSumPrecent.Left = left + headerWidth + orderWidth + semiWidth + materialWidth + (Math.Abs(amountWidth - _form.GetLblSumPrecent.Width) / 2);
+            _form.GetLblSumPrecent.Left = left + headerWidth + orderWidth + materialWidth + (Math.Abs(amountWidth - _form.GetLblSumPrecent.Width) / 2);
 
             _form.GetLblSumMass.Top = bottom;
-            _form.GetLblSumMass.Left = left + headerWidth + orderWidth + semiWidth + materialWidth + amountWidth + (Math.Abs(massWidth - _form.GetLblSumMass.Width) / 2);
+            _form.GetLblSumMass.Left = left + headerWidth + orderWidth + materialWidth + amountWidth + (Math.Abs(massWidth - _form.GetLblSumMass.Width) / 2);
             _form.GetTxtTotalMass.Top = bottomII;
             _form.GetTxtTotalMass.Width = massWidth;
-            _form.GetTxtTotalMass.Left = left + headerWidth + orderWidth + semiWidth + materialWidth + amountWidth;
+            _form.GetTxtTotalMass.Left = left + headerWidth + orderWidth + materialWidth + amountWidth;
 
             _form.GetLblPricePerKg.Top = bottom;
-            _form.GetLblPricePerKg.Left = left + headerWidth + orderWidth + semiWidth + materialWidth + amountWidth + massWidth + Math.Abs(pricePlWidth - _form.GetLblPricePerKg.Width);
+            _form.GetLblPricePerKg.Left = left + headerWidth + orderWidth + materialWidth + amountWidth + massWidth + Math.Abs(pricePlWidth - _form.GetLblPricePerKg.Width);
             _form.GetLblPricePerL.Top = bottomII;
-            _form.GetLblPricePerL.Left = left + headerWidth + orderWidth + semiWidth + materialWidth + amountWidth + massWidth + Math.Abs(pricePlWidth - _form.GetLblPricePerL.Width);
+            _form.GetLblPricePerL.Left = left + headerWidth + orderWidth + materialWidth + amountWidth + massWidth + Math.Abs(pricePlWidth - _form.GetLblPricePerL.Width);
 
             _form.GetLblCalcPricePerKg.Top = bottom;
-            _form.GetLblCalcPricePerKg.Left = left + headerWidth + orderWidth + semiWidth + materialWidth + amountWidth + massWidth + pricePlWidth + (Math.Abs(priceWidth - _form.GetLblCalcPricePerKg.Width) / 2);
+            _form.GetLblCalcPricePerKg.Left = left + headerWidth + orderWidth + materialWidth + amountWidth + massWidth + pricePlWidth + (Math.Abs(priceWidth - _form.GetLblCalcPricePerKg.Width) / 2);
             _form.GetLblCalcPricePerL.Top = bottomII;
-            _form.GetLblCalcPricePerL.Left = left + headerWidth + orderWidth + semiWidth + materialWidth + amountWidth + massWidth + pricePlWidth + (Math.Abs(priceWidth - _form.GetLblCalcPricePerL.Width) / 2);
+            _form.GetLblCalcPricePerL.Left = left + headerWidth + orderWidth + materialWidth + amountWidth + massWidth + pricePlWidth + (Math.Abs(priceWidth - _form.GetLblCalcPricePerL.Width) / 2);
 
             _form.GetLblVocKg.Top = bottom;
-            _form.GetLblVocKg.Left = left + headerWidth + orderWidth + semiWidth + materialWidth + amountWidth + massWidth + pricePlWidth + priceWidth + priceCurWidth + Math.Abs(vocWidth - _form.GetLblVocKg.Width);
+            _form.GetLblVocKg.Left = left + headerWidth + orderWidth + materialWidth + amountWidth + massWidth + pricePlWidth + priceWidth + priceCurWidth + Math.Abs(vocWidth - _form.GetLblVocKg.Width);
             _form.GetLblVocL.Top = bottomII;
-            _form.GetLblVocL.Left = left + headerWidth + orderWidth + semiWidth + materialWidth + amountWidth + massWidth + pricePlWidth + priceWidth + priceCurWidth + Math.Abs(vocWidth - _form.GetLblVocL.Width);
+            _form.GetLblVocL.Left = left + headerWidth + orderWidth + materialWidth + amountWidth + massWidth + pricePlWidth + priceWidth + priceCurWidth + Math.Abs(vocWidth - _form.GetLblVocL.Width);
 
 
             _form.GetLblVocPerKg.Top = bottom;
-            _form.GetLblVocPerKg.Left = left + headerWidth + orderWidth + semiWidth + materialWidth + amountWidth + massWidth + pricePlWidth + priceWidth + priceCurWidth + vocWidth + (Math.Abs(vocAmountWidth - _form.GetLblVocPerKg.Width) / 2);
+            _form.GetLblVocPerKg.Left = left + headerWidth + orderWidth + materialWidth + amountWidth + massWidth + pricePlWidth + priceWidth + priceCurWidth + vocWidth + (Math.Abs(vocAmountWidth - _form.GetLblVocPerKg.Width) / 2);
             _form.GetLblVocPerL.Top = bottomII;
-            _form.GetLblVocPerL.Left = left + headerWidth + orderWidth + semiWidth + materialWidth + amountWidth + massWidth + pricePlWidth + priceWidth + priceCurWidth + vocWidth + (Math.Abs(vocAmountWidth - _form.GetLblVocPerL.Width) / 2);
+            _form.GetLblVocPerL.Left = left + headerWidth + orderWidth + materialWidth + amountWidth + massWidth + pricePlWidth + priceWidth + priceCurWidth + vocWidth + (Math.Abs(vocAmountWidth - _form.GetLblVocPerL.Width) / 2);
+
         }
 
         public void ChangeCalculationType(RadioButton button)
@@ -697,6 +727,92 @@ namespace Laboratorium.Composition.Service
 
         #endregion
 
+
+        #region SemiProduct paints function
+
+        private void PlusPaint(DataGridViewRowPostPaintEventArgs e, int left)
+        {
+            int x = _form.GetDgvComposition.RowHeadersWidth + left;
+            int y = e.RowBounds.Top + Math.Abs(e.RowBounds.Height - RECTANGLE_SIZE) / 2;
+
+            Rectangle rectangle = new Rectangle(x, y, RECTANGLE_SIZE, RECTANGLE_SIZE);
+            e.Graphics.FillRectangle(BRUSH_WHITE, rectangle);
+            e.Graphics.DrawRectangle(PEN_BLACK_1, rectangle);
+
+            Point top_plus_Vert = new Point(1 + x + RECTANGLE_SIZE / 2, y + 3);
+            Point bottom_plus_Vert = new Point(1 + x + RECTANGLE_SIZE / 2, y + RECTANGLE_SIZE - 2);
+            e.Graphics.DrawLine(PEN_BLACK_2, top_plus_Vert, bottom_plus_Vert);
+            Point top_plus_Hor = new Point(x + 3, 1 + y + RECTANGLE_SIZE / 2);
+            Point bottom_plus_Hor = new Point(x + RECTANGLE_SIZE - 2, 1+ y + RECTANGLE_SIZE / 2);
+            e.Graphics.DrawLine(PEN_BLACK_2, top_plus_Hor, bottom_plus_Hor);
+
+            int distance = PARAGRAPH;
+            Point left_line = new Point(x + RECTANGLE_SIZE, 1 + y + RECTANGLE_SIZE / 2);
+            Point right_line = new Point(x + distance, 1 + y + RECTANGLE_SIZE / 2);
+            e.Graphics.DrawLine(PEN_BLACK_1, left_line, right_line);
+        }
+
+        private void MinusPaint(DataGridViewRowPostPaintEventArgs e, int left)
+        {
+            Brush black = new SolidBrush(Color.Black);
+            Pen penBlack_1 = new Pen(black, 1);
+            Pen penBlack_2 = new Pen(black, 2);
+
+            int x = _form.GetDgvComposition.RowHeadersWidth + left;
+            int y = e.RowBounds.Top + Math.Abs(e.RowBounds.Height - RECTANGLE_SIZE) / 2;
+
+            Rectangle rectangle = new Rectangle(x, y, RECTANGLE_SIZE, RECTANGLE_SIZE);
+            e.Graphics.FillRectangle(BRUSH_WHITE, rectangle);
+            e.Graphics.DrawRectangle(penBlack_1, rectangle);
+
+            Point top_plus_Hor = new Point(x + 3, 1 + y + RECTANGLE_SIZE / 2);
+            Point bottom_plus_Hor = new Point(x + RECTANGLE_SIZE - 2, 1 + y + RECTANGLE_SIZE / 2);
+            e.Graphics.DrawLine(penBlack_2, top_plus_Hor, bottom_plus_Hor);
+
+            int distance = PARAGRAPH;
+            Point left_line = new Point(x + RECTANGLE_SIZE, 1 + y + RECTANGLE_SIZE / 2);
+            Point right_line = new Point(x + distance, 1 + y + RECTANGLE_SIZE / 2);
+            e.Graphics.DrawLine(penBlack_1, left_line, right_line);
+        }
+
+        private void CrossPaint(DataGridViewRowPostPaintEventArgs e, int left)
+        {
+            int x = 1 + _form.GetDgvComposition.RowHeadersWidth + left + (RECTANGLE_SIZE / 2);
+            int y = e.RowBounds.Top;
+            int distance = PARAGRAPH - (RECTANGLE_SIZE / 2);
+
+            Point top = new Point(x, y);
+            Point bottom = new Point(x, y + e.RowBounds.Height);
+            Point halfTop = new Point(x, y + e.RowBounds.Height / 2);
+            Point halfRight = new Point(x + distance, y + e.RowBounds.Height / 2);
+            e.Graphics.DrawLine(PEN_BLACK_1, top, bottom);
+            e.Graphics.DrawLine(PEN_BLACK_1, halfTop, halfRight);
+        }
+
+        private void CornerPaint(DataGridViewRowPostPaintEventArgs e, int left)
+        {
+            int x = 1 + _form.GetDgvComposition.RowHeadersWidth + left + (RECTANGLE_SIZE / 2);
+            int y = e.RowBounds.Top;
+            int distance = PARAGRAPH - (RECTANGLE_SIZE / 2);
+
+            Point top = new Point(x, y);
+            Point middle = new Point(x, y + e.RowBounds.Height / 2);
+            Point end = new Point(x + distance, y + e.RowBounds.Height / 2);
+            Point[] points = new Point[] { top, middle, end };
+            e.Graphics.DrawLines(PEN_BLACK_1, points);
+        }
+
+        #endregion
+
+
+        #region Buttons
+
+        public void Print()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
 
         #region CRUD
 
