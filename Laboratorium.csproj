@@ -111,6 +111,7 @@
     <Compile Include="Composition\Forms\CompositionForm.Designer.cs">
       <DependentUpon>CompositionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Composition\LocalDto\SemiProductSumDto.cs" />
     <Compile Include="Composition\LocalDto\SemiProductTransferDto.cs" />
     <Compile Include="Composition\Repository\CompositionHistoryRepository.cs" />
     <Compile Include="Composition\Repository\CompositionRepository.cs" />

@@ -2,6 +2,7 @@
 using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Repository;
 using Laboratorium.ADO.Service;
+using Laboratorium.Commons;
 using Laboratorium.Composition.Forms;
 using Laboratorium.Composition.LocalDto;
 using Laboratorium.Composition.Repository;
@@ -26,7 +27,9 @@ namespace Laboratorium.Composition.Service
         private const string ID = "Id";
         private const string VISIBLE = "Visible";
         private const string VISIBLE_LEVEL = "VisibleLevel";
+        private const string EXPAND_STATE = "ExpandStatus";
         private const string SUB_LEVEL = "SubLevel";
+        private const string PARENTS = "Parents";
         private const string LABO_ID = "LaboId";
         private const string ORDERING = "Ordering";
         private const string VERSION = "Version";
@@ -36,7 +39,6 @@ namespace Laboratorium.Composition.Service
         private const string PERCENT_ORIGINAL = "PercentOryginal";
         private const string MASS = "Mass";
         private const string IS_SEMIPRODUCT = "IsSemiproduct";
-        private const string SEMIPRODUCT_STATE = "SemiProductState";
         private const string OPERATION = "Operation";
         private const string COMMENT = "Comment";
         private const string ROW_STATE = "GetRowState";
@@ -55,11 +57,11 @@ namespace Laboratorium.Composition.Service
         #endregion
 
         private const int STD_WIDTH = 100;      // Standard column width in DGV composition
-        private const int ABSENCE = -1;
-        private const int PARAGRAPH = 25;       // Space between sub levels
+        private const int ERROR_CODE = -1;
+        private const int START_SPACING = 2;    // Distance from RowHeaders for [+] and [-]
+        private const int SUB_SPACING = 25;     // Space between sub levels
         private const int RECTANGLE_SIZE = 13;  // Size of rectangle [+] and [-] - only odd numbers
-        private const int LEFT_PADDING = 2;     // Distance from RowHeaders for [+] and [-]
-        private const int HEADER_WIDTH = 40;    // RowHeaders width
+        private const int HEADER_WIDTH = 40;
         private const string FORM_DATA = "CompositionForm";
 
         private Pen PEN_BLACK_1 = new Pen(new SolidBrush(Color.Black), 1);
@@ -79,7 +81,6 @@ namespace Laboratorium.Composition.Service
         private IList<CmbMaterialCompositionDto> _materials;
         private BindingSource _recipeBinding;
         private bool _comboBlock = true;
-        private int _id = 1;
 
 
         public CompositionService(SqlConnection connection, UserDto user, CompositionForm form, LaboDto laboDto)
@@ -125,10 +126,9 @@ namespace Laboratorium.Composition.Service
             CompositionHistoryRepository repository = (CompositionHistoryRepository)_historyRepository;
             _lastVersion = repository.GetLastFromLaboId(_laboDto.Id, _user.Id);
 
-            PrepareRecipe();
             _recipeBinding = new BindingSource();
-            _recipeBinding.DataSource = _recipe;
-            _recipeBinding.PositionChanged += RecipeBinding_PositionChanged;
+            PrepareRecipe();
+            FilterCompounds();
 
             CompositionRepository repositoryComp = (CompositionRepository)_repository;
             _materials = repositoryComp.GetCmbMaterials();
@@ -136,6 +136,8 @@ namespace Laboratorium.Composition.Service
             PrepareDgvComposition();
             PrepareCmbMaterial();
             RecipeBinding_PositionChanged(null, null);
+
+            _recipeBinding.PositionChanged += RecipeBinding_PositionChanged;
         }
 
         public void PrepareRecipe()
@@ -148,14 +150,14 @@ namespace Laboratorium.Composition.Service
 
             foreach (CompositionDto component in recipe)
             {
-                component.Id = _id++;
+                component.Id = GetMaxId + 1;
                 component.Visible = true;
                 component.VisibleLevel = 0;
                 _recipe.Add(component);
 
                 if (component.IsSemiproduct)
                 {
-                    var tmp = FillSemiproductMaterial(component, Percent(_lastVersion.Mass, component.Percent), 0);
+                    var tmp = FillSemiproductMaterial(component, CommonFunction.Percent(_lastVersion.Mass, component.Percent), 0);
                     FillSemiProductData(tmp, component);
                 }
 
@@ -181,7 +183,7 @@ namespace Laboratorium.Composition.Service
             view.AllowUserToResizeRows = false;
 
             view.Columns.Remove(ROW_STATE);
-            view.Columns.Remove(SEMIPRODUCT_STATE);
+            view.Columns.Remove(EXPAND_STATE);
             view.Columns.Remove(CRUD_STATE);
             view.Columns.Remove(LABO_ID);
             view.Columns.Remove(VERSION);
@@ -192,6 +194,7 @@ namespace Laboratorium.Composition.Service
             view.Columns.Remove(VOC);
             view.Columns.Remove(VISIBLE_LEVEL);
             view.Columns.Remove(VISIBLE);
+            view.Columns.Remove(PARENTS);
             view.Columns.Remove(SUB_PRODUCT_COMPOSITION);
 
             view.Columns[ID].Visible = false;
@@ -217,12 +220,12 @@ namespace Laboratorium.Composition.Service
 
 
 
-            view.Columns[SUB_LEVEL].HeaderText = "Lev";
-            view.Columns[SUB_LEVEL].DisplayIndex = displayIndex++;
-            view.Columns[SUB_LEVEL].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            view.Columns[SUB_LEVEL].Width = STD_WIDTH;
-            view.Columns[SUB_LEVEL].ReadOnly = true;
-            view.Columns[SUB_LEVEL].SortMode = DataGridViewColumnSortMode.NotSortable;
+            //view.Columns[ID].HeaderText = "Lev";
+            //view.Columns[ID].DisplayIndex = displayIndex++;
+            //view.Columns[ID].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            //view.Columns[ID].Width = STD_WIDTH;
+            //view.Columns[ID].ReadOnly = true;
+            //view.Columns[ID].SortMode = DataGridViewColumnSortMode.NotSortable;
 
 
 
@@ -306,6 +309,10 @@ namespace Laboratorium.Composition.Service
 
         #region Current/Binkding/Navigation
 
+        private int GetMaxId => _recipe.Select(i => i.Id).DefaultIfEmpty().Max();
+
+        private bool IsLast(IList<CompositionDto> list, CompositionDto component) => list.IndexOf(component) == list.Count - 1; 
+
         private void RecipeBinding_PositionChanged(object sender, EventArgs e)
         {
             if (_recipeBinding == null || _recipeBinding.Count == 0)
@@ -354,7 +361,7 @@ namespace Laboratorium.Composition.Service
                 current.IsSemiproduct = mat.IsSemiproduct;
                 current.Visible = true;
                 current.VisibleLevel = 0;
-                current.SemiProductState = current.IsSemiproduct ? ExpandState.Collapsed : ExpandState.None;
+                current.ExpandStatus = current.IsSemiproduct ? ExpandState.Collapsed : ExpandState.None;
                 current.VOC = mat.VOC;
                 current.PriceOriginal = mat.PriceOryg;
                 current.PricePlKg = mat.PricePl;
@@ -365,14 +372,14 @@ namespace Laboratorium.Composition.Service
             {
                 current.Id = maxId;
                 current.Material = _form.GetCmbMaterial.Text;
-                current.MaterialId = ABSENCE;
+                current.MaterialId = ERROR_CODE;
                 current.IsSemiproduct = false;
                 current.Visible = true;
                 current.VisibleLevel = 0;
-                current.SemiProductState = ExpandState.None;
-                current.VOC = ABSENCE;
-                current.PriceOriginal = ABSENCE;
-                current.PricePlKg = ABSENCE;
+                current.ExpandStatus = ExpandState.None;
+                current.VOC = ERROR_CODE;
+                current.PriceOriginal = ERROR_CODE;
+                current.PricePlKg = ERROR_CODE;
                 current.Currency = "Brak";
                 current.Rate = 0;
             }
@@ -382,6 +389,15 @@ namespace Laboratorium.Composition.Service
             RecalculateAll(current, _lastVersion.Mass, current.Percent);
         }
 
+        private void FilterCompounds()
+        {
+            IList<CompositionDto> recipe = _recipe
+                .Where(i => i.Visible)
+                .ToList();
+
+            _recipeBinding.DataSource = recipe;
+        }
+
         #endregion
 
 
@@ -389,59 +405,54 @@ namespace Laboratorium.Composition.Service
 
         private SemiProductTransferDto FillSemiproductMaterial(CompositionDto semiProduct, double mass, int subLevel)
         {
-            bool noPrice = false;
-            bool noVOC = false;
-            double totalPrice = 0;
-            double totalVOC = 0;
-
+            SemiProductSumDto sum = new SemiProductSumDto();
             SemiProductTransferDto result = new SemiProductTransferDto();
             IList<CompositionDto> composition = _repository.GetAllByLaboId(semiProduct.MaterialId);
 
             if (composition.Count == 0) 
                 return result;
-
-            int maxId = _recipe.Select(i => i.Id).DefaultIfEmpty().Max();
-            maxId++;
-
+            
             for (int i = 0; i < composition.Count; i++)
             {
                 CompositionDto component = composition[i];
 
-                component.Id = maxId++;
-                component.Visible = true;
+                component.Id = GetMaxId + 1;
+                component.Visible = false;
                 component.SubLevel = subLevel;
-                component.SemiProductState = ExpandState.Collapsed;
+                component.AddParent(semiProduct.Id);
+                component.ExpandStatus = ExpandState.Collapsed;
                 component.VisibleLevel = Convert.ToByte(semiProduct.VisibleLevel + 1);
                 component.Operation = semiProduct.Operation;
-                component.Percent = Percent(semiProduct.Percent, component.PercentOryginal);
+                component.Percent = CommonFunction.Percent(semiProduct.Percent, component.PercentOryginal);
                 component.LastPosition = composition.IndexOf(component) == composition.Count - 1;
                 component.AcceptChanges();
                 _recipe.Add(component);
 
                 if (component.IsSemiproduct)
                 {
-                    int level = i == composition.Count - 1 ? 0 : subLevel + 1;
-                    var subSemiProduct = FillSemiproductMaterial(component, Percent(semiProduct.PercentOryginal, mass), level);
+                    int level = IsLast(composition, component) ? 0 : subLevel + 1;
+                    double massPercent = CommonFunction.Percent(semiProduct.PercentOryginal, mass);
+                    SemiProductTransferDto subSemiProduct = FillSemiproductMaterial(component, massPercent, level);
 
                     FillSemiProductData(subSemiProduct, component);
 
-                    noPrice = subSemiProduct.Price <= 0 && subSemiProduct.SubProductComposition.Count > 0;
-                    noVOC = subSemiProduct.VOC < 0 && subSemiProduct.SubProductComposition.Count >= 0;
+                    sum.AddPriceOk(subSemiProduct.Price > 0 && subSemiProduct.SubProductComposition.Count > 0);
+                    sum.AddVocOk(subSemiProduct.VOC >= 0 && subSemiProduct.SubProductComposition.Count > 0);
                 }
                 else
                 {
-                    noPrice = component.PricePlKg <= 0 || component.Rate == 0;
-                    noVOC = component.VOC < 0;
+                    sum.AddPriceOk(component.PricePlKg > 0 && component.Rate != 0);
+                    sum.AddVocOk(component.VOC >= 0);
                 }
 
-                totalPrice += Percent(Convert.ToDouble(component.PricePlKg), component.PercentOryginal);
-                totalVOC += Percent(Convert.ToDouble(component.VOC), component.PercentOryginal);
+                sum.SumPrice(component.PricePlKg, component.PercentOryginal);
+                sum.SumVOC(component.VOC, component.PercentOryginal);
                 RecalculateAll(component, mass, component.PercentOryginal);
             }
 
             result.SubProductComposition = composition;
-            result.Price = !noPrice ? totalPrice : ABSENCE;
-            result.VOC = !noVOC ? totalVOC : ABSENCE;
+            result.Price = sum.GetPrice();
+            result.VOC = sum.GetVOC();
 
             return result;
         }
@@ -449,11 +460,52 @@ namespace Laboratorium.Composition.Service
         private void FillSemiProductData(SemiProductTransferDto source, CompositionDto destination)
         {
             destination.SubProductComposition = source.SubProductComposition;
-            destination.PriceOriginal = source.Price > 0 ? source.Price : ABSENCE;
-            destination.PricePlKg = source.Price > 0 ? source.Price : ABSENCE;
+            destination.PriceOriginal = source.Price > 0 ? source.Price : ERROR_CODE;
+            destination.PricePlKg = source.Price > 0 ? source.Price : ERROR_CODE;
             destination.Currency = "Zł";
             destination.Rate = 1;
-            destination.VOC = source.VOC >= 0 ? source.VOC : ABSENCE;
+            destination.VOC = source.VOC >= 0 ? source.VOC : ERROR_CODE;
+        }
+
+        private void ShowAndHideSemiProductRecipe(CompositionDto compound)
+        {
+            if (!compound.IsSemiproduct)
+                return;
+
+            switch (compound.ExpandStatus)
+            {
+                case ExpandState.Collapsed:
+                    compound.ExpandStatus = ExpandState.Expanded;
+                    ShowCompounds(compound.SubProductComposition);
+                    break;
+                case ExpandState.Expanded:
+                    compound.ExpandStatus = ExpandState.Collapsed;
+                    HideCompounds(compound.SubProductComposition);
+                    break;
+                default:
+                    return;
+            }
+        }
+
+        private void ShowCompounds(IList<CompositionDto> compositions)
+        {
+            foreach (CompositionDto subCompound in compositions)
+            {
+                subCompound.Visible = true;
+            }
+        }
+
+        private void HideCompounds(IList<CompositionDto> compositions)
+        {
+            foreach (CompositionDto subCompound in compositions)
+            {
+                subCompound.Visible = false;
+                if (subCompound.IsSemiproduct)
+                {
+                    subCompound.ExpandStatus = ExpandState.Collapsed;
+                    HideCompounds(subCompound.SubProductComposition);
+                }
+            }
         }
 
         #endregion
@@ -466,15 +518,13 @@ namespace Laboratorium.Composition.Service
             component.Mass = Math.Round(mass * (amount / 100), 4);
 
             double? voc = (amount * component.VOC) / 100;
-            component.VocAmount = component.VOC != ABSENCE ? ((Convert.ToDouble(voc) * mass) / 100).ToString("0.00") : "Brak";
+            component.VocAmount = component.VOC != ERROR_CODE ? ((Convert.ToDouble(voc) * mass) / 100).ToString("0.00") : "Brak";
 
             double? price = component.PricePlKg * component.Mass;
-            component.PriceMass = component.PricePlKg != ABSENCE ? Convert.ToDouble(price).ToString("0.00") : "Brak";
+            component.PriceMass = component.PricePlKg != ERROR_CODE ? Convert.ToDouble(price).ToString("0.00") : "Brak";
 
-            component.SemiProductState = component.IsSemiproduct ? ExpandState.Collapsed : ExpandState.None;
+            component.ExpandStatus = component.IsSemiproduct ? ExpandState.Collapsed : ExpandState.None;
         }
-
-        private double Percent(double value, double percent) => value * percent / 100d;
 
         #endregion
 
@@ -499,7 +549,7 @@ namespace Laboratorium.Composition.Service
 
             #region Yellow color of background in frame
 
-            if (row.Operation > 1 && cell != ORDERING && cell != SEMIPRODUCT_STATE)
+            if (row.Operation > 1 && cell != ORDERING)
             {
                 e.CellStyle.BackColor = Color.Yellow;
             }
@@ -510,15 +560,15 @@ namespace Laboratorium.Composition.Service
 
             if (cell == PRICE_MASS || cell == PRICE_PL_KG || cell == PRICE_CURRENCY)
             {
-                e.CellStyle.ForeColor = price != ABSENCE ? Color.Black : Color.Red;
-                e.CellStyle.Font = price != ABSENCE ? e.CellStyle.Font : new Font(e.CellStyle.Font.Name, 10, FontStyle.Bold);
+                e.CellStyle.ForeColor = price != ERROR_CODE ? Color.Black : Color.Red;
+                e.CellStyle.Font = price != ERROR_CODE ? e.CellStyle.Font : new Font(e.CellStyle.Font.Name, 10, FontStyle.Bold);
             }
 
 
             if (cell == VOC_AMOUNT || cell == VOC_PERCENT)
             {
-                e.CellStyle.ForeColor = voc != ABSENCE ? Color.Black : Color.Red;
-                e.CellStyle.Font = voc != ABSENCE ? e.CellStyle.Font : new Font(e.CellStyle.Font.Name, 10, FontStyle.Bold);
+                e.CellStyle.ForeColor = voc != ERROR_CODE ? Color.Black : Color.Red;
+                e.CellStyle.Font = voc != ERROR_CODE ? e.CellStyle.Font : new Font(e.CellStyle.Font.Name, 10, FontStyle.Bold);
             }
 
             #endregion
@@ -537,7 +587,7 @@ namespace Laboratorium.Composition.Service
                               mass.ToString("0.0000");
                     break;
                 case PRICE_PL_KG:
-                    e.Value = price != ABSENCE ? price.ToString("0.00") : "Brak";
+                    e.Value = price != ERROR_CODE ? price.ToString("0.00") : "Brak";
                     break;
             }
 
@@ -553,7 +603,7 @@ namespace Laboratorium.Composition.Service
 
             if (cell == ORDERING)
             {
-                int left = PARAGRAPH * (row.VisibleLevel + 1);
+                int left = SUB_SPACING * (row.VisibleLevel + 1);
                 var padding = new Padding(left, 0, 0, 0);
                 e.CellStyle.Padding = padding;
             }
@@ -603,27 +653,47 @@ namespace Laboratorium.Composition.Service
 
             #region Paint SemiProduct composition
 
-            if (row.IsSemiproduct && row.VisibleLevel == 0)
+            if (!row.Visible)
+                return;
+
+            bool first = row.IsSemiproduct & row.VisibleLevel == 0;
+            bool second = row.IsSemiproduct & row.VisibleLevel > 0;
+
+            if (first && row.ExpandStatus == ExpandState.Expanded)
             {
-                PlusPaint(e, LEFT_PADDING + row.VisibleLevel * PARAGRAPH);
+                MinusPaint(e, START_SPACING + row.VisibleLevel * SUB_SPACING);
             }
-            else if (row.IsSemiproduct && row.VisibleLevel > 0 && !row.LastPosition)
+            else if (first && row.ExpandStatus == ExpandState.Collapsed)
             {
-                CrossPaint(e, LEFT_PADDING + (row.VisibleLevel - 1) * PARAGRAPH, row.SubLevel);
-                PlusPaint(e, LEFT_PADDING + row.VisibleLevel * PARAGRAPH);
+                PlusPaint(e, START_SPACING + row.VisibleLevel * SUB_SPACING);
             }
-            else if (row.IsSemiproduct && row.VisibleLevel > 0 && row.LastPosition)
+            else if (second && !row.LastPosition && row.ExpandStatus == ExpandState.Expanded)
             {
-                CornerPaint(e, LEFT_PADDING + (row.VisibleLevel - 1) * PARAGRAPH, row.SubLevel);
-                PlusPaint(e, LEFT_PADDING + row.VisibleLevel * PARAGRAPH);
+                CrossPaint(e, START_SPACING + (row.VisibleLevel - 1) * SUB_SPACING, row.SubLevel);
+                MinusPaint(e, START_SPACING + row.VisibleLevel * SUB_SPACING);
+            }
+            else if (second && !row.LastPosition && row.ExpandStatus == ExpandState.Collapsed)
+            {
+                CrossPaint(e, START_SPACING + (row.VisibleLevel - 1) * SUB_SPACING, row.SubLevel);
+                PlusPaint(e, START_SPACING + row.VisibleLevel * SUB_SPACING);
+            }
+            else if ( second && row.LastPosition && row.ExpandStatus == ExpandState.Expanded)
+            {
+                CornerPaint(e, START_SPACING + (row.VisibleLevel - 1) * SUB_SPACING, row.SubLevel);
+                MinusPaint(e, START_SPACING + row.VisibleLevel * SUB_SPACING);
+            }
+            else if ( second && row.LastPosition && row.ExpandStatus == ExpandState.Collapsed)
+            {
+                CornerPaint(e, START_SPACING + (row.VisibleLevel - 1) * SUB_SPACING, row.SubLevel);
+                PlusPaint(e, START_SPACING + row.VisibleLevel * SUB_SPACING);
             }
             else if (row.VisibleLevel > 0 && !row.LastPosition)
             {
-                CrossPaint(e, LEFT_PADDING + (row.VisibleLevel - 1) * PARAGRAPH, row.SubLevel);
+                CrossPaint(e, START_SPACING + (row.VisibleLevel - 1) * SUB_SPACING, row.SubLevel);
             }
             else if (row.VisibleLevel > 0 && row.LastPosition)
             {
-                CornerPaint(e, LEFT_PADDING + (row.VisibleLevel - 1) * PARAGRAPH, row.SubLevel);
+                CornerPaint(e, START_SPACING + (row.VisibleLevel - 1) * SUB_SPACING, row.SubLevel);
             }
 
             #endregion
@@ -728,6 +798,32 @@ namespace Laboratorium.Composition.Service
             }
         }
 
+        public void GetSemiProductPlusAndMinus(DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+
+            string column = _form.GetDgvComposition.Columns[e.ColumnIndex].Name;
+            CompositionDto compound = (CompositionDto)_recipeBinding[e.RowIndex];
+
+            if (!column.Equals(ORDERING) || !compound.IsSemiproduct)
+                return;
+
+            int height = _form.GetDgvComposition.Rows[e.RowIndex].Height;
+            int x_start = START_SPACING + compound.VisibleLevel * SUB_SPACING;
+            int x_end = x_start + RECTANGLE_SIZE;
+            int y_start = Math.Abs(height - RECTANGLE_SIZE) / 2;
+            int y_end = y_start + RECTANGLE_SIZE;
+
+            if (e.X > x_start && e.X < x_end && e.Y > y_start && e.Y < y_end)
+            {
+                ShowAndHideSemiProductRecipe(compound);
+            }
+
+            _recipeBinding.ResetBindings(false);
+            FilterCompounds();
+        }
+
         #endregion
 
 
@@ -740,24 +836,14 @@ namespace Laboratorium.Composition.Service
         /// <param name="left"></param>
         private void PlusPaint(DataGridViewRowPostPaintEventArgs e, int left)
         {
+            MinusPaint(e, left);
+
             int x = _form.GetDgvComposition.RowHeadersWidth + left;
             int y = e.RowBounds.Top + Math.Abs(e.RowBounds.Height - RECTANGLE_SIZE) / 2;
-
-            Rectangle rectangle = new Rectangle(x, y, RECTANGLE_SIZE, RECTANGLE_SIZE);
-            e.Graphics.FillRectangle(BRUSH_WHITE, rectangle);
-            e.Graphics.DrawRectangle(PEN_BLACK_1, rectangle);
 
             Point top_plus_Vert = new Point(1 + x + RECTANGLE_SIZE / 2, y + 3);
             Point bottom_plus_Vert = new Point(1 + x + RECTANGLE_SIZE / 2, y + RECTANGLE_SIZE - 2);
             e.Graphics.DrawLine(PEN_BLACK_2, top_plus_Vert, bottom_plus_Vert);
-            Point top_plus_Hor = new Point(x + 3, 1 + y + RECTANGLE_SIZE / 2);
-            Point bottom_plus_Hor = new Point(x + RECTANGLE_SIZE - 2, 1+ y + RECTANGLE_SIZE / 2);
-            e.Graphics.DrawLine(PEN_BLACK_2, top_plus_Hor, bottom_plus_Hor);
-
-            int distance = PARAGRAPH;
-            Point left_line = new Point(x + RECTANGLE_SIZE, 1 + y + RECTANGLE_SIZE / 2);
-            Point right_line = new Point(x + distance, 1 + y + RECTANGLE_SIZE / 2);
-            e.Graphics.DrawLine(PEN_BLACK_1, left_line, right_line);
         }
 
         /// <summary>
@@ -767,25 +853,21 @@ namespace Laboratorium.Composition.Service
         /// <param name="left"></param>
         private void MinusPaint(DataGridViewRowPostPaintEventArgs e, int left)
         {
-            Brush black = new SolidBrush(Color.Black);
-            Pen penBlack_1 = new Pen(black, 1);
-            Pen penBlack_2 = new Pen(black, 2);
-
             int x = _form.GetDgvComposition.RowHeadersWidth + left;
             int y = e.RowBounds.Top + Math.Abs(e.RowBounds.Height - RECTANGLE_SIZE) / 2;
 
             Rectangle rectangle = new Rectangle(x, y, RECTANGLE_SIZE, RECTANGLE_SIZE);
             e.Graphics.FillRectangle(BRUSH_WHITE, rectangle);
-            e.Graphics.DrawRectangle(penBlack_1, rectangle);
+            e.Graphics.DrawRectangle(PEN_BLACK_1, rectangle);
 
             Point top_plus_Hor = new Point(x + 3, 1 + y + RECTANGLE_SIZE / 2);
             Point bottom_plus_Hor = new Point(x + RECTANGLE_SIZE - 2, 1 + y + RECTANGLE_SIZE / 2);
-            e.Graphics.DrawLine(penBlack_2, top_plus_Hor, bottom_plus_Hor);
+            e.Graphics.DrawLine(PEN_BLACK_2, top_plus_Hor, bottom_plus_Hor);
 
-            int distance = PARAGRAPH;
+            int distance = SUB_SPACING;
             Point left_line = new Point(x + RECTANGLE_SIZE, 1 + y + RECTANGLE_SIZE / 2);
             Point right_line = new Point(x + distance, 1 + y + RECTANGLE_SIZE / 2);
-            e.Graphics.DrawLine(penBlack_1, left_line, right_line);
+            e.Graphics.DrawLine(PEN_BLACK_1, left_line, right_line);
         }
 
         /// <summary>
@@ -798,13 +880,14 @@ namespace Laboratorium.Composition.Service
         {
             int x = 1 + _form.GetDgvComposition.RowHeadersWidth + left + (RECTANGLE_SIZE / 2);
             int y = e.RowBounds.Top;
-            int distance = PARAGRAPH - (RECTANGLE_SIZE / 2);
+            int distance = SUB_SPACING - (RECTANGLE_SIZE / 2);
 
             Point top = new Point(x, y);
             Point bottom = new Point(x, y + e.RowBounds.Height);
+            e.Graphics.DrawLine(PEN_BLACK_1, top, bottom);
+
             Point halfTop = new Point(x, y + e.RowBounds.Height / 2);
             Point halfRight = new Point(x + distance, y + e.RowBounds.Height / 2);
-            e.Graphics.DrawLine(PEN_BLACK_1, top, bottom);
             e.Graphics.DrawLine(PEN_BLACK_1, halfTop, halfRight);
 
             VerticalLinePaint(e, x, vertLines);
@@ -820,7 +903,7 @@ namespace Laboratorium.Composition.Service
         {
             int x = 1 + _form.GetDgvComposition.RowHeadersWidth + left + (RECTANGLE_SIZE / 2);
             int y = e.RowBounds.Top;
-            int distance = PARAGRAPH - (RECTANGLE_SIZE / 2);
+            int distance = SUB_SPACING - (RECTANGLE_SIZE / 2);
 
             Point top = new Point(x, y);
             Point middle = new Point(x, y + e.RowBounds.Height / 2);
@@ -839,14 +922,14 @@ namespace Laboratorium.Composition.Service
         /// <param name="vertLines"></param>
         private void VerticalLinePaint(DataGridViewRowPostPaintEventArgs e, int left, int vertLines) // '|'
         {
-            int x = left - PARAGRAPH;
+            int x = left - SUB_SPACING;
             int y = e.RowBounds.Top;
             for (int i = 0; i < vertLines; i++)
             {
                 Point top = new Point(x, y);
                 Point bottom = new Point(x, y + e.RowBounds.Height);
                 e.Graphics.DrawLine(PEN_BLACK_1, top, bottom);
-                x -= PARAGRAPH;
+                x -= SUB_SPACING;
             }
         }
 
@@ -861,6 +944,7 @@ namespace Laboratorium.Composition.Service
         }
 
         #endregion
+
 
         #region CRUD
 

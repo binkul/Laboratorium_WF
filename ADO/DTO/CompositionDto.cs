@@ -13,18 +13,19 @@ namespace Laboratorium.ADO.DTO
 
     public class CompositionDto
     {
-        public int Id { get; set; }
+        public int Id { get; set; } = 0;
         public bool Visible { get; set; } = false;
         public byte VisibleLevel { get; set; } = 0;
+        public ExpandState ExpandStatus { get; set; } = ExpandState.None;
         public bool LastPosition {get; set;} = false;
         public int SubLevel { get; set; } = 0;
+        public IList<int> Parents { get; set; } = new List<int>();
         private int _laboId;
         private int _version;
         private short _ordering;
         private string _material;
         private int _materialId;
         private bool _isSemiproduct;
-        private ExpandState _semiproductExpandState = ExpandState.None;
         private double _percent;        // for manipulation
         private double _percentOrginal; // from DataBase, not modified
         private double _mass;
@@ -71,6 +72,19 @@ namespace Laboratorium.ADO.DTO
             _rowState = _rowState == RowState.UNCHANGED ? state : _rowState;
             if (_service != null)
                 _service.Modify(state);
+        }
+
+        public void AddParent(int id)
+        {
+            Parents.Add(id);
+        }
+
+        public int GetParent(int index)
+        {
+            if (Parents.Count > 0)
+                return Parents[index];
+            else
+                return -1;
         }
 
         public int LaboId
@@ -131,12 +145,6 @@ namespace Laboratorium.ADO.DTO
                 _isSemiproduct = value;
                 ChangeState(RowState.MODIFIED);
             }
-        }
-
-        public ExpandState SemiProductState
-        {
-            get => _semiproductExpandState;
-            set => _semiproductExpandState = value;
         }
 
         public double Percent

@@ -165,5 +165,10 @@ namespace Laboratorium.Commons
 
             return buttonColumn;
         }
+
+        public static double Percent (double value, double percent)
+        {
+            return value * percent / 100d;
+        }
     }
 }

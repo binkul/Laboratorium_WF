@@ -100,5 +100,10 @@ namespace Laboratorium.Composition.Forms
         {
             _service.Print();
         }
+
+        private void DgvComposition_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            _service.GetSemiProductPlusAndMinus(e);
+        }
     }
 }
