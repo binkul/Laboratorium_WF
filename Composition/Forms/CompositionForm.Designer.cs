@@ -180,9 +180,9 @@ namespace Laboratorium.Composition.Forms
             this.label13.AutoSize = true;
             this.tableLayoutPanel1.SetColumnSpan(this.label13, 2);
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label13.Location = new System.Drawing.Point(908, 90);
+            this.label13.Location = new System.Drawing.Point(910, 90);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(84, 17);
+            this.label13.Size = new System.Drawing.Size(80, 16);
             this.label13.TabIndex = 32;
             this.label13.Text = "Obliczenia";
             // 
@@ -190,9 +190,9 @@ namespace Laboratorium.Composition.Forms
             // 
             this.label12.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(956, 55);
+            this.label12.Location = new System.Drawing.Point(958, 55);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(57, 34);
+            this.label12.Size = new System.Drawing.Size(53, 32);
             this.label12.TabIndex = 32;
             this.label12.Text = "Przelicz na ...";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -201,9 +201,9 @@ namespace Laboratorium.Composition.Forms
             // 
             this.label11.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(893, 55);
+            this.label11.Location = new System.Drawing.Point(884, 55);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(44, 34);
+            this.label11.Size = new System.Drawing.Size(61, 16);
             this.label11.TabIndex = 31;
             this.label11.Text = "Do 100%";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -238,9 +238,9 @@ namespace Laboratorium.Composition.Forms
             this.label10.AutoSize = true;
             this.tableLayoutPanel1.SetColumnSpan(this.label10, 5);
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label10.Location = new System.Drawing.Point(693, 90);
+            this.label10.Location = new System.Drawing.Point(694, 90);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(74, 17);
+            this.label10.Size = new System.Drawing.Size(71, 16);
             this.label10.TabIndex = 31;
             this.label10.Text = "Operacje";
             // 
@@ -250,7 +250,7 @@ namespace Laboratorium.Composition.Forms
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(739, 55);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(52, 34);
+            this.label9.Size = new System.Drawing.Size(51, 32);
             this.label9.TabIndex = 30;
             this.label9.Text = "Ramka usuń";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -261,7 +261,7 @@ namespace Laboratorium.Composition.Forms
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(809, 55);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(52, 34);
+            this.label8.Size = new System.Drawing.Size(51, 32);
             this.label8.TabIndex = 30;
             this.label8.Text = "Ramka dół";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -272,7 +272,7 @@ namespace Laboratorium.Composition.Forms
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(669, 55);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(52, 34);
+            this.label7.Size = new System.Drawing.Size(51, 32);
             this.label7.TabIndex = 30;
             this.label7.Text = "Ramka góra";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -359,9 +359,9 @@ namespace Laboratorium.Composition.Forms
             // 
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(524, 55);
+            this.label5.Location = new System.Drawing.Point(526, 55);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(41, 17);
+            this.label5.Size = new System.Drawing.Size(38, 16);
             this.label5.TabIndex = 29;
             this.label5.Text = "Usuń";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -370,9 +370,9 @@ namespace Laboratorium.Composition.Forms
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(450, 55);
+            this.label4.Location = new System.Drawing.Point(452, 55);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(50, 34);
+            this.label4.Size = new System.Drawing.Size(46, 32);
             this.label4.TabIndex = 29;
             this.label4.Text = "Dodaj ostatni";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -381,9 +381,9 @@ namespace Laboratorium.Composition.Forms
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(379, 55);
+            this.label3.Location = new System.Drawing.Point(380, 55);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 34);
+            this.label3.Size = new System.Drawing.Size(49, 32);
             this.label3.TabIndex = 29;
             this.label3.Text = "Dodaj środek";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -392,9 +392,9 @@ namespace Laboratorium.Composition.Forms
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(304, 55);
+            this.label2.Location = new System.Drawing.Point(305, 55);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(62, 34);
+            this.label2.Size = new System.Drawing.Size(59, 32);
             this.label2.TabIndex = 28;
             this.label2.Text = "Dodaj pierwszy";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -463,9 +463,9 @@ namespace Laboratorium.Composition.Forms
             this.label1.AutoSize = true;
             this.tableLayoutPanel1.SetColumnSpan(this.label1, 2);
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(177, 90);
+            this.label1.Location = new System.Drawing.Point(178, 90);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(85, 17);
+            this.label1.Size = new System.Drawing.Size(83, 16);
             this.label1.TabIndex = 29;
             this.label1.Text = "Ładowanie";
             // 
@@ -474,9 +474,9 @@ namespace Laboratorium.Composition.Forms
             this.LblExchange.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.LblExchange.AutoSize = true;
             this.LblExchange.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblExchange.Location = new System.Drawing.Point(230, 55);
+            this.LblExchange.Location = new System.Drawing.Point(231, 55);
             this.LblExchange.Name = "LblExchange";
-            this.LblExchange.Size = new System.Drawing.Size(49, 17);
+            this.LblExchange.Size = new System.Drawing.Size(47, 16);
             this.LblExchange.TabIndex = 29;
             this.LblExchange.Text = "Wstaw";
             this.LblExchange.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -486,9 +486,9 @@ namespace Laboratorium.Composition.Forms
             this.LblLoad.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.LblLoad.AutoSize = true;
             this.LblLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblLoad.Location = new System.Drawing.Point(162, 55);
+            this.LblLoad.Location = new System.Drawing.Point(163, 55);
             this.LblLoad.Name = "LblLoad";
-            this.LblLoad.Size = new System.Drawing.Size(45, 17);
+            this.LblLoad.Size = new System.Drawing.Size(43, 16);
             this.LblLoad.TabIndex = 28;
             this.LblLoad.Text = "Wgraj";
             this.LblLoad.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -535,7 +535,7 @@ namespace Laboratorium.Composition.Forms
             this.LblFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.LblFile.Location = new System.Drawing.Point(53, 90);
             this.LblFile.Name = "LblFile";
-            this.LblFile.Size = new System.Drawing.Size(34, 17);
+            this.LblFile.Size = new System.Drawing.Size(33, 16);
             this.LblFile.TabIndex = 28;
             this.LblFile.Text = "Plik";
             // 
@@ -543,9 +543,9 @@ namespace Laboratorium.Composition.Forms
             // 
             this.LblPrint.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.LblPrint.AutoSize = true;
-            this.LblPrint.Location = new System.Drawing.Point(80, 55);
+            this.LblPrint.Location = new System.Drawing.Point(82, 55);
             this.LblPrint.Name = "LblPrint";
-            this.LblPrint.Size = new System.Drawing.Size(49, 17);
+            this.LblPrint.Size = new System.Drawing.Size(45, 16);
             this.LblPrint.TabIndex = 28;
             this.LblPrint.Text = "Drukuj";
             // 
@@ -579,9 +579,9 @@ namespace Laboratorium.Composition.Forms
             // 
             this.LblSave.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.LblSave.AutoSize = true;
-            this.LblSave.Location = new System.Drawing.Point(10, 55);
+            this.LblSave.Location = new System.Drawing.Point(11, 55);
             this.LblSave.Name = "LblSave";
-            this.LblSave.Size = new System.Drawing.Size(50, 17);
+            this.LblSave.Size = new System.Drawing.Size(47, 16);
             this.LblSave.TabIndex = 27;
             this.LblSave.Text = "Zapisz";
             // 
@@ -601,9 +601,9 @@ namespace Laboratorium.Composition.Forms
             this.label6.AutoSize = true;
             this.tableLayoutPanel1.SetColumnSpan(this.label6, 4);
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label6.Location = new System.Drawing.Point(395, 90);
+            this.label6.Location = new System.Drawing.Point(397, 90);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(89, 17);
+            this.label6.Size = new System.Drawing.Size(86, 16);
             this.label6.TabIndex = 30;
             this.label6.Text = "Wstawianie";
             // 
@@ -897,6 +897,7 @@ namespace Laboratorium.Composition.Forms
             this.DgvComposition.TabIndex = 0;
             this.DgvComposition.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvComposition_CellFormatting);
             this.DgvComposition.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DgvComposition_CellMouseClick);
+            this.DgvComposition.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.DgvComposition_CellPainting);
             this.DgvComposition.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.DgvComposition_ColumnWidthChanged);
             this.DgvComposition.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.DgvComposition_RowPostPaint);
             // 

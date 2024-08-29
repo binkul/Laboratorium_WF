@@ -660,48 +660,62 @@ namespace Laboratorium.Composition.Service
 
             #region Paint SemiProduct composition
 
-            if (!row.Visible)
+            if (!row.Visible || (!row.IsSemiproduct && row.VisibleLevel == 0))
                 return;
+
+            Bitmap bitmap = new Bitmap(_form.GetDgvComposition.Columns[ORDERING].Width, e.RowBounds.Height);
+            Graphics gr = Graphics.FromImage(bitmap);
 
             bool first = row.IsSemiproduct & row.VisibleLevel == 0;
             bool second = row.IsSemiproduct & row.VisibleLevel > 0;
 
             if (first && row.ExpandStatus == ExpandState.Expanded)
             {
-                MinusPaint(e, START_SPACING + row.VisibleLevel * SUB_SPACING);
+                SmallLinePaint(e.RowBounds.Height, gr, START_SPACING + row.VisibleLevel * SUB_SPACING);
+                MinusPaint(e.RowBounds.Height, gr, START_SPACING + row.VisibleLevel * SUB_SPACING);
             }
             else if (first && row.ExpandStatus == ExpandState.Collapsed)
             {
-                PlusPaint(e, START_SPACING + row.VisibleLevel * SUB_SPACING);
+                SmallLinePaint(e.RowBounds.Height, gr, START_SPACING + row.VisibleLevel * SUB_SPACING);
+                PlusPaint(e.RowBounds.Height, gr, START_SPACING + row.VisibleLevel * SUB_SPACING);
             }
             else if (second && !row.LastPosition && row.ExpandStatus == ExpandState.Expanded)
             {
-                CrossPaint(e, START_SPACING + (row.VisibleLevel - 1) * SUB_SPACING, row.SubLevel);
-                MinusPaint(e, START_SPACING + row.VisibleLevel * SUB_SPACING);
+                SmallLinePaint(e.RowBounds.Height, gr, START_SPACING + row.VisibleLevel * SUB_SPACING);
+                CrossPaint(e.RowBounds.Height, gr, START_SPACING + (row.VisibleLevel - 1) * SUB_SPACING, row.SubLevel);
+                MinusPaint(e.RowBounds.Height, gr, START_SPACING + row.VisibleLevel * SUB_SPACING);
             }
             else if (second && !row.LastPosition && row.ExpandStatus == ExpandState.Collapsed)
             {
-                CrossPaint(e, START_SPACING + (row.VisibleLevel - 1) * SUB_SPACING, row.SubLevel);
-                PlusPaint(e, START_SPACING + row.VisibleLevel * SUB_SPACING);
+                CrossPaint(e.RowBounds.Height, gr, START_SPACING + (row.VisibleLevel - 1) * SUB_SPACING, row.SubLevel);
+                PlusPaint(e.RowBounds.Height, gr, START_SPACING + row.VisibleLevel * SUB_SPACING);
             }
             else if ( second && row.LastPosition && row.ExpandStatus == ExpandState.Expanded)
             {
-                CornerPaint(e, START_SPACING + (row.VisibleLevel - 1) * SUB_SPACING, row.SubLevel);
-                MinusPaint(e, START_SPACING + row.VisibleLevel * SUB_SPACING);
+                SmallLinePaint(e.RowBounds.Height, gr, START_SPACING + row.VisibleLevel * SUB_SPACING);
+                CornerPaint(e.RowBounds.Height, gr, START_SPACING + (row.VisibleLevel - 1) * SUB_SPACING, row.SubLevel);
+                MinusPaint(e.RowBounds.Height, gr, START_SPACING + row.VisibleLevel * SUB_SPACING);
             }
             else if ( second && row.LastPosition && row.ExpandStatus == ExpandState.Collapsed)
             {
-                CornerPaint(e, START_SPACING + (row.VisibleLevel - 1) * SUB_SPACING, row.SubLevel);
-                PlusPaint(e, START_SPACING + row.VisibleLevel * SUB_SPACING);
+                CornerPaint(e.RowBounds.Height, gr, START_SPACING + (row.VisibleLevel - 1) * SUB_SPACING, row.SubLevel);
+                PlusPaint(e.RowBounds.Height, gr, START_SPACING + row.VisibleLevel * SUB_SPACING);
             }
             else if (row.VisibleLevel > 0 && !row.LastPosition)
             {
-                CrossPaint(e, START_SPACING + (row.VisibleLevel - 1) * SUB_SPACING, row.SubLevel);
+                CrossPaint(e.RowBounds.Height, gr, START_SPACING + (row.VisibleLevel - 1) * SUB_SPACING, row.SubLevel);
             }
             else if (row.VisibleLevel > 0 && row.LastPosition)
             {
-                CornerPaint(e, START_SPACING + (row.VisibleLevel - 1) * SUB_SPACING, row.SubLevel);
+                CornerPaint(e.RowBounds.Height, gr, START_SPACING + (row.VisibleLevel - 1) * SUB_SPACING, row.SubLevel);
             }
+
+            x = _form.GetDgvComposition.RowHeadersWidth;
+            y = e.RowBounds.Top;
+            e.Graphics.DrawImage(bitmap, x, y);
+
+            bitmap.Dispose();
+            gr.Dispose();
 
             #endregion
         }
@@ -831,52 +845,59 @@ namespace Laboratorium.Composition.Service
             FilterCompounds();
         }
 
+        public void PaintSemiProductColumn(DataGridView view, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0 || view.Columns[e.ColumnIndex].Name != ORDERING)
+                return;
+
+
+
+            e.Handled = true;
+        }
+
         #endregion
 
 
         #region SemiProduct paints method
 
         /// <summary>
-        /// paint on current line: '[+]-'
+        /// paint on current line: '-' after [+] and [-]
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="height"></param>
+        /// <param name="gr"></param>
         /// <param name="left"></param>
-        private void PlusPaint(DataGridViewRowPostPaintEventArgs e, int left)
+        private void SmallLinePaint(int height, Graphics gr, int left)
         {
-            Bitmap bitmap = new Bitmap(_form.GetDgvComposition.Columns[ORDERING].Width, e.RowBounds.Height);
-            Graphics gr = Graphics.FromImage(bitmap);
-
-            int x = 0;
-            int y = Math.Abs(e.RowBounds.Height - RECTANGLE_SIZE) / 2;
-            int size = RECTANGLE_SIZE;
-            gr.DrawImage(PLUS_13, x, y, size, size);
-
-            x = _form.GetDgvComposition.RowHeadersWidth + left + 1;
-            y = e.RowBounds.Top;
-            e.Graphics.DrawImage(bitmap, x, y);
-
-            gr.Dispose();
-
-            //e.Graphics.DrawImage(PLUS_13, x, y, RECTANGLE_SIZE, RECTANGLE_SIZE);
+            int x_start = left + START_SPACING;
+            int x_end = left + SUB_SPACING;
+            int y = height / 2;
+            gr.DrawLine(PEN_BLACK_1, x_start, y, x_end, y);
         }
 
         /// <summary>
-        /// paint on current line: '[-]-
+        /// paint on current line: '[+]'
         /// </summary>
         /// <param name="e"></param>
         /// <param name="left"></param>
-        private void MinusPaint(DataGridViewRowPostPaintEventArgs e, int left)
+        private void PlusPaint(int height, Graphics gr, int left)
         {
-            int x = _form.GetDgvComposition.RowHeadersWidth + left + 1;
-            int y = e.RowBounds.Top + Math.Abs(e.RowBounds.Height - RECTANGLE_SIZE) / 2;
+            int x = left + 1;
+            int y = Math.Abs(height - RECTANGLE_SIZE) / 2;
+            int size = RECTANGLE_SIZE;
+            gr.DrawImage(PLUS_13, x, y, size, size);
+        }
 
-            e.Graphics.DrawImage(MINUS_13, x, y, RECTANGLE_SIZE, RECTANGLE_SIZE);
-
-
-            int distance = SUB_SPACING;
-            Point left_line = new Point(x + RECTANGLE_SIZE, e.RowBounds.Top + e.RowBounds.Height / 2);
-            Point right_line = new Point(x + distance, e.RowBounds.Top + e.RowBounds.Height / 2);
-            e.Graphics.DrawLine(PEN_BLACK_1, left_line, right_line);
+        /// <summary>
+        /// paint on current line: '[-]'
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="left"></param>
+        private void MinusPaint(int height, Graphics gr, int left)
+        {
+            int x = left + 1;
+            int y = Math.Abs(height - RECTANGLE_SIZE) / 2;
+            int size = RECTANGLE_SIZE;
+            gr.DrawImage(MINUS_13, x, y, size, size);
         }
 
         /// <summary>
@@ -885,21 +906,21 @@ namespace Laboratorium.Composition.Service
         /// <param name="e"></param>
         /// <param name="left"></param>
         /// <param name="vertLines"></param>
-        private void CrossPaint(DataGridViewRowPostPaintEventArgs e, int left, int vertLines)
+        private void CrossPaint(int height, Graphics gr, int left, int vertLines)
         {
-            int x = 1 + _form.GetDgvComposition.RowHeadersWidth + left + (RECTANGLE_SIZE / 2);
-            int y = e.RowBounds.Top;
+            int x = (RECTANGLE_SIZE / 2) + left + 1;
+            int y = 0;
             int distance = SUB_SPACING - (RECTANGLE_SIZE / 2);
 
             Point top = new Point(x, y);
-            Point bottom = new Point(x, y + e.RowBounds.Height);
-            e.Graphics.DrawLine(PEN_BLACK_1, top, bottom);
+            Point bottom = new Point(x, y + height);
+            gr.DrawLine(PEN_BLACK_1, top, bottom);
 
-            Point halfTop = new Point(x, y + e.RowBounds.Height / 2);
-            Point halfRight = new Point(x + distance, y + e.RowBounds.Height / 2);
-            e.Graphics.DrawLine(PEN_BLACK_1, halfTop, halfRight);
+            Point halfTop = new Point(x, y + height / 2);
+            Point halfRight = new Point(x + distance, y + height / 2);
+            gr.DrawLine(PEN_BLACK_1, halfTop, halfRight);
 
-            VerticalLinePaint(e, x, vertLines);
+            VerticalLinePaint(height, gr, x, vertLines);
         }
 
         /// <summary>
@@ -908,19 +929,19 @@ namespace Laboratorium.Composition.Service
         /// <param name="e"></param>
         /// <param name="left"></param>
         /// <param name="vertLines"></param>
-        private void CornerPaint(DataGridViewRowPostPaintEventArgs e, int left, int vertLines) // '|_'
+        private void CornerPaint(int height, Graphics gr, int left, int vertLines) // '|_'
         {
-            int x = 1 + _form.GetDgvComposition.RowHeadersWidth + left + (RECTANGLE_SIZE / 2);
-            int y = e.RowBounds.Top;
+            int x =(RECTANGLE_SIZE / 2) + left + 1;
+            int y = 0;
             int distance = SUB_SPACING - (RECTANGLE_SIZE / 2);
 
             Point top = new Point(x, y);
-            Point middle = new Point(x, y + e.RowBounds.Height / 2);
-            Point end = new Point(x + distance, y + e.RowBounds.Height / 2);
+            Point middle = new Point(x, y + height / 2);
+            Point end = new Point(x + distance, y + height / 2);
             Point[] points = new Point[] { top, middle, end };
-            e.Graphics.DrawLines(PEN_BLACK_1, points);
+            gr.DrawLines(PEN_BLACK_1, points);
 
-            VerticalLinePaint(e, x, vertLines);
+            VerticalLinePaint(height, gr, x, vertLines);
         }
 
         /// <summary>
@@ -929,15 +950,15 @@ namespace Laboratorium.Composition.Service
         /// <param name="e"></param>
         /// <param name="left"></param>
         /// <param name="vertLines"></param>
-        private void VerticalLinePaint(DataGridViewRowPostPaintEventArgs e, int left, int vertLines) // '|'
+        private void VerticalLinePaint(int height, Graphics gr, int left, int vertLines) // '|'
         {
             int x = left - SUB_SPACING;
-            int y = e.RowBounds.Top;
+            int y = 0;
             for (int i = 0; i < vertLines; i++)
             {
                 Point top = new Point(x, y);
-                Point bottom = new Point(x, y + e.RowBounds.Height);
-                e.Graphics.DrawLine(PEN_BLACK_1, top, bottom);
+                Point bottom = new Point(x, y + height);
+                gr.DrawLine(PEN_BLACK_1, top, bottom);
                 x -= SUB_SPACING;
             }
         }
