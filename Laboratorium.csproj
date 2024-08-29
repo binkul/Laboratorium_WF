@@ -416,5 +416,11 @@
   <ItemGroup>
     <None Include="Resources\CountOn.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Dgv_minus.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Dgv_plus.bmp" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

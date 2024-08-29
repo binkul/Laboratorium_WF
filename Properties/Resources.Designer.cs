@@ -253,6 +253,26 @@ namespace Laboratorium.Properties {
         /// <summary>
         ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Dgv_minus {
+            get {
+                object obj = ResourceManager.GetObject("Dgv_minus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Dgv_plus {
+            get {
+                object obj = ResourceManager.GetObject("Dgv_plus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Eksplozja {
             get {
                 object obj = ResourceManager.GetObject("Eksplozja", resourceCulture);

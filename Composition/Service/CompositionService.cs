@@ -29,6 +29,7 @@ namespace Laboratorium.Composition.Service
         private const string VISIBLE_LEVEL = "VisibleLevel";
         private const string EXPAND_STATE = "ExpandStatus";
         private const string SUB_LEVEL = "SubLevel";
+        private const string LAST_POSITION = "LastPosition";
         private const string PARENTS = "Parents";
         private const string LABO_ID = "LaboId";
         private const string ORDERING = "Ordering";
@@ -60,10 +61,12 @@ namespace Laboratorium.Composition.Service
         private const int ERROR_CODE = -1;
         private const int START_SPACING = 2;    // Distance from RowHeaders for [+] and [-]
         private const int SUB_SPACING = 25;     // Space between sub levels
-        private const int RECTANGLE_SIZE = 13;  // Size of rectangle [+] and [-] - only odd numbers
+        private const int RECTANGLE_SIZE = 14;  // Size of rectangle [+] and [-] - only odd numbers
         private const int HEADER_WIDTH = 40;
         private const string FORM_DATA = "CompositionForm";
 
+        private Image PLUS_13 = Properties.Resources.Dgv_plus;
+        private Image MINUS_13 = Properties.Resources.Dgv_minus;
         private Pen PEN_BLACK_1 = new Pen(new SolidBrush(Color.Black), 1);
         private Pen PEN_BLACK_2 = new Pen(new SolidBrush(Color.Black), 2);
         private Brush BRUSH_WHITE = new SolidBrush(Color.White);
@@ -196,6 +199,8 @@ namespace Laboratorium.Composition.Service
             view.Columns.Remove(VISIBLE);
             view.Columns.Remove(PARENTS);
             view.Columns.Remove(SUB_PRODUCT_COMPOSITION);
+            view.Columns.Remove(SUB_LEVEL);
+            view.Columns.Remove(LAST_POSITION);
 
             view.Columns[ID].Visible = false;
             view.Columns[MATERIAL_ID].Visible = false;
@@ -209,6 +214,7 @@ namespace Laboratorium.Composition.Service
             view.Columns[ORDERING].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             view.Columns[ORDERING].Width = _formData.ContainsKey(ORDERING) ? (int)_formData[ORDERING] : STD_WIDTH;
             view.Columns[ORDERING].ReadOnly = true;
+            view.Columns[ORDERING].Frozen = true;
             view.Columns[ORDERING].SortMode = DataGridViewColumnSortMode.NotSortable;
 
             view.Columns[MATERIAL].HeaderText = "Surowiec";
@@ -216,6 +222,7 @@ namespace Laboratorium.Composition.Service
             view.Columns[MATERIAL].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             view.Columns[MATERIAL].Width = _formData.ContainsKey(MATERIAL) ? (int)_formData[MATERIAL] : STD_WIDTH;
             view.Columns[MATERIAL].ReadOnly = true;
+            view.Columns[MATERIAL].Frozen = true;
             view.Columns[MATERIAL].SortMode = DataGridViewColumnSortMode.NotSortable;
 
 
@@ -282,8 +289,8 @@ namespace Laboratorium.Composition.Service
             view.Columns[COMMENT].HeaderText = "Uwagi";
             view.Columns[COMMENT].DisplayIndex = displayIndex++;
             view.Columns[COMMENT].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            view.Columns[COMMENT].Width = _formData.ContainsKey(COMMENT) ? (int)_formData[COMMENT] : STD_WIDTH;
             view.Columns[COMMENT].ReadOnly = true;
+            view.Columns[COMMENT].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             view.Columns[COMMENT].SortMode = DataGridViewColumnSortMode.NotSortable;
         }
 
@@ -827,7 +834,7 @@ namespace Laboratorium.Composition.Service
         #endregion
 
 
-        #region SemiProduct paints function
+        #region SemiProduct paints method
 
         /// <summary>
         /// paint on current line: '[+]-'
@@ -836,14 +843,21 @@ namespace Laboratorium.Composition.Service
         /// <param name="left"></param>
         private void PlusPaint(DataGridViewRowPostPaintEventArgs e, int left)
         {
-            MinusPaint(e, left);
+            Bitmap bitmap = new Bitmap(_form.GetDgvComposition.Columns[ORDERING].Width, e.RowBounds.Height);
+            Graphics gr = Graphics.FromImage(bitmap);
 
-            int x = _form.GetDgvComposition.RowHeadersWidth + left;
-            int y = e.RowBounds.Top + Math.Abs(e.RowBounds.Height - RECTANGLE_SIZE) / 2;
+            int x = 0;
+            int y = Math.Abs(e.RowBounds.Height - RECTANGLE_SIZE) / 2;
+            int size = RECTANGLE_SIZE;
+            gr.DrawImage(PLUS_13, x, y, size, size);
 
-            Point top_plus_Vert = new Point(1 + x + RECTANGLE_SIZE / 2, y + 3);
-            Point bottom_plus_Vert = new Point(1 + x + RECTANGLE_SIZE / 2, y + RECTANGLE_SIZE - 2);
-            e.Graphics.DrawLine(PEN_BLACK_2, top_plus_Vert, bottom_plus_Vert);
+            x = _form.GetDgvComposition.RowHeadersWidth + left + 1;
+            y = e.RowBounds.Top;
+            e.Graphics.DrawImage(bitmap, x, y);
+
+            gr.Dispose();
+
+            //e.Graphics.DrawImage(PLUS_13, x, y, RECTANGLE_SIZE, RECTANGLE_SIZE);
         }
 
         /// <summary>
@@ -853,20 +867,15 @@ namespace Laboratorium.Composition.Service
         /// <param name="left"></param>
         private void MinusPaint(DataGridViewRowPostPaintEventArgs e, int left)
         {
-            int x = _form.GetDgvComposition.RowHeadersWidth + left;
+            int x = _form.GetDgvComposition.RowHeadersWidth + left + 1;
             int y = e.RowBounds.Top + Math.Abs(e.RowBounds.Height - RECTANGLE_SIZE) / 2;
 
-            Rectangle rectangle = new Rectangle(x, y, RECTANGLE_SIZE, RECTANGLE_SIZE);
-            e.Graphics.FillRectangle(BRUSH_WHITE, rectangle);
-            e.Graphics.DrawRectangle(PEN_BLACK_1, rectangle);
+            e.Graphics.DrawImage(MINUS_13, x, y, RECTANGLE_SIZE, RECTANGLE_SIZE);
 
-            Point top_plus_Hor = new Point(x + 3, 1 + y + RECTANGLE_SIZE / 2);
-            Point bottom_plus_Hor = new Point(x + RECTANGLE_SIZE - 2, 1 + y + RECTANGLE_SIZE / 2);
-            e.Graphics.DrawLine(PEN_BLACK_2, top_plus_Hor, bottom_plus_Hor);
 
             int distance = SUB_SPACING;
-            Point left_line = new Point(x + RECTANGLE_SIZE, 1 + y + RECTANGLE_SIZE / 2);
-            Point right_line = new Point(x + distance, 1 + y + RECTANGLE_SIZE / 2);
+            Point left_line = new Point(x + RECTANGLE_SIZE, e.RowBounds.Top + e.RowBounds.Height / 2);
+            Point right_line = new Point(x + distance, e.RowBounds.Top + e.RowBounds.Height / 2);
             e.Graphics.DrawLine(PEN_BLACK_1, left_line, right_line);
         }
 
