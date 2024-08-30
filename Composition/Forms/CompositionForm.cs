@@ -108,7 +108,12 @@ namespace Laboratorium.Composition.Forms
 
         private void DgvComposition_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            _service.PaintSemiProductColumn((DataGridView)sender, e);
+            _service.RecipeCellPaint((DataGridView)sender, e);
+        }
+
+        private void DgvComposition_Scroll(object sender, ScrollEventArgs e)
+        {
+            _service.DgvCompositionScroll(sender, e);
         }
     }
 }
