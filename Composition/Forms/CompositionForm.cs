@@ -78,7 +78,7 @@ namespace Laboratorium.Composition.Forms
 
         private void DgvComposition_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            _service.RecipeCellFormat(e);
+            _service.CellFormat(e);
         }
 
         private void DgvComposition_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
@@ -89,11 +89,6 @@ namespace Laboratorium.Composition.Forms
         private void RdAmount_CheckedChanged(object sender, EventArgs e)
         {
             _service.ChangeCalculationType((RadioButton)sender);
-        }
-
-        private void DgvComposition_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
-        {
-            _service.RecipeRowsPaint(e);
         }
 
         private void BtnPrint_Click(object sender, EventArgs e)
@@ -108,12 +103,7 @@ namespace Laboratorium.Composition.Forms
 
         private void DgvComposition_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            _service.RecipeCellPaint((DataGridView)sender, e);
-        }
-
-        private void DgvComposition_Scroll(object sender, ScrollEventArgs e)
-        {
-            _service.DgvCompositionScroll(sender, e);
+            _service.CellPaint((DataGridView)sender, e);
         }
     }
 }
