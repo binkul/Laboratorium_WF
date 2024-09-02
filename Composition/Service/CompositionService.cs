@@ -8,16 +8,11 @@ using Laboratorium.Composition.LocalDto;
 using Laboratorium.Composition.Repository;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace Laboratorium.Composition.Service
 {
@@ -58,6 +53,27 @@ namespace Laboratorium.Composition.Service
 
         #endregion
 
+        #region Private transfer class
+
+        private class SemiProductTransferDto
+        {
+            public double? Price { get; set; }
+            public double? VOC { get; set; }
+            public IList<CompositionDto> SubProductComposition { get; set; } = null;
+
+            public SemiProductTransferDto()
+            { }
+
+            public SemiProductTransferDto(double? price, double? voc, IList<CompositionDto> subProductComposition)
+            {
+                Price = price;
+                VOC = voc;
+                SubProductComposition = subProductComposition;
+            }
+        }
+
+        #endregion
+
         private const int STD_WIDTH = 100;      // Standard column width in DGV composition
         private const int ERROR_CODE = -1;
         private const int START_SPACING = 2;    // Distance from RowHeaders for [+] and [-]
@@ -84,19 +100,21 @@ namespace Laboratorium.Composition.Service
         private readonly IBasicCRUD<CompositionDto> _repository;
         private readonly IBasicCRUD<CompositionHistoryDto> _historyRepository;
         private CompositionHistoryDto _lastVersion;
+        private readonly IList<LaboDto> _laboList;
         private IList<CompositionDto> _recipe;
         private IList<CmbMaterialCompositionDto> _materials;
         private BindingSource _recipeBinding;
         private bool _comboBlock = true;
 
 
-        public CompositionService(SqlConnection connection, UserDto user, CompositionForm form, LaboDto laboDto)
+        public CompositionService(SqlConnection connection, UserDto user, CompositionForm form, LaboDto laboDto, IList<LaboDto> laboList)
             : base(FORM_DATA, form)
         {
             _form = form;
             _connection = connection;
             _user = user;
             _laboDto = laboDto;
+            _laboList = laboList;
 
             PEN_BLACK = new Pen(new SolidBrush(Color.Black), 1);
             PEN_RED = new Pen(new SolidBrush(Color.Red), 2);
@@ -332,9 +350,11 @@ namespace Laboratorium.Composition.Service
             if (_recipeBinding == null || _recipeBinding.Count == 0)
                 return;
 
+            #region Combo Materials
+
             _comboBlock = true;
 
-            if (GetCurrent != null)
+            if (GetCurrent != null && _form.GetCmbMaterial.Enabled)
             {
                 int id = GetCurrent.MaterialId;
                 string name = GetCurrent.Material.ToLower();
@@ -354,6 +374,17 @@ namespace Laboratorium.Composition.Service
             }
 
             _comboBlock = false;
+
+            #endregion
+
+            if (GetCurrent != null && GetCurrent.VisibleLevel > 0)
+            {
+                BlockControls();
+            }
+            else
+            {
+                UnblockControls();
+            }
         }
 
         private void GetCmbMaterial_SelectedIndexChanged(object sender, EventArgs e)
@@ -410,6 +441,42 @@ namespace Laboratorium.Composition.Service
                 .ToList();
 
             _recipeBinding.DataSource = recipe;
+        }
+
+        private void BlockControls()
+        {
+            _form.GetCmbMaterial.Enabled = false;
+            _form.GetRadioAmount.Enabled = false;
+            _form.GetRadioMass.Enabled = false;
+            _form.GetTxtSetAmount.Enabled = false;
+            _form.GetTxtSetMass.Enabled = false;
+            _form.GetBtnExchange.Enabled = false;
+            _form.GetBtnDelete.Enabled = false;
+            _form.GetBtnUp.Enabled = false;
+            _form.GetBtnDown.Enabled = false;
+            _form.GetBtnFrameDown.Enabled = false;
+            _form.GetBtnFrameUp.Enabled = false;
+            _form.GetBtnCut.Enabled = false;
+            _form.GetBtnUp100.Enabled = false;
+            _form.GetBtnAddInside.Enabled = false;
+        }
+
+        private void UnblockControls()
+        {
+            _form.GetCmbMaterial.Enabled = true;
+            _form.GetRadioAmount.Enabled = true;
+            _form.GetRadioMass.Enabled = true;
+            _form.GetTxtSetAmount.Enabled = true;
+            _form.GetTxtSetMass.Enabled = true;
+            _form.GetBtnExchange.Enabled = true;
+            _form.GetBtnDelete.Enabled = true;
+            _form.GetBtnUp.Enabled = true;
+            _form.GetBtnDown.Enabled = true;
+            _form.GetBtnFrameDown.Enabled = true;
+            _form.GetBtnFrameUp.Enabled = true;
+            _form.GetBtnCut.Enabled = true;
+            _form.GetBtnUp100.Enabled = true;
+            _form.GetBtnAddInside.Enabled = true;
         }
 
         #endregion
@@ -1043,6 +1110,19 @@ namespace Laboratorium.Composition.Service
         #region Buttons
 
         public void Print()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LoadExistingRecipen()
+        {
+            using (InsertRecipeForm form = new InsertRecipeForm(_laboList))
+            {
+                form.ShowDialog();
+            }
+        }
+
+        public void InsertExistingRecipe()
         {
             throw new NotImplementedException();
         }

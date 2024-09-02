@@ -1348,7 +1348,7 @@ namespace Laboratorium.LabBook.Service
             if (CurrentLabBook == null)
                 return;
 
-            using (CompositionForm form = new CompositionForm(_connection, _user, CurrentLabBook))
+            using (CompositionForm form = new CompositionForm(_connection, _user, CurrentLabBook, _laboList))
             {
                 form.ShowDialog();
             }

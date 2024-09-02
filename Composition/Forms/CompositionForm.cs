@@ -16,6 +16,7 @@ namespace Laboratorium.Composition.Forms
     {
         private readonly SqlConnection _connection;
         private UserDto _user;
+        private readonly IList<LaboDto> _laboList;
         private bool _init = true;
         private LaboDto _laboDto;
         private CompositionService _service;
@@ -26,6 +27,17 @@ namespace Laboratorium.Composition.Forms
         public TextBox GetTxtSetMass => TxtSetMass;
         public TextBox GetTxtComment => TxtComment;
         public TextBox GetTxtTotalMass => TxtTotalMass;
+        public Button GetBtnExchange => BtnExchange;
+        public Button GetBtnDelete => BtnDelete;
+        public Button GetBtnUp => BtnUp;
+        public Button GetBtnDown => BtnDown;
+        public Button GetBtnFrameUp => BtnFrameUp;
+        public Button GetBtnFrameDown => BtnFrameDown;
+        public Button GetBtnCut => BtnCut;
+        public Button GetBtnUp100 => BtnUp100;
+        public Button GetBtnAddFirst => BtnAddFirst;
+        public Button GetBtnAddInside => BtnAddInside;
+        public Button GetBtnAddLast => BtnAddLast;
         public RadioButton GetRadioAmount => RdAmount;
         public RadioButton GetRadioMass => RdMass;
         public Label GetLblDensity => LblDensity;
@@ -42,12 +54,13 @@ namespace Laboratorium.Composition.Forms
         public Label GetLblVocPerKg => LblVocPerKg;
         public Label GetLblVocPerL => LblVocPerL;
 
-        public CompositionForm(SqlConnection connection, UserDto user, LaboDto laboDto)
+        public CompositionForm(SqlConnection connection, UserDto user, LaboDto laboDto, IList<LaboDto> laboList)
         {
             InitializeComponent();
             _connection = connection;
             _user = user;
             _laboDto = laboDto;
+            _laboList = laboList;
         }
 
         #region Form init and load
@@ -60,7 +73,7 @@ namespace Laboratorium.Composition.Forms
             LblNrD.Text = "D-" + _laboDto.Id.ToString();
             LblTitle.Text = _laboDto.Title;
 
-            _service = new CompositionService(_connection, _user, this, _laboDto);
+            _service = new CompositionService(_connection, _user, this, _laboDto, _laboList);
             _service.PrepareAllData();
             _service.LoadFormData();
 
@@ -91,10 +104,6 @@ namespace Laboratorium.Composition.Forms
             _service.ChangeCalculationType((RadioButton)sender);
         }
 
-        private void BtnPrint_Click(object sender, EventArgs e)
-        {
-            _service.Print();
-        }
 
         private void DgvComposition_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -104,6 +113,26 @@ namespace Laboratorium.Composition.Forms
         private void DgvComposition_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             _service.CellPaint((DataGridView)sender, e);
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            _service.Save();
+        }
+
+        private void BtnPrint_Click(object sender, EventArgs e)
+        {
+            _service.Print();
+        }
+
+        private void BtnLoad_Click(object sender, EventArgs e)
+        {
+            _service.LoadExistingRecipen();
+        }
+
+        private void BtnExchange_Click(object sender, EventArgs e)
+        {
+            _service.InsertExistingRecipe();
         }
     }
 }

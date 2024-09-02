@@ -111,11 +111,17 @@
     <Compile Include="Composition\Forms\CompositionForm.Designer.cs">
       <DependentUpon>CompositionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Composition\Forms\InsertRecipeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Composition\Forms\InsertRecipeForm.Designer.cs">
+      <DependentUpon>InsertRecipeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Composition\LocalDto\SemiProductSumDto.cs" />
-    <Compile Include="Composition\LocalDto\SemiProductTransferDto.cs" />
     <Compile Include="Composition\Repository\CompositionHistoryRepository.cs" />
     <Compile Include="Composition\Repository\CompositionRepository.cs" />
     <Compile Include="Composition\Service\CompositionService.cs" />
+    <Compile Include="Composition\Service\InsertRecipeService.cs" />
     <Compile Include="Compound\Forms\CompoundForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -231,6 +237,9 @@
     <Compile Include="User\Repository\UserRepository.cs" />
     <EmbeddedResource Include="Composition\Forms\CompositionForm.resx">
       <DependentUpon>CompositionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Composition\Forms\InsertRecipeForm.resx">
+      <DependentUpon>InsertRecipeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Compound\Forms\CompoundForm.resx">
       <DependentUpon>CompoundForm.cs</DependentUpon>
