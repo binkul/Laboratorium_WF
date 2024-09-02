@@ -1,9 +1,11 @@
 ﻿using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Service;
+using Laboratorium.Commons;
 using Laboratorium.Composition.Forms;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Laboratorium.Composition.Service
@@ -106,10 +108,52 @@ namespace Laboratorium.Composition.Service
             _form.GetTxtFilterName.Width = _form.GetDgvLabo.Columns[TITLE].Width;
         }
 
+        #region Filtration
+
+        public bool IsFiltrationSet()
+        {
+            string number = _form.GetTxtFilterNumber.Text;
+            string title = _form.GetTxtFilterName.Text;
+            return !string.IsNullOrEmpty(number) | !string.IsNullOrEmpty(title);
+        }
+
+        public void SetFiltration()
+        {
+            string number = _form.GetTxtFilterNumber.Text;
+            string title = _form.GetTxtFilterName.Text;
+
+            bool isNumerick = int.TryParse(number, out int id);
+
+            if (number.Length > 0 && !isNumerick)
+                return;
+
+            if (IsFiltrationSet())
+            {
+                id = number.Length > 0 ? id : -1;
+
+                List<LaboDto> filter = _laboList
+                    .Where(i => i.Id >= id)
+                    .Where(i => string.IsNullOrEmpty(title) || i.Title.ToLower().Contains(title))
+                    .ToList();
+
+                _laboBinding.DataSource = filter;
+            }
+            else
+            {
+                _laboBinding.DataSource = _laboList;
+            }
+        }
+
+        #endregion
+
+
+        #region Not used
+
         public override bool Save()
         {
             throw new NotImplementedException();
         }
 
+        #endregion
     }
 }

@@ -1,6 +1,10 @@
 ﻿using Laboratorium.ADO.DTO;
 using Laboratorium.Composition.Service;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace Laboratorium.Composition.Forms
@@ -36,6 +40,42 @@ namespace Laboratorium.Composition.Forms
         private void DgvLabo_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
         {
             _service.ColumnWidthChanged();
+        }
+
+        private void TxtFindNumber_TextChanged(object sender, System.EventArgs e)
+        {
+            string wzor = "^[0-9]+$";
+            Regex wzorzec = new Regex(wzor);
+
+            if (!wzorzec.IsMatch(TxtFindNumber.Text) && TxtFindNumber.Text.Length > 0)
+            {
+                MessageBox.Show("Wprowadzona wartość nie jest liczbą '" + TxtFindNumber.Text + "'",
+                    "Błąd wartości", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            else
+            {
+                _service.SetFiltration();
+            }
+        }
+
+        private void TxtFindNumber_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                e.Handled = true;
+                SendKeys.Send("{Tab}");
+            }
+
+            else
+            {
+                base.OnKeyPress(e);
+            }
+        }
+
+        private void TxtFindName_TextChanged(object sender, EventArgs e)
+        {
+            _service.SetFiltration();
         }
     }
 }

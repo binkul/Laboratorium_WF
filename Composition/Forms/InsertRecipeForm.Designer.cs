@@ -53,7 +53,7 @@ namespace Laboratorium.Composition.Forms
             this.DgvLabo.RowHeadersWidth = 51;
             this.DgvLabo.RowTemplate.Height = 24;
             this.DgvLabo.Size = new System.Drawing.Size(930, 345);
-            this.DgvLabo.TabIndex = 0;
+            this.DgvLabo.TabIndex = 3;
             this.DgvLabo.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.DgvLabo_ColumnWidthChanged);
             // 
             // TxtFindNumber
@@ -63,6 +63,8 @@ namespace Laboratorium.Composition.Forms
             this.TxtFindNumber.Name = "TxtFindNumber";
             this.TxtFindNumber.Size = new System.Drawing.Size(163, 27);
             this.TxtFindNumber.TabIndex = 1;
+            this.TxtFindNumber.TextChanged += new System.EventHandler(this.TxtFindNumber_TextChanged);
+            this.TxtFindNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtFindNumber_KeyPress);
             // 
             // TxtFindName
             // 
@@ -71,6 +73,8 @@ namespace Laboratorium.Composition.Forms
             this.TxtFindName.Name = "TxtFindName";
             this.TxtFindName.Size = new System.Drawing.Size(623, 27);
             this.TxtFindName.TabIndex = 2;
+            this.TxtFindName.TextChanged += new System.EventHandler(this.TxtFindName_TextChanged);
+            this.TxtFindName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtFindNumber_KeyPress);
             // 
             // label1
             // 
@@ -78,11 +82,11 @@ namespace Laboratorium.Composition.Forms
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(105, 2);
+            this.label1.Location = new System.Drawing.Point(99, 2);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(719, 25);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "UWAGA! Bierząca receptura zostanie zastąpiona receptrą wybraną z listy";
+            this.label1.Size = new System.Drawing.Size(730, 25);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "UWAGA! Bieżąca receptura zostanie zastąpiona recepturą wybraną z listy.";
             // 
             // tableLayoutPanel1
             // 
@@ -95,7 +99,7 @@ namespace Laboratorium.Composition.Forms
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(929, 30);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
