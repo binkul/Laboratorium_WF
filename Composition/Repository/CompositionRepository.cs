@@ -108,7 +108,7 @@ namespace Laboratorium.Composition.Repository
                         double? rate = CommonFunction.DBNullToDoubleConv(reader.GetValue(12));
                         double? pricePl = CommonFunction.DBNullToDoubleConv(reader.GetValue(13));
 
-                        CompositionDto composition = new CompositionDto.Builder()
+                        CompositionDto item = new CompositionDto.Builder()
                             .LaboId(labo)
                             .Version(version)
                             .Ordering(ordering)
@@ -127,8 +127,8 @@ namespace Laboratorium.Composition.Repository
                             .Service(_service)
                             .Build();
 
-                        composition.AcceptChanges();
-                        list.Add(composition);
+                        item.AcceptChanges();
+                        list.Add(item);
                     }
                     reader.Close();
                 }

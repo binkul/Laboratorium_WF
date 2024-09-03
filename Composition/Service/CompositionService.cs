@@ -130,7 +130,7 @@ namespace Laboratorium.Composition.Service
 
         private CompositionDto GetCurrent => (_recipeBinding != null && _recipeBinding.Count > 0) ? (CompositionDto)_recipeBinding.Current : null;
 
-        protected override bool Status => _recipe != null ? (_recipe.Where(i => i.GetRowState != RowState.UNCHANGED).Any()) | _modified : false;
+        protected override bool Status => _recipe != null && (_recipe.Where(i => i.GetRowState != RowState.UNCHANGED).Any()) | _modified;
 
         public void Modify(RowState state)
         {
@@ -236,12 +236,12 @@ namespace Laboratorium.Composition.Service
 
 
 
-            //view.Columns[ID].HeaderText = "Lev";
-            //view.Columns[ID].DisplayIndex = displayIndex++;
-            //view.Columns[ID].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            //view.Columns[ID].Width = STD_WIDTH;
-            //view.Columns[ID].ReadOnly = true;
-            //view.Columns[ID].SortMode = DataGridViewColumnSortMode.NotSortable;
+            //view.Columns[SUB_LEVEL].HeaderText = "Lev";
+            //view.Columns[SUB_LEVEL].DisplayIndex = displayIndex++;
+            //view.Columns[SUB_LEVEL].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            //view.Columns[SUB_LEVEL].Width = STD_WIDTH;
+            //view.Columns[SUB_LEVEL].ReadOnly = true;
+            //view.Columns[SUB_LEVEL].SortMode = DataGridViewColumnSortMode.NotSortable;
 
 
 
@@ -413,7 +413,7 @@ namespace Laboratorium.Composition.Service
 
             _recipeBinding.EndEdit();
             _recipeBinding.ResetBindings(false);
-            RecalculateAll(current, _lastVersion.Mass, current.Percent);
+            CompleteData(current, _lastVersion.Mass, current.Percent);
         }
 
         private void BlockControls()
@@ -455,7 +455,7 @@ namespace Laboratorium.Composition.Service
         #endregion
 
 
-        #region Recipe operation
+        #region Recipe Operation
 
         private IList<CompositionDto> FillRecipe(int laboId)
         {
@@ -473,11 +473,12 @@ namespace Laboratorium.Composition.Service
 
                 if (component.IsSemiproduct)
                 {
+                    component.ExpandStatus = ExpandState.Collapsed;
                     var tmp = FillSemiproductRecipe(finalRecipe, component, CommonFunction.Percent(_lastVersion.Mass, component.Percent), 0, -1);
                     FillSemiProductData(tmp, component);
                 }
 
-                RecalculateAll(component, _lastVersion.Mass, component.Percent);
+                CompleteData(component, _lastVersion.Mass, component.Percent);
             }
 
             return finalRecipe;
@@ -529,10 +530,10 @@ namespace Laboratorium.Composition.Service
 
         private void RecalculateOrdering()
         {
+            short ordering = 1;
             for (int i = 0; i < _recipe.Count; i++)
             {
-                short ordering = 1;
-                if (_recipe[i].SubLevel == 0)
+                if (_recipe[i].VisibleLevel == 0)
                     _recipe[i].Ordering = ordering++;
             }
         }
@@ -555,17 +556,17 @@ namespace Laboratorium.Composition.Service
             {
                 CompositionDto component = composition[i];
 
+                FillParents(semiProduct.Parents, component.Parents);
                 component.Id = recipe.Select(x => x.Id).DefaultIfEmpty().Max() + 1;
                 component.Visible = false;
                 component.SubLevel = subLevel;
-                FillParents(semiProduct.Parents, component.Parents);
                 component.AddParent(semiProduct.Id);
-                component.ExpandStatus = ExpandState.Collapsed;
                 component.VisibleLevel = Convert.ToByte(semiProduct.VisibleLevel + 1);
                 component.Operation = semiProduct.Operation;
                 component.Percent = CommonFunction.Percent(semiProduct.Percent, component.PercentOryginal);
                 component.LastPosition = composition.IndexOf(component) == composition.Count - 1;
                 component.AcceptChanges();
+
                 if (position < 1)
                     recipe.Add(component);
                 else
@@ -575,10 +576,11 @@ namespace Laboratorium.Composition.Service
 
                 if (component.IsSemiproduct)
                 {
+                    component.ExpandStatus = ExpandState.Collapsed;
                     int level = IsLast(composition, component) ? 0 : subLevel + 1;
                     double massPercent = CommonFunction.Percent(semiProduct.PercentOryginal, mass);
-                    SemiProductTransferDto subSemiProduct = FillSemiproductRecipe(recipe, component, massPercent, level, position);
 
+                    SemiProductTransferDto subSemiProduct = FillSemiproductRecipe(recipe, component, massPercent, level, position);
                     FillSemiProductData(subSemiProduct, component);
 
                     sum.AddPriceOk(subSemiProduct.Price > 0 && subSemiProduct.SubProductComposition.Count > 0);
@@ -592,7 +594,7 @@ namespace Laboratorium.Composition.Service
 
                 sum.SumPrice(component.PricePlKg, component.PercentOryginal);
                 sum.SumVOC(component.VOC, component.PercentOryginal);
-                RecalculateAll(component, mass, component.PercentOryginal);
+                CompleteData(component, mass, component.PercentOryginal);
             }
 
             result.SubProductComposition = composition;
@@ -672,7 +674,7 @@ namespace Laboratorium.Composition.Service
 
         #region Mathematic
 
-        private void RecalculateAll(CompositionDto component, double mass, double amount)
+        private void CompleteData(CompositionDto component, double mass, double amount)
         {
             component.Mass = Math.Round(mass * (amount / 100), 4);
 
@@ -1197,6 +1199,7 @@ namespace Laboratorium.Composition.Service
             using (InsertRecipeForm form = new InsertRecipeForm(_laboList))
             {
                 form.ShowDialog();
+
                 if (form.Ok && form.Result != null && form.Result != _laboDto)
                 {
                     ResetRecipe();
@@ -1221,31 +1224,26 @@ namespace Laboratorium.Composition.Service
             using (InsertRecipeForm form = new InsertRecipeForm(_laboList))
             {
                 form.ShowDialog();
+
                 if (form.Ok && form.Result != null)
                 {
-                    IList<CompositionDto> insertList = FillRecipe(form.Result.Id);
+                    IList<CompositionDto> insertRecipe = FillRecipe(form.Result.Id);
 
-                    if (insertList.Count == 0)
+                    if (insertRecipe.Count == 0)
                     {
                         return;
                     }
-                    else if (insertList.Count == 1)
+                    else if (insertRecipe.Count == 1)
                     {
-                        CompositionDto newItem = insertList[0];
+                        CompositionDto newItem = insertRecipe[0];
                         newItem.Id = _recipe.Select(x => x.Id).DefaultIfEmpty().Max() + 1;
-                        newItem.Visible = true;
-                        newItem.VisibleLevel = 0;
-                        newItem.ExpandStatus = ExpandState.None;
                         newItem.LastPosition = row.LastPosition;
-                        newItem.SubLevel = 0;
                         newItem.Percent = row.Percent;
                         newItem.Operation = row.Operation;
-                        newItem.LaboId = row.LaboId;
-                        newItem.Version = row.Version;
 
-                        RecalculateAll(newItem, _lastVersion.Mass, row.Percent);
-                        DeleteRow(row);
+                        CompleteData(newItem, _lastVersion.Mass, row.Percent);
                         _recipe.Insert(position, newItem);
+                        DeleteRow(row);
                         RecalculateOrdering();
                         FilterRecipe();
 
