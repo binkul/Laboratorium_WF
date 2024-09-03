@@ -28,6 +28,7 @@ namespace Laboratorium.Composition.Service
             _laboList = laboList;
         }
 
+        public LaboDto GetResult => _laboBinding != null && _laboBinding.Count > 0 ? (LaboDto)_laboBinding.Current : null;
 
         protected override bool Status => false;
 
@@ -107,6 +108,7 @@ namespace Laboratorium.Composition.Service
             _form.GetTxtFilterName.Left = _form.GetTxtFilterNumber.Left + _form.GetTxtFilterNumber.Width + 1;
             _form.GetTxtFilterName.Width = _form.GetDgvLabo.Columns[TITLE].Width;
         }
+
 
         #region Filtration
 

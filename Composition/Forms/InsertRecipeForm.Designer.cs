@@ -35,6 +35,7 @@ namespace Laboratorium.Composition.Forms
             this.TxtFindName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.BtnOk = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DgvLabo)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -52,7 +53,7 @@ namespace Laboratorium.Composition.Forms
             this.DgvLabo.Name = "DgvLabo";
             this.DgvLabo.RowHeadersWidth = 51;
             this.DgvLabo.RowTemplate.Height = 24;
-            this.DgvLabo.Size = new System.Drawing.Size(930, 345);
+            this.DgvLabo.Size = new System.Drawing.Size(930, 399);
             this.DgvLabo.TabIndex = 3;
             this.DgvLabo.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.DgvLabo_ColumnWidthChanged);
             // 
@@ -103,11 +104,23 @@ namespace Laboratorium.Composition.Forms
             this.tableLayoutPanel1.Size = new System.Drawing.Size(929, 30);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
+            // BtnOk
+            // 
+            this.BtnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnOk.Location = new System.Drawing.Point(838, 502);
+            this.BtnOk.Name = "BtnOk";
+            this.BtnOk.Size = new System.Drawing.Size(97, 37);
+            this.BtnOk.TabIndex = 5;
+            this.BtnOk.Text = "Wybierz";
+            this.BtnOk.UseVisualStyleBackColor = true;
+            this.BtnOk.Click += new System.EventHandler(this.BtnOk_Click);
+            // 
             // InsertRecipeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(942, 454);
+            this.ClientSize = new System.Drawing.Size(942, 546);
+            this.Controls.Add(this.BtnOk);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.TxtFindName);
             this.Controls.Add(this.TxtFindNumber);
@@ -133,5 +146,6 @@ namespace Laboratorium.Composition.Forms
         private System.Windows.Forms.TextBox TxtFindName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Button BtnOk;
     }
 }

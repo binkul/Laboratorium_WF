@@ -13,6 +13,7 @@ namespace Laboratorium.Composition.Forms
     {
         private readonly IList<LaboDto> _laboList;
         private InsertRecipeService _service;
+        public bool Ok = false;
 
         public InsertRecipeForm(IList<LaboDto> laboList)
         {
@@ -23,6 +24,7 @@ namespace Laboratorium.Composition.Forms
         public DataGridView GetDgvLabo => DgvLabo;
         public TextBox GetTxtFilterNumber => TxtFindNumber;
         public TextBox GetTxtFilterName => TxtFindName;
+        public LaboDto Result => _service.GetResult;
 
         private void InsertRecipeForm_Load(object sender, System.EventArgs e)
         {
@@ -76,6 +78,12 @@ namespace Laboratorium.Composition.Forms
         private void TxtFindName_TextChanged(object sender, EventArgs e)
         {
             _service.SetFiltration();
+        }
+
+        private void BtnOk_Click(object sender, EventArgs e)
+        {
+            Ok = true;
+            Close();
         }
     }
 }

@@ -81,8 +81,6 @@ namespace Laboratorium.Composition.Forms
             this.LblVocPerKg = new System.Windows.Forms.Label();
             this.LblPriceCalcPerL = new System.Windows.Forms.Label();
             this.LblPriceCalcPerKg = new System.Windows.Forms.Label();
-            this.LblPricePerL = new System.Windows.Forms.Label();
-            this.LblPricePerKg = new System.Windows.Forms.Label();
             this.LblSumMass = new System.Windows.Forms.Label();
             this.LblSumPercent = new System.Windows.Forms.Label();
             this.LblSum = new System.Windows.Forms.Label();
@@ -645,8 +643,6 @@ namespace Laboratorium.Composition.Forms
             this.groupBox1.Controls.Add(this.LblVocPerKg);
             this.groupBox1.Controls.Add(this.LblPriceCalcPerL);
             this.groupBox1.Controls.Add(this.LblPriceCalcPerKg);
-            this.groupBox1.Controls.Add(this.LblPricePerL);
-            this.groupBox1.Controls.Add(this.LblPricePerKg);
             this.groupBox1.Controls.Add(this.LblSumMass);
             this.groupBox1.Controls.Add(this.LblSumPercent);
             this.groupBox1.Controls.Add(this.LblSum);
@@ -747,9 +743,9 @@ namespace Laboratorium.Composition.Forms
             this.LblPriceCalcPerL.ForeColor = System.Drawing.Color.Green;
             this.LblPriceCalcPerL.Location = new System.Drawing.Point(714, 459);
             this.LblPriceCalcPerL.Name = "LblPriceCalcPerL";
-            this.LblPriceCalcPerL.Size = new System.Drawing.Size(95, 20);
+            this.LblPriceCalcPerL.Size = new System.Drawing.Size(106, 20);
             this.LblPriceCalcPerL.TabIndex = 13;
-            this.LblPriceCalcPerL.Text = "1400,15 zł";
+            this.LblPriceCalcPerL.Text = "1400,15 zł/l";
             // 
             // LblPriceCalcPerKg
             // 
@@ -759,31 +755,9 @@ namespace Laboratorium.Composition.Forms
             this.LblPriceCalcPerKg.ForeColor = System.Drawing.Color.Green;
             this.LblPriceCalcPerKg.Location = new System.Drawing.Point(714, 434);
             this.LblPriceCalcPerKg.Name = "LblPriceCalcPerKg";
-            this.LblPriceCalcPerKg.Size = new System.Drawing.Size(95, 20);
+            this.LblPriceCalcPerKg.Size = new System.Drawing.Size(120, 20);
             this.LblPriceCalcPerKg.TabIndex = 12;
-            this.LblPriceCalcPerKg.Text = "1000,05 zł";
-            // 
-            // LblPricePerL
-            // 
-            this.LblPricePerL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LblPricePerL.AutoSize = true;
-            this.LblPricePerL.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblPricePerL.Location = new System.Drawing.Point(592, 459);
-            this.LblPricePerL.Name = "LblPricePerL";
-            this.LblPricePerL.Size = new System.Drawing.Size(90, 20);
-            this.LblPricePerL.TabIndex = 11;
-            this.LblPricePerL.Text = "Cena zł/l:";
-            // 
-            // LblPricePerKg
-            // 
-            this.LblPricePerKg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LblPricePerKg.AutoSize = true;
-            this.LblPricePerKg.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LblPricePerKg.Location = new System.Drawing.Point(592, 434);
-            this.LblPricePerKg.Name = "LblPricePerKg";
-            this.LblPricePerKg.Size = new System.Drawing.Size(104, 20);
-            this.LblPricePerKg.TabIndex = 10;
-            this.LblPricePerKg.Text = "Cena zł/kg:";
+            this.LblPriceCalcPerKg.Text = "1000,05 zł/kg";
             // 
             // LblSumMass
             // 
@@ -901,6 +875,7 @@ namespace Laboratorium.Composition.Forms
             this.DgvComposition.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvComposition_CellFormatting);
             this.DgvComposition.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DgvComposition_CellMouseClick);
             this.DgvComposition.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.DgvComposition_CellPainting);
+            this.DgvComposition.CellToolTipTextNeeded += new System.Windows.Forms.DataGridViewCellToolTipTextNeededEventHandler(this.DgvComposition_CellToolTipTextNeeded);
             this.DgvComposition.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.DgvComposition_ColumnWidthChanged);
             // 
             // CompositionForm
@@ -981,8 +956,6 @@ namespace Laboratorium.Composition.Forms
         private System.Windows.Forms.Label LblVocPerKg;
         private System.Windows.Forms.Label LblPriceCalcPerL;
         private System.Windows.Forms.Label LblPriceCalcPerKg;
-        private System.Windows.Forms.Label LblPricePerL;
-        private System.Windows.Forms.Label LblPricePerKg;
         private System.Windows.Forms.Label LblSumMass;
         private System.Windows.Forms.Label LblSumPercent;
         private System.Windows.Forms.Label LblSum;

@@ -45,8 +45,6 @@ namespace Laboratorium.Composition.Forms
         public Label GetLblSumMass => LblSumMass;
         public Label GetLblSumPrecent => LblSumPercent;
         public Label GetLblMassText => LblMass;
-        public Label GetLblPricePerKg => LblPricePerKg;
-        public Label GetLblPricePerL => LblPricePerL;
         public Label GetLblCalcPricePerKg => LblPriceCalcPerKg;
         public Label GetLblCalcPricePerL => LblPriceCalcPerL;
         public Label GetLblVocKg => LblVocKg;
@@ -66,6 +64,14 @@ namespace Laboratorium.Composition.Forms
         #region Form init and load
 
         public bool Init => _init;
+
+        public void SaveEnable (bool status)
+        {
+            if (_init)
+                return;
+
+            BtnSave.Enabled = status;
+        }
 
         private void CompositionForm_Load(object sender, EventArgs e)
         {
@@ -91,12 +97,12 @@ namespace Laboratorium.Composition.Forms
 
         private void DgvComposition_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            _service.CellFormat(e);
+            _service.DgvCellFormat(e);
         }
 
         private void DgvComposition_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
         {
-            _service.ChangeColumnWidth();
+            _service.DgvChangeColumnWidth();
         }
 
         private void RdAmount_CheckedChanged(object sender, EventArgs e)
@@ -104,15 +110,14 @@ namespace Laboratorium.Composition.Forms
             _service.ChangeCalculationType((RadioButton)sender);
         }
 
-
         private void DgvComposition_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            _service.GetSemiProductPlusAndMinus(e);
+            _service.DgvCellMouseClick(e);
         }
 
         private void DgvComposition_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            _service.CellPaint((DataGridView)sender, e);
+            _service.DgvCellPaint((DataGridView)sender, e);
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
@@ -133,6 +138,11 @@ namespace Laboratorium.Composition.Forms
         private void BtnExchange_Click(object sender, EventArgs e)
         {
             _service.InsertExistingRecipe();
+        }
+
+        private void DgvComposition_CellToolTipTextNeeded(object sender, DataGridViewCellToolTipTextNeededEventArgs e)
+        {
+            _service.DgvCellToolTipTextNeeded(e);
         }
     }
 }
