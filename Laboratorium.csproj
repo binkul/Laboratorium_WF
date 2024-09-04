@@ -117,6 +117,7 @@
     <Compile Include="Composition\Forms\InsertRecipeForm.Designer.cs">
       <DependentUpon>InsertRecipeForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Composition\LocalDto\Component.cs" />
     <Compile Include="Composition\LocalDto\SemiProductSumDto.cs" />
     <Compile Include="Composition\Repository\CompositionHistoryRepository.cs" />
     <Compile Include="Composition\Repository\CompositionRepository.cs" />
