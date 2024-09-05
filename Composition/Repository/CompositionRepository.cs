@@ -20,12 +20,9 @@ namespace Laboratorium.Composition.Repository
 
         private static readonly SqlIndex SQL_INDEX = SqlIndex.CompositionIndex;
         private static readonly string TABLE_NAME = Table.COMPOSITION_TABLE;
-//        private readonly IService _service;
 
-        public CompositionRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME) //(SqlConnection connection, IService service) : base(connection, SQL_INDEX, TABLE_NAME)
-        {
-//            _service = service;
-        }
+        public CompositionRepository(SqlConnection connection) : base(connection, SQL_INDEX, TABLE_NAME)
+        { }
 
         public IList<CmbMaterialCompositionDto> GetCmbMaterials()
         {
@@ -124,10 +121,8 @@ namespace Laboratorium.Composition.Repository
                             .PriceOriginal(priceOrg)
                             .Currency(currency)
                             .Rate(rate)
-//                            .Service(_service)
                             .Build();
 
-//                        item.AcceptChanges();
                         list.Add(item);
                     }
                     reader.Close();

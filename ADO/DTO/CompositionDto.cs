@@ -1,228 +1,46 @@
-﻿using Laboratorium.ADO.Service;
-using Laboratorium.Composition.LocalDto;
-using System;
-using System.Collections.Generic;
-
-namespace Laboratorium.ADO.DTO
+﻿namespace Laboratorium.ADO.DTO
 {
-    //public enum ExpandState
-    //{
-    //    None,
-    //    Expanded,
-    //    Collapsed
-    //}
-
     public class CompositionDto
     {
-        //public int Id { get; set; } = 0;
-        //public bool Visible { get; set; } = false;
-        //public byte VisibleLevel { get; set; } = 0;
-        //public ExpandState ExpandStatus { get; set; } = ExpandState.None;
-        //public bool LastPosition { get; set; } = false;
-        //public int SubLevel { get; set; } = 0;
-        public IList<int> Parents { get; set; } = new List<int>();
-        private int _laboId;
-        private int _version;
-        private short _ordering;
-        private string _material;
-        private int _materialId;
-        private bool _isSemiproduct;
-        private double _percent;        // for manipulation
-        private double _percentOrginal; // from DataBase, not modified
-//        private double _mass;
-        private byte _operation;
-        private string _comment;
-        private double? _vocMaterial;
-//        private string _vocMass;
-        private double? _priceOryg;
-        private double? _pricePl;
-//        private string _priceMass;
-        private string _currency;
-        private double? _rate;
-//        private RowState _rowState = RowState.ADDED;
-//        private IService _service;
-
-        public IList<CompositionDto> SubProductComposition { get; set; } = null; //# to w zasadzie też do usunięcia, ale do przemyślenia
-
-        public CrudState CrudState { get; set; } = CrudState.OK;
+        public int LaboId { get; set; }
+        public int Version { get; set; }
+        public short Ordering { get; set; }
+        public string Material { get; set; }
+        public int MaterialId { get; set; }
+        public bool IsSemiproduct { get; set; }
+        public double Percent { get; set; }
+        public double PercentOryginal { get; }
+        public double? VocMaterial { get; set; }
+        public double? PriceOriginal { get; set; }
+        public double? PricePlKg { get; set; }
+        public string Currency { get; set; }
+        public double? Rate { get; }
+        public byte Operation { get; set; }
+        public string Comment { get; set; }
 
         private CompositionDto(Builder builder)
         {
-            _laboId = builder._laboId;
-            _version = builder._version;
-            _ordering = builder._ordering;
-            _material = builder._material;
-            _materialId = builder._materialId;
-            _isSemiproduct = builder._isSemiproduct;
-            _percent = builder._percent;
-            _percentOrginal = builder._percentOryginal;
-//            _mass = builder._mass;
-            _operation = builder._operation;
-            _comment = builder._comment;
-            _vocMaterial = builder._voc;
-            _priceOryg = builder._priceOryg;
-            _pricePl = builder._pricePl;
-            _currency = builder._currency;
-            _rate = builder._rate;
-//            _service = builder._service;
+            LaboId = builder._laboId;
+            Version = builder._version;
+            Ordering = builder._ordering;
+            Material = builder._material;
+            MaterialId = builder._materialId;
+            IsSemiproduct = builder._isSemiproduct;
+            Percent = builder._percent;
+            PercentOryginal = builder._percentOryginal;
+            Operation = builder._operation;
+            Comment = builder._comment;
+            VocMaterial = builder._voc;
+            PriceOriginal = builder._priceOryg;
+            PricePlKg = builder._pricePl;
+            Currency = builder._currency;
+            Rate = builder._rate;
         }
-
-
-        //private void ChangeState(RowState state) //# do usunięcia z serwisem - nadrzędny będzie o to dbał
-        //{
-        //    _rowState = _rowState == RowState.UNCHANGED ? state : _rowState;
-        //    if (_service != null)
-        //        _service.Modify(state);
-        //}
-
-        //public void AddParent(int id)
-        //{
-        //    Parents.Add(id);
-        //} //# do usunięcia
-
-        //public int GetParent(int index)
-        //{
-        //    if (Parents.Count > 0)
-        //        return Parents[index];
-        //    else
-        //        return -1;
-        //} //# do usunięcia
-
-        public int LaboId
-        {
-            get => _laboId;
-            set => _laboId = value;
-        }
-
-        public int Version
-        {
-            get => _version;
-            set => _version = value;
-        }
-
-        public short Ordering
-        {
-            get => _ordering;
-            set
-            {
-                _ordering = value;
-                //ChangeState(RowState.MODIFIED);
-            }
-        }
-
-        public string Material
-        {
-            get => _material;
-            set => _material = value;
-        }
-
-        public int MaterialId
-        {
-            get => _materialId;
-            set => _materialId = value;
-        }
-
-        public bool IsSemiproduct
-        {
-            get => _isSemiproduct;
-            set => _isSemiproduct = value;
-        }
-
-        public double Percent
-        {
-            get => _percent;
-            set
-            {
-                _percent = value;
-                //ChangeState(RowState.MODIFIED);
-            }
-        }
-
-        public double PercentOryginal => _percentOrginal;
-
-        //public double Mass
-        //{
-        //    get => _mass;
-        //    set => _mass = value;
-        //}
-
-        public double? VocMaterial
-        {
-            get => _vocMaterial;
-            set => _vocMaterial = value;
-        }
-
-        //public string VocPercent => _vocMaterial != -1 ? Convert.ToDouble(_vocMaterial).ToString("0.00") : "Brak";
-
-        //public string VocMass //# do usunięcia
-        //{
-        //    get => !string.IsNullOrEmpty(_vocMass) ? _vocMass : "# Count #";
-        //    set => _vocMass = value;
-        //}
-
-        public double? PriceOriginal
-        {
-            get => _priceOryg;
-            set => _priceOryg = value;
-        }
-
-        //public string PriceCurrency //# do usunięcia
-        //{
-        //    get => IsSemiproduct ? "-" : _priceOryg != null && _priceOryg != -1 ? Convert.ToDouble(_priceOryg).ToString("0.00") + " " + Currency : "Brak";
-        //}
-
-        public double? PricePlKg
-        {
-            get => _pricePl;
-            set => _pricePl = value;
-        }
-
-        //public string PriceMass //# do usunięcia
-        //{
-        //    get => !string.IsNullOrEmpty(_priceMass) ? _priceMass : "# Count #";
-        //    set => _priceMass = value;
-        //}
-
-        public string Currency
-        {
-            get => _currency;
-            set => _currency = value;
-        }
-
-        public double? Rate => _rate; //# prawdopodobnie do usunięcia
-
-        public byte Operation
-        {
-            get => _operation;
-            set
-            {
-                _operation = value;
-                //ChangeState(RowState.MODIFIED);
-            }
-        }
-
-        public string Comment
-        {
-            get => _comment;
-            set
-            {
-                _comment = value;
-                //ChangeState(RowState.MODIFIED);
-            }
-        }
-
-        //public RowState GetRowState => _rowState;
-
-        //public void AcceptChanges() //# do usunięcia łącznie z serwisem
-        //{
-        //    _rowState = RowState.UNCHANGED;
-        //    if (_service != null)
-        //        _service.Modify(RowState.UNCHANGED);
-        //}
 
         public sealed class Builder
         {
             #region Fields
+
             internal int _laboId;
             internal int _version;
             internal short _ordering;
@@ -239,7 +57,7 @@ namespace Laboratorium.ADO.DTO
             internal double? _pricePl;
             internal string _currency;
             internal double? _rate;
-            //internal IService _service;
+
             #endregion
 
             public CompositionDto Build()
@@ -327,12 +145,6 @@ namespace Laboratorium.ADO.DTO
                 _rate = val;
                 return this;
             }
-            //public Builder Service(IService val)
-            //{
-            //    _service = val;
-            //    return this;
-            //}
-
         }
     }
 }

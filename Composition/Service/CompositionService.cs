@@ -28,6 +28,7 @@ namespace Laboratorium.Composition.Service
         private const string LAST_POSITION = "LastPosition";
         private const string PARENTS = "Parents";
         private const string PARENTS_EXIST = "ParentsExist";
+        private const string PARENTS_COUNT = "ParentsCount";
         private const string LABO_ID = "LaboId";
         private const string ORDERING = "Ordering";
         private const string VERSION = "Version";
@@ -76,8 +77,10 @@ namespace Laboratorium.Composition.Service
 
         #endregion
 
+        private const byte FRAME_START = 2;
+        private const byte FRAME_MIDDLE = 3;
+        private const byte FRAME_END = 4;
         private const int STD_WIDTH = 100;      // Standard column width in DGV composition
-        private const int ERROR_CODE = -1;
         private const int START_SPACING = 2;    // Distance from RowHeaders for [+] and [-]
         private const int SUB_SPACING = 25;     // Space between sub levels
         private const int RECTANGLE_SIZE = 14;  // Size of rectangle [+] and [-] - size of PLUS_14 and MINUS_14
@@ -103,7 +106,6 @@ namespace Laboratorium.Composition.Service
         private readonly IBasicCRUD<CompositionHistoryDto> _historyRepository;
         private CompositionHistoryDto _lastVersion;
         private readonly IList<LaboDto> _laboList;
-        //private IList<CompositionDto> _recipe;
         private IList<Component> _recipe;
         private IList<CmbMaterialCompositionDto> _materials;
         private BindingSource _recipeBinding;
@@ -131,13 +133,18 @@ namespace Laboratorium.Composition.Service
 
         #region Modification markers
 
-        //private CompositionDto GetCurrent => (_recipeBinding != null && _recipeBinding.Count > 0) ? (CompositionDto)_recipeBinding.Current : null;
         private Component GetCurrent => (_recipeBinding != null && _recipeBinding.Count > 0) ? (Component)_recipeBinding.Current : null;
 
         protected override bool Status => _recipe != null ? (_recipe.Where(i => i.GetRowState != RowState.UNCHANGED).Any()) | _modified : false;
 
         public void Modify(RowState state)
         {
+            _form.SaveEnable(Status);
+        }
+
+        public void InternalModify(bool status)
+        {
+            _modified = status;
             _form.SaveEnable(Status);
         }
 
@@ -174,10 +181,10 @@ namespace Laboratorium.Composition.Service
             _recipeBinding.PositionChanged += RecipeBinding_PositionChanged;
         }
 
-        public IList<Component> PrepareRecipe() // IList<CompositionDto> PrepareRecipe()
+        public IList<Component> PrepareRecipe()
         {
             if (_lastVersion.IsNew)
-                return new List<Component>(); // new List<CompositionDto>();
+                return new List<Component>();
 
             return FillRecipe(_laboDto.Id);
         }
@@ -205,27 +212,20 @@ namespace Laboratorium.Composition.Service
             view.Columns.Remove(LABO_ID);
             view.Columns.Remove(VERSION);
             view.Columns.Remove(PERCENT_ORIGINAL);
-            //view.Columns.Remove(CURRENCY);
             view.Columns.Remove(RATE);
             view.Columns.Remove(PRICE_ORIGINAL);
             view.Columns.Remove(VOC);
             view.Columns.Remove(VISIBLE_LEVEL);
             view.Columns.Remove(VISIBLE);
             view.Columns.Remove(PARENTS_EXIST);
-            //view.Columns.Remove(PARENTS);
-            //view.Columns.Remove(SUB_PRODUCT_COMPOSITION);
+            view.Columns.Remove(PARENTS_COUNT);
             view.Columns.Remove(SUB_LEVEL);
             view.Columns.Remove(LAST_POSITION);
             view.Columns.Remove(TOTAL_MASS);
-
             view.Columns.Remove(ID);
             view.Columns.Remove(MATERIAL_ID);
             view.Columns.Remove(IS_SEMIPRODUCT);
             view.Columns.Remove(OPERATION);
-            //view.Columns[ID].Visible = false;
-            //view.Columns[MATERIAL_ID].Visible = false;
-            //view.Columns[IS_SEMIPRODUCT].Visible = false;
-            //view.Columns[OPERATION].Visible = false;
 
             int displayIndex = 0;
 
@@ -246,12 +246,12 @@ namespace Laboratorium.Composition.Service
 
 
 
-            //view.Columns[ID].HeaderText = "Lev";
-            //view.Columns[ID].DisplayIndex = displayIndex++;
-            //view.Columns[ID].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            //view.Columns[ID].Width = STD_WIDTH;
-            //view.Columns[ID].ReadOnly = true;
-            //view.Columns[ID].SortMode = DataGridViewColumnSortMode.NotSortable;
+            //view.Columns[VISIBLE_LEVEL].HeaderText = "Lev";
+            //view.Columns[VISIBLE_LEVEL].DisplayIndex = displayIndex++;
+            //view.Columns[VISIBLE_LEVEL].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            //view.Columns[VISIBLE_LEVEL].Width = STD_WIDTH;
+            //view.Columns[VISIBLE_LEVEL].ReadOnly = true;
+            //view.Columns[VISIBLE_LEVEL].SortMode = DataGridViewColumnSortMode.NotSortable;
 
 
 
@@ -333,9 +333,6 @@ namespace Laboratorium.Composition.Service
 
 
         #region Current/Binkding/Navigation
-
-        //private bool IsLast(IList<CompositionDto> list, CompositionDto component) => list.IndexOf(component) == list.Count - 1; 
-        private bool IsLast(IList<Component> list, Component component) => list.IndexOf(component) == list.Count - 1;
 
         private void RecipeBinding_PositionChanged(object sender, EventArgs e)
         {
@@ -468,10 +465,9 @@ namespace Laboratorium.Composition.Service
 
         #region Recipe Operation
 
-        private IList<Component> FillRecipe(int laboId) // IList<CompositionDto> FillRecipe(int laboId)
+        private IList<Component> FillRecipe(int laboId)
         {
             IList<CompositionDto> originalRecipe = _repository.GetAllByLaboId(laboId);
-            //IList<CompositionDto> finalRecipe = new List<CompositionDto>();
             IList<Component> recipe = new List<Component>();
 
             foreach (CompositionDto ingredient in originalRecipe)
@@ -481,33 +477,19 @@ namespace Laboratorium.Composition.Service
                 component.Version = _lastVersion.Version;
                 component.AcceptChanges();
                 recipe.Add(component);
-                //component.Id = finalRecipe.Select(i => i.Id).DefaultIfEmpty().Max() + 1;
-                //component.LaboId = _laboDto.Id;
-                //component.Version = _lastVersion.Version;
-                //component.Visible = true;
-                //component.VisibleLevel = 0;
-                //finalRecipe.Add(component);
 
                 if (component.IsSemiproduct)
                 {
                     var tmp = FillSemiproductRecipe(recipe, component, CommonFunction.Percent(_lastVersion.Mass, component.Percent), 0, -1);
                     FillSemiProductData(tmp, component);
-                    //var tmp = FillSemiproductRecipe(finalRecipe, component, CommonFunction.Percent(_lastVersion.Mass, component.Percent), 0, -1);
-                    //FillSemiProductData(tmp, component);
                 }
-
-                //RecalculateAll(component, _lastVersion.Mass, component.Percent);
             }
 
             return recipe;
-            //return finalRecipe;
         }
 
         private void FilterRecipe()
         {
-            //IList<CompositionDto> recipe = _recipe
-            //    .Where(i => i.Visible)
-            //    .ToList();
             IList<Component> recipe = _recipe.Where(i => i.Visible).ToList();
 
             _recipeBinding.DataSource = recipe;
@@ -522,45 +504,41 @@ namespace Laboratorium.Composition.Service
             _recipe = null;
         }
 
-        private void DeleteRow(Component row) //(CompositionDto row)
+        private void DeleteRow(Component row)
         {
             if (!row.IsSemiproduct)
             {
                 _recipe.Remove(row);
                 return;
             }
-            //IList<CompositionDto> removeList = new List<CompositionDto>();
 
             IList<Component> removeList = new List<Component>();
-            //foreach (CompositionDto compound in _recipe)
             foreach (Component component in _recipe)
             {
-                if (!component.ParentsExist) // compound.Parents == null || compound.Parents.Count == 0)
+                if (!component.ParentsExist)
                     continue;
 
-                if (component.GetParent(0) == row.Id) // compound.Parents[0] == row.Id)
+                if (component.GetParent(0) == row.Id)
                     removeList.Add(component);
             }
 
             _recipe.Remove(row);
-            //foreach(CompositionDto compound in removeList)
-            //{
-            //    _recipe.Remove(compound);
-            //}
             foreach (Component component in removeList)
             {
                 _recipe.Remove(component);
             }
         }
 
-        private void RecalculateOrdering()
+        private void ReOrdering()
         {
+            short ordering = 1;
             for (int i = 0; i < _recipe.Count; i++)
             {
-                short ordering = 1;
                 if (_recipe[i].SubLevel == 0)
                     _recipe[i].Ordering = ordering++;
             }
+
+            InternalModify(true);
         }
 
         #endregion
@@ -568,7 +546,6 @@ namespace Laboratorium.Composition.Service
 
         #region Semiproduct Operation
 
-        //private SemiProductTransferDto FillSemiproductRecipe(IList<CompositionDto> recipe, CompositionDto semiProduct, double mass, int subLevel, int position)
         private SemiProductTransferDto FillSemiproductRecipe(IList<Component> recipe, Component semiProduct, double mass, int subLevel, int position)
         {
             SemiProductSumDto sum = new SemiProductSumDto();
@@ -601,7 +578,7 @@ namespace Laboratorium.Composition.Service
                 //}
 
                 CompositionDto orignalComponent = composition[i];
-                Component component = new Component(recipe, orignalComponent, this, mass);
+                Component component = new Component(recipe, orignalComponent, this, _lastVersion.Mass);
 
                 component.Visible = false;
                 component.SubLevel = subLevel;
@@ -655,23 +632,11 @@ namespace Laboratorium.Composition.Service
 
         private void FillSemiProductData(SemiProductTransferDto source, Component destination)
         {
-            //destination.SubProductComposition = source.SubProductComposition;
-            destination.PriceOriginal = source.Price > 0 ? source.Price : ERROR_CODE;
-            destination.PricePlKg = source.Price > 0 ? source.Price : ERROR_CODE;
+            destination.PriceOriginal = source.Price > 0 ? source.Price : CommonData.ERROR_CODE;
+            destination.PricePlKg = source.Price > 0 ? source.Price : CommonData.ERROR_CODE;
             destination.ExpandStatus = ExpandState.Collapsed;
-            //destination.Currency = "Zł";
-            //destination.Rate = 1;
-            destination.VocMaterial = source.VOC >= 0 ? source.VOC : ERROR_CODE;
+            destination.VocMaterial = source.VOC >= 0 ? source.VOC : CommonData.ERROR_CODE;
         }
-        //private void FillSemiProductData(SemiProductTransferDto source, CompositionDto destination)
-        //{
-        //    destination.SubProductComposition = source.SubProductComposition;
-        //    destination.PriceOriginal = source.Price > 0 ? source.Price : ERROR_CODE;
-        //    destination.PricePlKg = source.Price > 0 ? source.Price : ERROR_CODE;
-        //    destination.Currency = "Zł";
-        //    destination.Rate = 1;
-        //    destination.VocMaterial = source.VOC >= 0 ? source.VOC : ERROR_CODE;
-        //}
 
         private void FillParents(Component source, Component destination)
         {
@@ -680,15 +645,7 @@ namespace Laboratorium.Composition.Service
                 destination.AddParent(source.GetParent(i));
             }
         }
-        //private void FillParents(IList<int> source, IList<int> destination)
-        //{
-        //    for (int i = 0; i < source.Count; i++)
-        //    {
-        //        destination.Add(source[i]);
-        //    }
-        //}
 
-        //private void ShowAndHideSemiProductRecipe(CompositionDto compound)
         private void ShowAndHideSemiProductRecipe(Component compound)
         {
             if (!compound.IsSemiproduct)
@@ -698,56 +655,39 @@ namespace Laboratorium.Composition.Service
             {
                 case ExpandState.Collapsed:
                     compound.ExpandStatus = ExpandState.Expanded;
-                    //ShowCompounds(compound.SubProductComposition);
-                    ShowCompounds(compound.Id);
+                    ShowCompounds(compound);
                     break;
                 case ExpandState.Expanded:
                     compound.ExpandStatus = ExpandState.Collapsed;
-                    //HideCompounds(compound.SubProductComposition);
-                    HideCompounds(compound.Id);
+                    HideCompounds(compound);
                     break;
                 default:
                     return;
             }
         }
 
-        //private void ShowCompounds(IList<CompositionDto> compositions)
-        private void ShowCompounds(int id)
+        private void ShowCompounds(Component compound)
         {
-            //if (compositions == null || compositions.Count == 0)
-            //    return;
+            var tmp = _recipe.Where(i => i.ParentsCount == (compound.VisibleLevel + 1)).ToList();
 
-            foreach (Component component in _recipe) //CompositionDto subCompound in compositions)
+            foreach (Component component in tmp)
             {
-                if (component.ExistParent(id))
+                if (component.GetParent(compound.VisibleLevel) == compound.Id) //.ExistParent(compound.Id))
+                {
                     component.Visible = true;
-                //subCompound.Visible = true;
+                }
             }
         }
 
-        //private void HideCompounds(IList<CompositionDto> compositions)
-        private void HideCompounds(int id)
+        private void HideCompounds(Component compound)
         {
-            //if (compositions == null || compositions.Count == 0)
-            //    return;
-
-            //foreach (CompositionDto subCompound in compositions)
             foreach (Component component in _recipe)
             {
-                if (component.ExistParent(id))
-                    component.Visible = false;
-
-                if (component.IsSemiproduct)
+                if (component.ExistParent(compound.Id))
                 {
-                    component.ExpandStatus = ExpandState.Collapsed;
-                    HideCompounds(component.Id);
+                    component.ExpandStatus = component.IsSemiproduct ? ExpandState.Collapsed : ExpandState.None;
+                    component.Visible = false;
                 }
-                //subCompound.Visible = false;
-                //if (subCompound.IsSemiproduct)
-                //{
-                //    subCompound.ExpandStatus = ExpandState.Collapsed;
-                //    HideCompounds(subCompound.SubProductComposition);
-                //}
             }
         }
 
@@ -756,18 +696,6 @@ namespace Laboratorium.Composition.Service
 
         #region Mathematic
 
-        //private void RecalculateAll(CompositionDto component, double mass, double amount)
-        //{
-        //component.Mass = Math.Round(mass * (amount / 100), 4);
-
-        //double? voc = (amount * component.VocMaterial) / 100;
-        //component.VocMass = component.VocMaterial != ERROR_CODE ? ((Convert.ToDouble(voc) * mass) / 100).ToString("0.00") : "Brak";
-
-        //double? price = component.PricePlKg * component.Mass;
-        //component.PriceMass = component.PricePlKg != ERROR_CODE ? Convert.ToDouble(price).ToString("0.00") : "Brak";
-
-        //component.ExpandStatus = component.IsSemiproduct ? ExpandState.Collapsed : ExpandState.None;
-        //}
 
         #endregion
 
@@ -777,7 +705,6 @@ namespace Laboratorium.Composition.Service
         public void DgvCellFormat(DataGridViewCellFormattingEventArgs e)
         {
             string cell = _form.GetDgvComposition.Columns[e.ColumnIndex].Name;
-            //CompositionDto row = (CompositionDto)_recipeBinding[e.RowIndex];
             Component row = (Component)_recipeBinding[e.RowIndex];
 
             Font FONT_BOLD_10 = new Font(e.CellStyle.Font.Name, 10, FontStyle.Bold);
@@ -814,12 +741,12 @@ namespace Laboratorium.Composition.Service
             {
                 if (row.VisibleLevel == 0)
                 {
-                    e.CellStyle.ForeColor = price != ERROR_CODE ? COLOR_STD : (row.IsSemiproduct && cell != PRICE_MASS && cell != PRICE_PL_KG) ? COLOR_STD : COLOR_ERROR;
-                    e.CellStyle.Font = price != ERROR_CODE ? e.CellStyle.Font : FONT_BOLD_10;
+                    e.CellStyle.ForeColor = price != CommonData.ERROR_CODE ? COLOR_STD : (row.IsSemiproduct && cell != PRICE_MASS && cell != PRICE_PL_KG) ? COLOR_STD : COLOR_ERROR;
+                    e.CellStyle.Font = price != CommonData.ERROR_CODE ? e.CellStyle.Font : FONT_BOLD_10;
                 }
                 else
                 {
-                    e.CellStyle.ForeColor = price != ERROR_CODE ? COLOR_SEMIPROD : (row.IsSemiproduct && cell != PRICE_MASS && cell != PRICE_PL_KG) ? COLOR_SEMIPROD : COLOR_ERROR; ;
+                    e.CellStyle.ForeColor = price != CommonData.ERROR_CODE ? COLOR_SEMIPROD : (row.IsSemiproduct && cell != PRICE_MASS && cell != PRICE_PL_KG) ? COLOR_SEMIPROD : COLOR_ERROR; ;
                 }
             }
 
@@ -828,12 +755,12 @@ namespace Laboratorium.Composition.Service
             {
                 if (row.VisibleLevel == 0)
                 {
-                    e.CellStyle.ForeColor = voc != ERROR_CODE ? COLOR_STD : COLOR_ERROR;
-                    e.CellStyle.Font = voc != ERROR_CODE ? e.CellStyle.Font : FONT_BOLD_10;
+                    e.CellStyle.ForeColor = voc != CommonData.ERROR_CODE ? COLOR_STD : COLOR_ERROR;
+                    e.CellStyle.Font = voc != CommonData.ERROR_CODE ? e.CellStyle.Font : FONT_BOLD_10;
                 }
                 else
                 {
-                    e.CellStyle.ForeColor = voc != ERROR_CODE ? COLOR_SEMIPROD : COLOR_ERROR;
+                    e.CellStyle.ForeColor = voc != CommonData.ERROR_CODE ? COLOR_SEMIPROD : COLOR_ERROR;
                 }
             }
 
@@ -853,7 +780,7 @@ namespace Laboratorium.Composition.Service
                               mass.ToString("0.0000");
                     break;
                 case PRICE_PL_KG:
-                    e.Value = price != ERROR_CODE ? price.ToString("0.00") : "Brak";
+                    e.Value = price != CommonData.ERROR_CODE ? price.ToString("0.00") : "Brak";
                     break;
             }
 
@@ -875,7 +802,6 @@ namespace Laboratorium.Composition.Service
             int x_end = e.CellBounds.Right;
             int y_end = e.CellBounds.Bottom;
 
-            //CompositionDto row = (CompositionDto)_recipeBinding[e.RowIndex];
             Component row = (Component)_recipeBinding[e.RowIndex];
 
             #region Column Orgering + SemiProduct Expand
@@ -1003,10 +929,10 @@ namespace Laboratorium.Composition.Service
         {
             switch (operation)
             {
-                case 2:
+                case FRAME_START:
                     e.Graphics.DrawLine(PEN_RED, x, y + 1, x_end, y + 1);
                     break;
-                case 4:
+                case FRAME_END:
                     e.Graphics.DrawLine(PEN_RED, x, y_end - 2, x_end, y_end - 2);
                     break;
                 default:
@@ -1124,7 +1050,6 @@ namespace Laboratorium.Composition.Service
                 return;
 
             string column = _form.GetDgvComposition.Columns[e.ColumnIndex].Name;
-            //CompositionDto compound = (CompositionDto)_recipeBinding[e.RowIndex];
             Component compound = (Component)_recipeBinding[e.RowIndex];
 
             if (!column.Equals(ORDERING) || !compound.IsSemiproduct)
@@ -1149,7 +1074,6 @@ namespace Laboratorium.Composition.Service
         {
             if (e.RowIndex > 0 && e.ColumnIndex == _form.GetDgvComposition.Columns[MATERIAL].Index)
             {
-                //CompositionDto row = (CompositionDto)_recipeBinding[e.RowIndex];
                 Component row = (Component)_recipeBinding[e.RowIndex];
                 if (row.IsSemiproduct)
                 {
@@ -1290,9 +1214,6 @@ namespace Laboratorium.Composition.Service
                     ResetRecipe();
                     _recipe = FillRecipe(form.Result.Id);
                     FilterRecipe();
-
-                    _modified = true;
-                    Modify(RowState.MODIFIED);
                 }
             }
         }
@@ -1302,9 +1223,8 @@ namespace Laboratorium.Composition.Service
             if (_recipeBinding == null || _recipeBinding.Count == 0)
                 return;
 
-            //var current = (CompositionDto)_recipeBinding.Current;
-            var current = (Component)_recipeBinding.Current;
-            var row = _recipe.FirstOrDefault(i => i.Id == current.Id);
+            Component current = (Component)_recipeBinding.Current;
+            Component row = _recipe.FirstOrDefault(i => i.Id == current.Id);
             int position = _recipe.IndexOf(row);
 
             using (InsertRecipeForm form = new InsertRecipeForm(_laboList))
@@ -1312,7 +1232,6 @@ namespace Laboratorium.Composition.Service
                 form.ShowDialog();
                 if (form.Ok && form.Result != null)
                 {
-                    //IList<CompositionDto> insertList = FillRecipe(form.Result.Id);
                     IList<Component> insertList = FillRecipe(form.Result.Id);
 
                     if (insertList.Count == 0)
@@ -1321,31 +1240,21 @@ namespace Laboratorium.Composition.Service
                     }
                     else if (insertList.Count == 1)
                     {
-                        //CompositionDto newItem = insertList[0];
                         Component newItem = insertList[0];
-                        //newItem.Id = _recipe.Select(x => x.Id).DefaultIfEmpty().Max() + 1;
-                        //newItem.Visible = true;
-                        //newItem.VisibleLevel = 0;
-                        //newItem.ExpandStatus = ExpandState.None;
                         newItem.LastPosition = row.LastPosition;
-                        //newItem.SubLevel = 0;
                         newItem.Percent = row.Percent;
                         newItem.Operation = row.Operation;
                         newItem.LaboId = row.LaboId;
                         newItem.Version = row.Version;
 
-                        //RecalculateAll(newItem, _lastVersion.Mass, row.Percent);
                         DeleteRow(row);
                         _recipe.Insert(position, newItem);
-                        RecalculateOrdering();
+                        ReOrdering();
                         FilterRecipe();
-
-                        _modified = true;
-                        Modify(RowState.MODIFIED);
                     }
                     else
                     {
-
+                        //foreach()
                     }
                 }
             }

@@ -5,6 +5,7 @@ namespace Laboratorium.Commons
 {
     public static class CommonData
     {
+        public static int ERROR_CODE = -1;
         public static int HEADER_WIDTH_ADMIN = 35;
         public static int HEADER_WIDTH_USER = 40;
         public static string ALL_DATA_PL = "-- Wszystko --";

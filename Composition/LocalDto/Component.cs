@@ -1,6 +1,7 @@
 ﻿using Laboratorium.ADO;
 using Laboratorium.ADO.DTO;
 using Laboratorium.ADO.Service;
+using Laboratorium.Commons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,7 +60,7 @@ namespace Laboratorium.Composition.LocalDto
             if (_parents.Count > 0)
                 return _parents[index];
             else
-                return -1;
+                return CommonData.ERROR_CODE;
         }
 
         public bool ExistParent(int id)
@@ -135,14 +136,14 @@ namespace Laboratorium.Composition.LocalDto
             set => _component.VocMaterial = value;
         }
 
-        public string VocPercent => _component.VocMaterial != -1 ? Convert.ToDouble(_component.VocMaterial).ToString("0.00") : "Brak";
+        public string VocPercent => _component.VocMaterial != CommonData.ERROR_CODE ? Convert.ToDouble(_component.VocMaterial).ToString("0.00") : "Brak";
 
         public string VocMass
         {
             get
             {
                 double? voc = (Percent * VocMaterial) / 100;
-                return VocMaterial != -1 ? ((Convert.ToDouble(voc) * TotalMass) / 100).ToString("0.00") : "Brak";
+                return VocMaterial != CommonData.ERROR_CODE ? ((Convert.ToDouble(voc) * TotalMass) / 100).ToString("0.00") : "Brak";
             }
         }
 
@@ -152,7 +153,16 @@ namespace Laboratorium.Composition.LocalDto
             set => _component.PriceOriginal = value;
         }
 
-        public string PriceCurrency => IsSemiproduct ? "-" : _component.PriceOriginal != null && _component.PriceOriginal != -1 ? Convert.ToDouble(_component.PriceOriginal).ToString("0.00") + " " + _component.Currency : "Brak";
+        public string PriceCurrency
+        {
+            get
+            {
+                bool isPricePresent = _component.PriceOriginal != null && _component.PriceOriginal != CommonData.ERROR_CODE;
+                string price = Convert.ToDouble(_component.PriceOriginal).ToString("0.00") + " " + _component.Currency;
+                
+                return IsSemiproduct ? "-" : isPricePresent ? price : "Brak";
+            }
+        }
 
         public double? PricePlKg
         {
@@ -165,7 +175,7 @@ namespace Laboratorium.Composition.LocalDto
             get
             {
                 double? price = PricePlKg * Mass;
-                return PricePlKg != -1 ? Convert.ToDouble(price).ToString("0.00") : "Brak";
+                return PricePlKg != CommonData.ERROR_CODE ? Convert.ToDouble(price).ToString("0.00") : "Brak";
             }
         }
 
