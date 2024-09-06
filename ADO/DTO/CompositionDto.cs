@@ -16,6 +16,7 @@
         public string Currency { get; set; }
         public double? Rate { get; }
         public byte Operation { get; set; }
+        public byte OperationCopy { get; set; }
         public string Comment { get; set; }
 
         private CompositionDto(Builder builder)
@@ -29,6 +30,7 @@
             Percent = builder._percent;
             PercentOryginal = builder._percentOryginal;
             Operation = builder._operation;
+            OperationCopy = builder._operation;
             Comment = builder._comment;
             VocMaterial = builder._voc;
             PriceOriginal = builder._priceOryg;

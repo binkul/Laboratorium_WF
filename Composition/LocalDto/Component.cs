@@ -26,10 +26,10 @@ namespace Laboratorium.Composition.LocalDto
         public double TotalMass { get; set; } = 1000;
         public CrudState CrudState { get; set; } = CrudState.OK;
 
+        private RowState _rowState = RowState.ADDED;
         private readonly CompositionDto _component;
         private readonly IService _service;
         private readonly IList<int> _parents = new List<int>();
-        private RowState _rowState = RowState.ADDED;
 
         public Component(IList<Component> list, CompositionDto component, IService service, double totalMass)
         {
@@ -41,10 +41,22 @@ namespace Laboratorium.Composition.LocalDto
 
         private void ChangeState(RowState state)
         {
-            _rowState = _rowState == RowState.UNCHANGED ? state : _rowState;
+            if (!IsMainComponent)
+                _rowState = RowState.UNCHANGED;
+            else
+                _rowState = _rowState == RowState.UNCHANGED ? state : _rowState;
+
             if (_service != null)
                 _service.Modify(state);
         }
+
+        public RowState RowState
+        {
+            get => VisibleLevel > 0 ? RowState.UNCHANGED : _rowState;
+            set => _rowState = value;
+        }
+
+        public bool IsMainComponent => VisibleLevel == 0 || _parents.Count == 0;
 
         public bool ParentsExist => _parents != null && _parents.Count > 0;
 
@@ -98,6 +110,12 @@ namespace Laboratorium.Composition.LocalDto
                 _component.Operation = value;
                 ChangeState(RowState.MODIFIED);
             }
+        }
+
+        public byte OperationCopy
+        {
+            get => _component.OperationCopy;
+            set => _component.OperationCopy = value;
         }
 
         public string Material => _component.Material;
@@ -181,11 +199,11 @@ namespace Laboratorium.Composition.LocalDto
 
         public double? Rate => _component.Rate;
 
-        public RowState GetRowState => _rowState;
+        public RowState GetRowState => RowState;
 
         public void AcceptChanges()
         {
-            _rowState = RowState.UNCHANGED;
+            RowState = RowState.UNCHANGED;
             if (_service != null)
                 _service.Modify(RowState.UNCHANGED);
         }

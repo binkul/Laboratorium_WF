@@ -135,7 +135,7 @@ namespace Laboratorium.Composition.Service
 
         private Component GetCurrent => (_recipeBinding != null && _recipeBinding.Count > 0) ? (Component)_recipeBinding.Current : null;
 
-        protected override bool Status => _recipe != null ? (_recipe.Where(i => i.GetRowState != RowState.UNCHANGED).Any()) | _modified : false;
+        protected override bool Status => _recipe != null ? (_recipe.Where(i => i.IsMainComponent && i.GetRowState != RowState.UNCHANGED).Any()) | _modified : false;
 
         public void Modify(RowState state)
         {
@@ -339,7 +339,7 @@ namespace Laboratorium.Composition.Service
             if (_recipeBinding == null || _recipeBinding.Count == 0)
                 return;
 
-            if (GetCurrent != null && GetCurrent.VisibleLevel > 0)
+            if (GetCurrent != null && !GetCurrent.IsMainComponent)
             {
                 BlockControls();
                 return;
@@ -534,11 +534,45 @@ namespace Laboratorium.Composition.Service
             short ordering = 1;
             for (int i = 0; i < _recipe.Count; i++)
             {
-                if (_recipe[i].SubLevel == 0)
+                if (_recipe[i].IsMainComponent)
                     _recipe[i].Ordering = ordering++;
             }
 
             InternalModify(true);
+        }
+
+        private void ReplaceOneToOne(Component newItem, Component oldItem)
+        {
+            newItem.LastPosition = oldItem.LastPosition;
+            newItem.Percent = oldItem.Percent;
+            newItem.Operation = oldItem.Operation;
+            newItem.LaboId = oldItem.LaboId;
+            newItem.Version = oldItem.Version;
+
+            int position = _recipe.IndexOf(oldItem);
+            DeleteRow(oldItem);
+            _recipe.Insert(position, newItem);
+            ReOrdering();
+            FilterRecipe();
+        }
+
+        private void ReplaceOneToMany(IList<Component> listNewItems, Component oldItem)
+        {
+            for (int i = 0; i < listNewItems.Count; i++)
+            {
+                Component component = listNewItems[i];
+                component.LastPosition = !component.IsMainComponent && component.LastPosition;
+                component.Percent = (oldItem.Percent * component.Percent) / 100;
+                component.LaboId = _lastVersion.Version;
+                component.Version = _lastVersion.Version;
+
+                if (i == 0)
+                    component.Operation = FRAME_START;
+                else if (i > 0 && listNewItems.Count > 2 && i <= listNewItems.Count - 2)
+                    component.Operation = FRAME_MIDDLE;
+                else
+                    component.Operation = FRAME_END;
+            }
         }
 
         #endregion
@@ -557,26 +591,6 @@ namespace Laboratorium.Composition.Service
 
             for (int i = 0; i < composition.Count; i++)
             {
-                //CompositionDto component = composition[i];
-
-                //component.Id = recipe.Select(x => x.Id).DefaultIfEmpty().Max() + 1;
-                //component.Visible = false;
-                //component.SubLevel = subLevel;
-                //FillParents(semiProduct.Parents, component.Parents);
-                //component.AddParent(semiProduct.Id);
-                //component.ExpandStatus = ExpandState.Collapsed;
-                //component.VisibleLevel = Convert.ToByte(semiProduct.VisibleLevel + 1);
-                //component.Operation = semiProduct.Operation;
-                //component.Percent = CommonFunction.Percent(semiProduct.Percent, component.PercentOryginal);
-                //component.LastPosition = composition.IndexOf(component) == composition.Count - 1;
-                //component.AcceptChanges();
-                //if (position < 1)
-                //    recipe.Add(component);
-                //else
-                //{
-                //    recipe.Insert(position++, component);
-                //}
-
                 CompositionDto orignalComponent = composition[i];
                 Component component = new Component(recipe, orignalComponent, this, _lastVersion.Mass);
 
@@ -584,7 +598,6 @@ namespace Laboratorium.Composition.Service
                 component.SubLevel = subLevel;
                 FillParents(semiProduct, component);
                 component.AddParent(semiProduct.Id);
-                //component.ExpandStatus = ExpandState.Collapsed;
                 component.VisibleLevel = Convert.ToByte(semiProduct.VisibleLevel + 1);
                 component.Operation = semiProduct.Operation;
                 component.Percent = CommonFunction.Percent(semiProduct.Percent, component.PercentOryginal);
@@ -600,10 +613,8 @@ namespace Laboratorium.Composition.Service
 
                 if (component.IsSemiproduct)
                 {
-                    //int level = IsLast(composition, component) ? 0 : subLevel + 1;
                     int level = composition.IndexOf(orignalComponent) == composition.Count - 1 ? 0 : subLevel + 1;
                     double massPercent = CommonFunction.Percent(semiProduct.PercentOryginal, mass);
-                    //SemiProductTransferDto subSemiProduct = FillSemiproductRecipe(recipe, component, massPercent, level, position);
                     SemiProductTransferDto subSemiProduct = FillSemiproductRecipe(recipe, component, massPercent, level, position);
 
                     FillSemiProductData(subSemiProduct, component);
@@ -619,8 +630,6 @@ namespace Laboratorium.Composition.Service
 
                 sum.SumPrice(component.PricePlKg, component.PercentOryginal);
                 sum.SumVOC(component.VocMaterial, component.PercentOryginal);
-                //RecalculateAll(component, mass, component.PercentOryginal);
-                //RecalculateAll(orignalComponent, mass, component.PercentOryginal);
             }
 
             result.SubProductComposition = composition;
@@ -668,25 +677,66 @@ namespace Laboratorium.Composition.Service
 
         private void ShowCompounds(Component compound)
         {
-            var tmp = _recipe.Where(i => i.ParentsCount == (compound.VisibleLevel + 1)).ToList();
+            var subList = _recipe
+                .Where(i => i.ParentsCount == (compound.VisibleLevel + 1))
+                .Where(i => i.GetParent(compound.VisibleLevel) == compound.Id)
+                .OrderBy(i => i.VisibleLevel)
+                .ThenBy(i => i.Ordering)
+                .ToList();
 
-            foreach (Component component in tmp)
+            bool operation = false;
+            if (compound.Operation == FRAME_END)
             {
-                if (component.GetParent(compound.VisibleLevel) == compound.Id) //.ExistParent(compound.Id))
-                {
-                    component.Visible = true;
-                }
+                RowState rowState = compound.RowState;
+                compound.Operation = FRAME_MIDDLE;
+                compound.AcceptChanges();
+                compound.RowState = rowState;
+                Modify(rowState);
+                operation = true;
+            }
+
+            for (int i = 0; i < subList.Count; i++)
+            {
+                Component component = subList[i];
+                component.Visible = true;
+
+                if (!operation)
+                    continue;
+
+                int listEnd = subList.Count - 1;
+                component.Operation = i < listEnd ? FRAME_MIDDLE : i == listEnd ? FRAME_END : component.Operation;
+
+                //if (operation && i < listEnd)
+                //{
+                //    component.Operation = FRAME_MIDDLE;
+                //}
+                //else if (operation && i == listEnd)
+                //{
+                //    component.Operation = FRAME_END;
+                //}
+                //else
+                //{
+                //    component.Operation = compound.Operation;
+                //}
+
             }
         }
 
-        private void HideCompounds(Component compound)
+        private void HideCompounds(Component semiProduct)
         {
-            foreach (Component component in _recipe)
+            RowState rowState = semiProduct.RowState;
+            semiProduct.Operation = semiProduct.OperationCopy;
+            semiProduct.AcceptChanges();
+            semiProduct.RowState = rowState;
+            Modify(rowState);
+            
+            foreach (Component subComponent in _recipe)
             {
-                if (component.ExistParent(compound.Id))
+                if (subComponent.ExistParent(semiProduct.Id))
                 {
-                    component.ExpandStatus = component.IsSemiproduct ? ExpandState.Collapsed : ExpandState.None;
-                    component.Visible = false;
+                    subComponent.Operation = subComponent.OperationCopy;
+                    subComponent.ExpandStatus = subComponent.IsSemiproduct ? ExpandState.Collapsed : ExpandState.None;
+                    subComponent.Visible = false;
                 }
             }
         }
@@ -727,7 +777,7 @@ namespace Laboratorium.Composition.Service
 
             #region Semi Product format
 
-            if (row.VisibleLevel > 0)
+            if (!row.IsMainComponent)
             {
                 e.CellStyle.ForeColor = COLOR_SEMIPROD;
                 e.CellStyle.Font = FONT_REG_08;
@@ -739,7 +789,7 @@ namespace Laboratorium.Composition.Service
 
             if (cell == PRICE_MASS || cell == PRICE_PL_KG || cell == PRICE_CURRENCY)
             {
-                if (row.VisibleLevel == 0)
+                if (row.IsMainComponent)
                 {
                     e.CellStyle.ForeColor = price != CommonData.ERROR_CODE ? COLOR_STD : (row.IsSemiproduct && cell != PRICE_MASS && cell != PRICE_PL_KG) ? COLOR_STD : COLOR_ERROR;
                     e.CellStyle.Font = price != CommonData.ERROR_CODE ? e.CellStyle.Font : FONT_BOLD_10;
@@ -753,7 +803,7 @@ namespace Laboratorium.Composition.Service
 
             if (cell == VOC_AMOUNT || cell == VOC_PERCENT)
             {
-                if (row.VisibleLevel == 0)
+                if (row.IsMainComponent)
                 {
                     e.CellStyle.ForeColor = voc != CommonData.ERROR_CODE ? COLOR_STD : COLOR_ERROR;
                     e.CellStyle.Font = voc != CommonData.ERROR_CODE ? e.CellStyle.Font : FONT_BOLD_10;
@@ -814,43 +864,43 @@ namespace Laboratorium.Composition.Service
                 int left = START_SPACING + row.VisibleLevel * SUB_SPACING;
                 int left_minus = START_SPACING + (row.VisibleLevel - 1) * SUB_SPACING;
 
-                if (row.IsSemiproduct & row.VisibleLevel == 0 && row.ExpandStatus == ExpandState.Collapsed)
+                if (row.IsSemiproduct & row.IsMainComponent && row.ExpandStatus == ExpandState.Collapsed)
                 {
                     SmallLinePaint(e.Graphics, e.CellBounds, left);
                     PlusPaint(e.Graphics, e.CellBounds, left);
                 }
-                else if (row.IsSemiproduct & row.VisibleLevel == 0 && row.ExpandStatus == ExpandState.Expanded)
+                else if (row.IsSemiproduct & row.IsMainComponent && row.ExpandStatus == ExpandState.Expanded)
                 {
                     SmallLinePaint(e.Graphics, e.CellBounds, left);
                     MinusPaint(e.Graphics, e.CellBounds, left);
                 }
-                else if (row.IsSemiproduct & row.VisibleLevel > 0 && !row.LastPosition && row.ExpandStatus == ExpandState.Collapsed)
+                else if (row.IsSemiproduct & !row.IsMainComponent && !row.LastPosition && row.ExpandStatus == ExpandState.Collapsed)
                 {
                     CrossPaint(e.Graphics, e.CellBounds, left_minus, row.SubLevel);
                     PlusPaint(e.Graphics, e.CellBounds, left);
                 }
-                else if (row.IsSemiproduct & row.VisibleLevel > 0 && !row.LastPosition && row.ExpandStatus == ExpandState.Expanded)
+                else if (row.IsSemiproduct & !row.IsMainComponent && !row.LastPosition && row.ExpandStatus == ExpandState.Expanded)
                 {
                     SmallLinePaint(e.Graphics, e.CellBounds, left);
                     CrossPaint(e.Graphics, e.CellBounds, left_minus, row.SubLevel);
                     MinusPaint(e.Graphics, e.CellBounds, left);
                 }
-                else if (row.IsSemiproduct & row.VisibleLevel > 0 && row.LastPosition && row.ExpandStatus == ExpandState.Collapsed)
+                else if (row.IsSemiproduct & !row.IsMainComponent && row.LastPosition && row.ExpandStatus == ExpandState.Collapsed)
                 {
                     CornerPaint(e.Graphics, e.CellBounds, left_minus, row.SubLevel);
                     PlusPaint(e.Graphics, e.CellBounds, left);
                 }
-                else if (row.IsSemiproduct & row.VisibleLevel > 0 && row.LastPosition && row.ExpandStatus == ExpandState.Expanded)
+                else if (row.IsSemiproduct & !row.IsMainComponent && row.LastPosition && row.ExpandStatus == ExpandState.Expanded)
                 {
                     SmallLinePaint(e.Graphics, e.CellBounds, left);
                     CornerPaint(e.Graphics, e.CellBounds, left_minus, row.SubLevel);
                     MinusPaint(e.Graphics, e.CellBounds, left);
                 }
-                else if (row.VisibleLevel > 0 && !row.LastPosition)
+                else if (!row.IsMainComponent && !row.LastPosition)
                 {
                     CrossPaint(e.Graphics, e.CellBounds, left_minus, row.SubLevel);
                 }
-                else if (row.VisibleLevel > 0 && row.LastPosition)
+                else if (!row.IsMainComponent && row.LastPosition)
                 {
                     CornerPaint(e.Graphics, e.CellBounds, left_minus, row.SubLevel);
                 }
@@ -1224,42 +1274,30 @@ namespace Laboratorium.Composition.Service
                 return;
 
             Component current = (Component)_recipeBinding.Current;
-            Component row = _recipe.FirstOrDefault(i => i.Id == current.Id);
-            int position = _recipe.IndexOf(row);
+            if (!current.IsMainComponent)
+                return;
 
             using (InsertRecipeForm form = new InsertRecipeForm(_laboList))
             {
                 form.ShowDialog();
-                if (form.Ok && form.Result != null)
+                if (!form.Ok || form.Result == null)
+                    return;
+
+                Component oldItem = _recipe.FirstOrDefault(i => i.Id == current.Id);
+                IList<Component> insertList = FillRecipe(form.Result.Id);
+                switch (insertList.Count)
                 {
-                    IList<Component> insertList = FillRecipe(form.Result.Id);
-
-                    if (insertList.Count == 0)
-                    {
+                    case 0:
                         return;
-                    }
-                    else if (insertList.Count == 1)
-                    {
-                        Component newItem = insertList[0];
-                        newItem.LastPosition = row.LastPosition;
-                        newItem.Percent = row.Percent;
-                        newItem.Operation = row.Operation;
-                        newItem.LaboId = row.LaboId;
-                        newItem.Version = row.Version;
-
-                        DeleteRow(row);
-                        _recipe.Insert(position, newItem);
-                        ReOrdering();
-                        FilterRecipe();
-                    }
-                    else
-                    {
-                        //foreach()
-                    }
+                    case 1:
+                        ReplaceOneToOne(insertList[0], oldItem);
+                        break;
+                    default:
+                        ReplaceOneToMany(insertList, oldItem);
+                        break;
                 }
-            }
 
-            row = null;
+            }
         }
 
         #endregion
