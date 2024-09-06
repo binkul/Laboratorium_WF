@@ -199,8 +199,6 @@ namespace Laboratorium.Composition.LocalDto
 
         public double? Rate => _component.Rate;
 
-        public RowState GetRowState => RowState;
-
         public void AcceptChanges()
         {
             RowState = RowState.UNCHANGED;

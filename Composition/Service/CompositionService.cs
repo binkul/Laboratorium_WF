@@ -26,6 +26,7 @@ namespace Laboratorium.Composition.Service
         private const string EXPAND_STATE = "ExpandStatus";
         private const string SUB_LEVEL = "SubLevel";
         private const string LAST_POSITION = "LastPosition";
+        private const string MAIN_COMPONENT = "IsMainComponent";
         private const string PARENTS = "Parents";
         private const string PARENTS_EXIST = "ParentsExist";
         private const string PARENTS_COUNT = "ParentsCount";
@@ -40,8 +41,9 @@ namespace Laboratorium.Composition.Service
         private const string TOTAL_MASS = "TotalMass";
         private const string IS_SEMIPRODUCT = "IsSemiproduct";
         private const string OPERATION = "Operation";
+        private const string OPERATION_COPY = "OperationCopy";
         private const string COMMENT = "Comment";
-        private const string ROW_STATE = "GetRowState";
+        private const string ROW_STATE = "RowState";
         private const string CRUD_STATE = "CrudState";
         private const string CURRENCY = "Currency";
         private const string RATE = "Rate";
@@ -77,6 +79,7 @@ namespace Laboratorium.Composition.Service
 
         #endregion
 
+        private const byte FRAME_NONE = 0;
         private const byte FRAME_START = 2;
         private const byte FRAME_MIDDLE = 3;
         private const byte FRAME_END = 4;
@@ -135,7 +138,7 @@ namespace Laboratorium.Composition.Service
 
         private Component GetCurrent => (_recipeBinding != null && _recipeBinding.Count > 0) ? (Component)_recipeBinding.Current : null;
 
-        protected override bool Status => _recipe != null ? (_recipe.Where(i => i.IsMainComponent && i.GetRowState != RowState.UNCHANGED).Any()) | _modified : false;
+        protected override bool Status => _recipe != null ? (_recipe.Where(i => i.IsMainComponent && i.RowState != RowState.UNCHANGED).Any()) | _modified : false;
 
         public void Modify(RowState state)
         {
@@ -219,6 +222,7 @@ namespace Laboratorium.Composition.Service
             view.Columns.Remove(VISIBLE);
             view.Columns.Remove(PARENTS_EXIST);
             view.Columns.Remove(PARENTS_COUNT);
+            view.Columns.Remove(MAIN_COMPONENT);
             view.Columns.Remove(SUB_LEVEL);
             view.Columns.Remove(LAST_POSITION);
             view.Columns.Remove(TOTAL_MASS);
@@ -226,6 +230,7 @@ namespace Laboratorium.Composition.Service
             view.Columns.Remove(MATERIAL_ID);
             view.Columns.Remove(IS_SEMIPRODUCT);
             view.Columns.Remove(OPERATION);
+            view.Columns.Remove(OPERATION_COPY);
 
             int displayIndex = 0;
 
@@ -575,6 +580,15 @@ namespace Laboratorium.Composition.Service
             }
         }
 
+        private void ChangeOperationKeepRowState(Component component, byte operation)
+        {
+            RowState rowState = component.RowState;
+            component.Operation = operation;
+            component.AcceptChanges();
+            component.RowState = rowState;
+            Modify(rowState);
+        }
+
         #endregion
 
 
@@ -664,18 +678,18 @@ namespace Laboratorium.Composition.Service
             {
                 case ExpandState.Collapsed:
                     compound.ExpandStatus = ExpandState.Expanded;
-                    ShowCompounds(compound);
+                    ShowSubRecipe(compound);
                     break;
                 case ExpandState.Expanded:
                     compound.ExpandStatus = ExpandState.Collapsed;
-                    HideCompounds(compound);
+                    HideSubRecipe(compound);
                     break;
                 default:
                     return;
             }
         }
 
-        private void ShowCompounds(Component compound)
+        private void ShowSubRecipe(Component compound)
         {
             var subList = _recipe
                 .Where(i => i.ParentsCount == (compound.VisibleLevel + 1))
@@ -684,45 +698,45 @@ namespace Laboratorium.Composition.Service
                 .ThenBy(i => i.Ordering)
                 .ToList();
 
-            bool operation = false;
-            if (compound.Operation == FRAME_END)
+            int operationType = 0;
+            if (compound.Operation == FRAME_START)
             {
-                RowState rowState = compound.RowState;
-                compound.Operation = FRAME_MIDDLE;
-                compound.AcceptChanges();
-                compound.RowState = rowState;
-                Modify(rowState);
-                operation = true;
+                operationType = 1;
             }
+            else if (compound.Operation == FRAME_MIDDLE)
+            {
+                ChangeOperationKeepRowState(compound, FRAME_MIDDLE);
+                operationType = 2;
+            }
+            else if (compound.Operation == FRAME_END)
+            {
+                ChangeOperationKeepRowState(compound, FRAME_MIDDLE);
+                operationType = 3;
+            }
+
 
             for (int i = 0; i < subList.Count; i++)
             {
                 Component component = subList[i];
                 component.Visible = true;
 
-                if (!operation)
-                    continue;
-
-                int listEnd = subList.Count - 1;
-                component.Operation = i < listEnd ? FRAME_MIDDLE : i == listEnd ? FRAME_END : component.Operation;
-
-                //if (operation && i < listEnd)
-                //{
-                //    component.Operation = FRAME_MIDDLE;
-                //}
-                //else if (operation && i == listEnd)
-                //{
-                //    component.Operation = FRAME_END;
-                //}
-                //else
-                //{
-                //    component.Operation = compound.Operation;
-                //}
+                if (operationType == 1 || operationType == 2)
+                {
+                    component.Operation = FRAME_MIDDLE;
+                }
+                else if (operationType == 3 && !component.LastPosition)
+                {
+                    component.Operation = FRAME_MIDDLE;
+                }
+                else if (operationType == 3 && component.LastPosition)
+                {
+                    component.Operation = FRAME_END;
+                }
 
             }
         }
 
-        private void HideCompounds(Component semiProduct)
+        private void HideSubRecipe(Component semiProduct)
         {
             RowState rowState = semiProduct.RowState;
             semiProduct.Operation = semiProduct.OperationCopy;
