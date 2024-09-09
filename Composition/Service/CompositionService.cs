@@ -699,19 +699,20 @@ namespace Laboratorium.Composition.Service
                 .ToList();
 
             int operationType = 0;
-            if (compound.Operation == FRAME_START)
+
+            switch (compound.Operation)
             {
-                operationType = 1;
-            }
-            else if (compound.Operation == FRAME_MIDDLE)
-            {
-                ChangeOperationKeepRowState(compound, FRAME_MIDDLE);
-                operationType = 2;
-            }
-            else if (compound.Operation == FRAME_END)
-            {
-                ChangeOperationKeepRowState(compound, FRAME_MIDDLE);
-                operationType = 3;
+                case FRAME_START:
+                    operationType = 1;
+                    break;
+                case FRAME_MIDDLE:
+                    ChangeOperationKeepRowState(compound, FRAME_MIDDLE);
+                    operationType = 2;
+                    break;
+                case FRAME_END:
+                    ChangeOperationKeepRowState(compound, FRAME_MIDDLE);
+                    operationType = 3;
+                    break;
             }
 
 
@@ -738,17 +739,27 @@ namespace Laboratorium.Composition.Service
 
         private void HideSubRecipe(Component semiProduct)
         {
-            RowState rowState = semiProduct.RowState;
-            semiProduct.Operation = semiProduct.OperationCopy;
-            semiProduct.AcceptChanges();
-            semiProduct.RowState = rowState;
-            Modify(rowState);
+            if (semiProduct.VisibleLevel == 0)
+            {
+                ChangeOperationKeepRowState(semiProduct, semiProduct.OperationCopy);
+            }
+            else if (semiProduct.VisibleLevel > 0 && semiProduct.Operation == FRAME_MIDDLE && !semiProduct.LastPosition)
+            {
+                semiProduct.Operation = FRAME_MIDDLE;
+            }
+            else if (semiProduct.VisibleLevel > 0 && semiProduct.Operation == FRAME_MIDDLE && semiProduct.LastPosition)
+            {
+                semiProduct.Operation = FRAME_END;
+            }
+            else
+            {
+                semiProduct.Operation = FRAME_NONE;
+            }
             
             foreach (Component subComponent in _recipe)
             {
                 if (subComponent.ExistParent(semiProduct.Id))
                 {
-                    subComponent.Operation = subComponent.OperationCopy;
                     subComponent.ExpandStatus = subComponent.IsSemiproduct ? ExpandState.Collapsed : ExpandState.None;
                     subComponent.Visible = false;
                 }
